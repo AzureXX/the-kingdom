@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import styles from '@/styles/page.module.scss';
 import { CONFIG, type BuildingKey, type PrestigeUpgradeKey } from '@/lib/game/config';
 import { useGame } from '@/lib/game/useGame';
@@ -24,18 +24,12 @@ export default function GamePage() {
   const [prestigeOpen, setPrestigeOpen] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [tick, setTick] = useState(0);
   const saveLabel = useMemo(() => {
     if (!lastSavedAt) return 'never';
     const diff = Date.now() - lastSavedAt;
     if (diff < 3000) return 'just now';
     return 'a moment ago';
-  }, [lastSavedAt, tick]);
-
-  useEffect(() => {
-    const id = setInterval(() => setTick((t) => t + 1), 1000);
-    return () => clearInterval(id);
-  }, []);
+  }, [lastSavedAt]);
 
   return (
     <div className={styles.page}>
@@ -138,7 +132,7 @@ export default function GamePage() {
           </div>
         </section>
 
-        <section className={styles.card} style={{ gridColumn: '1 / -1' }}>
+        <section className={`${styles.card} ${styles.fullRow}`}>
           <h2>Prestige Upgrades</h2>
           <div className={`${styles.section} ${styles.grid2}`}>
             {(Object.keys(CONFIG.prestige.upgrades) as PrestigeUpgradeKey[]).map((key) => {

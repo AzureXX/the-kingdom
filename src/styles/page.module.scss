@@ -25,6 +25,7 @@
 .name{font-weight:700}
 .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.fullRow{grid-column:1 / -1}
 .upgrade{display:flex;justify-content:space-between;gap:12px;align-items:center;border:1px solid #21307a;border-radius:12px;background:#0f1532;padding:10px}
 .header{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:16px 20px;position:sticky;top:0;background:linear-gradient(180deg,rgba(11,16,32,.95),rgba(11,16,32,.6));backdrop-filter:blur(6px);z-index:2;border-bottom:1px solid #1e2c6b}
 .title{font-size:20px;font-weight:700;letter-spacing:.3px}

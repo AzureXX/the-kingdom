@@ -22,7 +22,16 @@ import {
 import type { GameState } from './types';
 
 export function useGame() {
-  const [state, setState] = useState<GameState>(() => loadSave() ?? initNewGame());
+  const [state, setState] = useState<GameState>(() => {
+    const saved = loadSave();
+    if (!saved) return initNewGame();
+    // offline progress: advance time since last save up to a cap
+    const now = Date.now();
+    const last = saved.t || now;
+    const dt = Math.min(60 * 60, Math.max(0, (now - last) / 1000)); // cap 1 hour
+    if (dt > 0) tick(saved, dt);
+    return saved;
+  });
   const [lastSavedAt, setLastSavedAt] = useState<number | null>(null);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const raf = useRef<number | null>(null);

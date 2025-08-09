@@ -192,6 +192,7 @@ export function loadSave(): GameState | null {
 export function doSave(state: GameState): void {
   if (typeof window === 'undefined') return;
   try {
+    state.t = Date.now();
     localStorage.setItem(SAVE_KEY, JSON.stringify(state));
   } catch {
     // ignore
@@ -199,14 +200,20 @@ export function doSave(state: GameState): void {
 }
 
 export function exportSave(state: GameState): string {
-  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(state))));
-  return encoded;
+  // Use URL-safe base64 without deprecated escape/unescape
+  const json = JSON.stringify(state);
+  const base64 = typeof window === 'undefined'
+    ? Buffer.from(json, 'utf-8').toString('base64')
+    : btoa(json);
+  return base64;
 }
 
 export function importSave(text: string): GameState | null {
   try {
-    const decoded = decodeURIComponent(escape(atob(text)));
-    const obj = JSON.parse(decoded) as GameState;
+    const json = typeof window === 'undefined'
+      ? Buffer.from(text, 'base64').toString('utf-8')
+      : atob(text);
+    const obj = JSON.parse(json) as GameState;
     if (obj.version === CONFIG.version) return obj;
   } catch {
     return null;
