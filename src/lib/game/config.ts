@@ -55,8 +55,10 @@ export type GameConfig = {
   };
 };
 
+import { GAME_CONSTANTS } from './constants';
+
 export const CONFIG: GameConfig = {
-  tickRate: 10,
+  tickRate: GAME_CONSTANTS.TICK_RATE,
   version: 2, // Increment version for save compatibility
   resources: {
     gold: { name: 'Gold', icon: 'ic-gold', decimals: 0, start: 10 },
@@ -117,7 +119,7 @@ export const CONFIG: GameConfig = {
   },
   prestige: {
     gainFrom: 'food',
-    divisor: 1000,
+    divisor: GAME_CONSTANTS.PRESTIGE_DIVISOR,
     upgrades: {
       royalDecrees: {
         name: 'Royal Decrees',

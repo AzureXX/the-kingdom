@@ -122,12 +122,23 @@ This architecture provides several benefits:
 ```
 src/
 ├── app/                    # Next.js App Router
-│   ├── layout.tsx         # Root layout with GameProvider
+│   ├── layout.tsx         # Root layout with GameProvider and ErrorBoundary
 │   └── page.tsx           # Main game page
+├── components/            # Reusable UI components
+│   ├── game/             # Game-specific components
+│   │   ├── ResourceDisplay.tsx
+│   │   ├── BuildingList.tsx
+│   │   └── UpgradeList.tsx
+│   └── ui/               # Generic UI components
+│       ├── Modal.tsx
+│       ├── SvgSprites.tsx
+│       └── ErrorBoundary.tsx
 ├── lib/game/              # Game logic
 │   ├── config.ts          # Game configuration
+│   ├── constants.ts       # Game constants and magic numbers
 │   ├── logic.ts           # Core game functions
 │   ├── types.ts           # TypeScript definitions
+│   ├── utils.ts           # Utility functions
 │   └── GameContext.tsx    # React Context for global state
 └── styles/                # Styling
     ├── globals.scss       # Global styles
@@ -142,6 +153,12 @@ src/
 - Building definitions with costs, production, and consumption
 - Prestige upgrade definitions with effects and scaling
 
+#### Game Constants (`constants.ts`)
+- Centralized magic numbers and configuration values
+- Icon mappings for resources, buildings, and upgrades
+- Save system configuration
+- Performance tuning constants
+
 #### Game Logic (`logic.ts`)
 - Pure functions for game calculations
 - Resource management and building purchases
@@ -152,10 +169,22 @@ src/
 - React Context provider managing global game state
 - Real-time game loop with requestAnimationFrame
 - Event handlers for user interactions
-- Auto-save scheduling and offline progress
+- Auto-save scheduling with setInterval (every 1.2 seconds)
+- Offline progress calculation and application
 - Provides centralized state management for the entire app
 
+#### Error Boundary (`ErrorBoundary.tsx`)
+- React class component for error handling
+- Graceful error recovery with user-friendly messages
+- Automatic error logging for debugging
+- Refresh functionality for error recovery
 
+#### Utility Functions (`utils.ts`)
+- Number formatting with K/M/B/T notation
+- Safe JSON parsing with error handling
+- Base64 encoding/decoding utilities
+- Debounce function for performance optimization
+- Time formatting utilities
 
 ## 🚀 Getting Started
 
@@ -194,7 +223,7 @@ The game is highly configurable through the `CONFIG` object in `src/lib/game/con
 ### Adding New Resources
 1. Add resource key to `ResourceKey` type
 2. Define resource in `CONFIG.resources`
-3. Add icon to SVG sprite in `page.tsx`
+3. Add icon to SVG sprite in `SvgSprites.tsx`
 4. Update `GameState` type if needed
 
 ### Adding New Buildings
@@ -220,10 +249,11 @@ The game is designed with exponential scaling and diminishing returns:
 ## 🔧 Performance Features
 
 - **Efficient rendering** with React optimization
-- **Throttled saves** to prevent excessive localStorage writes
+- **Interval-based saves** every 1.2 seconds to prevent excessive localStorage writes
 - **Capped offline progress** to prevent exploitation
 - **Optimized game loop** with configurable tick rate
 - **Memory-efficient** state management
+- **Component memoization** for expensive operations
 
 ## 📱 Browser Compatibility
 
@@ -240,6 +270,34 @@ The game is designed to be easily extensible. Key areas for contribution:
 - Balance adjustments
 - Performance optimizations
 - Additional content (resources, buildings, upgrades)
+
+## 🔄 Recent Refactoring
+
+The codebase has been recently refactored to improve:
+
+### Code Organization
+- **Component Extraction**: Large monolithic components split into smaller, focused components
+- **Separation of Concerns**: UI logic separated from game logic
+- **Reusable Components**: Modal, ResourceDisplay, BuildingList, UpgradeList, and ErrorBoundary components
+- **Constants Centralization**: Magic numbers moved to dedicated constants file
+
+### Performance Improvements
+- **Optimized Save System**: Simple setInterval-based saves every 1.2 seconds
+- **Removed Debug Code**: Eliminated console.log statements
+- **Optimized Re-renders**: Better component structure for React optimization
+- **Utility Functions**: Extracted common operations for better performance
+
+### Code Quality
+- **Type Safety**: Improved TypeScript usage with React.JSX.Element types
+- **Error Handling**: Added ErrorBoundary component and better error recovery
+- **Utility Functions**: Centralized common operations like number formatting
+- **Constants**: Eliminated magic numbers throughout the codebase
+
+### Maintainability
+- **Modular Architecture**: Clear separation between game logic and UI
+- **Reusable Components**: Components can be easily reused and tested
+- **Configuration**: Centralized game configuration for easy balancing
+- **Documentation**: Improved code documentation and structure
 
 ## 📄 License
 

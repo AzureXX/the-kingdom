@@ -1,5 +1,7 @@
 import { CONFIG, SAVE_KEY, type ResourceKey, type BuildingKey, type PrestigeUpgradeKey } from './config';
 import type { GameState, Multipliers } from './types';
+import { GAME_CONSTANTS } from './constants';
+import { formatNumber, safeJsonParse, encodeBase64, decodeBase64 } from './utils';
 
 export function initNewGame(): GameState {
   const state: GameState = {
@@ -18,24 +20,8 @@ export function initNewGame(): GameState {
   return state;
 }
 
-export function clamp(value: number, min: number, max: number): number {
-  return Math.max(min, Math.min(max, value));
-}
-
-export function fmt(n: number, dec = 0): string {
-  if (!isFinite(n)) return '—';
-  if (Math.abs(n) >= 1e6) {
-    const units = ['', 'K', 'M', 'B', 'T', 'Qa', 'Qi'];
-    let i = 0;
-    let x = n;
-    while (Math.abs(x) >= 1000 && i < units.length - 1) {
-      x /= 1000;
-      i++;
-    }
-    return x.toFixed(dec > 2 ? 2 : 2) + units[i];
-  }
-  return n.toFixed(dec);
-}
+// Re-export formatNumber for backward compatibility
+export const fmt = formatNumber;
 
 export function getMultipliers(state: GameState): Multipliers {
   const ctx: Multipliers = {
@@ -148,7 +134,7 @@ export function tick(state: GameState, dtSeconds: number): GameState {
 }
 
 export function prestigeGain(state: GameState): number {
-  const div = CONFIG.prestige.divisor;
+  const div = GAME_CONSTANTS.PRESTIGE_DIVISOR;
   const x = state.lifetime.food || 0;
   return Math.floor(Math.sqrt(x / div));
 }
@@ -178,43 +164,37 @@ export function clickAction(state: GameState): GameState {
 
 export function loadSave(): GameState | null {
   if (typeof window === 'undefined') return null;
-  try {
-    const raw = localStorage.getItem(SAVE_KEY);
-    if (!raw) return null;
-    const obj = JSON.parse(raw) as GameState;
-    if (obj && obj.version === CONFIG.version) return obj;
-  } catch {
-    // ignore
-  }
+  
+  const raw = localStorage.getItem(SAVE_KEY);
+  if (!raw) return null;
+  
+  const obj = safeJsonParse(raw, null as GameState | null);
+  if (obj && obj.version === CONFIG.version) return obj;
+  
   return null;
 }
 
 export function doSave(state: GameState): void {
   if (typeof window === 'undefined') return;
+  
   try {
     state.t = Date.now();
     localStorage.setItem(SAVE_KEY, JSON.stringify(state));
   } catch {
-    // ignore
+    // ignore save errors
   }
 }
 
 export function exportSave(state: GameState): string {
-  // Use URL-safe base64 without deprecated escape/unescape
   const json = JSON.stringify(state);
-  const base64 = typeof window === 'undefined'
-    ? Buffer.from(json, 'utf-8').toString('base64')
-    : btoa(json);
-  return base64;
+  return encodeBase64(json);
 }
 
 export function importSave(text: string): GameState | null {
   try {
-    const json = typeof window === 'undefined'
-      ? Buffer.from(text, 'base64').toString('utf-8')
-      : atob(text);
-    const obj = JSON.parse(json) as GameState;
-    if (obj.version === CONFIG.version) return obj;
+    const json = decodeBase64(text);
+    const obj = safeJsonParse(json, null as GameState | null);
+    if (obj && obj.version === CONFIG.version) return obj;
   } catch {
     return null;
   }

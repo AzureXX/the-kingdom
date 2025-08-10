@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useCallback, useEffect, useMemo, useRef, useState, ReactNode } from 'react';
-import { CONFIG, type BuildingKey, type PrestigeUpgradeKey, type ResourceKey } from './config';
+import { type BuildingKey, type PrestigeUpgradeKey, type ResourceKey } from './config';
 import {
   buyBuilding,
   buyUpgrade,
@@ -19,6 +19,7 @@ import {
   costFor,
   canAfford,
 } from './logic';
+import { GAME_CONSTANTS } from './constants';
 import type { GameState } from './types';
 
 export interface GameContextType {
@@ -55,16 +56,15 @@ export function GameProvider({ children }: GameProviderProps) {
     stateRef.current = state;
   }, [state]);
 
+  // Simple interval-based save system
   useEffect(() => {
     const interval = setInterval(() => {
       const currentState = stateRef.current;
-      console.log('state', currentState);
       if (currentState) {
-        console.log('saving interval');
         doSave(currentState);
         setLastSavedAt(Date.now());
       }
-    }, 2000);
+    }, GAME_CONSTANTS.SAVE_INTERVAL_MS);
     
     return () => clearInterval(interval);
   }, []);
@@ -77,7 +77,10 @@ export function GameProvider({ children }: GameProviderProps) {
       } else {
         const now = Date.now();
         const last = saved.t || now;
-        const dt = Math.min(60 * 60, Math.max(0, (now - last) / 1000)); // cap 1 hour
+        const dt = Math.min(
+          GAME_CONSTANTS.OFFLINE_PROGRESS_CAP_HOURS * 60 * 60, 
+          Math.max(0, (now - last) / 1000)
+        );
         if (dt > 0) tick(saved, dt);
         setState(saved);
       }
@@ -129,9 +132,10 @@ export function GameProvider({ children }: GameProviderProps) {
       const now = Date.now();
       const dt = (now - last.current) / 1000;
       last.current = now;
-      const maxStep = 1 / CONFIG.tickRate;
+      const maxStep = 1 / GAME_CONSTANTS.TICK_RATE;
       let acc = dt;
-      if (acc > 5) acc = 5;
+      if (acc > GAME_CONSTANTS.MAX_TICK_STEP) acc = GAME_CONSTANTS.MAX_TICK_STEP;
+      
       setState((s) => {
         if (!s) return s;
         const next = { ...s };
