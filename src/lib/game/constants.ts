@@ -1,7 +1,7 @@
 // Game constants and configuration
 export const GAME_CONSTANTS = {
   // Save system
-  SAVE_INTERVAL_MS: 1200,
+  SAVE_INTERVAL_MS: 30000,
   OFFLINE_PROGRESS_CAP_HOURS: 1,
   MAX_TICK_STEP: 5,
   

@@ -35,6 +35,25 @@
 .kbd{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;background:#0b112b;border:1px solid #26337b;border-radius:6px;padding:1px 6px}
 .icon{width:22px;height:22px;display:inline-block;vertical-align:middle}
 .modalWrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(6,10,22,.6);z-index:1000;padding:16px}
-.modal{border:none;border-radius:14px;width:min(720px,92vw);background:#0f1532;color:var(--text);box-shadow:0 20px 60px rgba(0,0,0,.5)}
 .modalHead{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid #20306f;background:linear-gradient(180deg,#162050,#121942)}
+.modalOverlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(6,10,22,.8);z-index:1000;padding:16px}
+.modal{border:none;border-radius:14px;width:min(720px,92vw);background:#0f1532;color:var(--text);box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.modalHeader{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid #20306f;background:linear-gradient(180deg,#162050,#121942)}
+.modalTitle{display:flex;align-items:center;gap:8px;margin:0;font-size:16px;color:#bfc9ff}
+.modalClose{appearance:none;border:none;background:none;color:#bfc9ff;font-size:20px;cursor:pointer;padding:4px;border-radius:4px;transition:.15s background}
+.modalClose:hover{background:rgba(255,255,255,.1)}
+.modalContent{padding:16px}
+.eventDescription{margin:0 0 16px 0;color:#e6e9ff;line-height:1.5}
+.eventChoices{display:flex;flex-direction:column;gap:12px}
+.eventChoice{appearance:none;border:1px solid #21307a;border-radius:12px;padding:16px;background:#0f1532;color:#e6e9ff;cursor:pointer;text-align:left;transition:.15s transform,.15s background,.15s border-color}
+.eventChoice:hover:not(:disabled){transform:translateY(-1px);background:#1a2350;border-color:#3141a6}
+.eventChoice.disabled{opacity:.5;cursor:not-allowed;filter:grayscale(30%)}
+.choiceText{font-weight:600;margin-bottom:4px}
+.choiceEffects{font-size:12px;opacity:.8;color:#bfc9ff}
+.eventNotification{position:fixed;top:20px;right:20px;z-index:999;animation:slideIn 0.3s ease-out}
+.eventNotificationContent{display:flex;align-items:center;gap:8px;padding:12px 16px;background:linear-gradient(135deg,#1a2350,#141b3f);border:1px solid #3141a6;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.3);color:#e6e9ff}
+.eventNotificationText{font-weight:600;font-size:14px}
+.eventNotificationPulse{width:8px;height:8px;background:#ff6b6b;border-radius:50%;animation:pulse 2s infinite}
+@keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.2)}}
 .svgSprite{display:none}

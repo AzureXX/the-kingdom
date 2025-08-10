@@ -7,6 +7,8 @@ import { ResourceDisplay } from '@/components/game/ResourceDisplay';
 import { BuildingList } from '@/components/game/BuildingList';
 import { UpgradeList } from '@/components/game/UpgradeList';
 import { Modal } from '@/components/ui/Modal';
+import { EventModal } from '@/components/ui/EventModal';
+import { EventNotification } from '@/components/ui/EventNotification';
 import { SvgSprites } from '@/components/ui/SvgSprites';
 import { GAME_CONSTANTS } from '@/lib/game/constants';
 import { getSaveTimeLabel } from '@/lib/game/utils';
@@ -75,7 +77,7 @@ export default function GamePage() {
           <button className={styles.button} onClick={() => fileInputRef.current?.click()}>Import Save</button>
           <button className={`${styles.button} ${styles.warn}`} onClick={() => {
             if (confirm('Hard reset all progress?')) {
-              localStorage.removeItem('medieval-kingdom-v2');
+              localStorage.removeItem('medieval-kingdom-v3');
               location.reload();
             }
           }}>Hard Reset</button>
@@ -141,6 +143,13 @@ export default function GamePage() {
           <li>Everything is data-driven – you can add new resources or buildings by editing the CONFIG object in the source.</li>
         </ul>
       </Modal>
+
+      <EventNotification />
+      
+      <EventModal 
+        isOpen={state?.events.activeEvent !== null} 
+        onClose={() => {}} 
+      />
 
       <SvgSprites />
     </div>

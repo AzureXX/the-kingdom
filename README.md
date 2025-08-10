@@ -10,7 +10,8 @@ Medieval Kingdom is an incremental game where you start as a small settlement an
 1. **Click** to gain initial resources (Gold and Food)
 2. **Build** infrastructure to generate resources automatically
 3. **Manage** resource production and consumption
-4. **Prestige** to gain permanent upgrades and restart stronger
+4. **Handle** random events that affect your kingdom
+5. **Prestige** to gain permanent upgrades and restart stronger
 
 ## 🏗️ Game Systems
 
@@ -22,6 +23,20 @@ The game features 5 main resources that form a complex medieval economy:
 - **🪨 Stone** - Advanced building material from quarries
 - **🌾 Food** - Produced by farms, consumed by castles
 - **👑 Prestige** - Prestige currency for permanent upgrades
+
+### Events
+Random events occur every 1-3 minutes, presenting players with choices that affect their resources:
+
+- **🛒 Merchant Visit** - Trade opportunities for resources
+- **⚔️ Bandit Raid** - Defend your village or pay tribute
+- **🌾 Bountiful Harvest** - Rare windfall of multiple resources
+- **☀️ Drought** - Environmental challenges affecting production
+- **👑 Royal Tax** - Government demands affecting your wealth
+- **👤 Mysterious Stranger** - Mysterious offers with prestige rewards
+- **🦠 Plague** - Deadly outbreaks requiring treatment
+- **🎉 Festival** - Celebratory events boosting morale
+
+Each event offers multiple choices with different resource costs and rewards. Choices may be disabled if you lack required resources, and some events can reduce resources to zero if chosen without sufficient reserves. If a player doesn't make a choice within 30 seconds or before the next event time, the event automatically resolves using a predefined default choice for each event type.
 
 ### Buildings
 Five types of buildings create a production chain:
@@ -78,10 +93,11 @@ Spend Prestige on upgrades that persist across prestiges:
 
 ### Core Mechanics
 - **Real-time resource generation** with 10 FPS tick rate
-- **Automatic saving** every 1.2 seconds
+- **Automatic saving** every 30 seconds
 - **Offline progress** (capped at 1 hour)
 - **Keyboard shortcuts** (Space bar for clicking)
 - **Number formatting** with K/M/B/T notation for large numbers
+- **Random events** every 1-3 minutes with player choices affecting resources
 
 ### Save System
 - **Auto-save**: Automatic local storage saves
@@ -92,9 +108,10 @@ Spend Prestige on upgrades that persist across prestiges:
 ### User Interface
 - **Responsive design** with CSS Grid layout
 - **Dark theme** with blue/purple gradient aesthetics
-- **Modal dialogs** for prestige and help
+- **Modal dialogs** for prestige, help, and events
 - **Real-time resource display** with per-second rates
 - **Visual feedback** for affordable/unaffordable purchases
+- **Event notifications** with animated indicators
 
 ## 🛠️ Technical Architecture
 
@@ -117,6 +134,7 @@ This architecture provides several benefits:
 - **Styling**: SCSS with CSS Modules
 - **State Management**: React Context with centralized game state
 - **Build Tool**: Turbopack for development
+- **Event System**: Weighted random events with choice-based outcomes
 
 ### Project Structure
 ```
@@ -131,6 +149,8 @@ src/
 │   │   └── UpgradeList.tsx
 │   └── ui/               # Generic UI components
 │       ├── Modal.tsx
+│       ├── EventModal.tsx
+│       ├── EventNotification.tsx
 │       ├── SvgSprites.tsx
 │       └── ErrorBoundary.tsx
 ├── lib/game/              # Game logic
@@ -163,13 +183,14 @@ src/
 - Pure functions for game calculations
 - Resource management and building purchases
 - Prestige calculations and upgrades
+- Event system with choice handling and resource validation
 - Save/load system with base64 encoding
 
 #### Game Context (`GameContext.tsx`)
 - React Context provider managing global game state
 - Real-time game loop with requestAnimationFrame
 - Event handlers for user interactions
-- Auto-save scheduling with setInterval (every 1.2 seconds)
+- Auto-save scheduling with setInterval (every 30 seconds)
 - Offline progress calculation and application
 - Provides centralized state management for the entire app
 
@@ -238,6 +259,12 @@ The game is highly configurable through the `CONFIG` object in `src/lib/game/con
 3. Implement effect function
 4. Add icon to SVG sprite
 
+### Adding New Events
+1. Add event key to `EventKey` type
+2. Define event in `CONFIG.events` with choices, intervals, and weights
+3. Add icon to SVG sprite
+4. Implement choice logic in `makeEventChoice` function if needed
+
 ## 📊 Game Balance
 
 The game is designed with exponential scaling and diminishing returns:
@@ -249,7 +276,7 @@ The game is designed with exponential scaling and diminishing returns:
 ## 🔧 Performance Features
 
 - **Efficient rendering** with React optimization
-- **Interval-based saves** every 1.2 seconds to prevent excessive localStorage writes
+- **Interval-based saves** every 30 seconds to prevent excessive localStorage writes
 - **Capped offline progress** to prevent exploitation
 - **Optimized game loop** with configurable tick rate
 - **Memory-efficient** state management
@@ -271,18 +298,26 @@ The game is designed to be easily extensible. Key areas for contribution:
 - Performance optimizations
 - Additional content (resources, buildings, upgrades)
 
-## 🔄 Recent Refactoring
+## 🔄 Recent Updates
 
-The codebase has been recently refactored to improve:
+The codebase has been recently updated with new features and improvements:
+
+### New Event System
+- **Random Events**: 8 different event types with weighted random selection
+- **Choice-Based Gameplay**: Multiple choices per event affecting resources
+- **Resource Validation**: Choices disabled when insufficient resources
+- **Event Notifications**: Visual indicators when events are available
+- **Auto-Resolution**: Events auto-resolve after 30 seconds if not handled
+- **Default Choices**: Each event has a predefined default choice that triggers automatically
 
 ### Code Organization
 - **Component Extraction**: Large monolithic components split into smaller, focused components
 - **Separation of Concerns**: UI logic separated from game logic
-- **Reusable Components**: Modal, ResourceDisplay, BuildingList, UpgradeList, and ErrorBoundary components
+- **Reusable Components**: Modal, EventModal, EventNotification, ResourceDisplay, BuildingList, UpgradeList, and ErrorBoundary components
 - **Constants Centralization**: Magic numbers moved to dedicated constants file
 
 ### Performance Improvements
-- **Optimized Save System**: Simple setInterval-based saves every 1.2 seconds
+- **Optimized Save System**: Simple setInterval-based saves every 30 seconds
 - **Removed Debug Code**: Eliminated console.log statements
 - **Optimized Re-renders**: Better component structure for React optimization
 - **Utility Functions**: Extracted common operations for better performance

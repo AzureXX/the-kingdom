@@ -59,6 +59,55 @@ export function SvgSprites(): React.JSX.Element {
         <path fill="#C0C0C0" d="M10 2h4v2h-4z"/>
         <path fill="#696969" d="M6 16h12v2H6z"/>
       </symbol>
+      
+      {/* Event Icons */}
+      <symbol id="ic-merchant" viewBox="0 0 24 24">
+        <path fill="#8B4513" d="M12 2l-3 6h6l-3-6z"/>
+        <path fill="#FFD700" d="M8 8h8v8H8z"/>
+        <path fill="#C0C0C0" d="M10 10h4v2h-4z"/>
+        <path fill="#FFD700" d="M11 12h2v2h-2z"/>
+      </symbol>
+      <symbol id="ic-bandit" viewBox="0 0 24 24">
+        <path fill="#8B4513" d="M12 2l-3 6h6l-3-6z"/>
+        <path fill="#696969" d="M8 8h8v8H8z"/>
+        <path fill="#FF4500" d="M10 10h4v2h-4z"/>
+        <path fill="#8B0000" d="M11 12h2v2h-2z"/>
+      </symbol>
+      <symbol id="ic-harvest" viewBox="0 0 24 24">
+        <path fill="#228B22" d="M4 20h16V8l-5-3-5 3v5H4z"/>
+        <path fill="#FFD700" d="M8 12h8v2H8z"/>
+        <path fill="#FFD700" d="M10 15h4v2h-4z"/>
+        <path fill="#FFD700" d="M12 4l2 4h-4l2-4z"/>
+      </symbol>
+      <symbol id="ic-drought" viewBox="0 0 24 24">
+        <path fill="#FFD700" d="M12 2l3 9h-6l3-9z"/>
+        <path fill="#8B4513" d="M4 20h16V8l-5-3-5 3v5H4z"/>
+        <path fill="#696969" d="M8 12h8v2H8z"/>
+      </symbol>
+      <symbol id="ic-tax" viewBox="0 0 24 24">
+        <path fill="#FFD700" d="M12 2l3 9h-6l3-9z"/>
+        <path fill="#C0C0C0" d="M8 8h8v8H8z"/>
+        <path fill="#FFD700" d="M10 10h4v2h-4z"/>
+        <path fill="#8B0000" d="M11 12h2v2h-2z"/>
+      </symbol>
+      <symbol id="ic-stranger" viewBox="0 0 24 24">
+        <path fill="#8B4513" d="M12 2l-3 6h6l-3-6z"/>
+        <path fill="#696969" d="M8 8h8v8H8z"/>
+        <path fill="#4B0082" d="M10 10h4v2h-4z"/>
+        <path fill="#FFD700" d="M11 12h2v2h-2z"/>
+      </symbol>
+      <symbol id="ic-plague" viewBox="0 0 24 24">
+        <path fill="#8B4513" d="M12 2l-3 6h6l-3-6z"/>
+        <path fill="#696969" d="M8 8h8v8H8z"/>
+        <path fill="#8B0000" d="M10 10h4v2h-4z"/>
+        <path fill="#FF4500" d="M11 12h2v2h-2z"/>
+      </symbol>
+      <symbol id="ic-festival" viewBox="0 0 24 24">
+        <path fill="#FFD700" d="M12 2l3 9h-6l3-9z"/>
+        <path fill="#FF69B4" d="M8 8h8v8H8z"/>
+        <path fill="#FFD700" d="M10 10h4v2h-4z"/>
+        <path fill="#FF69B4" d="M11 12h2v2h-2z"/>
+      </symbol>
     </svg>
   );
 } 

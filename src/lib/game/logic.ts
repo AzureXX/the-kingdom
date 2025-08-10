@@ -1,4 +1,4 @@
-import { CONFIG, SAVE_KEY, type ResourceKey, type BuildingKey, type PrestigeUpgradeKey } from './config';
+import { CONFIG, SAVE_KEY, type ResourceKey, type BuildingKey, type PrestigeUpgradeKey, type EventKey } from './config';
 import type { GameState, Multipliers } from './types';
 import { GAME_CONSTANTS } from './constants';
 import { formatNumber, safeJsonParse, encodeBase64, decodeBase64 } from './utils';
@@ -12,6 +12,12 @@ export function initNewGame(): GameState {
     upgrades: { royalDecrees: 0, masterCraftsmen: 0, fertileLands: 0, militaryMight: 0 },
     clicks: 0,
     version: CONFIG.version,
+    events: {
+      activeEvent: null,
+      activeEventStartTime: 0,
+      nextEventTime: Date.now() + (60 + Math.random() * 120) * 1000, // 1-3 minutes
+      eventHistory: [],
+    },
   };
   for (const k in CONFIG.resources) {
     const key = k as ResourceKey;
@@ -130,6 +136,8 @@ export function tick(state: GameState, dtSeconds: number): GameState {
     }
   }
   state.lifetime.food += Math.max(0, (perSec.food || 0) * dtSeconds);
+  
+  checkAndTriggerEvents(state);
   return state;
 }
 
@@ -200,3 +208,99 @@ export function importSave(text: string): GameState | null {
   }
   return null;
 }
+
+export function triggerRandomEvent(): EventKey | null {
+  const events = Object.keys(CONFIG.events) as EventKey[];
+  const totalWeight = events.reduce((sum, key) => sum + CONFIG.events[key].weight, 0);
+  let random = Math.random() * totalWeight;
+  
+  for (const eventKey of events) {
+    random -= CONFIG.events[eventKey].weight;
+    if (random <= 0) {
+      return eventKey;
+    }
+  }
+  
+  return events[0]; // fallback
+}
+
+export function canMakeEventChoice(state: GameState, eventKey: EventKey, choiceIndex: number): boolean {
+  const event = CONFIG.events[eventKey];
+  const choice = event.choices[choiceIndex];
+  if (!choice) return false;
+  
+  // Check if player has required resources
+  for (const resource in choice.requires) {
+    const rk = resource as ResourceKey;
+    if ((state.resources[rk] || 0) < (choice.requires[rk] || 0)) {
+      return false;
+    }
+  }
+  
+  return true;
+}
+
+export function makeEventChoice(state: GameState, eventKey: EventKey, choiceIndex: number): void {
+  const event = CONFIG.events[eventKey];
+  const choice = event.choices[choiceIndex];
+  if (!choice) return;
+  
+  // Add resources that the choice gives
+  addResources(state, choice.gives);
+  
+  // Remove resources that the choice takes
+  for (const resource in choice.takes) {
+    const rk = resource as ResourceKey;
+    const amount = choice.takes[rk] || 0;
+    if (amount > 0) {
+      // For positive amounts, reduce resources (but not below 0)
+      const current = state.resources[rk] || 0;
+      state.resources[rk] = Math.max(0, current - amount);
+    } else if (amount < 0) {
+      // For negative amounts, add resources (this is for prestige loss)
+      state.resources[rk] = (state.resources[rk] || 0) + amount;
+    }
+  }
+  
+  // Record the choice in history (keep only last 50 events)
+  state.events.eventHistory.push({
+    eventKey,
+    choiceIndex,
+    timestamp: Date.now(),
+  });
+  
+  // Keep only the last 50 events
+  if (state.events.eventHistory.length > 50) {
+    state.events.eventHistory = state.events.eventHistory.slice(-50);
+  }
+  
+  // Clear active event and schedule next one
+  state.events.activeEvent = null;
+  state.events.activeEventStartTime = 0;
+  const minInterval = event.minInterval * 1000;
+  const maxInterval = event.maxInterval * 1000;
+  state.events.nextEventTime = Date.now() + minInterval + Math.random() * (maxInterval - minInterval);
+}
+
+export function checkAndTriggerEvents(state: GameState): void {
+  const now = Date.now();
+  
+  // If there's an active event, check if it's been too long (auto-resolve after 30 seconds)
+  if (state.events.activeEvent && (now - state.events.activeEventStartTime) > 30000) {
+    // Auto-resolve by choosing the default choice
+    const event = CONFIG.events[state.events.activeEvent];
+    const defaultChoiceIndex = event.defaultChoiceIndex || 0;
+    makeEventChoice(state, state.events.activeEvent, defaultChoiceIndex);
+  }
+  
+  // Check if it's time for a new event
+  if (!state.events.activeEvent && now >= state.events.nextEventTime) {
+    const eventKey = triggerRandomEvent();
+    if (eventKey) {
+      state.events.activeEvent = eventKey;
+      state.events.activeEventStartTime = now;
+    }
+  }
+}
+
+
