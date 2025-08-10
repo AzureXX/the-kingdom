@@ -1,4 +1,4 @@
-export type ResourceKey = 'money' | 'food' | 'energy' | 'science' | 'influence';
+export type ResourceKey = 'gold' | 'wood' | 'stone' | 'food' | 'prestige';
 
 export type ResourceDef = {
   name: string;
@@ -7,7 +7,7 @@ export type ResourceDef = {
   start: number;
 };
 
-export type BuildingKey = 'farm' | 'plant' | 'lab' | 'factory';
+export type BuildingKey = 'woodcutter' | 'quarry' | 'farm' | 'blacksmith' | 'castle';
 
 export type BuildingDef = {
   name: string;
@@ -20,10 +20,10 @@ export type BuildingDef = {
 };
 
 export type PrestigeUpgradeKey =
-  | 'clickBoost'
-  | 'cheapConstruction'
-  | 'greenTransition'
-  | 'technocracy';
+  | 'royalDecrees'
+  | 'masterCraftsmen'
+  | 'fertileLands'
+  | 'militaryMight';
 
 export type PrestigeUpgradeDef = {
   name: string;
@@ -57,62 +57,71 @@ export type GameConfig = {
 
 export const CONFIG: GameConfig = {
   tickRate: 10,
-  version: 1,
+  version: 2, // Increment version for save compatibility
   resources: {
-    money: { name: 'Money', icon: 'ic-money', decimals: 0, start: 10 },
+    gold: { name: 'Gold', icon: 'ic-gold', decimals: 0, start: 10 },
+    wood: { name: 'Wood', icon: 'ic-wood', decimals: 0, start: 0 },
+    stone: { name: 'Stone', icon: 'ic-stone', decimals: 0, start: 0 },
     food: { name: 'Food', icon: 'ic-food', decimals: 0, start: 0 },
-    energy: { name: 'Energy', icon: 'ic-energy', decimals: 0, start: 0 },
-    science: { name: 'Science', icon: 'ic-science', decimals: 2, start: 0 },
-    influence: { name: 'Influence', icon: 'ic-influence', decimals: 0, start: 0 },
+    prestige: { name: 'Prestige', icon: 'ic-prestige', decimals: 0, start: 0 },
   },
   click: {
-    base: { money: 1, science: 0.2 },
+    base: { gold: 1, food: 0.1 },
   },
   buildings: {
+    woodcutter: {
+      name: 'Woodcutter\'s Hut',
+      icon: 'ic-woodcutter',
+      desc: 'Harvests Wood from the forest.',
+      baseCost: { gold: 15 },
+      costScale: 1.15,
+      baseProd: { wood: 1.2 },
+      baseUse: {},
+    },
+    quarry: {
+      name: 'Quarry',
+      icon: 'ic-quarry',
+      desc: 'Extracts Stone from the mountains.',
+      baseCost: { gold: 30, wood: 5 },
+      costScale: 1.18,
+      baseProd: { stone: 0.8 },
+      baseUse: {},
+    },
     farm: {
       name: 'Farm',
       icon: 'ic-farm',
-      desc: 'Produces Food each second.',
-      baseCost: { money: 10 },
-      costScale: 1.15,
-      baseProd: { food: 1 },
+      desc: 'Grows Food to feed your people.',
+      baseCost: { gold: 25, wood: 8 },
+      costScale: 1.16,
+      baseProd: { food: 1.5 },
       baseUse: {},
     },
-    plant: {
-      name: 'Power Plant',
-      icon: 'ic-plant',
-      desc: 'Generates Energy. Has upkeep in Money.',
-      baseCost: { money: 25 },
-      costScale: 1.18,
-      baseProd: { energy: 1.5 },
-      baseUse: { money: 0.2 },
+    blacksmith: {
+      name: 'Blacksmith',
+      icon: 'ic-blacksmith',
+      desc: 'Crafts tools and weapons for Gold.',
+      baseCost: { gold: 50, wood: 15, stone: 10 },
+      costScale: 1.20,
+      baseProd: { gold: 2.5 },
+      baseUse: { wood: 0.3, stone: 0.2 },
     },
-    lab: {
-      name: 'Research Lab',
-      icon: 'ic-lab',
-      desc: 'Turns Energy into Science.',
-      baseCost: { money: 40, energy: 10 },
-      costScale: 1.2,
-      baseProd: { science: 0.8 },
-      baseUse: { energy: 0.8 },
-    },
-    factory: {
-      name: 'Factory',
-      icon: 'ic-factory',
-      desc: 'Converts Food & Energy into Money.',
-      baseCost: { money: 60, energy: 10, food: 10 },
-      costScale: 1.22,
-      baseProd: { money: 3 },
-      baseUse: { energy: 1, food: 0.5 },
+    castle: {
+      name: 'Castle',
+      icon: 'ic-castle',
+      desc: 'A grand fortress that generates Prestige.',
+      baseCost: { gold: 200, wood: 50, stone: 100, food: 20 },
+      costScale: 1.25,
+      baseProd: { prestige: 0.1 },
+      baseUse: { food: 0.5 },
     },
   },
   prestige: {
-    gainFrom: 'science',
+    gainFrom: 'food',
     divisor: 1000,
     upgrades: {
-      clickBoost: {
-        name: 'Aid Packages',
-        icon: 'ic-money',
+      royalDecrees: {
+        name: 'Royal Decrees',
+        icon: 'ic-gold',
         desc: '+25% click gains per level.',
         costCurve: (lvl) => 5 * Math.pow(1.6, lvl),
         max: 20,
@@ -120,9 +129,9 @@ export const CONFIG: GameConfig = {
           ctx.muls.clickGain *= 1 + 0.25 * lvl;
         },
       },
-      cheapConstruction: {
-        name: 'Efficient Bureaucracy',
-        icon: 'ic-factory',
+      masterCraftsmen: {
+        name: 'Master Craftsmen',
+        icon: 'ic-blacksmith',
         desc: '-3% building costs per level.',
         costCurve: (lvl) => 8 * Math.pow(1.7, lvl),
         max: 25,
@@ -130,28 +139,28 @@ export const CONFIG: GameConfig = {
           ctx.muls.cost *= Math.pow(0.97, lvl);
         },
       },
-      greenTransition: {
-        name: 'Green Transition',
-        icon: 'ic-plant',
-        desc: '+20% Energy production per level.',
+      fertileLands: {
+        name: 'Fertile Lands',
+        icon: 'ic-farm',
+        desc: '+20% Food production per level.',
         costCurve: (lvl) => 6 * Math.pow(1.65, lvl),
         max: 25,
         effect: (lvl, ctx) => {
-          ctx.prodMul.energy *= Math.pow(1.2, lvl);
+          ctx.prodMul.food *= Math.pow(1.2, lvl);
         },
       },
-      technocracy: {
-        name: 'Technocracy',
-        icon: 'ic-lab',
-        desc: '+20% Science production per level.',
+      militaryMight: {
+        name: 'Military Might',
+        icon: 'ic-castle',
+        desc: '+20% Prestige production per level.',
         costCurve: (lvl) => 10 * Math.pow(1.7, lvl),
         max: 20,
         effect: (lvl, ctx) => {
-          ctx.prodMul.science *= Math.pow(1.2, lvl);
+          ctx.prodMul.prestige *= Math.pow(1.2, lvl);
         },
       },
     },
   },
 };
 
-export const SAVE_KEY = 'country-clicker-v1';
+export const SAVE_KEY = 'medieval-kingdom-v2';

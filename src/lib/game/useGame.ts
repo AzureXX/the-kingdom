@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { CONFIG, SAVE_KEY, type BuildingKey, type PrestigeUpgradeKey, type ResourceKey } from './config';
+import { CONFIG, type BuildingKey, type PrestigeUpgradeKey, type ResourceKey } from './config';
 import {
   buyBuilding,
   buyUpgrade,

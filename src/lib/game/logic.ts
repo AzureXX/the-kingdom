@@ -5,9 +5,9 @@ export function initNewGame(): GameState {
   const state: GameState = {
     t: Date.now(),
     resources: {},
-    lifetime: { science: 0 },
-    buildings: { farm: 0, plant: 0, lab: 0, factory: 0 },
-    upgrades: { clickBoost: 0, cheapConstruction: 0, greenTransition: 0, technocracy: 0 },
+    lifetime: { food: 0 },
+    buildings: { woodcutter: 0, quarry: 0, farm: 0, blacksmith: 0, castle: 0 },
+    upgrades: { royalDecrees: 0, masterCraftsmen: 0, fertileLands: 0, militaryMight: 0 },
     clicks: 0,
     version: CONFIG.version,
   };
@@ -41,18 +41,18 @@ export function getMultipliers(state: GameState): Multipliers {
   const ctx: Multipliers = {
     clickGain: 1,
     cost: 1,
-    prodMul: { money: 1, food: 1, energy: 1, science: 1, influence: 1 },
-    useMul: { money: 1, food: 1, energy: 1, science: 1, influence: 1 },
+    prodMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1 },
+    useMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1 },
   };
   for (const key in CONFIG.prestige.upgrades) {
     const k = key as PrestigeUpgradeKey;
     const lvl = state.upgrades[k] || 0;
     if (!lvl) continue;
     CONFIG.prestige.upgrades[k].effect(lvl, {
-      muls: ctx as unknown as any,
+      muls: ctx,
       prodMul: ctx.prodMul,
       useMul: ctx.useMul,
-    } as any);
+    });
   }
   return ctx;
 }
@@ -104,15 +104,15 @@ export function buyUpgrade(state: GameState, key: PrestigeUpgradeKey): GameState
   const lvl = state.upgrades[key] || 0;
   if (lvl >= def.max) return state;
   const cost = Math.ceil(def.costCurve(lvl));
-  if ((state.resources.influence || 0) < cost) return state;
-  state.resources.influence = (state.resources.influence || 0) - cost;
+  if ((state.resources.prestige || 0) < cost) return state;
+  state.resources.prestige = (state.resources.prestige || 0) - cost;
   state.upgrades[key] = lvl + 1;
   return state;
 }
 
 export function getPerSec(state: GameState): Record<ResourceKey, number> {
   const muls = getMultipliers(state);
-  const out: Record<ResourceKey, number> = { money: 0, food: 0, energy: 0, science: 0, influence: 0 };
+  const out: Record<ResourceKey, number> = { gold: 0, wood: 0, stone: 0, food: 0, prestige: 0 };
   for (const key in CONFIG.buildings) {
     const k = key as BuildingKey;
     const def = CONFIG.buildings[k];
@@ -143,22 +143,22 @@ export function tick(state: GameState, dtSeconds: number): GameState {
       state.resources[rk] = (state.resources[rk] || 0) + delta;
     }
   }
-  state.lifetime.science += Math.max(0, (perSec.science || 0) * dtSeconds);
+  state.lifetime.food += Math.max(0, (perSec.food || 0) * dtSeconds);
   return state;
 }
 
 export function prestigeGain(state: GameState): number {
   const div = CONFIG.prestige.divisor;
-  const x = state.lifetime.science || 0;
+  const x = state.lifetime.food || 0;
   return Math.floor(Math.sqrt(x / div));
 }
 
 export function doPrestige(state: GameState): GameState {
   const gain = prestigeGain(state);
-  const keepInfluence = (state.resources.influence || 0) + gain;
+  const keepPrestige = (state.resources.prestige || 0) + gain;
   const keepUp = { ...state.upgrades };
   const fresh = initNewGame();
-  fresh.resources.influence = keepInfluence;
+  fresh.resources.prestige = keepPrestige;
   fresh.upgrades = keepUp;
   return fresh;
 }
