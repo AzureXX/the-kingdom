@@ -34,7 +34,7 @@ export default function GamePage() {
   return (
     <div className={styles.page}>
       <header className={styles.header}>
-        <div className={styles.title}>🏳️‍🌈 Country Clicker <span className={styles.tiny}>– idle/clicker</span></div>
+        <div className={styles.title}>🏳️ Country Clicker <span className={styles.tiny}>– idle/clicker</span></div>
         <div className={styles.footer}>
           <span className={styles.tiny}>Autosaves: <span className={styles.chip}>{saveLabel}</span></span>
           <button className={styles.button} onClick={() => setHelpOpen(true)}>Help</button>
