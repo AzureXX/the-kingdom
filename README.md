@@ -98,24 +98,37 @@ Spend Prestige on upgrades that persist across prestiges:
 
 ## 🛠️ Technical Architecture
 
+### State Management Architecture
+
+The game uses React Context for centralized state management:
+
+- **GameProvider**: Wraps the entire app and provides global game state
+- **useGameContext**: Hook to access game state and actions from any component
+
+This architecture provides several benefits:
+- **Global State Access**: Any component can access game state without prop drilling
+- **Centralized Logic**: All game logic is contained in the context provider
+- **Performance**: Optimized re-renders with React's context optimization
+- **Maintainability**: Clear separation of concerns between state and UI
+
 ### Tech Stack
 - **Framework**: Next.js 15.4.6 with App Router
 - **Language**: TypeScript 5
 - **Styling**: SCSS with CSS Modules
-- **State Management**: React hooks with custom game logic
+- **State Management**: React Context with centralized game state
 - **Build Tool**: Turbopack for development
 
 ### Project Structure
 ```
 src/
 ├── app/                    # Next.js App Router
-│   ├── layout.tsx         # Root layout
+│   ├── layout.tsx         # Root layout with GameProvider
 │   └── page.tsx           # Main game page
 ├── lib/game/              # Game logic
 │   ├── config.ts          # Game configuration
 │   ├── logic.ts           # Core game functions
 │   ├── types.ts           # TypeScript definitions
-│   └── useGame.ts         # React hook for game state
+│   └── GameContext.tsx    # React Context for global state
 └── styles/                # Styling
     ├── globals.scss       # Global styles
     └── page.module.scss   # Component styles
@@ -135,11 +148,14 @@ src/
 - Prestige calculations and upgrades
 - Save/load system with base64 encoding
 
-#### Game Hook (`useGame.ts`)
-- React hook managing game state
+#### Game Context (`GameContext.tsx`)
+- React Context provider managing global game state
 - Real-time game loop with requestAnimationFrame
 - Event handlers for user interactions
 - Auto-save scheduling and offline progress
+- Provides centralized state management for the entire app
+
+
 
 ## 🚀 Getting Started
 

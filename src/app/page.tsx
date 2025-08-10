@@ -3,7 +3,7 @@
 import React, { useMemo, useRef, useState } from 'react';
 import styles from '@/styles/page.module.scss';
 import { CONFIG, type BuildingKey, type PrestigeUpgradeKey } from '@/lib/game/config';
-import { useGame } from '@/lib/game/useGame';
+import { useGameContext } from '@/lib/game/GameContext';
 
 export default function GamePage() {
   const {
@@ -19,7 +19,7 @@ export default function GamePage() {
     doImport,
     costFor,
     lastSavedAt,
-  } = useGame();
+  } = useGameContext();
 
   const [prestigeOpen, setPrestigeOpen] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);
@@ -30,6 +30,16 @@ export default function GamePage() {
     if (diff < 3000) return 'just now';
     return 'a moment ago';
   }, [lastSavedAt]);
+
+  if (!state) {
+    return (
+      <div className={styles.page}>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+          <div>Loading game...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.page}>
