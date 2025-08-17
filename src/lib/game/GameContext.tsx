@@ -1,12 +1,13 @@
 "use client";
 
 import React, { createContext, useContext, useCallback, useEffect, useMemo, useRef, useState, ReactNode } from 'react';
-import { type BuildingKey, type PrestigeUpgradeKey, type ResourceKey } from './config';
+import { type BuildingKey, type PrestigeUpgradeKey, type ResourceKey, type TechnologyKey } from './config';
 import {
   buyBuilding,
   buyUpgrade,
   clickAction,
   tick,
+  researchTechnology,
 } from './actions';
 import {
   doSave,
@@ -47,6 +48,7 @@ export interface GameContextType {
   handleClick: () => void;
   handleBuyBuilding: (key: BuildingKey) => void;
   handleBuyUpgrade: (key: PrestigeUpgradeKey) => void;
+  handleResearchTechnology: (key: TechnologyKey) => void;
   handleDoPrestige: () => void;
   doExport: () => string;
   doImport: (str: string) => boolean;
@@ -137,6 +139,16 @@ export function GameProvider({ children }: GameProviderProps) {
     });
   }, [state]);
 
+  const handleResearchTechnology = useCallback((key: TechnologyKey) => {
+    if (!state) return;
+    setState((s) => {
+      if (!s) return s;
+      const next = { ...s };
+      researchTechnology(next, key);
+      return { ...next };
+    });
+  }, [state]);
+
   const handleDoPrestige = useCallback(() => {
     if (!state) return;
     setState((s) => s ? doPrestige({ ...s }) : s);
@@ -144,21 +156,11 @@ export function GameProvider({ children }: GameProviderProps) {
 
   const perSec = useMemo(() => state ? getPerSec(state) : {}, [state]);
   const prestigePotential = useMemo(() => state ? prestigeGain(state) : 0, [state]);
-  const [timerUpdate, setTimerUpdate] = useState(0);
   
-  // Update timer every second
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTimerUpdate(Date.now());
-    }, 1000);
-    
-    return () => clearInterval(interval);
-  }, []);
-  
-  const timeUntilNextEvent = useMemo(() => state ? getFormattedTimeUntilNextEvent(state) : '--', [state, timerUpdate]);
-  const secondsUntilNextEvent = useMemo(() => state ? getTimeUntilNextEvent(state) : 0, [state, timerUpdate]);
-  const timeUntilNextSave = useMemo(() => getFormattedTimeUntilNextSave(lastSavedAt, state?.t), [lastSavedAt, state?.t, timerUpdate]);
-  const secondsUntilNextSave = useMemo(() => getTimeUntilNextSave(lastSavedAt, state?.t), [lastSavedAt, state?.t, timerUpdate]);
+  const timeUntilNextEvent = useMemo(() => state ? getFormattedTimeUntilNextEvent(state) : '--', [state]);
+  const secondsUntilNextEvent = useMemo(() => state ? getTimeUntilNextEvent(state) : 0, [state]);
+  const timeUntilNextSave = useMemo(() => getFormattedTimeUntilNextSave(lastSavedAt, state?.t), [lastSavedAt, state?.t]);
+  const secondsUntilNextSave = useMemo(() => getTimeUntilNextSave(lastSavedAt, state?.t), [lastSavedAt, state?.t]);
 
   useEffect(() => {
     if (!state) return;
@@ -221,6 +223,7 @@ export function GameProvider({ children }: GameProviderProps) {
     handleClick,
     handleBuyBuilding,
     handleBuyUpgrade,
+    handleResearchTechnology,
     handleDoPrestige,
     doExport,
     doImport,

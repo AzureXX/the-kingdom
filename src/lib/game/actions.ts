@@ -1,9 +1,9 @@
-import { type ResourceKey, type BuildingKey, type PrestigeUpgradeKey } from './config';
+import { type ResourceKey, type BuildingKey, type PrestigeUpgradeKey, type TechnologyKey } from './config';
 import { getResource, setResource, getBuildingCount, setBuildingCount, getUpgradeLevel, setUpgradeLevel, addResources } from './gameState';
 import { costFor, canAfford, getClickGains, getUpgradeCost, canBuyUpgrade, getPerSec } from './calculations';
 import { checkAndTriggerEvents } from './eventSystem';
+import { startResearch, checkResearchProgress } from './technologySystem';
 import type { GameState } from './types';
-
 
 
 /**
@@ -58,6 +58,14 @@ export function clickAction(state: GameState): GameState {
 }
 
 /**
+ * Start researching a technology
+ */
+export function researchTechnology(state: GameState, key: TechnologyKey): GameState {
+  startResearch(state, key);
+  return state;
+}
+
+/**
  * Process game tick (time-based updates)
  */
 export function tick(state: GameState, dtSeconds: number): GameState {
@@ -85,6 +93,9 @@ export function tick(state: GameState, dtSeconds: number): GameState {
   
   // Check for events
   checkAndTriggerEvents(state);
+  
+  // Check research progress
+  checkResearchProgress(state);
   
   return state;
 }

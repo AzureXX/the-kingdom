@@ -18,9 +18,14 @@ export const ResourceDisplay = memo(function ResourceDisplay({ state, perSec }: 
         const per = perSec[key as ResourceKey] || 0;
         const cls = per >= 0 ? styles.good : styles.bad;
         
+        // Hide resources that are marked as hidden and have 0 value
+        if (res.hidden && v === 0) {
+          return null;
+        }
+        
         return (
           <div key={key} className={styles.res}>
-            <span className={styles.icon} style={{ color: key === 'prestige' ? '#ffd166' : '#8ea2ff' }}>
+            <span className={styles.icon} style={{ color: key === 'prestige' ? '#ffd166' : key === 'researchPoints' ? '#4CAF50' : '#8ea2ff' }}>
               <svg className={styles.icon}>
                 <use href={`#${res.icon}`}></use>
               </svg>

@@ -5,6 +5,7 @@ import styles from '@/styles/page.module.scss';
 import { useGameContext } from '@/lib/game/GameContext';
 import { ResourceDisplay } from '@/components/game/ResourceDisplay';
 import { BuildingList } from '@/components/game/BuildingList';
+import { TechnologyList } from '@/components/game/TechnologyList';
 import { UpgradeList } from '@/components/game/UpgradeList';
 import { Modal } from '@/components/ui/Modal';
 import { EventModal } from '@/components/ui/EventModal';
@@ -24,6 +25,7 @@ export default function GamePage() {
     handleClick,
     handleBuyBuilding,
     handleBuyUpgrade,
+    handleResearchTechnology,
     handleDoPrestige,
     doExport,
     doImport,
@@ -112,6 +114,14 @@ export default function GamePage() {
             state={state} 
             costFor={costFor} 
             onBuyBuilding={handleBuyBuilding} 
+          />
+        </section>
+
+        <section className={styles.card}>
+          <h2>Technologies</h2>
+          <TechnologyList 
+            state={state} 
+            onResearchTechnology={handleResearchTechnology} 
           />
         </section>
 

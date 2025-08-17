@@ -1,45 +1,44 @@
 # 🏰 Medieval Kingdom
 
-An idle/clicker game built with Next.js, React, and TypeScript where you manage a medieval kingdom's economy through resource management, building construction, and prestige mechanics.
+An idle/clicker game built with Next.js, React, and TypeScript where you manage a medieval kingdom's economy through resource management, building construction, technology research, and prestige mechanics.
 
 ## 🎮 Game Overview
 
-Medieval Kingdom is an incremental game where you start as a small settlement and work your way up to a prosperous kingdom through strategic resource management and infrastructure development.
+Medieval Kingdom is an incremental game where you start as a small settlement and work your way up to a prosperous kingdom through strategic resource management, infrastructure development, and technological advancement.
 
 ### Core Gameplay Loop
 1. **Click** to gain initial resources (Gold and Food)
-2. **Build** infrastructure to generate resources automatically
-3. **Manage** resource production and consumption
-4. **Handle** random events that affect your kingdom
-5. **Prestige** to gain permanent upgrades and restart stronger
+2. **Research** technologies to unlock new buildings and capabilities
+3. **Build** infrastructure to generate resources automatically
+4. **Manage** resource production and consumption
+5. **Handle** random events that affect your kingdom
+6. **Prestige** to gain permanent upgrades and restart stronger
 
 ## 🏗️ Game Systems
 
 ### Resources
 The game features 5 main resources that form a complex medieval economy:
 
-- **💰 Gold** - Basic currency for purchasing buildings
+- **💰 Gold** - Basic currency for purchasing buildings and researching technologies
 - **🪵 Wood** - Basic building material from forests
 - **🪨 Stone** - Advanced building material from quarries
 - **🌾 Food** - Produced by farms, consumed by castles
 - **👑 Prestige** - Prestige currency for permanent upgrades
 
-### Events
-Random events occur every 1-3 minutes, presenting players with choices that affect their resources:
+### Technology System
+Research technologies to unlock new buildings and advance your kingdom:
 
-- **🛒 Merchant Visit** - Trade opportunities for resources
-- **⚔️ Bandit Raid** - Defend your village or pay tribute
-- **🌾 Bountiful Harvest** - Rare windfall of multiple resources
-- **☀️ Drought** - Environmental challenges affecting production
-- **👑 Royal Tax** - Government demands affecting your wealth
-- **👤 Mysterious Stranger** - Mysterious offers with prestige rewards
-- **🦠 Plague** - Deadly outbreaks requiring treatment
-- **🎉 Festival** - Celebratory events boosting morale
+- **📝 Writing** (Cost: 50 Gold, 20 Wood, 30s) - Foundation of knowledge
+- **🔢 Mathematics** (Cost: 100 Gold, 30 Wood, 20 Stone, 60s) - Requires Writing
+- **⚙️ Engineering** (Cost: 150 Gold, 50 Wood, 40 Stone, 90s) - Requires Writing + Mathematics
+- **🧪 Chemistry** (Cost: 200 Gold, 60 Wood, 50 Stone, 20 Food, 120s) - Requires Mathematics + Engineering
+- **⚛️ Physics** (Cost: 300 Gold, 80 Wood, 70 Stone, 30 Food, 180s) - Requires Mathematics + Chemistry
+- **🧬 Biology** (Cost: 400 Gold, 100 Wood, 90 Stone, 50 Food, 240s) - Requires Chemistry + Physics
 
-Each event offers multiple choices with different resource costs and rewards. Choices may be disabled if you lack required resources, and some events can reduce resources to zero if chosen without sufficient reserves. If a player doesn't make a choice within 30 seconds or before the next event time, the event automatically resolves using a predefined default choice for each event type.
+Technologies can have multiple prerequisites and unlock multiple buildings. Research takes time and can only be done one at a time.
 
 ### Buildings
-Five types of buildings create a production chain:
+Eight types of buildings create a production chain, with advanced buildings requiring multiple technologies:
 
 1. **🪵 Woodcutter's Hut** (Cost: 15 Gold)
    - Produces: 1.2 Wood/second
@@ -63,9 +62,40 @@ Five types of buildings create a production chain:
    - Consumes: 0.5 Food/second
    - Base cost scaling: 1.25x
 
+6. **📚 Library** (Cost: 100 Gold + 30 Wood + 20 Stone)
+   - Produces: 1.0 Gold/second
+   - Base cost scaling: 1.22x
+   - Requires: Writing
+
+7. **🎓 University** (Cost: 300 Gold + 80 Wood + 60 Stone + 30 Food)
+   - Produces: 3.0 Gold/second + 0.05 Prestige/second
+   - Consumes: 1.0 Food/second
+   - Base cost scaling: 1.28x
+   - Requires: Writing + Mathematics
+
+8. **🔬 Laboratory** (Cost: 500 Gold + 100 Wood + 150 Stone + 50 Food)
+   - Produces: 5.0 Gold/second + 0.1 Prestige/second
+   - Consumes: 2.0 Food/second
+   - Base cost scaling: 1.30x
+   - Requires: Chemistry + Engineering
+
+### Events
+Random events occur every 1-3 minutes, presenting players with choices that affect their resources:
+
+- **🛒 Merchant Visit** - Trade opportunities for resources
+- **⚔️ Bandit Raid** - Defend your village or pay tribute
+- **🌾 Bountiful Harvest** - Rare windfall of multiple resources
+- **☀️ Drought** - Environmental challenges affecting production
+- **👑 Royal Tax** - Government demands affecting your wealth
+- **👤 Mysterious Stranger** - Mysterious offers with prestige rewards
+- **🦠 Plague** - Deadly outbreaks requiring treatment
+- **🎉 Festival** - Celebratory events boosting morale
+
+Each event offers multiple choices with different resource costs and rewards. Choices may be disabled if you lack required resources, and some events can reduce resources to zero if chosen without sufficient reserves. If a player doesn't make a choice within 30 seconds or before the next event time, the event automatically resolves using a predefined default choice for each event type.
+
 ### Prestige System
 When progress slows, you can "Ascend to Greater Kingdom" (prestige) to:
-- Reset all resources and buildings
+- Reset all resources, buildings, and technologies
 - Gain **Prestige** based on total Food generated
 - Keep Prestige and permanent upgrades
 - Formula: `floor(√(lifetimeFood / 1,000))`
@@ -93,11 +123,20 @@ Spend Prestige on upgrades that persist across prestiges:
 
 ### Core Mechanics
 - **Real-time resource generation** with 10 FPS tick rate
+- **Technology research system** with multiple prerequisites and time-based research
+- **Building unlocking** through technology advancement
 - **Automatic saving** every 30 seconds
 - **Offline progress** (capped at 1 hour)
 - **Keyboard shortcuts** (Space bar for clicking)
 - **Number formatting** with K/M/B/T notation for large numbers
 - **Random events** every 1-3 minutes with player choices affecting resources
+
+### Technology Research
+- **Research Queue**: Only one technology can be researched at a time
+- **Prerequisites**: Technologies can require multiple other technologies
+- **Building Unlocks**: Advanced buildings require multiple technologies
+- **Research Time**: Each technology takes a specific amount of time to research
+- **Progress Tracking**: Visual progress bar shows research completion
 
 ### Save System
 - **Auto-save**: Automatic local storage saves
@@ -110,6 +149,8 @@ Spend Prestige on upgrades that persist across prestiges:
 - **Dark theme** with blue/purple gradient aesthetics
 - **Modal dialogs** for prestige, help, and events
 - **Real-time resource display** with per-second rates
+- **Technology research progress** with visual indicators
+- **Building requirement display** showing technology prerequisites
 - **Visual feedback** for affordable/unaffordable purchases
 - **Event notifications** with animated indicators
 
@@ -146,6 +187,7 @@ src/
 │   ├── game/             # Game-specific components
 │   │   ├── ResourceDisplay.tsx
 │   │   ├── BuildingList.tsx
+│   │   ├── TechnologyList.tsx
 │   │   └── UpgradeList.tsx
 │   └── ui/               # Generic UI components
 │       ├── Modal.tsx
@@ -159,8 +201,16 @@ src/
 │   ├── saveSystem.ts      # Save/load functionality
 │   ├── eventSystem.ts     # Event handling logic
 │   ├── prestigeSystem.ts  # Prestige calculations
+│   ├── technologySystem.ts # Technology research logic
 │   ├── actions.ts         # Game actions (buying, clicking, ticking)
-│   ├── config.ts          # Game configuration
+│   ├── config/            # Modular configuration system
+│   │   ├── index.ts       # Main config aggregator
+│   │   ├── resources.ts   # Resource definitions
+│   │   ├── buildings.ts   # Building definitions
+│   │   ├── technologies.ts # Technology definitions
+│   │   ├── prestige.ts    # Prestige upgrade definitions
+│   │   └── events.ts      # Event definitions
+│   ├── config.ts          # Legacy config re-exports
 │   ├── constants.ts       # Game constants and configuration
 │   ├── types.ts           # TypeScript definitions
 │   ├── utils.ts           # Utility functions
@@ -172,15 +222,26 @@ src/
 
 ### Key Components
 
-#### Game Configuration (`config.ts`)
-- Centralized game balance and mechanics
-- Resource definitions with icons and properties
-- Building definitions with costs, production, and consumption
-- Prestige upgrade definitions with effects and scaling
+#### Modular Configuration System (`config/`)
+The game configuration has been split into focused modules for better organization:
+
+- **`config/index.ts`** - Main aggregator that combines all config modules
+- **`config/resources.ts`** - Resource definitions with icons and properties
+- **`config/buildings.ts`** - Building definitions with costs, production, consumption, and technology requirements
+- **`config/technologies.ts`** - Technology definitions with costs, research time, prerequisites, and building unlocks
+- **`config/prestige.ts`** - Prestige upgrade definitions with effects and scaling
+- **`config/events.ts`** - Event definitions with choices, intervals, and weights
+
+This modular structure provides:
+- **Better Organization**: Each game system has its own configuration file
+- **Easier Maintenance**: Changes to specific systems are isolated
+- **Improved Readability**: Smaller, focused files are easier to understand
+- **Better Collaboration**: Multiple developers can work on different config files
+- **Type Safety**: Each module exports its own types and configurations
 
 #### Game Constants (`constants.ts`)
 - Centralized magic numbers and configuration values
-- Icon mappings for resources, buildings, and upgrades
+- Icon mappings for resources, buildings, technologies, and upgrades
 - Save system configuration
 - Performance tuning constants
 
@@ -192,6 +253,7 @@ The game logic has been refactored into focused modules for better maintainabili
 - **`saveSystem.ts`** - Save/load functionality with error handling
 - **`eventSystem.ts`** - Event handling logic and choice processing
 - **`prestigeSystem.ts`** - Prestige calculations and operations
+- **`technologySystem.ts`** - Technology research logic and validation
 - **`actions.ts`** - Game actions like buying buildings, upgrades, and ticking
 
 This modular structure provides:
@@ -205,6 +267,7 @@ This modular structure provides:
 - React Context provider managing global game state
 - Real-time game loop with requestAnimationFrame
 - Event handlers for user interactions
+- Technology research management
 - Auto-save scheduling with setInterval (every 30 seconds)
 - Offline progress calculation and application
 - Provides centralized state management for the entire app
@@ -248,42 +311,55 @@ npm run dev
 - `npm run lint` - Run ESLint
 
 ### Development
-The game is highly configurable through the `CONFIG` object in `src/lib/game/config.ts`. You can easily:
-- Add new resources with custom icons
-- Create new buildings with different production chains
-- Design new prestige upgrades with custom effects
-- Adjust game balance and scaling
+The game is highly configurable through the modular configuration system in `src/lib/game/config/`. You can easily:
+- Add new resources with custom icons in `config/resources.ts`
+- Create new buildings with different production chains and technology requirements in `config/buildings.ts`
+- Design new technologies with multiple prerequisites in `config/technologies.ts`
+- Create new prestige upgrades with custom effects in `config/prestige.ts`
+- Add new events with choices and effects in `config/events.ts`
+- Adjust game balance and scaling across all modules
 
 ## 🎨 Customization
 
 ### Adding New Resources
-1. Add resource key to `ResourceKey` type
-2. Define resource in `CONFIG.resources`
+1. Add resource key to `ResourceKey` type in `config/resources.ts`
+2. Define resource in `RESOURCES` object in `config/resources.ts`
 3. Add icon to SVG sprite in `SvgSprites.tsx`
 4. Update `GameState` type if needed
 
 ### Adding New Buildings
-1. Add building key to `BuildingKey` type
-2. Define building in `CONFIG.buildings`
-3. Add icon to SVG sprite
-4. Update `GameState` type
+1. Add building key to `BuildingKey` type in `config/buildings.ts`
+2. Define building in `BUILDINGS` object in `config/buildings.ts`
+3. Add technology requirements (single or multiple)
+4. Add icon to SVG sprite
+5. Update `GameState` type
+
+### Adding New Technologies
+1. Add technology key to `TechnologyKey` type in `config/technologies.ts`
+2. Define technology in `TECHNOLOGIES` object in `config/technologies.ts`
+3. Set prerequisites (single or multiple technologies)
+4. Define buildings to unlock
+5. Add icon to SVG sprite
+6. Update `GameState` type
 
 ### Adding New Upgrades
-1. Add upgrade key to `PrestigeUpgradeKey` type
-2. Define upgrade in `CONFIG.prestige.upgrades`
+1. Add upgrade key to `PrestigeUpgradeKey` type in `config/prestige.ts`
+2. Define upgrade in `PRESTIGE_CONFIG.upgrades` object in `config/prestige.ts`
 3. Implement effect function
 4. Add icon to SVG sprite
 
 ### Adding New Events
-1. Add event key to `EventKey` type
-2. Define event in `CONFIG.events` with choices, intervals, and weights
+1. Add event key to `EventKey` type in `config/events.ts`
+2. Define event in `EVENTS` object in `config/events.ts` with choices, intervals, and weights
 3. Add icon to SVG sprite
 4. Implement choice logic in `makeEventChoice` function if needed
 
 ## 📊 Game Balance
 
 The game is designed with exponential scaling and diminishing returns:
-- Building costs increase exponentially (1.15x - 1.25x per purchase)
+- Building costs increase exponentially (1.15x - 1.30x per purchase)
+- Technology research creates progression gates
+- Multiple technology requirements create strategic depth
 - Prestige upgrades have exponential cost curves
 - Resource production creates complex interdependencies
 - Prestige formula encourages strategic timing
@@ -311,25 +387,38 @@ The game is designed to be easily extensible. Key areas for contribution:
 - UI/UX improvements
 - Balance adjustments
 - Performance optimizations
-- Additional content (resources, buildings, upgrades)
+- Additional content (resources, buildings, technologies, upgrades)
 
 ## 🔄 Recent Updates
 
 The codebase has been recently updated with new features and improvements:
 
-### New Event System
-- **Random Events**: 8 different event types with weighted random selection
-- **Choice-Based Gameplay**: Multiple choices per event affecting resources
-- **Resource Validation**: Choices disabled when insufficient resources
-- **Event Notifications**: Visual indicators when events are available
-- **Auto-Resolution**: Events auto-resolve after 30 seconds if not handled
-- **Default Choices**: Each event has a predefined default choice that triggers automatically
+### Configuration Refactoring
+- **Modular Configuration**: Monolithic `config.ts` (384 lines) split into 6 focused configuration modules
+- **Separated Concerns**: Resources, buildings, technologies, prestige upgrades, and events each have their own files
+- **Better Organization**: Each game system has its own configuration file for easier maintenance
+- **Improved Collaboration**: Multiple developers can work on different config files without conflicts
+- **Type Safety**: Each module exports its own types and configurations
+- **Legacy Support**: Original `config.ts` re-exports everything for backward compatibility
+
+### New Technology System
+- **Technology Research**: 6 different technologies with research time and costs
+- **Multiple Prerequisites**: Technologies can require multiple other technologies
+- **Building Unlocks**: Advanced buildings require multiple technologies
+- **Research Progress**: Visual progress tracking with time remaining
+- **Technology Tree**: Strategic progression through technology advancement
+- **Research Queue**: Only one technology can be researched at a time
+
+### New Buildings
+- **Library**: Basic knowledge building requiring Writing
+- **University**: Advanced education requiring Writing + Mathematics
+- **Laboratory**: Research facility requiring Chemistry + Engineering
 
 ### Code Organization & Architecture
-- **Modular Game Logic**: Monolithic `logic.ts` (307 lines) split into 6 focused modules with direct imports
+- **Modular Game Logic**: Monolithic `logic.ts` (307 lines) split into 7 focused modules with direct imports
 - **Component Extraction**: Large monolithic components split into smaller, focused components
 - **Separation of Concerns**: UI logic separated from game logic
-- **Reusable Components**: Modal, EventModal, EventNotification, ResourceDisplay, BuildingList, UpgradeList, and ErrorBoundary components
+- **Reusable Components**: Modal, EventModal, EventNotification, ResourceDisplay, BuildingList, TechnologyList, UpgradeList, and ErrorBoundary components
 - **Constants Centralization**: Magic numbers moved to dedicated constants file
 - **Clean Architecture**: Direct imports from source modules without unnecessary abstraction layers
 
@@ -349,7 +438,7 @@ The codebase has been recently updated with new features and improvements:
 - **Modular Architecture**: Clear separation between game logic and UI with focused modules
 - **Single Responsibility**: Each module has a clear, focused purpose
 - **Reusable Components**: Components can be easily reused and tested
-- **Configuration**: Centralized game configuration for easy balancing
+- **Configuration**: Modular game configuration for easy balancing and maintenance
 - **Documentation**: Improved code documentation and structure
 - **Type Safety**: Enhanced TypeScript usage with proper generic types
 

@@ -1,7 +1,7 @@
-import { CONFIG, type ResourceKey, type BuildingKey, type PrestigeUpgradeKey } from './config';
+import { CONFIG, type ResourceKey, type BuildingKey, type PrestigeUpgradeKey, type TechnologyKey } from './config';
 import { GAME_CONSTANTS } from './constants';
 import type { GameState, Multipliers } from './types';
-import { getResource, getBuildingCount, getUpgradeLevel } from './gameState';
+import { getResource, getBuildingCount, getUpgradeLevel, isBuildingUnlocked } from './gameState';
 
 /**
  * Calculate all multipliers based on current upgrade levels
@@ -10,8 +10,8 @@ export function getMultipliers(state: GameState): Multipliers {
   const ctx: Multipliers = {
     clickGain: GAME_CONSTANTS.GAME.DEFAULT_MULTIPLIER,
     cost: GAME_CONSTANTS.GAME.DEFAULT_MULTIPLIER,
-    prodMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1 },
-    useMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1 },
+    prodMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 },
+    useMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 },
   };
   
   for (const key in CONFIG.prestige.upgrades) {
@@ -47,6 +47,21 @@ export function costFor(state: GameState, buildKey: BuildingKey): Partial<Record
 }
 
 /**
+ * Calculate the cost for a technology
+ */
+export function technologyCostFor(state: GameState, techKey: TechnologyKey): Partial<Record<ResourceKey, number>> {
+  const def = CONFIG.technologies[techKey];
+  const cost: Partial<Record<ResourceKey, number>> = {};
+  
+  for (const r in def.baseCost) {
+    const rk = r as ResourceKey;
+    cost[rk] = def.baseCost[rk] || 0;
+  }
+  
+  return cost;
+}
+
+/**
  * Check if the player can afford a given cost
  */
 export function canAfford(state: GameState, cost: Partial<Record<ResourceKey, number>>): boolean {
@@ -58,11 +73,19 @@ export function canAfford(state: GameState, cost: Partial<Record<ResourceKey, nu
 }
 
 /**
+ * Check if a building can be purchased (affordable and unlocked)
+ */
+export function canBuyBuilding(state: GameState, buildKey: BuildingKey): boolean {
+  if (!isBuildingUnlocked(state, buildKey)) return false;
+  return canAfford(state, costFor(state, buildKey));
+}
+
+/**
  * Calculate production per second for all resources
  */
 export function getPerSec(state: GameState): Record<ResourceKey, number> {
   const muls = getMultipliers(state);
-  const out: Record<ResourceKey, number> = { gold: 0, wood: 0, stone: 0, food: 0, prestige: 0 };
+  const out: Record<ResourceKey, number> = { gold: 0, wood: 0, stone: 0, food: 0, prestige: 0, researchPoints: 0 };
   
   for (const key in CONFIG.buildings) {
     const k = key as BuildingKey;
@@ -96,7 +119,8 @@ export function getClickGains(state: GameState): Partial<Record<ResourceKey, num
   
   for (const r in base) {
     const rk = r as ResourceKey;
-    gains[rk] = (base[rk] || 0) * (muls.clickGain || 1);
+    const baseValue = base[rk as keyof typeof base] || 0;
+    gains[rk] = baseValue * (muls.clickGain || 1);
   }
   
   return gains;

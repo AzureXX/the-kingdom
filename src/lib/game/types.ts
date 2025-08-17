@@ -1,10 +1,11 @@
-import type { BuildingKey, PrestigeUpgradeKey, ResourceKey, EventKey } from './config';
+import type { BuildingKey, PrestigeUpgradeKey, ResourceKey, EventKey, TechnologyKey } from './config';
 
 export type GameState = {
   t: number;
   resources: Partial<Record<ResourceKey, number>>;
   lifetime: { food: number };
   buildings: Record<BuildingKey, number>;
+  technologies: Record<TechnologyKey, number>;
   upgrades: Record<PrestigeUpgradeKey, number>;
   clicks: number;
   version: number;
@@ -17,6 +18,11 @@ export type GameState = {
       choiceIndex: number;
       timestamp: number;
     }>;
+  };
+  research: {
+    activeResearch: TechnologyKey | null;
+    researchStartTime: number;
+    researchEndTime: number;
   };
 };
 

@@ -30,6 +30,13 @@ export function SvgSprites(): React.JSX.Element {
         <rect x="8" y="12" width="8" height="8" fill="#C0C0C0"/>
         <circle cx="12" cy="16" r="2" fill="#FFD700"/>
       </symbol>
+      <symbol id="ic-research" viewBox="0 0 24 24">
+        <path fill="#4CAF50" d="M12 2l3 9h-6l3-9z"/>
+        <rect x="8" y="12" width="8" height="8" fill="#4CAF50"/>
+        <path fill="#8BC34A" d="M10 14h4v2h-4z"/>
+        <path fill="#8BC34A" d="M10 16h4v2h-4z"/>
+        <circle cx="12" cy="16" r="1" fill="#E8F5E8"/>
+      </symbol>
       
       {/* Building Icons */}
       <symbol id="ic-woodcutter" viewBox="0 0 24 24">
@@ -58,6 +65,79 @@ export function SvgSprites(): React.JSX.Element {
         <path fill="#FFD700" d="M8 4h8v4H8z"/>
         <path fill="#C0C0C0" d="M10 2h4v2h-4z"/>
         <path fill="#696969" d="M6 16h12v2H6z"/>
+      </symbol>
+      <symbol id="ic-library" viewBox="0 0 24 24">
+        <path fill="#8B4513" d="M4 20h16V8l-5-3-5 3v5H4z"/>
+        <path fill="#FFD700" d="M6 10h12v2H6z"/>
+        <path fill="#FFD700" d="M6 13h12v2H6z"/>
+        <path fill="#FFD700" d="M6 16h12v2H6z"/>
+        <path fill="#C0C0C0" d="M10 6h4v2h-4z"/>
+      </symbol>
+      <symbol id="ic-university" viewBox="0 0 24 24">
+        <path fill="#C0C0C0" d="M4 20h16V8l-5-3-5 3v5H4z"/>
+        <path fill="#FFD700" d="M8 4h8v4H8z"/>
+        <path fill="#C0C0C0" d="M10 2h4v2h-4z"/>
+        <path fill="#FFD700" d="M6 12h12v2H6z"/>
+        <path fill="#FFD700" d="M6 15h12v2H6z"/>
+        <path fill="#4B0082" d="M10 6h4v2h-4z"/>
+      </symbol>
+      <symbol id="ic-laboratory" viewBox="0 0 24 24">
+        <path fill="#696969" d="M4 20h16V8l-5-3-5 3v5H4z"/>
+        <path fill="#FF4500" d="M8 12h8v4H8z"/>
+        <path fill="#4B0082" d="M10 6h4v2h-4z"/>
+        <path fill="#00FF00" d="M6 16h12v2H6z"/>
+        <path fill="#FFD700" d="M8 4h8v2H8z"/>
+      </symbol>
+      
+      {/* Technology Icons */}
+      <symbol id="ic-writing" viewBox="0 0 24 24">
+        <path fill="#8B4513" d="M4 20h16V8l-5-3-5 3v5H4z"/>
+        <path fill="#FFD700" d="M6 10h12v2H6z"/>
+        <path fill="#FFD700" d="M6 13h12v2H6z"/>
+        <path fill="#FFD700" d="M6 16h12v2H6z"/>
+        <path fill="#C0C0C0" d="M10 6h4v2h-4z"/>
+      </symbol>
+      <symbol id="ic-mathematics" viewBox="0 0 24 24">
+        <path fill="#C0C0C0" d="M4 20h16V8l-5-3-5 3v5H4z"/>
+        <path fill="#FFD700" d="M8 4h8v4H8z"/>
+        <path fill="#C0C0C0" d="M10 2h4v2h-4z"/>
+        <path fill="#FFD700" d="M6 12h12v2H6z"/>
+        <path fill="#FFD700" d="M6 15h12v2H6z"/>
+        <path fill="#4B0082" d="M10 6h4v2h-4z"/>
+      </symbol>
+      <symbol id="ic-engineering" viewBox="0 0 24 24">
+        <path fill="#696969" d="M4 20h16V8l-5-3-5 3v5H4z"/>
+        <path fill="#FF4500" d="M8 12h8v4H8z"/>
+        <path fill="#4B0082" d="M10 6h4v2h-4z"/>
+        <path fill="#00FF00" d="M6 16h12v2H6z"/>
+        <path fill="#FFD700" d="M8 4h8v2H8z"/>
+      </symbol>
+      <symbol id="ic-chemistry" viewBox="0 0 24 24">
+        <path fill="#696969" d="M4 20h16V8l-5-3-5 3v5H4z"/>
+        <path fill="#FF4500" d="M8 12h8v4H8z"/>
+        <path fill="#4B0082" d="M10 6h4v2h-4z"/>
+        <path fill="#00FF00" d="M6 16h12v2H6z"/>
+        <path fill="#FFD700" d="M8 4h8v2H8z"/>
+        <path fill="#FF69B4" d="M10 10h4v2h-4z"/>
+      </symbol>
+      <symbol id="ic-physics" viewBox="0 0 24 24">
+        <path fill="#696969" d="M4 20h16V8l-5-3-5 3v5H4z"/>
+        <path fill="#FF4500" d="M8 12h8v4H8z"/>
+        <path fill="#4B0082" d="M10 6h4v2h-4z"/>
+        <path fill="#00FF00" d="M6 16h12v2H6z"/>
+        <path fill="#FFD700" d="M8 4h8v2H8z"/>
+        <path fill="#FF69B4" d="M10 10h4v2h-4z"/>
+        <path fill="#00FFFF" d="M6 13h12v2H6z"/>
+      </symbol>
+      <symbol id="ic-biology" viewBox="0 0 24 24">
+        <path fill="#696969" d="M4 20h16V8l-5-3-5 3v5H4z"/>
+        <path fill="#FF4500" d="M8 12h8v4H8z"/>
+        <path fill="#4B0082" d="M10 6h4v2h-4z"/>
+        <path fill="#00FF00" d="M6 16h12v2H6z"/>
+        <path fill="#FFD700" d="M8 4h8v2H8z"/>
+        <path fill="#FF69B4" d="M10 10h4v2h-4z"/>
+        <path fill="#00FFFF" d="M6 13h12v2H6z"/>
+        <path fill="#228B22" d="M10 15h4v2h-4z"/>
       </symbol>
       
       {/* Event Icons */}
