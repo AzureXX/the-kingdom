@@ -54,6 +54,8 @@
 .eventNotificationContent{display:flex;align-items:center;gap:8px;padding:12px 16px;background:linear-gradient(135deg,#1a2350,#141b3f);border:1px solid #3141a6;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.3);color:#e6e9ff}
 .eventNotificationText{font-weight:600;font-size:14px}
 .eventNotificationPulse{width:8px;height:8px;background:#ff6b6b;border-radius:50%;animation:pulse 2s infinite}
+.timerUrgent{color:var(--warn);animation:pulse 1s infinite}
+.timerSave{color:var(--good);animation:pulse 1s infinite}
 @keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.2)}}
 .svgSprite{display:none}

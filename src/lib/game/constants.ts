@@ -21,6 +21,20 @@ export const GAME_CONSTANTS = {
   // File handling
   EXPORT_FILENAME: 'medieval-kingdom.save.txt',
   IMPORT_FILE_TYPES: '.txt,.save',
+  
+  // Event system
+  EVENT: {
+    AUTO_RESOLVE_TIMEOUT_MS: 30000, // 30 seconds
+    HISTORY_MAX_ENTRIES: 50,
+    INITIAL_MIN_INTERVAL_SECONDS: 60,
+    INITIAL_MAX_INTERVAL_SECONDS: 120,
+  },
+  
+  // Game mechanics
+  GAME: {
+    DEFAULT_MULTIPLIER: 1,
+    MIN_RESOURCE_AMOUNT: 0,
+  },
 } as const;
 
 // Resource icons mapping

@@ -153,10 +153,15 @@ src/
 │       ├── EventNotification.tsx
 │       ├── SvgSprites.tsx
 │       └── ErrorBoundary.tsx
-├── lib/game/              # Game logic
+├── lib/game/              # Game logic (modular architecture)
+│   ├── gameState.ts       # State initialization and management
+│   ├── calculations.ts    # Resource calculations and costs
+│   ├── saveSystem.ts      # Save/load functionality
+│   ├── eventSystem.ts     # Event handling logic
+│   ├── prestigeSystem.ts  # Prestige calculations
+│   ├── actions.ts         # Game actions (buying, clicking, ticking)
 │   ├── config.ts          # Game configuration
-│   ├── constants.ts       # Game constants and magic numbers
-│   ├── logic.ts           # Core game functions
+│   ├── constants.ts       # Game constants and configuration
 │   ├── types.ts           # TypeScript definitions
 │   ├── utils.ts           # Utility functions
 │   └── GameContext.tsx    # React Context for global state
@@ -179,12 +184,22 @@ src/
 - Save system configuration
 - Performance tuning constants
 
-#### Game Logic (`logic.ts`)
-- Pure functions for game calculations
-- Resource management and building purchases
-- Prestige calculations and upgrades
-- Event system with choice handling and resource validation
-- Save/load system with base64 encoding
+#### Game Logic (Modular Architecture)
+The game logic has been refactored into focused modules for better maintainability:
+
+- **`gameState.ts`** - State initialization and safe access functions
+- **`calculations.ts`** - Resource calculations, costs, and multipliers
+- **`saveSystem.ts`** - Save/load functionality with error handling
+- **`eventSystem.ts`** - Event handling logic and choice processing
+- **`prestigeSystem.ts`** - Prestige calculations and operations
+- **`actions.ts`** - Game actions like buying buildings, upgrades, and ticking
+
+This modular structure provides:
+- **Single Responsibility**: Each file has a clear, focused purpose
+- **Better Testing**: Individual modules can be tested in isolation
+- **Easier Maintenance**: Changes are isolated to specific modules
+- **Improved Readability**: Smaller, focused files are easier to understand
+- **Direct Imports**: No unnecessary abstraction layers
 
 #### Game Context (`GameContext.tsx`)
 - React Context provider managing global game state
@@ -310,11 +325,13 @@ The codebase has been recently updated with new features and improvements:
 - **Auto-Resolution**: Events auto-resolve after 30 seconds if not handled
 - **Default Choices**: Each event has a predefined default choice that triggers automatically
 
-### Code Organization
+### Code Organization & Architecture
+- **Modular Game Logic**: Monolithic `logic.ts` (307 lines) split into 6 focused modules with direct imports
 - **Component Extraction**: Large monolithic components split into smaller, focused components
 - **Separation of Concerns**: UI logic separated from game logic
 - **Reusable Components**: Modal, EventModal, EventNotification, ResourceDisplay, BuildingList, UpgradeList, and ErrorBoundary components
 - **Constants Centralization**: Magic numbers moved to dedicated constants file
+- **Clean Architecture**: Direct imports from source modules without unnecessary abstraction layers
 
 ### Performance Improvements
 - **Optimized Save System**: Simple setInterval-based saves every 30 seconds
@@ -329,10 +346,12 @@ The codebase has been recently updated with new features and improvements:
 - **Constants**: Eliminated magic numbers throughout the codebase
 
 ### Maintainability
-- **Modular Architecture**: Clear separation between game logic and UI
+- **Modular Architecture**: Clear separation between game logic and UI with focused modules
+- **Single Responsibility**: Each module has a clear, focused purpose
 - **Reusable Components**: Components can be easily reused and tested
 - **Configuration**: Centralized game configuration for easy balancing
 - **Documentation**: Improved code documentation and structure
+- **Type Safety**: Enhanced TypeScript usage with proper generic types
 
 ## 📄 License
 

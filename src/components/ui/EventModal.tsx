@@ -3,8 +3,8 @@
 import React from 'react';
 import { useGameContext } from '../../lib/game/GameContext';
 import { CONFIG } from '../../lib/game/config';
-import { canMakeEventChoice, makeEventChoice } from '../../lib/game/logic';
-import { fmt } from '../../lib/game/logic';
+import { canMakeEventChoice, makeEventChoice } from '../../lib/game/eventSystem';
+import { formatNumber as fmt } from '../../lib/game/utils';
 import styles from '../../styles/page.module.scss';
 
 interface EventModalProps {

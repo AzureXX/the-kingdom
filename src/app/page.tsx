@@ -12,6 +12,8 @@ import { EventNotification } from '@/components/ui/EventNotification';
 import { SvgSprites } from '@/components/ui/SvgSprites';
 import { GAME_CONSTANTS } from '@/lib/game/constants';
 import { getSaveTimeLabel } from '@/lib/game/utils';
+import { getPrestigeFormula } from '@/lib/game/prestigeSystem';
+import { clearSave } from '@/lib/game/saveSystem';
 
 export default function GamePage() {
   const {
@@ -27,6 +29,10 @@ export default function GamePage() {
     doImport,
     costFor,
     lastSavedAt,
+    timeUntilNextEvent,
+    secondsUntilNextEvent,
+    timeUntilNextSave,
+    secondsUntilNextSave,
   } = useGameContext();
 
   const [prestigeOpen, setPrestigeOpen] = useState(false);
@@ -49,7 +55,8 @@ export default function GamePage() {
       <header className={styles.header}>
         <div className={styles.title}>🏰 Medieval Kingdom <span className={styles.tiny}>– idle/clicker</span></div>
         <div className={styles.footer}>
-          <span className={styles.tiny}>Autosaves: <span className={styles.chip}>{saveLabel}</span></span>
+          <span className={styles.tiny}>Autosaves: <span className={`${styles.chip} ${secondsUntilNextSave <= 5 ? styles.timerSave : ''}`}>{timeUntilNextSave}</span></span>
+          <span className={styles.tiny}>Next Event: <span className={`${styles.chip} ${secondsUntilNextEvent <= 10 ? styles.timerUrgent : ''}`}>{timeUntilNextEvent}</span></span>
           <button className={styles.button} onClick={() => setHelpOpen(true)}>Help</button>
           <button
             className={styles.button}
@@ -77,7 +84,7 @@ export default function GamePage() {
           <button className={styles.button} onClick={() => fileInputRef.current?.click()}>Import Save</button>
           <button className={`${styles.button} ${styles.warn}`} onClick={() => {
             if (confirm('Hard reset all progress?')) {
-              localStorage.removeItem('medieval-kingdom-v3');
+              clearSave();
               location.reload();
             }
           }}>Hard Reset</button>
@@ -127,7 +134,7 @@ export default function GamePage() {
         <div className={styles.hr}></div>
         <div className={styles.row}>
           <button className={styles.bad} onClick={() => { handleDoPrestige(); setPrestigeOpen(false); }}>Ascend Now</button>
-          <span className={styles.tiny}>Formula: floor( √(lifetimeFood / {GAME_CONSTANTS.PRESTIGE_DIVISOR}) )</span>
+          <span className={styles.tiny}>Formula: {getPrestigeFormula()}</span>
         </div>
       </Modal>
 

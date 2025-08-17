@@ -6,19 +6,35 @@ import {
   buyBuilding,
   buyUpgrade,
   clickAction,
-  doPrestige,
+  tick,
+} from './actions';
+import {
   doSave,
   exportSave,
-  getPerSec,
   importSave,
-  initNewGame,
   loadSave,
-  prestigeGain,
-  tick,
-  fmt,
+  getFormattedTimeUntilNextSave,
+  getTimeUntilNextSave,
+} from './saveSystem';
+import {
+  getPerSec,
   costFor,
   canAfford,
-} from './logic';
+} from './calculations';
+import {
+  initNewGame,
+} from './gameState';
+import {
+  prestigeGain,
+  doPrestige,
+} from './prestigeSystem';
+import {
+  getFormattedTimeUntilNextEvent,
+  getTimeUntilNextEvent,
+} from './eventSystem';
+import {
+  formatNumber as fmt,
+} from './utils';
 import { GAME_CONSTANTS } from './constants';
 import type { GameState } from './types';
 
@@ -37,6 +53,10 @@ export interface GameContextType {
   costFor: (key: BuildingKey) => Partial<Record<ResourceKey, number>>;
   canAfford: (cost: Partial<Record<ResourceKey, number>>) => boolean;
   lastSavedAt: number | null;
+  timeUntilNextEvent: string;
+  secondsUntilNextEvent: number;
+  timeUntilNextSave: string;
+  secondsUntilNextSave: number;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -124,6 +144,21 @@ export function GameProvider({ children }: GameProviderProps) {
 
   const perSec = useMemo(() => state ? getPerSec(state) : {}, [state]);
   const prestigePotential = useMemo(() => state ? prestigeGain(state) : 0, [state]);
+  const [timerUpdate, setTimerUpdate] = useState(0);
+  
+  // Update timer every second
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimerUpdate(Date.now());
+    }, 1000);
+    
+    return () => clearInterval(interval);
+  }, []);
+  
+  const timeUntilNextEvent = useMemo(() => state ? getFormattedTimeUntilNextEvent(state) : '--', [state, timerUpdate]);
+  const secondsUntilNextEvent = useMemo(() => state ? getTimeUntilNextEvent(state) : 0, [state, timerUpdate]);
+  const timeUntilNextSave = useMemo(() => getFormattedTimeUntilNextSave(lastSavedAt, state?.t), [lastSavedAt, state?.t, timerUpdate]);
+  const secondsUntilNextSave = useMemo(() => getTimeUntilNextSave(lastSavedAt, state?.t), [lastSavedAt, state?.t, timerUpdate]);
 
   useEffect(() => {
     if (!state) return;
@@ -192,6 +227,10 @@ export function GameProvider({ children }: GameProviderProps) {
     costFor: (key: BuildingKey) => state ? costFor(state, key) : {},
     canAfford: (cost: Partial<Record<ResourceKey, number>>) => state ? canAfford(state, cost) : false,
     lastSavedAt,
+    timeUntilNextEvent,
+    secondsUntilNextEvent,
+    timeUntilNextSave,
+    secondsUntilNextSave,
   };
 
   return (
