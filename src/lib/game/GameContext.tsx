@@ -321,7 +321,7 @@ export function GameProvider({ children }: GameProviderProps) {
       // Cleanup performance monitoring
       renderStartTimeRef.current = performance.now();
     };
-  }, [state]);
+  }, [state, processTick]);
 
   // Optimized action handlers using functional state updates
   const handleClick = useCallback(() => {
