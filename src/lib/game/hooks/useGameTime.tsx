@@ -27,9 +27,19 @@ export function useGameTime(
   const timeUntilNextSave = useMemo(() => getFormattedTimeUntilNextSave(lastSavedAt, currentTime), [lastSavedAt, currentTime]);
   const secondsUntilNextSave = useMemo(() => getTimeUntilNextSave(lastSavedAt, currentTime), [lastSavedAt, currentTime]);
 
+  // Group time-related values together for cleaner consumption
+  const timeValues = useMemo(() => ({
+    timeUntilNextEvent,
+    secondsUntilNextEvent,
+    timeUntilNextSave,
+    secondsUntilNextSave,
+  }), [timeUntilNextEvent, secondsUntilNextEvent, timeUntilNextSave, secondsUntilNextSave]);
+
   return {
     currentTime,
     currentTimeRef,
+    timeValues, // Grouped time values
+    // Individual values still available for backward compatibility
     timeUntilNextEvent,
     secondsUntilNextEvent,
     timeUntilNextSave,

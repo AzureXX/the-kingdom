@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { doSave, exportSave, importSave, loadSave, processOfflineProgress } from '../saveSystem';
 import { initNewGame } from '../gameState';
 import { GAME_CONSTANTS } from '../constants';
@@ -118,7 +118,20 @@ export function useSaveSystem(
     };
   }, [autoSave]);
 
+  // Group save system functions together for cleaner consumption
+  const saveFunctions = useMemo(() => ({
+    loadInitialGame,
+    autoSave,
+    manualSave,
+    exportSaveData,
+    importSaveData,
+    doExport,
+    doImport,
+  }), [loadInitialGame, autoSave, manualSave, exportSaveData, importSaveData, doExport, doImport]);
+
   return {
+    saveFunctions, // Grouped save functions
+    // Individual values still available for backward compatibility
     lastSavedAt,
     loadInitialGame,
     autoSave,

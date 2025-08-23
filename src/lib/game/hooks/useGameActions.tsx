@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { buyBuilding, buyUpgrade, clickAction, researchTechnology } from '../actions';
 import { doPrestige } from '../prestigeSystem';
 import type { GameState } from '../types';
@@ -44,7 +44,18 @@ export function useGameActions(
     });
   }, [setState]);
 
+  // Group action handlers together for cleaner consumption
+  const actionHandlers = useMemo(() => ({
+    handleClick,
+    handleBuyBuilding,
+    handleBuyUpgrade,
+    handleResearchTechnology,
+    handleDoPrestige,
+  }), [handleClick, handleBuyBuilding, handleBuyUpgrade, handleResearchTechnology, handleDoPrestige]);
+
   return {
+    actionHandlers, // Grouped action handlers
+    // Individual handlers still available for backward compatibility
     handleClick,
     handleBuyBuilding,
     handleBuyUpgrade,

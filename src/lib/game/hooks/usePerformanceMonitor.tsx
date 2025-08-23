@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useMemo } from 'react';
 
 export interface PerformanceMetrics {
   tickTime: number;
@@ -65,7 +65,16 @@ export function usePerformanceMonitor(updateInterval: number = 10) {
   // Get current metrics without triggering re-render
   const getCurrentMetrics = () => performanceMetricsRef.current;
 
+  // Group performance monitoring functions together for cleaner consumption
+  const performanceFunctions = useMemo(() => ({
+    updateMetrics,
+    resetRenderTimer,
+    getCurrentMetrics,
+  }), [updateMetrics, resetRenderTimer, getCurrentMetrics]);
+
   return {
+    performanceFunctions, // Grouped performance functions
+    // Individual values still available for backward compatibility
     performanceMetrics,
     updateMetrics,
     resetRenderTimer,

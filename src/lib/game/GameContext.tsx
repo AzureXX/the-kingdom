@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useMemo, useState, ReactNode, useRef } from 'react';
+import React, { createContext, useContext, useMemo, useState, ReactNode } from 'react';
 import { type BuildingKey, type PrestigeUpgradeKey, type ResourceKey, type TechnologyKey } from './config';
 import { formatNumber as fmt } from './utils';
 
@@ -50,76 +50,59 @@ export function GameProvider({ children }: GameProviderProps) {
   const [state, setState] = useState<GameState | null>(null);
 
   // Custom hooks for different game systems
-  const { performanceMetrics, updateMetrics } = usePerformanceMonitor(10);
-  const { lastSavedAt, manualSave, doExport, doImport } = useSaveSystem(state, setState);
-  const { timeUntilNextEvent, secondsUntilNextEvent, timeUntilNextSave, secondsUntilNextSave } = useGameTime(state, lastSavedAt);
-  const { handleClick, handleBuyBuilding, handleBuyUpgrade, handleResearchTechnology, handleDoPrestige } = useGameActions(state, setState);
-  const { perSec, prestigePotential, multipliers, memoizedCostFor, memoizedCanAfford, clickGains, technologyCosts, upgradeCosts } = useGameCalculations(state);
+  const { performanceMetrics, performanceFunctions } = usePerformanceMonitor(10);
+  const { lastSavedAt, manualSave, saveFunctions } = useSaveSystem(state, setState);
+  const { timeValues } = useGameTime(state, lastSavedAt);
+  const { actionHandlers } = useGameActions(state, setState);
+  const { gameCalculations, utilityFunctions } = useGameCalculations(state);
 
   // Game loop integration
   useGameLoop(
     state,
     (newState) => setState(newState),
-    (tickDuration) => updateMetrics(tickDuration)
+    (tickDuration) => performanceFunctions.updateMetrics(tickDuration)
   );
 
-  const stableFmt = useRef(fmt);
-  const stableDoExport = useRef(doExport);
-  const stableDoImport = useRef(doImport);
-
-  // Context value creation with optimized dependencies
+  // Context value creation with grouped dependencies from hooks
   const contextValue = useMemo((): GameContextType => ({
     state,
     setState,
-    perSec: perSec as Record<ResourceKey, number>,
-    prestigePotential,
-    multipliers,
-    clickGains,
-    technologyCosts,
-    upgradeCosts,
-    fmt: stableFmt.current,
-    handleClick,
-    handleBuyBuilding,
-    handleBuyUpgrade,
-    handleResearchTechnology,
-    handleDoPrestige,
-    doExport: stableDoExport.current,
-    doImport: stableDoImport.current,
-    costFor: memoizedCostFor,
-    canAfford: memoizedCanAfford,
+    perSec: gameCalculations.perSec as Record<ResourceKey, number>,
+    prestigePotential: gameCalculations.prestigePotential,
+    multipliers: gameCalculations.multipliers,
+    clickGains: gameCalculations.clickGains,
+    technologyCosts: gameCalculations.technologyCosts,
+    upgradeCosts: gameCalculations.upgradeCosts,
+    fmt,
+    handleClick: actionHandlers.handleClick,
+    handleBuyBuilding: actionHandlers.handleBuyBuilding,
+    handleBuyUpgrade: actionHandlers.handleBuyUpgrade,
+    handleResearchTechnology: actionHandlers.handleResearchTechnology,
+    handleDoPrestige: actionHandlers.handleDoPrestige,
+    doExport: saveFunctions.doExport,
+    doImport: saveFunctions.doImport,
+    costFor: utilityFunctions.memoizedCostFor,
+    canAfford: utilityFunctions.memoizedCanAfford,
     lastSavedAt,
-    timeUntilNextEvent,
-    secondsUntilNextEvent,
-    timeUntilNextSave,
-    secondsUntilNextSave,
+    timeUntilNextEvent: timeValues.timeUntilNextEvent,
+    secondsUntilNextEvent: timeValues.secondsUntilNextEvent,
+    timeUntilNextSave: timeValues.timeUntilNextSave,
+    secondsUntilNextSave: timeValues.secondsUntilNextSave,
     performanceMetrics,
     manualSave: () => state && manualSave(state),
   }), [
-    // OPTIMIZATION: Reduced from 24 to 21 dependencies
-    // Removed stable functions: fmt, doExport, doImport
-    // Kept manualSave as is since it depends on state
+    // OPTIMIZATION: Using grouped dependencies from hooks
+    // This reduces the dependency count significantly
     state,
     setState,
-    perSec,
-    prestigePotential,
-    multipliers,
-    clickGains,
-    technologyCosts,
-    upgradeCosts,
-    handleClick,
-    handleBuyBuilding,
-    handleBuyUpgrade,
-    handleResearchTechnology,
-    handleDoPrestige,
-    memoizedCostFor,
-    memoizedCanAfford,
+    timeValues,        // 4 time values → 1 dependency
+    actionHandlers,    // 5 action handlers → 1 dependency
+    gameCalculations,  // 6 calculation values → 1 dependency
+    utilityFunctions,  // 2 utility functions → 1 dependency
     lastSavedAt,
-    timeUntilNextEvent,
-    secondsUntilNextEvent,
-    timeUntilNextSave,
-    secondsUntilNextSave,
     performanceMetrics,
     manualSave,
+    saveFunctions,
   ]);
 
   return (

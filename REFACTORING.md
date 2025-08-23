@@ -26,7 +26,7 @@ This document outlines the most important refactoring needs for the Medieval Kin
 - Use `useRef` for values that don't need to trigger re-renders
 - Test that context still works correctly
 
-**Step 1.3: Group Related Dependencies**
+**Step 1.3: Group Related Dependencies** ✅ **COMPLETE**
 - Create derived state objects to reduce dependency count
 - Combine related state values into single objects
 - Update context consumers to use new grouped values
@@ -205,7 +205,7 @@ This document outlines the most important refactoring needs for the Medieval Kin
 ### **High Priority Steps (8 steps)**
 1. **Step 1.1**: Analyze Context Dependencies ✅ **COMPLETE**
 2. **Step 1.2**: Optimize Stable Dependencies ✅ **COMPLETE**  
-3. **Step 1.3**: Group Related Dependencies
+3. **Step 1.3**: Group Related Dependencies ✅ **COMPLETE**
 4. **Step 1.4**: Final Context Optimization
 5. **Step 2.1**: Analyze Tick Object Creation
 6. **Step 2.2**: Implement Resource Update Object Reuse
@@ -304,6 +304,56 @@ After thorough code review, the project is actually **well-optimized**:
 - **After**: 21 dependencies with stable function references
 - **Expected**: Reduced unnecessary re-renders for stable functions
 - **Status**: ✅ **FUNCTIONAL AND TESTED**
+
+---
+
+## 📋 Step 1.3 Implementation Results
+
+### **Group Related Dependencies - GameContext.tsx (Clean Architecture)**
+
+**Changes Made:**
+1. **Moved grouping to hooks** - Each hook now returns grouped values alongside individual values
+2. **Context uses grouped values directly** - `actionHandlers.handleClick`, `gameCalculations.perSec`, etc.
+3. **Removed unnecessary useRef** - No more `stableFmt`, `stableDoExport`, `stableDoImport`
+4. **Clean separation of concerns** - Hooks group, context consumes grouped values
+
+**Hook-Level Grouping:**
+- **`useGameTime`** → `timeValues` (4 time values grouped)
+- **`useGameActions`** → `actionHandlers` (5 action handlers grouped)  
+- **`useGameCalculations`** → `gameCalculations` (6 calculation values grouped) + `utilityFunctions` (2 utility functions grouped)
+- **`useSaveSystem`** → `saveFunctions` (7 save functions grouped)
+- **`usePerformanceMonitor`** → `performanceFunctions` (3 performance functions grouped)
+
+**Context Usage Pattern:**
+```typescript
+// Before: Individual values
+handleClick: handleClick,
+perSec: perSec,
+
+// After: Grouped values from hooks
+handleClick: actionHandlers.handleClick,
+perSec: gameCalculations.perSec,
+```
+
+**Final Dependencies (11 total):**
+1. `state` - Core game state
+2. `setState` - React state setter
+3. `timeValues` - Grouped time-related values (4 → 1)
+4. `actionHandlers` - Grouped action functions (5 → 1)
+5. `gameCalculations` - Grouped calculation results (6 → 1)
+6. `utilityFunctions` - Grouped utility functions (2 → 1)
+7. `saveFunctions` - Grouped save functions (7 → 1)
+8. `performanceFunctions` - Grouped performance functions (3 → 1)
+9. `lastSavedAt` - Save system state
+10. `performanceMetrics` - Performance monitoring
+11. `manualSave` - Manual save function
+
+**Performance Impact:**
+- **Before**: 21 dependencies with individual values
+- **After**: 11 dependencies with logical grouping
+- **Reduction**: 48% fewer dependencies!
+- **Expected**: Dramatically reduced unnecessary re-renders
+- **Status**: ✅ **FUNCTIONAL AND ARCHITECTURALLY CORRECT**
 
 #### **🔴 High Change Frequency (Every Tick - 20 FPS)**
 1. `state` - Changes every game tick (20 FPS)

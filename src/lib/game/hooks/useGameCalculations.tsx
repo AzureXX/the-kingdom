@@ -42,7 +42,26 @@ export function useGameCalculations(state: GameState | null) {
     return costs;
   }, [state]);
 
+  // Group calculation results together for cleaner consumption
+  const gameCalculations = useMemo(() => ({
+    perSec,
+    prestigePotential,
+    multipliers,
+    clickGains,
+    technologyCosts,
+    upgradeCosts,
+  }), [perSec, prestigePotential, multipliers, clickGains, technologyCosts, upgradeCosts]);
+
+  // Group utility functions together for cleaner consumption
+  const utilityFunctions = useMemo(() => ({
+    memoizedCostFor,
+    memoizedCanAfford,
+  }), [memoizedCostFor, memoizedCanAfford]);
+
   return {
+    gameCalculations, // Grouped calculation results
+    utilityFunctions, // Grouped utility functions
+    // Individual values still available for backward compatibility
     perSec,
     prestigePotential,
     multipliers,
