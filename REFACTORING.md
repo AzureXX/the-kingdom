@@ -61,11 +61,13 @@ This document identifies areas in the codebase that would benefit from refactori
 - ✅ Remove unused imports from GameContext
 - ✅ Fully encapsulate action handlers logic within the hook
 
-**Step 1.6: Extract Memoized Calculations (2-3 changes)**
-- Create `src/lib/game/hooks/useGameCalculations.tsx`
-- Move perSec, prestigePotential, multipliers calculations
-- Move cost calculations and memoization
-- Update GameContext to use the new hook
+**Step 1.6: Extract Memoized Calculations (2-3 changes)** ✅ **COMPLETE**
+- ✅ Create `src/lib/game/hooks/useGameCalculations.tsx`
+- ✅ Move perSec, prestigePotential, multipliers calculations
+- ✅ Move cost calculations and memoization
+- ✅ Update GameContext to use the new hook
+- ✅ Remove unused imports from GameContext
+- ✅ Fully encapsulate calculations logic within the hook
 
 **Step 1.7: Clean Up GameContext (2-3 changes)**
 - Remove extracted logic from GameContext
@@ -77,17 +79,6 @@ This document identifies areas in the codebase that would benefit from refactori
 - Create `src/lib/game/hooks/index.ts`
 - Export all new hooks for easy importing
 - Update GameContext imports
-
-**Step 1.9: Add Error Boundaries (1-2 changes)**
-- Wrap each hook with error handling
-- Add fallback states for hook failures
-- Ensure graceful degradation
-
-**Step 1.10: Testing and Validation (2-3 changes)**
-- Test each hook individually
-- Verify game functionality still works
-- Check performance impact
-- Validate state consistency
 
 ### 2. Type Safety and Configuration Issues
 **Difficulty: Medium (8-10 changes needed)**

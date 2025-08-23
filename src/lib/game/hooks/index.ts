@@ -8,3 +8,5 @@ export { useGameLoop } from './useGameLoop';
 export { useGameTime } from './useGameTime';
 
 export { useGameActions } from './useGameActions';
+
+export { useGameCalculations } from './useGameCalculations';

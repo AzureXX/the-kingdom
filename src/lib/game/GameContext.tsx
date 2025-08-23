@@ -1,31 +1,19 @@
 "use client";
 
 import React, { createContext, useContext, useCallback, useEffect, useMemo, useState, useRef, ReactNode } from 'react';
-import { type BuildingKey, type PrestigeUpgradeKey, type ResourceKey, type TechnologyKey, CONFIG } from './config';
+import { type BuildingKey, type PrestigeUpgradeKey, type ResourceKey, type TechnologyKey } from './config';
 // Action functions are now used by useGameActions hook
 
-import {
-  getPerSec,
-  costFor,
-  canAfford,
-  getMultipliers,
-  getClickGains,
-  technologyCostFor,
-  getUpgradeCost,
-} from './calculations';
-import {
-  getUpgradeLevel,
-} from './gameState';
-import {
-  prestigeGain,
-} from './prestigeSystem';
+// Calculation functions are now used by useGameCalculations hook
+// Game state functions are now used by useGameCalculations hook
+// Prestige functions are now used by useGameCalculations hook
 // Time management functions are now used by useGameTime hook
 import {
   formatNumber as fmt,
 } from './utils';
 import { GAME_CONSTANTS } from './constants';
 import type { GameState, Multipliers } from './types';
-import { usePerformanceMonitor, useSaveSystem, useGameLoop, useGameTime, useGameActions } from './hooks';
+import { usePerformanceMonitor, useSaveSystem, useGameLoop, useGameTime, useGameActions, useGameCalculations } from './hooks';
 
 export interface GameContextType {
   state: GameState | null;
@@ -82,42 +70,8 @@ export function GameProvider({ children }: GameProviderProps) {
   // Use action handlers hook
   const { handleClick, handleBuyBuilding, handleBuyUpgrade, handleResearchTechnology, handleDoPrestige } = useGameActions(state, setState);
 
-  // Memoized values to prevent unnecessary recalculations
-  const perSec = useMemo(() => state ? getPerSec(state) : {}, [state]);
-  const prestigePotential = useMemo(() => state ? prestigeGain(state) : 0, [state]);
-  
-  // Memoize multipliers calculation since it's expensive and used by multiple functions
-  const multipliers = useMemo(() => state ? getMultipliers(state) : null, [state]);
-  
-  // Time calculations are now handled by useGameTime hook
-
-  // Memoized utility functions to prevent recreation
-  const memoizedCostFor = useCallback((key: BuildingKey) => state ? costFor(state, key) : {}, [state]);
-  const memoizedCanAfford = useCallback((cost: Partial<Record<ResourceKey, number>>) => state ? canAfford(state, cost) : false, [state]);
-  
-  // Memoize click gains calculation since it depends on multipliers
-  const clickGains = useMemo(() => state ? getClickGains(state) : {}, [state]);
-  
-  // Memoize technology costs to prevent recalculation on every render
-  const technologyCosts = useMemo(() => {
-    if (!state) return {} as Record<TechnologyKey, Partial<Record<ResourceKey, number>>>;
-    const costs: Record<TechnologyKey, Partial<Record<ResourceKey, number>>> = {} as Record<TechnologyKey, Partial<Record<ResourceKey, number>>>;
-    for (const techKey of Object.keys(CONFIG.technologies) as TechnologyKey[]) {
-      costs[techKey] = technologyCostFor(state, techKey);
-    }
-    return costs;
-  }, [state]);
-  
-  // Memoize upgrade costs to prevent recalculation on every render
-  const upgradeCosts = useMemo(() => {
-    if (!state) return {} as Record<PrestigeUpgradeKey, number>;
-    const costs: Record<PrestigeUpgradeKey, number> = {} as Record<PrestigeUpgradeKey, number>;
-    for (const upgradeKey of Object.keys(CONFIG.prestige.upgrades) as PrestigeUpgradeKey[]) {
-      const currentLevel = getUpgradeLevel(state, upgradeKey);
-      costs[upgradeKey] = getUpgradeCost(upgradeKey, currentLevel);
-    }
-    return costs;
-  }, [state]);
+  // Use calculations hook
+  const { perSec, prestigePotential, multipliers, memoizedCostFor, memoizedCanAfford, clickGains, technologyCosts, upgradeCosts } = useGameCalculations(state);
 
   // Time management is now handled by useGameTime hook
 
