@@ -28,7 +28,7 @@ export {
 
 // Main game configuration object
 export const CONFIG = {
-  tickRate: GAME_CONSTANTS.TICK_RATE,
+  tickRate: GAME_CONSTANTS.GAME_TICK_RATE,
   version: 4, // Increment version for save compatibility
   resources: RESOURCES,
   click: CLICK_CONFIG,

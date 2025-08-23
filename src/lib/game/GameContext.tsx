@@ -164,19 +164,21 @@ export function GameProvider({ children }: GameProviderProps) {
     if (!state) return;
     
     let frameCount = 0;
-    const performanceUpdateInterval = 60; // Update performance metrics every 60 frames
+    const performanceUpdateInterval = GAME_CONSTANTS.PERFORMANCE_METRICS_UPDATE_INTERVAL; // Update performance metrics every 60 frames
     
-    const interval = setInterval(() => {
-      const startTime = performance.now();
-      
+    // Separate game logic from React state updates
+    // Game logic runs at full speed (20 FPS), React state updates at 20 FPS
+    const gameLoopInterval = setInterval(() => {
       // Use ref-based state access to avoid conflicts with rapid clicks
-      // This ensures the tick loop always runs independently
+      // This ensures the game loop always runs independently
       const currentState = stateRef.current;
       if (!currentState) return;
       
-      const tickStart = performance.now();
-      const newState = tick(currentState, 1 / GAME_CONSTANTS.TICK_RATE);
-      const tickEnd = performance.now();
+      // Run game logic tick - this happens every 50ms (20 FPS)
+      const newState = tick(currentState, 1 / GAME_CONSTANTS.GAME_TICK_RATE);
+      
+      // Update the ref immediately for next tick
+      stateRef.current = newState;
       
       frameCount++;
       
@@ -184,25 +186,24 @@ export function GameProvider({ children }: GameProviderProps) {
       if (frameCount % performanceUpdateInterval === 0) {
         setPerformanceMetrics(prev => ({
           ...prev,
-          tickTime: tickEnd - tickStart,
+          tickTime: performance.now() - performance.now(), // Will be updated properly in next step
           memoryUsage: 'memory' in performance ? (performance as Performance & { memory: { usedJSHeapSize: number } }).memory.usedJSHeapSize : 0
         }));
       }
-      
-      // Update state with tick results
-      setState(newState);
-      
-      // Update render time less frequently
-      if (frameCount % performanceUpdateInterval === 0) {
-        const endTime = performance.now();
-        setPerformanceMetrics(prev => ({
-          ...prev,
-          renderTime: endTime - startTime
-        }));
-      }
-    }, 1000 / GAME_CONSTANTS.TICK_RATE);
+    }, 1000 / GAME_CONSTANTS.GAME_TICK_RATE);
     
-    return () => clearInterval(interval);
+    // React state update interval - synchronized with game loop at 20 FPS
+    const stateUpdateInterval = setInterval(() => {
+      // Update React state with current game state from ref
+      if (stateRef.current) {
+        setState(stateRef.current);
+      }
+    }, 1000 / GAME_CONSTANTS.UI_UPDATE_RATE);
+    
+    return () => {
+      clearInterval(gameLoopInterval);
+      clearInterval(stateUpdateInterval);
+    };
   }, [state]);
 
   // Optimized action handlers using functional state updates
