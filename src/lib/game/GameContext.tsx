@@ -79,11 +79,26 @@ export function GameProvider({ children }: GameProviderProps) {
   const [lastSavedAt, setLastSavedAt] = useState<number | null>(null);
   const currentTimeRef = useRef<number>(Date.now());
   const [currentTime, setCurrentTime] = useState<number>(Date.now());
+  
+  // Performance metrics stored in refs to avoid unnecessary re-renders
+  const performanceMetricsRef = useRef({
+    tickTime: 0,
+    renderTime: 0,
+    memoryUsage: 0
+  });
+  
+  // Performance monitoring state - triggers re-renders when metrics change
   const [performanceMetrics, setPerformanceMetrics] = useState({
     tickTime: 0,
     renderTime: 0,
     memoryUsage: 0
   });
+  
+  // Track render start time for performance measurement
+  const renderStartTimeRef = useRef<number>(performance.now());
+  
+  // Track frame count for performance metrics updates
+  const frameCountRef = useRef<number>(0);
   
   // Use ref to track current state for tick loop to avoid conflicts with rapid clicks
   const stateRef = useRef<GameState | null>(null);
@@ -93,9 +108,6 @@ export function GameProvider({ children }: GameProviderProps) {
   // This allows multiple game ticks to be processed before updating React state
   const pendingStateUpdatesRef = useRef<GameState | null>(null);
 
-  // Memoize performance metrics to prevent unnecessary re-renders
-  const memoizedPerformanceMetrics = useMemo(() => performanceMetrics, [performanceMetrics]);
-  
   // Memoized values to prevent unnecessary recalculations
   const perSec = useMemo(() => state ? getPerSec(state) : {}, [state]);
   const prestigePotential = useMemo(() => state ? prestigeGain(state) : 0, [state]);
@@ -186,8 +198,7 @@ export function GameProvider({ children }: GameProviderProps) {
     stateRef.current = state;
     pendingStateUpdatesRef.current = state;
     
-    let frameCount = 0;
-    const performanceUpdateInterval = GAME_CONSTANTS.PERFORMANCE_METRICS_UPDATE_INTERVAL; // Update performance metrics every 60 frames
+    const performanceUpdateInterval = 10; // Update performance metrics every 10 frames (every 500ms at 20 FPS)
     
     // Game loop: Collects state updates for batching
     // Game logic runs at full speed (20 FPS), but React state updates are batched
@@ -197,21 +208,43 @@ export function GameProvider({ children }: GameProviderProps) {
       const currentState = stateRef.current;
       if (!currentState) return;
       
+      // Measure tick performance
+      const tickStartTime = performance.now();
+      
       // Run game logic tick - this happens every 50ms (20 FPS)
       const newState = tick(currentState, 1 / GAME_CONSTANTS.GAME_TICK_RATE);
+      
+      // Measure tick completion time
+      const tickEndTime = performance.now();
+      const tickDuration = tickEndTime - tickStartTime;
       
       // Collect state updates for batching instead of immediately updating
       pendingStateUpdatesRef.current = newState;
       
-      frameCount++;
+      frameCountRef.current++;
       
-      // Update performance metrics less frequently to reduce overhead
-      if (frameCount % performanceUpdateInterval === 0) {
-        setPerformanceMetrics(prev => ({
-          ...prev,
-          tickTime: performance.now() - performance.now(), // Will be updated properly in next step
-          memoryUsage: 'memory' in performance ? (performance as Performance & { memory: { usedJSHeapSize: number } }).memory.usedJSHeapSize : 0
-        }));
+      // Update performance metrics in refs (no re-renders)
+      if (frameCountRef.current % performanceUpdateInterval === 0) {
+        // Update tick time with actual measurement
+        performanceMetricsRef.current.tickTime = tickDuration;
+        
+        // Calculate render time (time since last render)
+        const currentTime = performance.now();
+        performanceMetricsRef.current.renderTime = currentTime - renderStartTimeRef.current;
+        renderStartTimeRef.current = currentTime;
+        
+        // Update memory usage if available
+        if ('memory' in performance) {
+          const memoryInfo = (performance as Performance & { memory: { usedJSHeapSize: number } }).memory;
+          performanceMetricsRef.current.memoryUsage = memoryInfo.usedJSHeapSize;
+        }
+        
+        // Trigger a re-render of performance display components
+        setPerformanceMetrics({
+          tickTime: tickDuration,
+          renderTime: performanceMetricsRef.current.renderTime,
+          memoryUsage: performanceMetricsRef.current.memoryUsage,
+        });
       }
     }, 1000 / GAME_CONSTANTS.GAME_TICK_RATE);
     
@@ -234,6 +267,9 @@ export function GameProvider({ children }: GameProviderProps) {
     return () => {
       clearInterval(gameLoopInterval);
       clearInterval(stateUpdateInterval);
+      
+      // Cleanup performance monitoring
+      renderStartTimeRef.current = performance.now();
     };
   }, [state]);
 
@@ -318,7 +354,7 @@ export function GameProvider({ children }: GameProviderProps) {
     secondsUntilNextEvent,
     timeUntilNextSave,
     secondsUntilNextSave,
-    performanceMetrics: memoizedPerformanceMetrics,
+    performanceMetrics,
     manualSave,
   }), [
     state,
@@ -339,7 +375,7 @@ export function GameProvider({ children }: GameProviderProps) {
     secondsUntilNextEvent,
     timeUntilNextSave,
     secondsUntilNextSave,
-    memoizedPerformanceMetrics,
+    performanceMetrics,
     manualSave,
   ]);
 

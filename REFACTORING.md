@@ -22,15 +22,15 @@ This document outlines the refactoring needs identified in the codebase, priorit
 - Game logic runs at full speed (20-60 FPS), UI updates at 20 FPS
 - Test that game feels responsive while reducing React re-renders
 
-**Step 1.2: Implement State Update Batching**
+**Step 1.2: Implement State Update Batching** ✅ **COMPLETED**
 - Create a `pendingStateUpdates` ref to collect changes
 - Update React state every 50ms (20 FPS) to match game loop frequency
 - Batch multiple tick results into single React state update
 - Keep game logic running smoothly, synchronize UI updates with game updates
 
-**Step 1.3: Optimize Performance Metrics Updates**
+**Step 1.3: Optimize Performance Metrics Updates** ✅ **COMPLETED**
 - Move performance metrics to refs instead of state
-- Update metrics only when displayed (not every 60 frames)
+- Update metrics only when displayed
 - Add cleanup for performance monitoring
 
 **Step 1.4: Memoize Expensive Calculations**

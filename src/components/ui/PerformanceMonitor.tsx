@@ -1,17 +1,10 @@
 import React from 'react';
+import { useGameContext } from '@/lib/game/GameContext';
 import styles from '@/styles/page.module.scss';
 
-interface PerformanceMetrics {
-  tickTime: number;
-  renderTime: number;
-  memoryUsage: number;
-}
+export const PerformanceMonitor: React.FC = () => {
+  const { performanceMetrics } = useGameContext();
 
-interface PerformanceMonitorProps {
-  metrics: PerformanceMetrics;
-}
-
-export const PerformanceMonitor: React.FC<PerformanceMonitorProps> = ({ metrics }) => {
   const formatMemory = (bytes: number): string => {
     if (bytes === 0) return '0 B';
     const k = 1024;
@@ -30,15 +23,15 @@ export const PerformanceMonitor: React.FC<PerformanceMonitorProps> = ({ metrics 
       <div className={styles.section}>
         <div className={styles.row}>
           <span className={styles.tiny}>Tick Time:</span>
-          <span className={styles.pill}>{formatTime(metrics.tickTime)}</span>
+          <span className={styles.pill}>{formatTime(performanceMetrics.tickTime)}</span>
         </div>
         <div className={styles.row}>
           <span className={styles.tiny}>Render Time:</span>
-          <span className={styles.pill}>{formatTime(metrics.renderTime)}</span>
+          <span className={styles.pill}>{formatTime(performanceMetrics.renderTime)}</span>
         </div>
         <div className={styles.row}>
           <span className={styles.tiny}>Memory Usage:</span>
-          <span className={styles.pill}>{formatMemory(metrics.memoryUsage)}</span>
+          <span className={styles.pill}>{formatMemory(performanceMetrics.memoryUsage)}</span>
         </div>
       </div>
     </div>

@@ -34,7 +34,6 @@ export default function GamePage() {
     secondsUntilNextEvent,
     timeUntilNextSave,
     secondsUntilNextSave,
-    performanceMetrics,
   } = useGameContext();
 
   const [prestigeOpen, setPrestigeOpen] = useState(false);
@@ -133,7 +132,7 @@ export default function GamePage() {
         </section>
 
         <section className={`${styles.card} ${styles.fullRow}`}>
-          <PerformanceMonitor metrics={performanceMetrics} />
+          <PerformanceMonitor />
         </section>
       </main>
 
