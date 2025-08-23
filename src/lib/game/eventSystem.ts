@@ -1,6 +1,6 @@
 import { CONFIG, type ResourceKey, type EventKey } from './config';
 import { GAME_CONSTANTS } from './constants';
-import { addResources, getResource } from './gameState';
+import { addResources, getResource, setResource } from './gameState';
 import type { GameState } from './types';
 
 /**
@@ -41,15 +41,17 @@ export function canMakeEventChoice(state: GameState, eventKey: EventKey, choiceI
 }
 
 /**
- * Process an event choice and update game state
+ * Process an event choice and update game state - Pure function
  */
-export function makeEventChoice(state: GameState, eventKey: EventKey, choiceIndex: number): void {
+export function makeEventChoice(state: GameState, eventKey: EventKey, choiceIndex: number): GameState {
   const event = CONFIG.events[eventKey];
   const choice = event.choices[choiceIndex];
-  if (!choice) return;
+  if (!choice) return state;
+  
+  let newState = { ...state };
   
   // Add resources that the choice gives
-  addResources(state, choice.gives);
+  newState = addResources(newState, choice.gives);
   
   // Remove resources that the choice takes
   for (const resource in choice.takes) {
@@ -57,56 +59,63 @@ export function makeEventChoice(state: GameState, eventKey: EventKey, choiceInde
     const amount = choice.takes[rk] || 0;
     if (amount > 0) {
       // For positive amounts, reduce resources (but not below 0)
-      const current = getResource(state, rk);
-      state.resources[rk] = Math.max(GAME_CONSTANTS.GAME.MIN_RESOURCE_AMOUNT, current - amount);
+      const current = getResource(newState, rk);
+      newState = setResource(newState, rk, current - amount);
     } else if (amount < 0) {
       // For negative amounts, add resources (this is for prestige loss)
-      state.resources[rk] = (getResource(state, rk) + amount);
+      newState = setResource(newState, rk, getResource(newState, rk) + amount);
     }
   }
   
   // Record the choice in history
-  state.events.eventHistory.push({
+  newState.events = { ...newState.events };
+  newState.events.eventHistory = [...newState.events.eventHistory, {
     eventKey,
     choiceIndex,
     timestamp: Date.now(),
-  });
+  }];
   
   // Keep only the last N events
-  if (state.events.eventHistory.length > GAME_CONSTANTS.EVENT.HISTORY_MAX_ENTRIES) {
-    state.events.eventHistory = state.events.eventHistory.slice(-GAME_CONSTANTS.EVENT.HISTORY_MAX_ENTRIES);
+  if (newState.events.eventHistory.length > GAME_CONSTANTS.EVENT.HISTORY_MAX_ENTRIES) {
+    newState.events.eventHistory = newState.events.eventHistory.slice(-GAME_CONSTANTS.EVENT.HISTORY_MAX_ENTRIES);
   }
   
   // Clear active event and schedule next one
-  state.events.activeEvent = null;
-  state.events.activeEventStartTime = 0;
+  newState.events.activeEvent = null;
+  newState.events.activeEventStartTime = 0;
   const minInterval = event.minInterval * 1000;
   const maxInterval = event.maxInterval * 1000;
-  state.events.nextEventTime = Date.now() + minInterval + Math.random() * (maxInterval - minInterval);
+  newState.events.nextEventTime = Date.now() + minInterval + Math.random() * (maxInterval - minInterval);
+  
+  return newState;
 }
 
 /**
- * Check and trigger events based on timing
+ * Check and trigger events based on timing - Pure function
  */
-export function checkAndTriggerEvents(state: GameState): void {
+export function checkAndTriggerEvents(state: GameState): GameState {
   const now = Date.now();
+  let newState = { ...state };
   
   // If there's an active event, check if it's been too long (auto-resolve)
-  if (state.events.activeEvent && (now - state.events.activeEventStartTime) > GAME_CONSTANTS.EVENT.AUTO_RESOLVE_TIMEOUT_MS) {
+  if (newState.events.activeEvent && (now - newState.events.activeEventStartTime) > GAME_CONSTANTS.EVENT.AUTO_RESOLVE_TIMEOUT_MS) {
     // Auto-resolve by choosing the default choice
-    const event = CONFIG.events[state.events.activeEvent];
+    const event = CONFIG.events[newState.events.activeEvent];
     const defaultChoiceIndex = event.defaultChoiceIndex || 0;
-    makeEventChoice(state, state.events.activeEvent, defaultChoiceIndex);
+    newState = makeEventChoice(newState, newState.events.activeEvent, defaultChoiceIndex);
   }
   
   // Check if it's time for a new event
-  if (!state.events.activeEvent && now >= state.events.nextEventTime) {
+  if (!newState.events.activeEvent && now >= newState.events.nextEventTime) {
     const eventKey = triggerRandomEvent();
     if (eventKey) {
-      state.events.activeEvent = eventKey;
-      state.events.activeEventStartTime = now;
+      newState.events = { ...newState.events };
+      newState.events.activeEvent = eventKey;
+      newState.events.activeEventStartTime = now;
     }
   }
+  
+  return newState;
 }
 
 /**

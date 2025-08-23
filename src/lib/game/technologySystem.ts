@@ -1,5 +1,5 @@
 import { CONFIG, type TechnologyKey, type ResourceKey } from './config';
-import { getResource, addResources } from './gameState';
+import { getResource, addResources, setResource, setTechnologyLevel } from './gameState';
 import type { GameState } from './types';
 
 /**
@@ -49,58 +49,68 @@ export function canResearchTechnology(state: GameState, technologyKey: Technolog
 }
 
 /**
- * Start researching a technology
+ * Start researching a technology - Pure function
  */
-export function startResearch(state: GameState, technologyKey: TechnologyKey): boolean {
-  if (!canResearchTechnology(state, technologyKey)) return false;
+export function startResearch(state: GameState, technologyKey: TechnologyKey): GameState {
+  if (!canResearchTechnology(state, technologyKey)) return state;
   
   const tech = CONFIG.technologies[technologyKey];
-  if (!tech) return false;
+  if (!tech) return state;
+  
+  let newState = { ...state };
   
   // Deduct resources
   for (const [resource, amount] of Object.entries(tech.baseCost)) {
-    const current = getResource(state, resource as ResourceKey);
-    state.resources[resource as ResourceKey] = Math.max(0, current - amount);
+    const current = getResource(newState, resource as ResourceKey);
+    newState = setResource(newState, resource as ResourceKey, Math.max(0, current - amount));
   }
   
   // Start research
-  state.research.activeResearch = technologyKey;
-  state.research.researchStartTime = Date.now();
-  state.research.researchEndTime = Date.now() + (tech.researchTime * 1000);
+  newState.research = { ...newState.research };
+  newState.research.activeResearch = technologyKey;
+  newState.research.researchStartTime = Date.now();
+  newState.research.researchEndTime = Date.now() + (tech.researchTime * 1000);
   
-  return true;
+  return newState;
 }
 
 /**
- * Check if research is complete and complete it if so
+ * Check if research is complete and complete it if so - Pure function
  */
-export function checkResearchProgress(state: GameState): void {
-  if (!state.research.activeResearch) return;
+export function checkResearchProgress(state: GameState): GameState {
+  if (!state.research.activeResearch) return state;
   
   if (Date.now() >= state.research.researchEndTime) {
-    completeResearch(state, state.research.activeResearch);
+    return completeResearch(state, state.research.activeResearch);
   }
+  
+  return state;
 }
 
 /**
- * Complete research for a technology
+ * Complete research for a technology - Pure function
  */
-export function completeResearch(state: GameState, technologyKey: TechnologyKey): void {
+export function completeResearch(state: GameState, technologyKey: TechnologyKey): GameState {
   const tech = CONFIG.technologies[technologyKey];
-  if (!tech) return;
+  if (!tech) return state;
+  
+  let newState = { ...state };
   
   // Mark as researched
-  state.technologies[technologyKey] = 1;
+  newState = setTechnologyLevel(newState, technologyKey, 1);
   
   // Apply custom effect if any
   if (tech.effect) {
-    tech.effect(state);
+    tech.effect(newState);
   }
   
   // Clear research state
-  state.research.activeResearch = null;
-  state.research.researchStartTime = 0;
-  state.research.researchEndTime = 0;
+  newState.research = { ...newState.research };
+  newState.research.activeResearch = null;
+  newState.research.researchStartTime = 0;
+  newState.research.researchEndTime = 0;
+  
+  return newState;
 }
 
 /**

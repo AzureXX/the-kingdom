@@ -7,32 +7,32 @@ import type { GameState } from './types';
 
 
 /**
- * Pay resources (subtract from state)
+ * Pay resources (subtract from state) - Pure function
  */
-export function pay(state: GameState, cost: Partial<Record<ResourceKey, number>>): void {
+export function pay(state: GameState, cost: Partial<Record<ResourceKey, number>>): GameState {
+  let newState = { ...state };
   for (const r in cost) {
     const rk = r as ResourceKey;
-    const current = getResource(state, rk);
-    setResource(state, rk, current - (cost[rk] || 0));
+    const current = getResource(newState, rk);
+    newState = setResource(newState, rk, current - (cost[rk] || 0));
   }
+  return newState;
 }
 
 /**
- * Buy a building
+ * Buy a building - Pure function
  */
 export function buyBuilding(state: GameState, key: BuildingKey): GameState {
   const cost = costFor(state, key);
   if (!canAfford(state, cost)) return state;
   
-  pay(state, cost);
-  const current = getBuildingCount(state, key);
-  setBuildingCount(state, key, current + 1);
-  
-  return state;
+  const newState = pay(state, cost);
+  const current = getBuildingCount(newState, key);
+  return setBuildingCount(newState, key, current + 1);
 }
 
 /**
- * Buy an upgrade
+ * Buy an upgrade - Pure function
  */
 export function buyUpgrade(state: GameState, key: PrestigeUpgradeKey): GameState {
   if (!canBuyUpgrade(state, key)) return state;
@@ -40,62 +40,61 @@ export function buyUpgrade(state: GameState, key: PrestigeUpgradeKey): GameState
   const currentLevel = getUpgradeLevel(state, key);
   const cost = getUpgradeCost(key, currentLevel);
   
-  const currentPrestige = getResource(state, 'prestige');
-  setResource(state, 'prestige', currentPrestige - cost);
-  setUpgradeLevel(state, key, currentLevel + 1);
-  
-  return state;
+  let newState = { ...state };
+  const currentPrestige = getResource(newState, 'prestige');
+  newState = setResource(newState, 'prestige', currentPrestige - cost);
+  return setUpgradeLevel(newState, key, currentLevel + 1);
 }
 
 /**
- * Perform click action
+ * Perform click action - Pure function
  */
 export function clickAction(state: GameState): GameState {
   const gains = getClickGains(state);
-  addResources(state, gains);
-  state.clicks++;
-  return state;
+  const newState = addResources(state, gains);
+  return { ...newState, clicks: newState.clicks + 1 };
 }
 
 /**
- * Start researching a technology
+ * Start researching a technology - Pure function
  */
 export function researchTechnology(state: GameState, key: TechnologyKey): GameState {
-  startResearch(state, key);
-  return state;
+  return startResearch(state, key);
 }
 
 /**
- * Process game tick (time-based updates)
+ * Process game tick (time-based updates) - Pure function
  */
 export function tick(state: GameState, dtSeconds: number): GameState {
-  const perSec = getPerSec(state);
+  const newState = { ...state };
+  const perSec = getPerSec(newState);
   
+  let currentState = newState;
   for (const r in perSec) {
     const rk = r as ResourceKey;
     const delta = (perSec[rk] || 0) * dtSeconds;
     
     if (delta < 0) {
       // Resource consumption - don't go below 0
-      const have = getResource(state, rk);
+      const have = getResource(currentState, rk);
       const allowed = Math.max(-have, delta);
-      setResource(state, rk, have + allowed);
+      currentState = setResource(currentState, rk, have + allowed);
     } else {
       // Resource production
-      const current = getResource(state, rk);
-      setResource(state, rk, current + delta);
+      const current = getResource(currentState, rk);
+      currentState = setResource(currentState, rk, current + delta);
     }
   }
   
   // Update lifetime food
   const foodDelta = Math.max(0, (perSec.food || 0) * dtSeconds);
-  state.lifetime.food += foodDelta;
+  currentState.lifetime = { ...currentState.lifetime, food: currentState.lifetime.food + foodDelta };
   
-  // Check for events
-  checkAndTriggerEvents(state);
+  // Check for events and update state
+  currentState = checkAndTriggerEvents(currentState);
   
-  // Check research progress
-  checkResearchProgress(state);
+  // Check research progress and update state
+  currentState = checkResearchProgress(currentState);
   
-  return state;
+  return currentState;
 }

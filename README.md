@@ -139,7 +139,7 @@ Spend Prestige on upgrades that persist across prestiges:
 - **Progress Tracking**: Visual progress bar shows research completion
 
 ### Save System
-- **Auto-save**: Automatic local storage saves
+- **Auto-save**: Automatic local storage saves every 30 seconds
 - **Export/Import**: Save files as text for backup/sharing
 - **Hard Reset**: Complete game reset option
 - **Version checking**: Prevents loading incompatible saves
@@ -265,7 +265,7 @@ This modular structure provides:
 
 #### Game Context (`GameContext.tsx`)
 - React Context provider managing global game state
-- Real-time game loop with requestAnimationFrame
+- **Optimized game loop** with fixed timestep and proper state management
 - Event handlers for user interactions
 - Technology research management
 - Auto-save scheduling with setInterval (every 30 seconds)

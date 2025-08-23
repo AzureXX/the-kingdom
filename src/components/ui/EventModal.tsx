@@ -25,12 +25,8 @@ export function EventModal({ isOpen, onClose }: EventModalProps) {
   const handleChoice = (choiceIndex: number) => {
     if (!state) return;
     
-    setState((s) => {
-      if (!s) return s;
-      const next = { ...s };
-      makeEventChoice(next, eventKey, choiceIndex);
-      return next;
-    });
+    const nextState = makeEventChoice(state, eventKey, choiceIndex);
+    setState(nextState);
     
     onClose();
   };

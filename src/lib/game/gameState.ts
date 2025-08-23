@@ -38,10 +38,10 @@ export function initNewGame(): GameState {
 }
 
 /**
- * Update the game timestamp
+ * Update the game timestamp - Pure function
  */
-export function updateTimestamp(state: GameState): void {
-  state.t = Date.now();
+export function updateTimestamp(state: GameState): GameState {
+  return { ...state, t: Date.now() };
 }
 
 /**
@@ -52,10 +52,13 @@ export function getResource(state: GameState, resourceKey: ResourceKey): number 
 }
 
 /**
- * Set a resource value
+ * Set a resource value - Pure function
  */
-export function setResource(state: GameState, resourceKey: ResourceKey, value: number): void {
-  state.resources[resourceKey] = Math.max(GAME_CONSTANTS.GAME.MIN_RESOURCE_AMOUNT, value);
+export function setResource(state: GameState, resourceKey: ResourceKey, value: number): GameState {
+  const newState = { ...state };
+  newState.resources = { ...newState.resources };
+  newState.resources[resourceKey] = Math.max(GAME_CONSTANTS.GAME.MIN_RESOURCE_AMOUNT, value);
+  return newState;
 }
 
 /**
@@ -66,10 +69,13 @@ export function getBuildingCount(state: GameState, buildingKey: string): number 
 }
 
 /**
- * Set building count
+ * Set building count - Pure function
  */
-export function setBuildingCount(state: GameState, buildingKey: string, count: number): void {
-  state.buildings[buildingKey as keyof typeof state.buildings] = Math.max(0, count);
+export function setBuildingCount(state: GameState, buildingKey: string, count: number): GameState {
+  const newState = { ...state };
+  newState.buildings = { ...newState.buildings };
+  newState.buildings[buildingKey as keyof typeof state.buildings] = Math.max(0, count);
+  return newState;
 }
 
 /**
@@ -80,21 +86,26 @@ export function getUpgradeLevel(state: GameState, upgradeKey: string): number {
 }
 
 /**
- * Set upgrade level
+ * Set upgrade level - Pure function
  */
-export function setUpgradeLevel(state: GameState, upgradeKey: string, level: number): void {
-  state.upgrades[upgradeKey as keyof typeof state.upgrades] = Math.max(0, level);
+export function setUpgradeLevel(state: GameState, upgradeKey: string, level: number): GameState {
+  const newState = { ...state };
+  newState.upgrades = { ...newState.upgrades };
+  newState.upgrades[upgradeKey as keyof typeof state.upgrades] = Math.max(0, level);
+  return newState;
 }
 
 /**
- * Add resources to the game state
+ * Add resources to the game state - Pure function
  */
-export function addResources(state: GameState, obj: Partial<Record<ResourceKey, number>>): void {
+export function addResources(state: GameState, obj: Partial<Record<ResourceKey, number>>): GameState {
+  let newState = { ...state };
   for (const r in obj) {
     const rk = r as ResourceKey;
-    const current = getResource(state, rk);
-    setResource(state, rk, current + (obj[rk] || 0));
+    const current = getResource(newState, rk);
+    newState = setResource(newState, rk, current + (obj[rk] || 0));
   }
+  return newState;
 }
 
 /**
@@ -105,10 +116,13 @@ export function getTechnologyLevel(state: GameState, technologyKey: string): num
 }
 
 /**
- * Set technology level
+ * Set technology level - Pure function
  */
-export function setTechnologyLevel(state: GameState, technologyKey: string, level: number): void {
-  state.technologies[technologyKey as keyof typeof state.technologies] = Math.max(0, level);
+export function setTechnologyLevel(state: GameState, technologyKey: string, level: number): GameState {
+  const newState = { ...state };
+  newState.technologies = { ...newState.technologies };
+  newState.technologies[technologyKey as keyof typeof state.technologies] = Math.max(0, level);
+  return newState;
 }
 
 /**

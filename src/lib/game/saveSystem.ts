@@ -26,8 +26,8 @@ export function doSave(state: GameState): void {
   if (typeof window === 'undefined') return;
   
   try {
-    updateTimestamp(state);
-    localStorage.setItem(SAVE_KEY, JSON.stringify(state));
+    const updatedState = updateTimestamp(state);
+    localStorage.setItem(SAVE_KEY, JSON.stringify(updatedState));
   } catch {
     // ignore save errors
   }
@@ -84,18 +84,15 @@ export function hasSave(): boolean {
 /**
  * Get time until next save in seconds
  */
-export function getTimeUntilNextSave(lastSavedAt: number | null, gameStartTime?: number): number {
-  const now = Date.now();
-  
+export function getTimeUntilNextSave(lastSavedAt: number | null, currentTime: number): number {
   if (!lastSavedAt) {
-    // If no save yet, calculate from game start time or current time
-    const startTime = gameStartTime || now;
-    const timeSinceStart = now - startTime;
-    const timeUntilNextSave = GAME_CONSTANTS.SAVE_INTERVAL_MS - (timeSinceStart % GAME_CONSTANTS.SAVE_INTERVAL_MS);
+    // If no save yet, calculate from current time
+    const timeSinceStart = currentTime % GAME_CONSTANTS.SAVE_INTERVAL_MS;
+    const timeUntilNextSave = GAME_CONSTANTS.SAVE_INTERVAL_MS - timeSinceStart;
     return Math.max(0, Math.ceil(timeUntilNextSave / 1000));
   }
   
-  const timeSinceLastSave = now - lastSavedAt;
+  const timeSinceLastSave = currentTime - lastSavedAt;
   const timeUntilNextSave = GAME_CONSTANTS.SAVE_INTERVAL_MS - timeSinceLastSave;
   
   return Math.max(0, Math.ceil(timeUntilNextSave / 1000));
@@ -104,8 +101,8 @@ export function getTimeUntilNextSave(lastSavedAt: number | null, gameStartTime?:
 /**
  * Get formatted time until next save
  */
-export function getFormattedTimeUntilNextSave(lastSavedAt: number | null, gameStartTime?: number): string {
-  const seconds = getTimeUntilNextSave(lastSavedAt, gameStartTime);
+export function getFormattedTimeUntilNextSave(lastSavedAt: number | null, currentTime: number): string {
+  const seconds = getTimeUntilNextSave(lastSavedAt, currentTime);
   
   if (seconds <= 0) {
     return 'Saving...';
