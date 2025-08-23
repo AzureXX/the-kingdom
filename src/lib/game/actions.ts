@@ -1,26 +1,45 @@
 import { type ResourceKey, type BuildingKey, type PrestigeUpgradeKey, type TechnologyKey } from './config';
-import { getResource, setResource, getBuildingCount, setBuildingCount, getUpgradeLevel, setUpgradeLevel, addResources } from './gameState';
+import { 
+  getResource, 
+  getBuildingCount, 
+  getUpgradeLevel, 
+  addResources, 
+  updateMultipleResources,
+  updateBuildingCount,
+  updateUpgradeLevel,
+  updateResource
+} from './gameState';
 import { costFor, canAfford, getClickGains, getUpgradeCost, canBuyUpgrade, getPerSec } from './calculations';
 import { checkAndTriggerEvents } from './eventSystem';
 import { startResearch, checkResearchProgress } from './technologySystem';
 import type { GameState } from './types';
 
-
 /**
- * Pay resources (subtract from state) - Pure function
+ * Pay resources (subtract from state) - Optimized pure function
  */
 export function pay(state: GameState, cost: Partial<Record<ResourceKey, number>>): GameState {
-  let newState = { ...state };
+  if (Object.keys(cost).length === 0) return state;
+  
+  const resourceUpdates: Partial<Record<ResourceKey, number>> = {};
+  let hasChanges = false;
+  
   for (const r in cost) {
     const rk = r as ResourceKey;
-    const current = getResource(newState, rk);
-    newState = setResource(newState, rk, current - (cost[rk] || 0));
+    const current = getResource(state, rk);
+    const newValue = current - (cost[rk] || 0);
+    
+    if (newValue !== current) {
+      resourceUpdates[rk] = newValue;
+      hasChanges = true;
+    }
   }
-  return newState;
+  
+  if (!hasChanges) return state;
+  return updateMultipleResources(state, resourceUpdates);
 }
 
 /**
- * Buy a building - Pure function
+ * Buy a building - Optimized pure function
  */
 export function buyBuilding(state: GameState, key: BuildingKey): GameState {
   const cost = costFor(state, key);
@@ -28,11 +47,11 @@ export function buyBuilding(state: GameState, key: BuildingKey): GameState {
   
   const newState = pay(state, cost);
   const current = getBuildingCount(newState, key);
-  return setBuildingCount(newState, key, current + 1);
+  return updateBuildingCount(newState, key, current + 1);
 }
 
 /**
- * Buy an upgrade - Pure function
+ * Buy an upgrade - Optimized pure function
  */
 export function buyUpgrade(state: GameState, key: PrestigeUpgradeKey): GameState {
   if (!canBuyUpgrade(state, key)) return state;
@@ -40,18 +59,26 @@ export function buyUpgrade(state: GameState, key: PrestigeUpgradeKey): GameState
   const currentLevel = getUpgradeLevel(state, key);
   const cost = getUpgradeCost(key, currentLevel);
   
-  let newState = { ...state };
-  const currentPrestige = getResource(newState, 'prestige');
-  newState = setResource(newState, 'prestige', currentPrestige - cost);
-  return setUpgradeLevel(newState, key, currentLevel + 1);
+  const currentPrestige = getResource(state, 'prestige');
+  const newPrestige = currentPrestige - cost;
+  
+  // Only update if prestige actually changed
+  if (newPrestige === currentPrestige) return state;
+  
+  const newState = updateResource(state, 'prestige', newPrestige);
+  return updateUpgradeLevel(newState, key, currentLevel + 1);
 }
 
 /**
- * Perform click action - Pure function
+ * Perform click action - Optimized pure function
  */
 export function clickAction(state: GameState): GameState {
   const gains = getClickGains(state);
   const newState = addResources(state, gains);
+  
+  // Only update clicks if it actually changed
+  if (newState.clicks === state.clicks) return newState;
+  
   return { ...newState, clicks: newState.clicks + 1 };
 }
 
@@ -63,38 +90,63 @@ export function researchTechnology(state: GameState, key: TechnologyKey): GameSt
 }
 
 /**
- * Process game tick (time-based updates) - Pure function
+ * Process game tick (time-based updates) - Optimized pure function
  */
 export function tick(state: GameState, dtSeconds: number): GameState {
-  const newState = { ...state };
-  const perSec = getPerSec(newState);
+  const perSec = getPerSec(state);
   
-  let currentState = newState;
+  // Calculate all resource changes first
+  const resourceUpdates: Partial<Record<ResourceKey, number>> = {};
+  let hasResourceChanges = false;
+  
   for (const r in perSec) {
     const rk = r as ResourceKey;
     const delta = (perSec[rk] || 0) * dtSeconds;
     
-    if (delta < 0) {
-      // Resource consumption - don't go below 0
-      const have = getResource(currentState, rk);
-      const allowed = Math.max(-have, delta);
-      currentState = setResource(currentState, rk, have + allowed);
-    } else {
-      // Resource production
-      const current = getResource(currentState, rk);
-      currentState = setResource(currentState, rk, current + delta);
+    if (delta !== 0) {
+      const currentValue = state.resources[rk] || 0;
+      let newValue: number;
+      
+      if (delta < 0) {
+        // Resource consumption - don't go below 0
+        newValue = Math.max(0, currentValue + delta);
+      } else {
+        // Resource production
+        newValue = currentValue + delta;
+      }
+      
+      if (newValue !== currentValue) {
+        resourceUpdates[rk] = newValue;
+        hasResourceChanges = true;
+      }
     }
   }
   
-  // Update lifetime food
+  // Calculate lifetime food change
   const foodDelta = Math.max(0, (perSec.food || 0) * dtSeconds);
-  currentState.lifetime = { ...currentState.lifetime, food: currentState.lifetime.food + foodDelta };
+  const hasLifetimeChange = foodDelta > 0;
+  
+  // If no changes, return original state
+  if (!hasResourceChanges && !hasLifetimeChange) {
+    return state;
+  }
+  
+  // Apply resource updates
+  let newState = hasResourceChanges ? updateMultipleResources(state, resourceUpdates) : state;
+  
+  // Apply lifetime changes if needed
+  if (hasLifetimeChange) {
+    newState = {
+      ...newState,
+      lifetime: { ...newState.lifetime, food: newState.lifetime.food + foodDelta }
+    };
+  }
   
   // Check for events and update state
-  currentState = checkAndTriggerEvents(currentState);
+  newState = checkAndTriggerEvents(newState);
   
   // Check research progress and update state
-  currentState = checkResearchProgress(currentState);
+  newState = checkResearchProgress(newState);
   
-  return currentState;
+  return newState;
 }

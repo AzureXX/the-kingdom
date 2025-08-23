@@ -62,6 +62,102 @@ export function setResource(state: GameState, resourceKey: ResourceKey, value: n
 }
 
 /**
+ * Optimized state update functions using structural sharing
+ */
+
+/**
+ * Update a resource value with structural sharing - Pure function
+ */
+export function updateResource(state: GameState, resourceKey: ResourceKey, value: number): GameState {
+  const currentValue = state.resources[resourceKey] || 0;
+  if (currentValue === value) return state;
+  
+  return {
+    ...state,
+    resources: {
+      ...state.resources,
+      [resourceKey]: Math.max(GAME_CONSTANTS.GAME.MIN_RESOURCE_AMOUNT, value)
+    }
+  };
+}
+
+/**
+ * Update multiple resources at once - Pure function
+ */
+export function updateMultipleResources(state: GameState, updates: Partial<Record<ResourceKey, number>>): GameState {
+  if (Object.keys(updates).length === 0) return state;
+  
+  const newResources = { ...state.resources };
+  let hasChanges = false;
+  
+  for (const [key, value] of Object.entries(updates)) {
+    const resourceKey = key as ResourceKey;
+    const currentValue = newResources[resourceKey] || 0;
+    const newValue = Math.max(GAME_CONSTANTS.GAME.MIN_RESOURCE_AMOUNT, value);
+    
+    if (currentValue !== newValue) {
+      newResources[resourceKey] = newValue;
+      hasChanges = true;
+    }
+  }
+  
+  if (!hasChanges) return state;
+  
+  return {
+    ...state,
+    resources: newResources
+  };
+}
+
+/**
+ * Update building count with structural sharing - Pure function
+ */
+export function updateBuildingCount(state: GameState, buildingKey: string, count: number): GameState {
+  const currentCount = state.buildings[buildingKey as keyof typeof state.buildings] || 0;
+  if (currentCount === count) return state;
+  
+  return {
+    ...state,
+    buildings: {
+      ...state.buildings,
+      [buildingKey]: Math.max(0, count)
+    }
+  };
+}
+
+/**
+ * Update upgrade level with structural sharing - Pure function
+ */
+export function updateUpgradeLevel(state: GameState, upgradeKey: string, level: number): GameState {
+  const currentLevel = state.upgrades[upgradeKey as keyof typeof state.upgrades] || 0;
+  if (currentLevel === level) return state;
+  
+  return {
+    ...state,
+    upgrades: {
+      ...state.upgrades,
+      [upgradeKey]: Math.max(0, level)
+    }
+  };
+}
+
+/**
+ * Update technology level with structural sharing - Pure function
+ */
+export function updateTechnologyLevel(state: GameState, technologyKey: string, level: number): GameState {
+  const currentLevel = state.technologies[technologyKey as keyof typeof state.technologies] || 0;
+  if (currentLevel === level) return state;
+  
+  return {
+    ...state,
+    technologies: {
+      ...state.technologies,
+      [technologyKey]: Math.max(0, level)
+    }
+  };
+}
+
+/**
  * Get building count safely, returning 0 if not found
  */
 export function getBuildingCount(state: GameState, buildingKey: string): number {

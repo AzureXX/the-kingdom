@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useCallback, useEffect, useMemo, useRef, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useCallback, useEffect, useMemo, useState, ReactNode } from 'react';
 import { type BuildingKey, type PrestigeUpgradeKey, type ResourceKey, type TechnologyKey } from './config';
 import {
   buyBuilding,
@@ -16,6 +16,9 @@ import {
   loadSave,
   getFormattedTimeUntilNextSave,
   getTimeUntilNextSave,
+  processOfflineProgress,
+  debouncedSave,
+  flushPendingSave,
 } from './saveSystem';
 import {
   getPerSec,
@@ -59,6 +62,11 @@ export interface GameContextType {
   secondsUntilNextEvent: number;
   timeUntilNextSave: string;
   secondsUntilNextSave: number;
+  performanceMetrics: {
+    tickTime: number;
+    renderTime: number;
+    memoryUsage: number;
+  };
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -71,12 +79,11 @@ export function GameProvider({ children }: GameProviderProps) {
   const [state, setState] = useState<GameState | null>(null);
   const [lastSavedAt, setLastSavedAt] = useState<number | null>(null);
   const [currentTime, setCurrentTime] = useState<number>(Date.now());
-  
-  // Use refs to avoid recreating objects on every render
-  const raf = useRef<number | null>(null);
-  const lastTickTime = useRef<number>(Date.now());
-  const stateRef = useRef<GameState | null>(null);
-  const tickAccumulator = useRef<number>(0);
+  const [performanceMetrics, setPerformanceMetrics] = useState({
+    tickTime: 0,
+    renderTime: 0,
+    memoryUsage: 0
+  });
   
   // Memoized values to prevent unnecessary recalculations
   const perSec = useMemo(() => state ? getPerSec(state) : {}, [state]);
@@ -87,11 +94,6 @@ export function GameProvider({ children }: GameProviderProps) {
   const timeUntilNextSave = useMemo(() => getFormattedTimeUntilNextSave(lastSavedAt, currentTime), [lastSavedAt, currentTime]);
   const secondsUntilNextSave = useMemo(() => getTimeUntilNextSave(lastSavedAt, currentTime), [lastSavedAt, currentTime]);
 
-  // Update state ref when state changes
-  useEffect(() => {
-    stateRef.current = state;
-  }, [state]);
-
   // Timer to update display every second
   useEffect(() => {
     const timer = setInterval(() => {
@@ -101,18 +103,20 @@ export function GameProvider({ children }: GameProviderProps) {
     return () => clearInterval(timer);
   }, []);
 
-  // Simple interval-based save system
+  // Simple interval-based save system with debouncing
   useEffect(() => {
     const interval = setInterval(() => {
-      const currentState = stateRef.current;
-      if (currentState) {
-        doSave(currentState);
+      if (state) {
+        debouncedSave(state);
         setLastSavedAt(Date.now());
       }
     }, GAME_CONSTANTS.SAVE_INTERVAL_MS);
     
-    return () => clearInterval(interval);
-  }, []);
+    return () => {
+      clearInterval(interval);
+      flushPendingSave(); // Ensure pending saves are processed
+    };
+  }, [state]);
 
   // Load initial game state
   useEffect(() => {
@@ -121,7 +125,6 @@ export function GameProvider({ children }: GameProviderProps) {
       if (!saved) {
         const newState = initNewGame();
         setState(newState);
-        stateRef.current = newState;
       } else {
         const now = Date.now();
         const last = saved.t || now;
@@ -129,119 +132,95 @@ export function GameProvider({ children }: GameProviderProps) {
           GAME_CONSTANTS.OFFLINE_PROGRESS_CAP_HOURS * 60 * 60, 
           Math.max(0, (now - last) / 1000)
         );
+        
         if (dt > 0) {
-          let processedState = { ...saved };
-          // Process offline progress in chunks to avoid overwhelming the system
-          const maxChunk = 60; // 1 minute chunks
-          let remainingTime = dt;
-          while (remainingTime > 0) {
-            const chunk = Math.min(remainingTime, maxChunk);
-            processedState = tick(processedState, chunk);
-            remainingTime -= chunk;
-          }
+          // Use optimized offline progress processing
+          const processedState = processOfflineProgress(saved, dt);
           setState(processedState);
-          stateRef.current = processedState;
         } else {
           setState(saved);
-          stateRef.current = saved;
         }
       }
     }
   }, [state]);
 
-  // Optimized game loop with fixed timestep
+  // Simplified game loop with fixed timestep and performance monitoring
   useEffect(() => {
     if (!state) return;
     
-    const tickRate = GAME_CONSTANTS.TICK_RATE;
-    const tickInterval = 1000 / tickRate;
-    const maxStep = GAME_CONSTANTS.MAX_TICK_STEP;
+    const interval = setInterval(() => {
+      const startTime = performance.now();
+      
+      setState(currentState => {
+        if (!currentState) return currentState;
+        
+        const tickStart = performance.now();
+        const newState = tick(currentState, 1 / GAME_CONSTANTS.TICK_RATE);
+        const tickEnd = performance.now();
+        
+        // Update performance metrics
+        setPerformanceMetrics(prev => ({
+          ...prev,
+          tickTime: tickEnd - tickStart,
+          memoryUsage: 'memory' in performance ? (performance as Performance & { memory: { usedJSHeapSize: number } }).memory.usedJSHeapSize : 0
+        }));
+        
+        return newState;
+      });
+      
+      const endTime = performance.now();
+      setPerformanceMetrics(prev => ({
+        ...prev,
+        renderTime: endTime - startTime
+      }));
+    }, 1000 / GAME_CONSTANTS.TICK_RATE);
     
-    function gameLoop() {
-      const now = Date.now();
-      const deltaTime = now - lastTickTime.current;
-      lastTickTime.current = now;
-      
-      // Accumulate time and process ticks
-      tickAccumulator.current += deltaTime;
-      
-      if (tickAccumulator.current >= tickInterval) {
-        const currentState = stateRef.current || state;
-        if (currentState) {
-          // Process multiple ticks if needed
-          let processedState = { ...currentState };
-          while (tickAccumulator.current >= tickInterval) {
-            const step = Math.min(tickInterval / 1000, maxStep);
-            processedState = tick(processedState, step);
-            tickAccumulator.current -= tickInterval;
-          }
-          
-          // Update both the ref and React state
-          stateRef.current = processedState;
-          setState(processedState);
-        }
-      }
-      
-      raf.current = requestAnimationFrame(gameLoop);
-    }
-    
-    raf.current = requestAnimationFrame(gameLoop);
-    return () => {
-      if (raf.current) {
-        cancelAnimationFrame(raf.current);
-        raf.current = null;
-      }
-    };
+    return () => clearInterval(interval);
   }, [state]);
 
-  // Optimized action handlers that work with the ref-based system
+  // Optimized action handlers using functional state updates
   const handleClick = useCallback(() => {
-    if (!stateRef.current) return;
-    
-    const nextState = clickAction({ ...stateRef.current });
-    stateRef.current = nextState;
-    setState(nextState);
+    setState(currentState => {
+      if (!currentState) return currentState;
+      return clickAction(currentState);
+    });
   }, []);
 
   const handleBuyBuilding = useCallback((key: BuildingKey) => {
-    if (!stateRef.current) return;
-    
-    const nextState = buyBuilding({ ...stateRef.current }, key);
-    stateRef.current = nextState;
-    setState(nextState);
+    setState(currentState => {
+      if (!currentState) return currentState;
+      return buyBuilding(currentState, key);
+    });
   }, []);
 
   const handleBuyUpgrade = useCallback((key: PrestigeUpgradeKey) => {
-    if (!stateRef.current) return;
-    
-    const nextState = buyUpgrade({ ...stateRef.current }, key);
-    stateRef.current = nextState;
-    setState(nextState);
+    setState(currentState => {
+      if (!currentState) return currentState;
+      return buyUpgrade(currentState, key);
+    });
   }, []);
 
   const handleResearchTechnology = useCallback((key: TechnologyKey) => {
-    if (!stateRef.current) return;
-    
-    const nextState = researchTechnology({ ...stateRef.current }, key);
-    stateRef.current = nextState;
-    setState(nextState);
+    setState(currentState => {
+      if (!currentState) return currentState;
+      return researchTechnology(currentState, key);
+    });
   }, []);
 
   const handleDoPrestige = useCallback(() => {
-    if (!stateRef.current) return;
-    
-    const nextState = doPrestige({ ...stateRef.current });
-    stateRef.current = nextState;
-    setState(nextState);
+    setState(currentState => {
+      if (!currentState) return currentState;
+      return doPrestige(currentState);
+    });
   }, []);
 
-  const doExport = useCallback(() => stateRef.current ? exportSave(stateRef.current) : '', []);
+  const doExport = useCallback(() => state ? exportSave(state) : '', [state]);
   const doImport = useCallback((str: string) => {
     const loaded = importSave(str);
     if (loaded) {
-      stateRef.current = loaded;
+      flushPendingSave(); // Clear any pending saves
       setState(loaded);
-      doSave(loaded);
+      doSave(loaded); // Immediate save of imported data
       setLastSavedAt(Date.now());
       return true;
     }
@@ -273,13 +252,14 @@ export function GameProvider({ children }: GameProviderProps) {
     handleDoPrestige,
     doExport,
     doImport,
-    costFor: (key: BuildingKey) => stateRef.current ? costFor(stateRef.current, key) : {},
-    canAfford: (cost: Partial<Record<ResourceKey, number>>) => stateRef.current ? canAfford(stateRef.current, cost) : false,
+    costFor: (key: BuildingKey) => state ? costFor(state, key) : {},
+    canAfford: (cost: Partial<Record<ResourceKey, number>>) => state ? canAfford(state, cost) : false,
     lastSavedAt,
     timeUntilNextEvent,
     secondsUntilNextEvent,
     timeUntilNextSave,
     secondsUntilNextSave,
+    performanceMetrics,
   };
 
   return (

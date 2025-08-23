@@ -2,6 +2,7 @@ import { CONFIG, SAVE_KEY } from './config';
 import { GAME_CONSTANTS } from './constants';
 import { safeJsonParse, encodeBase64, decodeBase64 } from './utils';
 import { updateTimestamp } from './gameState';
+import { tick } from './actions';
 import type { GameState } from './types';
 
 /**
@@ -115,5 +116,52 @@ export function getFormattedTimeUntilNextSave(lastSavedAt: number | null, curren
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
   } else {
     return `${seconds}s`;
+  }
+}
+
+/**
+ * Optimized offline progress processing - calculates all progress in a single pass
+ */
+export function processOfflineProgress(savedState: GameState, dtSeconds: number): GameState {
+  if (dtSeconds <= 0) return savedState;
+  
+  // Use a single large tick instead of multiple small ones
+  // This is more efficient and avoids the overhead of multiple state copies
+  return tick(savedState, dtSeconds);
+}
+
+/**
+ * Debounced save function to reduce save frequency
+ */
+let saveTimeout: NodeJS.Timeout | null = null;
+let pendingState: GameState | null = null;
+
+export function debouncedSave(state: GameState): void {
+  pendingState = state;
+  
+  if (saveTimeout) {
+    clearTimeout(saveTimeout);
+  }
+  
+  saveTimeout = setTimeout(() => {
+    if (pendingState) {
+      doSave(pendingState);
+      pendingState = null;
+    }
+  }, 1000); // Save after 1 second of inactivity
+}
+
+/**
+ * Force immediate save of pending state
+ */
+export function flushPendingSave(): void {
+  if (saveTimeout) {
+    clearTimeout(saveTimeout);
+    saveTimeout = null;
+  }
+  
+  if (pendingState) {
+    doSave(pendingState);
+    pendingState = null;
   }
 }

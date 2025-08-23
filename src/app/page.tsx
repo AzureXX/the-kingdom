@@ -11,6 +11,7 @@ import { Modal } from '@/components/ui/Modal';
 import { EventModal } from '@/components/ui/EventModal';
 import { EventNotification } from '@/components/ui/EventNotification';
 import { SvgSprites } from '@/components/ui/SvgSprites';
+import { PerformanceMonitor } from '@/components/ui/PerformanceMonitor';
 import { GAME_CONSTANTS } from '@/lib/game/constants';
 import { getSaveTimeLabel } from '@/lib/game/utils';
 import { getPrestigeFormula } from '@/lib/game/prestigeSystem';
@@ -35,6 +36,7 @@ export default function GamePage() {
     secondsUntilNextEvent,
     timeUntilNextSave,
     secondsUntilNextSave,
+    performanceMetrics,
   } = useGameContext();
 
   const [prestigeOpen, setPrestigeOpen] = useState(false);
@@ -131,6 +133,10 @@ export default function GamePage() {
             state={state} 
             onBuyUpgrade={handleBuyUpgrade} 
           />
+        </section>
+
+        <section className={`${styles.card} ${styles.fullRow}`}>
+          <PerformanceMonitor metrics={performanceMetrics} />
         </section>
       </main>
 
