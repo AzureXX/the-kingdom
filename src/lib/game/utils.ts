@@ -29,17 +29,7 @@ export function formatNumber(n: number, dec = 0): string {
   return n.toFixed(dec);
 }
 
-/**
- * Calculates time difference and returns human-readable label
- */
-export function getSaveTimeLabel(lastSavedAt: number | null): string {
-  if (!lastSavedAt) return 'never';
-  
-  const diff = Date.now() - lastSavedAt;
-  if (diff < GAME_CONSTANTS.SAVE_LABEL_THRESHOLDS.JUST_NOW_MS) return 'just now';
-  
-  return 'a moment ago';
-}
+
 
 /**
  * Safely parses JSON with error handling

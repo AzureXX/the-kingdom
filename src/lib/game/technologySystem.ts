@@ -1,5 +1,5 @@
 import { CONFIG, type TechnologyKey, type ResourceKey } from './config';
-import { getResource, addResources, setResource, setTechnologyLevel } from './gameState';
+import { getResource, setResource, setTechnologyLevel } from './gameState';
 import type { GameState } from './types';
 
 /**

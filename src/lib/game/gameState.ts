@@ -1,4 +1,4 @@
-import { CONFIG, type ResourceKey, type TechnologyKey } from './config';
+import { CONFIG, type ResourceKey, type TechnologyKey, type BuildingKey, type PrestigeUpgradeKey } from './config';
 import { GAME_CONSTANTS } from './constants';
 import type { GameState } from './types';
 
@@ -112,8 +112,8 @@ export function updateMultipleResources(state: GameState, updates: Partial<Recor
 /**
  * Update building count with structural sharing - Pure function
  */
-export function updateBuildingCount(state: GameState, buildingKey: string, count: number): GameState {
-  const currentCount = state.buildings[buildingKey as keyof typeof state.buildings] || 0;
+export function updateBuildingCount(state: GameState, buildingKey: BuildingKey, count: number): GameState {
+  const currentCount = state.buildings[buildingKey] || 0;
   if (currentCount === count) return state;
   
   return {
@@ -128,8 +128,8 @@ export function updateBuildingCount(state: GameState, buildingKey: string, count
 /**
  * Update upgrade level with structural sharing - Pure function
  */
-export function updateUpgradeLevel(state: GameState, upgradeKey: string, level: number): GameState {
-  const currentLevel = state.upgrades[upgradeKey as keyof typeof state.upgrades] || 0;
+export function updateUpgradeLevel(state: GameState, upgradeKey: PrestigeUpgradeKey, level: number): GameState {
+  const currentLevel = state.upgrades[upgradeKey] || 0;
   if (currentLevel === level) return state;
   
   return {
@@ -144,8 +144,8 @@ export function updateUpgradeLevel(state: GameState, upgradeKey: string, level: 
 /**
  * Update technology level with structural sharing - Pure function
  */
-export function updateTechnologyLevel(state: GameState, technologyKey: string, level: number): GameState {
-  const currentLevel = state.technologies[technologyKey as keyof typeof state.technologies] || 0;
+export function updateTechnologyLevel(state: GameState, technologyKey: TechnologyKey, level: number): GameState {
+  const currentLevel = state.technologies[technologyKey] || 0;
   if (currentLevel === level) return state;
   
   return {
@@ -160,34 +160,34 @@ export function updateTechnologyLevel(state: GameState, technologyKey: string, l
 /**
  * Get building count safely, returning 0 if not found
  */
-export function getBuildingCount(state: GameState, buildingKey: string): number {
-  return state.buildings[buildingKey as keyof typeof state.buildings] || 0;
+export function getBuildingCount(state: GameState, buildingKey: BuildingKey): number {
+  return state.buildings[buildingKey] || 0;
 }
 
 /**
  * Set building count - Pure function
  */
-export function setBuildingCount(state: GameState, buildingKey: string, count: number): GameState {
+export function setBuildingCount(state: GameState, buildingKey: BuildingKey, count: number): GameState {
   const newState = { ...state };
   newState.buildings = { ...newState.buildings };
-  newState.buildings[buildingKey as keyof typeof state.buildings] = Math.max(0, count);
+  newState.buildings[buildingKey] = Math.max(0, count);
   return newState;
 }
 
 /**
  * Get upgrade level safely, returning 0 if not found
  */
-export function getUpgradeLevel(state: GameState, upgradeKey: string): number {
-  return state.upgrades[upgradeKey as keyof typeof state.upgrades] || 0;
+export function getUpgradeLevel(state: GameState, upgradeKey: PrestigeUpgradeKey): number {
+  return state.upgrades[upgradeKey] || 0;
 }
 
 /**
  * Set upgrade level - Pure function
  */
-export function setUpgradeLevel(state: GameState, upgradeKey: string, level: number): GameState {
+export function setUpgradeLevel(state: GameState, upgradeKey: PrestigeUpgradeKey, level: number): GameState {
   const newState = { ...state };
   newState.upgrades = { ...newState.upgrades };
-  newState.upgrades[upgradeKey as keyof typeof state.upgrades] = Math.max(0, level);
+  newState.upgrades[upgradeKey] = Math.max(0, level);
   return newState;
 }
 
@@ -207,17 +207,17 @@ export function addResources(state: GameState, obj: Partial<Record<ResourceKey, 
 /**
  * Get technology level safely, returning 0 if not found
  */
-export function getTechnologyLevel(state: GameState, technologyKey: string): number {
-  return state.technologies[technologyKey as keyof typeof state.technologies] || 0;
+export function getTechnologyLevel(state: GameState, technologyKey: TechnologyKey): number {
+  return state.technologies[technologyKey] || 0;
 }
 
 /**
  * Set technology level - Pure function
  */
-export function setTechnologyLevel(state: GameState, technologyKey: string, level: number): GameState {
+export function setTechnologyLevel(state: GameState, technologyKey: TechnologyKey, level: number): GameState {
   const newState = { ...state };
   newState.technologies = { ...newState.technologies };
-  newState.technologies[technologyKey as keyof typeof state.technologies] = Math.max(0, level);
+  newState.technologies[technologyKey] = Math.max(0, level);
   return newState;
 }
 
@@ -242,8 +242,8 @@ export function hasAllRequiredTechnologiesForBuilding(state: GameState, required
 /**
  * Check if a building is unlocked (no tech requirement or tech is researched)
  */
-export function isBuildingUnlocked(state: GameState, buildingKey: string): boolean {
-  const building = CONFIG.buildings[buildingKey as keyof typeof CONFIG.buildings];
+export function isBuildingUnlocked(state: GameState, buildingKey: BuildingKey): boolean {
+  const building = CONFIG.buildings[buildingKey];
   if (!building || !building.requiresTech) return true;
   return hasAllRequiredTechnologiesForBuilding(state, building.requiresTech);
 }
@@ -251,8 +251,8 @@ export function isBuildingUnlocked(state: GameState, buildingKey: string): boole
 /**
  * Get all unlocked buildings
  */
-export function getUnlockedBuildings(state: GameState): string[] {
+export function getUnlockedBuildings(state: GameState): BuildingKey[] {
   return Object.keys(CONFIG.buildings).filter(buildingKey => 
-    isBuildingUnlocked(state, buildingKey)
-  );
+    isBuildingUnlocked(state, buildingKey as BuildingKey)
+  ) as BuildingKey[];
 }

@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import styles from '@/styles/page.module.scss';
 import { CONFIG, type BuildingKey, type ResourceKey, type TechnologyKey } from '@/lib/game/config';
 import { formatNumber } from '@/lib/game/utils';
-import { isBuildingUnlocked, getUnlockedBuildings } from '@/lib/game/gameState';
+import { getUnlockedBuildings } from '@/lib/game/gameState';
 import { canBuyBuilding } from '@/lib/game/calculations';
 import type { GameState } from '@/lib/game/types';
 

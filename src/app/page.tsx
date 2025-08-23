@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styles from '@/styles/page.module.scss';
 import { useGameContext } from '@/lib/game/GameContext';
 import { ResourceDisplay } from '@/components/game/ResourceDisplay';
@@ -13,7 +13,6 @@ import { EventNotification } from '@/components/ui/EventNotification';
 import { SvgSprites } from '@/components/ui/SvgSprites';
 import { PerformanceMonitor } from '@/components/ui/PerformanceMonitor';
 import { GAME_CONSTANTS } from '@/lib/game/constants';
-import { getSaveTimeLabel } from '@/lib/game/utils';
 import { getPrestigeFormula } from '@/lib/game/prestigeSystem';
 import { clearSave } from '@/lib/game/saveSystem';
 
@@ -31,7 +30,6 @@ export default function GamePage() {
     doExport,
     doImport,
     costFor,
-    lastSavedAt,
     timeUntilNextEvent,
     secondsUntilNextEvent,
     timeUntilNextSave,
@@ -42,7 +40,6 @@ export default function GamePage() {
   const [prestigeOpen, setPrestigeOpen] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const saveLabel = useMemo(() => getSaveTimeLabel(lastSavedAt), [lastSavedAt]);
 
   if (!state) {
     return (
