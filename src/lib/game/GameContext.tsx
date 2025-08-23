@@ -117,6 +117,27 @@ export function GameProvider({ children }: GameProviderProps) {
   // This allows multiple game ticks to be processed before updating React state
   const pendingStateUpdatesRef = useRef<GameState | null>(null);
 
+  // Optimized tick function wrapped in useCallback to prevent recreation
+  const processTick = useCallback(() => {
+    const currentState = stateRef.current;
+    if (!currentState) return null;
+    
+    // Measure tick performance
+    const tickStartTime = performance.now();
+    
+    // Run game logic tick - this happens every 50ms (20 FPS)
+    const newState = tick(currentState, 1 / GAME_CONSTANTS.GAME_TICK_RATE);
+    
+    // Measure tick completion time
+    const tickEndTime = performance.now();
+    const tickDuration = tickEndTime - tickStartTime;
+    
+    // Early return if no changes occurred (optimization)
+    if (newState === currentState) return null;
+    
+    return { newState, tickDuration };
+  }, []);
+
   // Memoized values to prevent unnecessary recalculations
   const perSec = useMemo(() => state ? getPerSec(state) : {}, [state]);
   const prestigePotential = useMemo(() => state ? prestigeGain(state) : 0, [state]);
@@ -240,20 +261,11 @@ export function GameProvider({ children }: GameProviderProps) {
     // Game loop: Collects state updates for batching
     // Game logic runs at full speed (20 FPS), but React state updates are batched
     const gameLoopInterval = setInterval(() => {
-      // Use ref-based state access to avoid conflicts with rapid clicks
-      // This ensures the game loop always runs independently
-      const currentState = stateRef.current;
-      if (!currentState) return;
+      // Use optimized tick function
+      const tickResult = processTick();
+      if (!tickResult) return; // Early return if no changes
       
-      // Measure tick performance
-      const tickStartTime = performance.now();
-      
-      // Run game logic tick - this happens every 50ms (20 FPS)
-      const newState = tick(currentState, 1 / GAME_CONSTANTS.GAME_TICK_RATE);
-      
-      // Measure tick completion time
-      const tickEndTime = performance.now();
-      const tickDuration = tickEndTime - tickStartTime;
+      const { newState, tickDuration } = tickResult;
       
       // Collect state updates for batching instead of immediately updating
       pendingStateUpdatesRef.current = newState;
@@ -277,8 +289,9 @@ export function GameProvider({ children }: GameProviderProps) {
         }
         
         // Trigger a re-render of performance display components
+        // Reuse the performanceMetricsRef.current object to reduce object creation
         setPerformanceMetrics({
-          tickTime: tickDuration,
+          tickTime: performanceMetricsRef.current.tickTime,
           renderTime: performanceMetricsRef.current.renderTime,
           memoryUsage: performanceMetricsRef.current.memoryUsage,
         });

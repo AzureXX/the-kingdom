@@ -95,9 +95,10 @@ export function researchTechnology(state: GameState, key: TechnologyKey): GameSt
  * Process game tick (time-based updates) - Optimized pure function
  */
 export function tick(state: GameState, dtSeconds: number): GameState {
-  const perSec = getPerSec(state);
+  // Early return if no time has passed
+  if (dtSeconds <= 0) return state;
   
-
+  const perSec = getPerSec(state);
   
   // Calculate all resource changes first
   const resourceUpdates: Partial<Record<ResourceKey, number>> = {};
@@ -130,15 +131,32 @@ export function tick(state: GameState, dtSeconds: number): GameState {
   const foodDelta = Math.max(0, (perSec.food || 0) * dtSeconds);
   const hasLifetimeChange = foodDelta > 0;
   
+  // Early return if no changes occurred
+  if (!hasResourceChanges && !hasLifetimeChange) {
+    // Still need to check events and research progress
+    let newState = checkAndTriggerEvents(state);
+    newState = checkResearchProgress(newState);
+    
+    // Return original state if no changes in events or research
+    if (newState === state) return state;
+    return newState;
+  }
+  
   // Apply resource updates
   let newState = hasResourceChanges ? updateMultipleResources(state, resourceUpdates) : state;
   
   // Apply lifetime changes if needed
   if (hasLifetimeChange) {
-    newState = {
-      ...newState,
-      lifetime: { ...newState.lifetime, food: newState.lifetime.food + foodDelta }
-    };
+    // Only create new lifetime object if food actually changed
+    const currentLifetimeFood = state.lifetime.food;
+    const newLifetimeFood = currentLifetimeFood + foodDelta;
+    
+    if (newLifetimeFood !== currentLifetimeFood) {
+      newState = {
+        ...newState,
+        lifetime: { ...newState.lifetime, food: newLifetimeFood }
+      };
+    }
   }
   
   // Always check for events and research progress, even if no resource changes
