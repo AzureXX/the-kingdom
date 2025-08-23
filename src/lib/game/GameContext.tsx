@@ -44,6 +44,7 @@ import {
 } from './utils';
 import { GAME_CONSTANTS } from './constants';
 import type { GameState, Multipliers } from './types';
+import { usePerformanceMonitor } from './hooks';
 
 export interface GameContextType {
   state: GameState | null;
@@ -89,25 +90,7 @@ export function GameProvider({ children }: GameProviderProps) {
   const currentTimeRef = useRef<number>(Date.now());
   const [currentTime, setCurrentTime] = useState<number>(Date.now());
   
-  // Performance metrics stored in refs to avoid unnecessary re-renders
-  const performanceMetricsRef = useRef({
-    tickTime: 0,
-    renderTime: 0,
-    memoryUsage: 0
-  });
-  
-  // Performance monitoring state - triggers re-renders when metrics change
-  const [performanceMetrics, setPerformanceMetrics] = useState({
-    tickTime: 0,
-    renderTime: 0,
-    memoryUsage: 0
-  });
-  
-  // Track render start time for performance measurement
-  const renderStartTimeRef = useRef<number>(performance.now());
-  
-  // Track frame count for performance metrics updates
-  const frameCountRef = useRef<number>(0);
+  const { performanceMetrics, updateMetrics, resetRenderTimer } = usePerformanceMonitor(10);
   
   // Use ref to track current state for tick loop to avoid conflicts with rapid clicks
   const stateRef = useRef<GameState | null>(null);
@@ -256,8 +239,6 @@ export function GameProvider({ children }: GameProviderProps) {
     stateRef.current = state;
     pendingStateUpdatesRef.current = state;
     
-    const performanceUpdateInterval = 10; // Update performance metrics every 10 frames (every 500ms at 20 FPS)
-    
     // Game loop: Collects state updates for batching
     // Game logic runs at full speed (20 FPS), but React state updates are batched
     const gameLoopInterval = setInterval(() => {
@@ -270,32 +251,7 @@ export function GameProvider({ children }: GameProviderProps) {
       // Collect state updates for batching instead of immediately updating
       pendingStateUpdatesRef.current = newState;
       
-      frameCountRef.current++;
-      
-      // Update performance metrics in refs (no re-renders)
-      if (frameCountRef.current % performanceUpdateInterval === 0) {
-        // Update tick time with actual measurement
-        performanceMetricsRef.current.tickTime = tickDuration;
-        
-        // Calculate render time (time since last render)
-        const currentTime = performance.now();
-        performanceMetricsRef.current.renderTime = currentTime - renderStartTimeRef.current;
-        renderStartTimeRef.current = currentTime;
-        
-        // Update memory usage if available
-        if ('memory' in performance) {
-          const memoryInfo = (performance as Performance & { memory: { usedJSHeapSize: number } }).memory;
-          performanceMetricsRef.current.memoryUsage = memoryInfo.usedJSHeapSize;
-        }
-        
-        // Trigger a re-render of performance display components
-        // Reuse the performanceMetricsRef.current object to reduce object creation
-        setPerformanceMetrics({
-          tickTime: performanceMetricsRef.current.tickTime,
-          renderTime: performanceMetricsRef.current.renderTime,
-          memoryUsage: performanceMetricsRef.current.memoryUsage,
-        });
-      }
+      updateMetrics(tickDuration);
     }, 1000 / GAME_CONSTANTS.GAME_TICK_RATE);
     
     // React state update interval: Processes batched updates
@@ -319,9 +275,9 @@ export function GameProvider({ children }: GameProviderProps) {
       clearInterval(stateUpdateInterval);
       
       // Cleanup performance monitoring
-      renderStartTimeRef.current = performance.now();
+      resetRenderTimer();
     };
-  }, [state, processTick]);
+  }, [state, processTick, updateMetrics, resetRenderTimer]);
 
   // Optimized action handlers using functional state updates
   const handleClick = useCallback(() => {
