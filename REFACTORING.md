@@ -53,11 +53,13 @@ This document identifies areas in the codebase that would benefit from refactori
 - ✅ Remove unused imports from GameContext
 - ✅ Fully encapsulate time management logic within the hook
 
-**Step 1.5: Extract Action Handlers (2-3 changes)**
-- Create `src/lib/game/hooks/useGameActions.tsx`
-- Move all handleClick, handleBuyBuilding, etc. functions
-- Move action-related memoization
-- Update GameContext to use the new hook
+**Step 1.5: Extract Action Handlers (2-3 changes)** ✅ **COMPLETE**
+- ✅ Create `src/lib/game/hooks/useGameActions.tsx`
+- ✅ Move all handleClick, handleBuyBuilding, etc. functions
+- ✅ Move action-related memoization
+- ✅ Update GameContext to use the new hook
+- ✅ Remove unused imports from GameContext
+- ✅ Fully encapsulate action handlers logic within the hook
 
 **Step 1.6: Extract Memoized Calculations (2-3 changes)**
 - Create `src/lib/game/hooks/useGameCalculations.tsx`

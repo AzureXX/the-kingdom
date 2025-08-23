@@ -2,12 +2,7 @@
 
 import React, { createContext, useContext, useCallback, useEffect, useMemo, useState, useRef, ReactNode } from 'react';
 import { type BuildingKey, type PrestigeUpgradeKey, type ResourceKey, type TechnologyKey, CONFIG } from './config';
-import {
-  buyBuilding,
-  buyUpgrade,
-  clickAction,
-  researchTechnology,
-} from './actions';
+// Action functions are now used by useGameActions hook
 
 import {
   getPerSec,
@@ -23,7 +18,6 @@ import {
 } from './gameState';
 import {
   prestigeGain,
-  doPrestige,
 } from './prestigeSystem';
 // Time management functions are now used by useGameTime hook
 import {
@@ -31,7 +25,7 @@ import {
 } from './utils';
 import { GAME_CONSTANTS } from './constants';
 import type { GameState, Multipliers } from './types';
-import { usePerformanceMonitor, useSaveSystem, useGameLoop, useGameTime } from './hooks';
+import { usePerformanceMonitor, useSaveSystem, useGameLoop, useGameTime, useGameActions } from './hooks';
 
 export interface GameContextType {
   state: GameState | null;
@@ -84,6 +78,9 @@ export function GameProvider({ children }: GameProviderProps) {
     (newState) => setState(newState),
     (tickDuration) => updateMetrics(tickDuration)
   );
+
+  // Use action handlers hook
+  const { handleClick, handleBuyBuilding, handleBuyUpgrade, handleResearchTechnology, handleDoPrestige } = useGameActions(state, setState);
 
   // Memoized values to prevent unnecessary recalculations
   const perSec = useMemo(() => state ? getPerSec(state) : {}, [state]);
@@ -153,41 +150,7 @@ export function GameProvider({ children }: GameProviderProps) {
   // Game loop is now handled by useGameLoop hook
   // Performance monitoring cleanup is handled by the hook
 
-  // Optimized action handlers using functional state updates
-  const handleClick = useCallback(() => {
-    setState(currentState => {
-      if (!currentState) return currentState;
-      return clickAction(currentState);
-    });
-  }, []);
-
-  const handleBuyBuilding = useCallback((key: BuildingKey) => {
-    setState(currentState => {
-      if (!currentState) return currentState;
-      return buyBuilding(currentState, key);
-    });
-  }, []);
-
-  const handleBuyUpgrade = useCallback((key: PrestigeUpgradeKey) => {
-    setState(currentState => {
-      if (!currentState) return currentState;
-      return buyUpgrade(currentState, key);
-    });
-  }, []);
-
-  const handleResearchTechnology = useCallback((key: TechnologyKey) => {
-    setState(currentState => {
-      if (!currentState) return currentState;
-      return researchTechnology(currentState, key);
-    });
-  }, []);
-
-  const handleDoPrestige = useCallback(() => {
-    setState(currentState => {
-      if (!currentState) return currentState;
-      return doPrestige(currentState);
-    });
-  }, []);
+  // Action handlers are now provided by useGameActions hook
 
   const doExport = useCallback(() => state ? exportSaveData(state) : '', [state, exportSaveData]);
   const doImport = useCallback((str: string) => {

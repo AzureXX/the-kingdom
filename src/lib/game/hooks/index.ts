@@ -6,3 +6,5 @@ export { useSaveSystem } from './useSaveSystem';
 export { useGameLoop } from './useGameLoop';
 
 export { useGameTime } from './useGameTime';
+
+export { useGameActions } from './useGameActions';
