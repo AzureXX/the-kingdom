@@ -1,12 +1,15 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { doSave, exportSave, importSave, loadSave, processOfflineProgress } from '../saveSystem';
 import { initNewGame } from '../gameState';
 import { GAME_CONSTANTS } from '../constants';
 import type { GameState } from '../types';
 
-export function useSaveSystem() {
+export function useSaveSystem(
+  state: GameState | null,
+  setState: React.Dispatch<React.SetStateAction<GameState | null>>
+) {
   const [lastSavedAt, setLastSavedAt] = useState<number | null>(null);
-
+  const stateRef = useRef<GameState | null>(null);
   // Load initial game state
   const loadInitialGame = useCallback((): GameState => {
     const saved = loadSave();
@@ -79,6 +82,42 @@ export function useSaveSystem() {
     return null;
   }, []);
 
+  // Export/Import handlers for GameContext interface
+  const doExport = useCallback((): string => {
+    return state ? exportSaveData(state) : '';
+  }, [state, exportSaveData]);
+
+  const doImport = useCallback((text: string): boolean => {
+    const loaded = importSaveData(text);
+    return loaded !== null;
+  }, [importSaveData]);
+
+  // Initial game loading effect
+  useEffect(() => {
+    if (state === null) {
+      const newState = loadInitialGame();
+      setState(newState);
+    }
+  }, [state, loadInitialGame, setState]);
+
+  // State ref synchronization
+  useEffect(() => {
+    stateRef.current = state;
+  }, [state]);
+
+  // Autosave effect
+  useEffect(() => {        
+    const interval = setInterval(() => {
+      if (stateRef.current) {
+        autoSave(stateRef.current);
+      }
+    }, GAME_CONSTANTS.SAVE_INTERVAL_MS);
+    
+    return () => {
+      clearInterval(interval);
+    };
+  }, [autoSave]);
+
   return {
     lastSavedAt,
     loadInitialGame,
@@ -86,5 +125,7 @@ export function useSaveSystem() {
     manualSave,
     exportSaveData,
     importSaveData,
+    doExport,
+    doImport,
   };
 }

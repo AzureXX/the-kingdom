@@ -1,17 +1,9 @@
 "use client";
 
-import React, { createContext, useContext, useCallback, useEffect, useMemo, useState, useRef, ReactNode } from 'react';
+import React, { createContext, useContext, useMemo, useState, ReactNode } from 'react';
 import { type BuildingKey, type PrestigeUpgradeKey, type ResourceKey, type TechnologyKey } from './config';
-// Action functions are now used by useGameActions hook
+import { formatNumber as fmt } from './utils';
 
-// Calculation functions are now used by useGameCalculations hook
-// Game state functions are now used by useGameCalculations hook
-// Prestige functions are now used by useGameCalculations hook
-// Time management functions are now used by useGameTime hook
-import {
-  formatNumber as fmt,
-} from './utils';
-import { GAME_CONSTANTS } from './constants';
 import type { GameState, Multipliers } from './types';
 import { usePerformanceMonitor, useSaveSystem, useGameLoop, useGameTime, useGameActions, useGameCalculations } from './hooks';
 
@@ -54,70 +46,24 @@ interface GameProviderProps {
 }
 
 export function GameProvider({ children }: GameProviderProps) {
+  // Core state management
   const [state, setState] = useState<GameState | null>(null);
-  const stateRef = useRef<GameState | null>(null);
+
+  // Custom hooks for different game systems
   const { performanceMetrics, updateMetrics } = usePerformanceMonitor(10);
-  const { lastSavedAt, loadInitialGame, autoSave, manualSave, exportSaveData, importSaveData } = useSaveSystem();
+  const { lastSavedAt, manualSave, doExport, doImport } = useSaveSystem(state, setState);
   const { timeUntilNextEvent, secondsUntilNextEvent, timeUntilNextSave, secondsUntilNextSave } = useGameTime(state, lastSavedAt);
-  
-  // Use game loop hook
+  const { handleClick, handleBuyBuilding, handleBuyUpgrade, handleResearchTechnology, handleDoPrestige } = useGameActions(state, setState);
+  const { perSec, prestigePotential, multipliers, memoizedCostFor, memoizedCanAfford, clickGains, technologyCosts, upgradeCosts } = useGameCalculations(state);
+
+  // Game loop integration
   useGameLoop(
     state,
     (newState) => setState(newState),
     (tickDuration) => updateMetrics(tickDuration)
   );
 
-  // Use action handlers hook
-  const { handleClick, handleBuyBuilding, handleBuyUpgrade, handleResearchTechnology, handleDoPrestige } = useGameActions(state, setState);
-
-  // Use calculations hook
-  const { perSec, prestigePotential, multipliers, memoizedCostFor, memoizedCanAfford, clickGains, technologyCosts, upgradeCosts } = useGameCalculations(state);
-
-  // Time management is now handled by useGameTime hook
-
-  useEffect(() => {
-    stateRef.current = state;
-  }, [state]);
-
-  // Autosave system
-  useEffect(() => {        
-    const interval = setInterval(() => {
-      if (stateRef.current) {
-        autoSave(stateRef.current);
-      }
-    }, GAME_CONSTANTS.SAVE_INTERVAL_MS);
-    
-    
-    return () => {
-      clearInterval(interval);
-    };
-  }, [autoSave]); 
-
-  // Load initial game state
-  useEffect(() => {
-    if (state === null) {
-      const newState = loadInitialGame();
-      setState(newState);
-    }
-  }, [state, loadInitialGame]);
-
-  // Game loop is now handled by useGameLoop hook
-  // Performance monitoring cleanup is handled by the hook
-
-  // Action handlers are now provided by useGameActions hook
-
-  const doExport = useCallback(() => state ? exportSaveData(state) : '', [state, exportSaveData]);
-  const doImport = useCallback((str: string) => {
-    const loaded = importSaveData(str);
-    if (loaded) {
-      setState(loaded);
-      return true;
-    }
-    return false;
-  }, [importSaveData]);
-
-
-  // Memoize the context value to prevent unnecessary re-renders
+  // Context value creation
   const contextValue = useMemo((): GameContextType => ({
     state,
     setState,
