@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useCallback, useEffect, useMemo, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useCallback, useEffect, useMemo, useState, useRef, ReactNode } from 'react';
 import { type BuildingKey, type PrestigeUpgradeKey, type ResourceKey, type TechnologyKey } from './config';
 import {
   buyBuilding,
@@ -78,12 +78,20 @@ interface GameProviderProps {
 export function GameProvider({ children }: GameProviderProps) {
   const [state, setState] = useState<GameState | null>(null);
   const [lastSavedAt, setLastSavedAt] = useState<number | null>(null);
+  const currentTimeRef = useRef<number>(Date.now());
   const [currentTime, setCurrentTime] = useState<number>(Date.now());
   const [performanceMetrics, setPerformanceMetrics] = useState({
     tickTime: 0,
     renderTime: 0,
     memoryUsage: 0
   });
+  
+  // Use ref to track current state for tick loop to avoid conflicts with rapid clicks
+  const stateRef = useRef<GameState | null>(null);
+  stateRef.current = state;
+
+  // Memoize performance metrics to prevent unnecessary re-renders
+  const memoizedPerformanceMetrics = useMemo(() => performanceMetrics, [performanceMetrics]);
   
   // Memoized values to prevent unnecessary recalculations
   const perSec = useMemo(() => state ? getPerSec(state) : {}, [state]);
@@ -94,22 +102,28 @@ export function GameProvider({ children }: GameProviderProps) {
   const timeUntilNextSave = useMemo(() => getFormattedTimeUntilNextSave(lastSavedAt, currentTime), [lastSavedAt, currentTime]);
   const secondsUntilNextSave = useMemo(() => getTimeUntilNextSave(lastSavedAt, currentTime), [lastSavedAt, currentTime]);
 
-  // Timer to update display every second
+  // Memoized utility functions to prevent recreation
+  const memoizedCostFor = useCallback((key: BuildingKey) => state ? costFor(state, key) : {}, [state]);
+  const memoizedCanAfford = useCallback((cost: Partial<Record<ResourceKey, number>>) => state ? canAfford(state, cost) : false, [state]);
+
+  // Timer to update display every second (optimized to reduce re-renders)
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentTime(Date.now());
+      const now = Date.now();
+      currentTimeRef.current = now;
+      setCurrentTime(now);
     }, 1000);
     
     return () => clearInterval(timer);
   }, []);
 
-  // Simple interval-based save system with debouncing
+  // Optimized save system with debouncing and state change detection
   useEffect(() => {
+    if (!state) return;
+    
     const interval = setInterval(() => {
-      if (state) {
-        debouncedSave(state);
-        setLastSavedAt(Date.now());
-      }
+      debouncedSave(state);
+      setLastSavedAt(Date.now());
     }, GAME_CONSTANTS.SAVE_INTERVAL_MS);
     
     return () => {
@@ -144,35 +158,48 @@ export function GameProvider({ children }: GameProviderProps) {
     }
   }, [state]);
 
-  // Simplified game loop with fixed timestep and performance monitoring
+  // High-frequency game loop (20 FPS) for responsive building production and smooth gameplay
+  // Runs independently of user actions to ensure buildings always produce resources
   useEffect(() => {
     if (!state) return;
+    
+    let frameCount = 0;
+    const performanceUpdateInterval = 60; // Update performance metrics every 60 frames
     
     const interval = setInterval(() => {
       const startTime = performance.now();
       
-      setState(currentState => {
-        if (!currentState) return currentState;
-        
-        const tickStart = performance.now();
-        const newState = tick(currentState, 1 / GAME_CONSTANTS.TICK_RATE);
-        const tickEnd = performance.now();
-        
-        // Update performance metrics
+      // Use ref-based state access to avoid conflicts with rapid clicks
+      // This ensures the tick loop always runs independently
+      const currentState = stateRef.current;
+      if (!currentState) return;
+      
+      const tickStart = performance.now();
+      const newState = tick(currentState, 1 / GAME_CONSTANTS.TICK_RATE);
+      const tickEnd = performance.now();
+      
+      frameCount++;
+      
+      // Update performance metrics less frequently to reduce overhead
+      if (frameCount % performanceUpdateInterval === 0) {
         setPerformanceMetrics(prev => ({
           ...prev,
           tickTime: tickEnd - tickStart,
           memoryUsage: 'memory' in performance ? (performance as Performance & { memory: { usedJSHeapSize: number } }).memory.usedJSHeapSize : 0
         }));
-        
-        return newState;
-      });
+      }
       
-      const endTime = performance.now();
-      setPerformanceMetrics(prev => ({
-        ...prev,
-        renderTime: endTime - startTime
-      }));
+      // Update state with tick results
+      setState(newState);
+      
+      // Update render time less frequently
+      if (frameCount % performanceUpdateInterval === 0) {
+        const endTime = performance.now();
+        setPerformanceMetrics(prev => ({
+          ...prev,
+          renderTime: endTime - startTime
+        }));
+      }
     }, 1000 / GAME_CONSTANTS.TICK_RATE);
     
     return () => clearInterval(interval);
@@ -227,19 +254,10 @@ export function GameProvider({ children }: GameProviderProps) {
     return false;
   }, []);
 
-  // Keyboard event handler
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.code === 'Space') {
-        e.preventDefault();
-        handleClick();
-      }
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [handleClick]);
 
-  const contextValue: GameContextType = {
+
+  // Memoize the context value to prevent unnecessary re-renders
+  const contextValue = useMemo((): GameContextType => ({
     state,
     setState,
     perSec: perSec as Record<ResourceKey, number>,
@@ -252,15 +270,35 @@ export function GameProvider({ children }: GameProviderProps) {
     handleDoPrestige,
     doExport,
     doImport,
-    costFor: (key: BuildingKey) => state ? costFor(state, key) : {},
-    canAfford: (cost: Partial<Record<ResourceKey, number>>) => state ? canAfford(state, cost) : false,
+    costFor: memoizedCostFor,
+    canAfford: memoizedCanAfford,
     lastSavedAt,
     timeUntilNextEvent,
     secondsUntilNextEvent,
     timeUntilNextSave,
     secondsUntilNextSave,
-    performanceMetrics,
-  };
+    performanceMetrics: memoizedPerformanceMetrics,
+  }), [
+    state,
+    setState,
+    perSec,
+    prestigePotential,
+    handleClick,
+    handleBuyBuilding,
+    handleBuyUpgrade,
+    handleResearchTechnology,
+    handleDoPrestige,
+    doExport,
+    doImport,
+    memoizedCostFor,
+    memoizedCanAfford,
+    lastSavedAt,
+    timeUntilNextEvent,
+    secondsUntilNextEvent,
+    timeUntilNextSave,
+    secondsUntilNextSave,
+    memoizedPerformanceMetrics,
+  ]);
 
   return (
     <GameContext.Provider value={contextValue}>

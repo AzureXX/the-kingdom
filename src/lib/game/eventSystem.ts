@@ -68,26 +68,32 @@ export function makeEventChoice(state: GameState, eventKey: EventKey, choiceInde
   }
   
   // Record the choice in history
-  newState.events = { ...newState.events };
-  newState.events.eventHistory = [...newState.events.eventHistory, {
+  const newEventHistory = [...newState.events.eventHistory, {
     eventKey,
     choiceIndex,
     timestamp: Date.now(),
   }];
   
   // Keep only the last N events
-  if (newState.events.eventHistory.length > GAME_CONSTANTS.EVENT.HISTORY_MAX_ENTRIES) {
-    newState.events.eventHistory = newState.events.eventHistory.slice(-GAME_CONSTANTS.EVENT.HISTORY_MAX_ENTRIES);
-  }
+  const trimmedHistory = newEventHistory.length > GAME_CONSTANTS.EVENT.HISTORY_MAX_ENTRIES 
+    ? newEventHistory.slice(-GAME_CONSTANTS.EVENT.HISTORY_MAX_ENTRIES)
+    : newEventHistory;
   
   // Clear active event and schedule next one
-  newState.events.activeEvent = null;
-  newState.events.activeEventStartTime = 0;
   const minInterval = event.minInterval * 1000;
   const maxInterval = event.maxInterval * 1000;
-  newState.events.nextEventTime = Date.now() + minInterval + Math.random() * (maxInterval - minInterval);
+  const nextEventTime = Date.now() + minInterval + Math.random() * (maxInterval - minInterval);
   
-  return newState;
+  return {
+    ...newState,
+    events: {
+      ...newState.events,
+      eventHistory: trimmedHistory,
+      activeEvent: null,
+      activeEventStartTime: 0,
+      nextEventTime
+    }
+  };
 }
 
 /**
@@ -96,6 +102,8 @@ export function makeEventChoice(state: GameState, eventKey: EventKey, choiceInde
 export function checkAndTriggerEvents(state: GameState): GameState {
   const now = Date.now();
   let newState = { ...state };
+  
+
   
   // If there's an active event, check if it's been too long (auto-resolve)
   if (newState.events.activeEvent && (now - newState.events.activeEventStartTime) > GAME_CONSTANTS.EVENT.AUTO_RESOLVE_TIMEOUT_MS) {
@@ -109,9 +117,14 @@ export function checkAndTriggerEvents(state: GameState): GameState {
   if (!newState.events.activeEvent && now >= newState.events.nextEventTime) {
     const eventKey = triggerRandomEvent();
     if (eventKey) {
-      newState.events = { ...newState.events };
-      newState.events.activeEvent = eventKey;
-      newState.events.activeEventStartTime = now;
+      return {
+        ...newState,
+        events: {
+          ...newState.events,
+          activeEvent: eventKey,
+          activeEventStartTime: now
+        }
+      };
     }
   }
   

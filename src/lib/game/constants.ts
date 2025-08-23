@@ -6,7 +6,7 @@ export const GAME_CONSTANTS = {
   MAX_TICK_STEP: 5,
   
   // UI constants
-  TICK_RATE: 10,
+  TICK_RATE: 20,
   NUMBER_FORMAT_THRESHOLD: 1e6,
   NUMBER_FORMAT_DECIMALS: 2,
   
@@ -26,8 +26,8 @@ export const GAME_CONSTANTS = {
   EVENT: {
     AUTO_RESOLVE_TIMEOUT_MS: 30000, // 30 seconds
     HISTORY_MAX_ENTRIES: 50,
-    INITIAL_MIN_INTERVAL_SECONDS: 60,
-    INITIAL_MAX_INTERVAL_SECONDS: 120,
+    INITIAL_MIN_INTERVAL_SECONDS: 10, // Reduced from 60 to 10 seconds for faster initial events
+    INITIAL_MAX_INTERVAL_SECONDS: 30, // Reduced from 120 to 30 seconds for faster initial events
   },
   
   // Game mechanics

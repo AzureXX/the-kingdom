@@ -100,7 +100,7 @@ export default function GamePage() {
             <div className={styles.hr}></div>
             <div className={styles.controls}>
               <button onClick={handleClick} className={styles.button}>Issue Royal Decree (+)</button>
-              <span className={styles.tiny}>Click gains scale with upgrades. Hold <span className={styles.kbd}>Space</span> to auto-click.</span>
+              <span className={styles.tiny}>Click gains scale with upgrades.</span>
               <span className={styles.right}></span>
               <button className={`${styles.button} ${styles.bad}`} onClick={() => setPrestigeOpen(true)}>Ascend to Greater Kingdom (Prestige)</button>
             </div>
@@ -158,7 +158,7 @@ export default function GamePage() {
       >
         <ul>
           <li>Click <em>Issue Royal Decree</em> to gain starter <strong>Gold</strong> and <strong>Food</strong>.</li>
-          <li>Buy buildings. They produce resources every second; some also consume inputs.</li>
+          <li>Buy buildings. They produce resources continuously</li>
           <li>When progress slows, open <em>Ascend to Greater Kingdom</em> to prestige and spend <strong>Prestige</strong> on upgrades.</li>
           <li>Everything is data-driven – you can add new resources or buildings by editing the CONFIG object in the source.</li>
         </ul>

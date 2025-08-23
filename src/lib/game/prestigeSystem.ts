@@ -20,10 +20,15 @@ export function doPrestige(state: GameState): GameState {
   const keepUp = { ...state.upgrades };
   
   const fresh = initNewGame();
-  fresh.resources.prestige = keepPrestige;
-  fresh.upgrades = keepUp;
   
-  return fresh;
+  return {
+    ...fresh,
+    resources: {
+      ...fresh.resources,
+      prestige: keepPrestige
+    },
+    upgrades: keepUp
+  };
 }
 
 /**

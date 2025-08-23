@@ -76,6 +76,8 @@ export function clickAction(state: GameState): GameState {
   const gains = getClickGains(state);
   const newState = addResources(state, gains);
   
+
+  
   // Only update clicks if it actually changed
   if (newState.clicks === state.clicks) return newState;
   
@@ -94,6 +96,8 @@ export function researchTechnology(state: GameState, key: TechnologyKey): GameSt
  */
 export function tick(state: GameState, dtSeconds: number): GameState {
   const perSec = getPerSec(state);
+  
+
   
   // Calculate all resource changes first
   const resourceUpdates: Partial<Record<ResourceKey, number>> = {};
@@ -126,11 +130,6 @@ export function tick(state: GameState, dtSeconds: number): GameState {
   const foodDelta = Math.max(0, (perSec.food || 0) * dtSeconds);
   const hasLifetimeChange = foodDelta > 0;
   
-  // If no changes, return original state
-  if (!hasResourceChanges && !hasLifetimeChange) {
-    return state;
-  }
-  
   // Apply resource updates
   let newState = hasResourceChanges ? updateMultipleResources(state, resourceUpdates) : state;
   
@@ -142,7 +141,8 @@ export function tick(state: GameState, dtSeconds: number): GameState {
     };
   }
   
-  // Check for events and update state
+  // Always check for events and research progress, even if no resource changes
+  // This ensures events trigger even when buildings aren't producing resources
   newState = checkAndTriggerEvents(newState);
   
   // Check research progress and update state

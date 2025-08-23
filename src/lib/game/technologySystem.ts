@@ -66,12 +66,15 @@ export function startResearch(state: GameState, technologyKey: TechnologyKey): G
   }
   
   // Start research
-  newState.research = { ...newState.research };
-  newState.research.activeResearch = technologyKey;
-  newState.research.researchStartTime = Date.now();
-  newState.research.researchEndTime = Date.now() + (tech.researchTime * 1000);
-  
-  return newState;
+  return {
+    ...newState,
+    research: {
+      ...newState.research,
+      activeResearch: technologyKey,
+      researchStartTime: Date.now(),
+      researchEndTime: Date.now() + (tech.researchTime * 1000)
+    }
+  };
 }
 
 /**
@@ -105,12 +108,15 @@ export function completeResearch(state: GameState, technologyKey: TechnologyKey)
   }
   
   // Clear research state
-  newState.research = { ...newState.research };
-  newState.research.activeResearch = null;
-  newState.research.researchStartTime = 0;
-  newState.research.researchEndTime = 0;
-  
-  return newState;
+  return {
+    ...newState,
+    research: {
+      ...newState.research,
+      activeResearch: null,
+      researchStartTime: 0,
+      researchEndTime: 0
+    }
+  };
 }
 
 /**
