@@ -94,9 +94,16 @@ export function getTimeUntilNextSave(lastSavedAt: number | null, currentTime: nu
   }
   
   const timeSinceLastSave = currentTime - lastSavedAt;
-  const timeUntilNextSave = GAME_CONSTANTS.SAVE_INTERVAL_MS - timeSinceLastSave;
+  const timeUntilNextSave = GAME_CONSTANTS.SAVE_INTERVAL_MS - timeSinceLastSave;  
   
-  return Math.max(0, Math.ceil(timeUntilNextSave / 1000));
+  // Return 0 when it's time to save (or slightly past due)
+  if (timeUntilNextSave <= 0) {
+    console.log(`[Debug] Time to save! Returning 0`);
+    return 0;
+  }
+  
+  const result = Math.ceil(timeUntilNextSave / 1000);
+  return result;
 }
 
 /**
@@ -106,6 +113,8 @@ export function getFormattedTimeUntilNextSave(lastSavedAt: number | null, curren
   const seconds = getTimeUntilNextSave(lastSavedAt, currentTime);
   
   if (seconds <= 0) {
+    // If it's time to save or slightly past due, show "Saving..." briefly
+    // This will be updated to the actual countdown once the save completes
     return 'Saving...';
   }
   
@@ -128,40 +137,4 @@ export function processOfflineProgress(savedState: GameState, dtSeconds: number)
   // Use a single large tick instead of multiple small ones
   // This is more efficient and avoids the overhead of multiple state copies
   return tick(savedState, dtSeconds);
-}
-
-/**
- * Debounced save function to reduce save frequency
- */
-let saveTimeout: NodeJS.Timeout | null = null;
-let pendingState: GameState | null = null;
-
-export function debouncedSave(state: GameState): void {
-  pendingState = state;
-  
-  if (saveTimeout) {
-    clearTimeout(saveTimeout);
-  }
-  
-  saveTimeout = setTimeout(() => {
-    if (pendingState) {
-      doSave(pendingState);
-      pendingState = null;
-    }
-  }, 1000); // Save after 1 second of inactivity
-}
-
-/**
- * Force immediate save of pending state
- */
-export function flushPendingSave(): void {
-  if (saveTimeout) {
-    clearTimeout(saveTimeout);
-    saveTimeout = null;
-  }
-  
-  if (pendingState) {
-    doSave(pendingState);
-    pendingState = null;
-  }
 }

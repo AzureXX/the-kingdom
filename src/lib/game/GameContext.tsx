@@ -17,8 +17,6 @@ import {
   getFormattedTimeUntilNextSave,
   getTimeUntilNextSave,
   processOfflineProgress,
-  debouncedSave,
-  flushPendingSave,
 } from './saveSystem';
 import {
   getPerSec,
@@ -67,6 +65,7 @@ export interface GameContextType {
     renderTime: number;
     memoryUsage: number;
   };
+  manualSave: () => void;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -89,6 +88,10 @@ export function GameProvider({ children }: GameProviderProps) {
   // Use ref to track current state for tick loop to avoid conflicts with rapid clicks
   const stateRef = useRef<GameState | null>(null);
   stateRef.current = state;
+  
+  // Ref to collect pending state updates for batching
+  // This allows multiple game ticks to be processed before updating React state
+  const pendingStateUpdatesRef = useRef<GameState | null>(null);
 
   // Memoize performance metrics to prevent unnecessary re-renders
   const memoizedPerformanceMetrics = useMemo(() => performanceMetrics, [performanceMetrics]);
@@ -117,20 +120,21 @@ export function GameProvider({ children }: GameProviderProps) {
     return () => clearInterval(timer);
   }, []);
 
-  // Optimized save system with debouncing and state change detection
-  useEffect(() => {
-    if (!state) return;
-    
+  // Autosave system
+  useEffect(() => {        
     const interval = setInterval(() => {
-      debouncedSave(state);
-      setLastSavedAt(Date.now());
+      if (stateRef.current) {
+        const saveTime = Date.now();
+        doSave(stateRef.current);
+        setLastSavedAt(saveTime);
+      }
     }, GAME_CONSTANTS.SAVE_INTERVAL_MS);
+    
     
     return () => {
       clearInterval(interval);
-      flushPendingSave(); // Ensure pending saves are processed
     };
-  }, [state]);
+  }, []); 
 
   // Load initial game state
   useEffect(() => {
@@ -139,6 +143,11 @@ export function GameProvider({ children }: GameProviderProps) {
       if (!saved) {
         const newState = initNewGame();
         setState(newState);
+        // Immediate save for new games
+        const saveTime = Date.now();
+        doSave(newState);
+        setLastSavedAt(saveTime);
+        console.log(`[Initial Save] New game created and saved at ${new Date(saveTime).toLocaleTimeString()}`);
       } else {
         const now = Date.now();
         const last = saved.t || now;
@@ -151,8 +160,18 @@ export function GameProvider({ children }: GameProviderProps) {
           // Use optimized offline progress processing
           const processedState = processOfflineProgress(saved, dt);
           setState(processedState);
+          // Save the processed state immediately
+          const saveTime = Date.now();
+          doSave(processedState);
+          setLastSavedAt(saveTime);
+          console.log(`[Initial Save] Offline progress processed and saved at ${new Date(saveTime).toLocaleTimeString()}`);
         } else {
           setState(saved);
+          // Save the loaded state immediately to update timestamp
+          const saveTime = Date.now();
+          doSave(saved);
+          setLastSavedAt(saveTime);
+          console.log(`[Initial Save] Existing game loaded and saved at ${new Date(saveTime).toLocaleTimeString()}`);
         }
       }
     }
@@ -163,11 +182,15 @@ export function GameProvider({ children }: GameProviderProps) {
   useEffect(() => {
     if (!state) return;
     
+    // Initialize refs with current state
+    stateRef.current = state;
+    pendingStateUpdatesRef.current = state;
+    
     let frameCount = 0;
     const performanceUpdateInterval = GAME_CONSTANTS.PERFORMANCE_METRICS_UPDATE_INTERVAL; // Update performance metrics every 60 frames
     
-    // Separate game logic from React state updates
-    // Game logic runs at full speed (20 FPS), React state updates at 20 FPS
+    // Game loop: Collects state updates for batching
+    // Game logic runs at full speed (20 FPS), but React state updates are batched
     const gameLoopInterval = setInterval(() => {
       // Use ref-based state access to avoid conflicts with rapid clicks
       // This ensures the game loop always runs independently
@@ -177,8 +200,8 @@ export function GameProvider({ children }: GameProviderProps) {
       // Run game logic tick - this happens every 50ms (20 FPS)
       const newState = tick(currentState, 1 / GAME_CONSTANTS.GAME_TICK_RATE);
       
-      // Update the ref immediately for next tick
-      stateRef.current = newState;
+      // Collect state updates for batching instead of immediately updating
+      pendingStateUpdatesRef.current = newState;
       
       frameCount++;
       
@@ -192,11 +215,19 @@ export function GameProvider({ children }: GameProviderProps) {
       }
     }, 1000 / GAME_CONSTANTS.GAME_TICK_RATE);
     
-    // React state update interval - synchronized with game loop at 20 FPS
+    // React state update interval: Processes batched updates
+    // Synchronized with game loop at 20 FPS, but processes accumulated changes
     const stateUpdateInterval = setInterval(() => {
-      // Update React state with current game state from ref
-      if (stateRef.current) {
-        setState(stateRef.current);
+      // Update React state with batched game state updates
+      if (pendingStateUpdatesRef.current) {
+        // Update React state with the latest batched state
+        setState(pendingStateUpdatesRef.current);
+        
+        // Update stateRef for next tick to use the latest state
+        stateRef.current = pendingStateUpdatesRef.current;
+        
+        // Clear pending updates after processing
+        pendingStateUpdatesRef.current = null;
       }
     }, 1000 / GAME_CONSTANTS.UI_UPDATE_RATE);
     
@@ -246,15 +277,24 @@ export function GameProvider({ children }: GameProviderProps) {
   const doImport = useCallback((str: string) => {
     const loaded = importSave(str);
     if (loaded) {
-      flushPendingSave(); // Clear any pending saves
+      const saveTime = Date.now();
       setState(loaded);
       doSave(loaded); // Immediate save of imported data
-      setLastSavedAt(Date.now());
+      setLastSavedAt(saveTime);
+      console.log(`[Import Save] Imported game saved at ${new Date(saveTime).toLocaleTimeString()}`);
       return true;
     }
     return false;
   }, []);
 
+  const manualSave = useCallback(() => {
+    if (state) {
+      const saveTime = Date.now();
+      doSave(state);
+      setLastSavedAt(saveTime);
+      console.log(`[Manual Save] Game saved at ${new Date(saveTime).toLocaleTimeString()}`);
+    }
+  }, [state]);
 
 
   // Memoize the context value to prevent unnecessary re-renders
@@ -279,6 +319,7 @@ export function GameProvider({ children }: GameProviderProps) {
     timeUntilNextSave,
     secondsUntilNextSave,
     performanceMetrics: memoizedPerformanceMetrics,
+    manualSave,
   }), [
     state,
     setState,
@@ -299,6 +340,7 @@ export function GameProvider({ children }: GameProviderProps) {
     timeUntilNextSave,
     secondsUntilNextSave,
     memoizedPerformanceMetrics,
+    manualSave,
   ]);
 
   return (
