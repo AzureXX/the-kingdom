@@ -44,12 +44,14 @@ This document identifies areas in the codebase that would benefit from refactori
 - ✅ Remove unused imports from GameContext
 - ✅ Fully encapsulate game loop logic within the hook
 
-**Step 1.4: Extract Time Management (2-3 changes)**
-- Create `src/lib/game/hooks/useGameTime.tsx`
-- Move current time state and updates
-- Move event timing calculations
-- Move save timing calculations
-- Update GameContext to use the new hook
+**Step 1.4: Extract Time Management (2-3 changes)** ✅ **COMPLETE**
+- ✅ Create `src/lib/game/hooks/useGameTime.tsx`
+- ✅ Move current time state and updates
+- ✅ Move event timing calculations
+- ✅ Move save timing calculations
+- ✅ Update GameContext to use the new hook
+- ✅ Remove unused imports from GameContext
+- ✅ Fully encapsulate time management logic within the hook
 
 **Step 1.5: Extract Action Handlers (2-3 changes)**
 - Create `src/lib/game/hooks/useGameActions.tsx`

@@ -4,3 +4,5 @@ export type { PerformanceMetrics } from './usePerformanceMonitor';
 export { useSaveSystem } from './useSaveSystem';
 
 export { useGameLoop } from './useGameLoop';
+
+export { useGameTime } from './useGameTime';

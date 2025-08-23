@@ -8,10 +8,7 @@ import {
   clickAction,
   researchTechnology,
 } from './actions';
-import {
-  getFormattedTimeUntilNextSave,
-  getTimeUntilNextSave,
-} from './saveSystem';
+
 import {
   getPerSec,
   costFor,
@@ -28,16 +25,13 @@ import {
   prestigeGain,
   doPrestige,
 } from './prestigeSystem';
-import {
-  getFormattedTimeUntilNextEvent,
-  getTimeUntilNextEvent,
-} from './eventSystem';
+// Time management functions are now used by useGameTime hook
 import {
   formatNumber as fmt,
 } from './utils';
 import { GAME_CONSTANTS } from './constants';
 import type { GameState, Multipliers } from './types';
-import { usePerformanceMonitor, useSaveSystem, useGameLoop } from './hooks';
+import { usePerformanceMonitor, useSaveSystem, useGameLoop, useGameTime } from './hooks';
 
 export interface GameContextType {
   state: GameState | null;
@@ -79,11 +73,10 @@ interface GameProviderProps {
 
 export function GameProvider({ children }: GameProviderProps) {
   const [state, setState] = useState<GameState | null>(null);
-  const currentTimeRef = useRef<number>(Date.now());
-  const [currentTime, setCurrentTime] = useState<number>(Date.now());
   const stateRef = useRef<GameState | null>(null);
   const { performanceMetrics, updateMetrics } = usePerformanceMonitor(10);
   const { lastSavedAt, loadInitialGame, autoSave, manualSave, exportSaveData, importSaveData } = useSaveSystem();
+  const { timeUntilNextEvent, secondsUntilNextEvent, timeUntilNextSave, secondsUntilNextSave } = useGameTime(state, lastSavedAt);
   
   // Use game loop hook
   useGameLoop(
@@ -99,11 +92,7 @@ export function GameProvider({ children }: GameProviderProps) {
   // Memoize multipliers calculation since it's expensive and used by multiple functions
   const multipliers = useMemo(() => state ? getMultipliers(state) : null, [state]);
   
-  // Memoize time calculations to prevent unnecessary recalculations
-  const timeUntilNextEvent = useMemo(() => state ? getFormattedTimeUntilNextEvent(state) : '--', [state]);
-  const secondsUntilNextEvent = useMemo(() => state ? getTimeUntilNextEvent(state) : 0, [state]);
-  const timeUntilNextSave = useMemo(() => getFormattedTimeUntilNextSave(lastSavedAt, currentTime), [lastSavedAt, currentTime]);
-  const secondsUntilNextSave = useMemo(() => getTimeUntilNextSave(lastSavedAt, currentTime), [lastSavedAt, currentTime]);
+  // Time calculations are now handled by useGameTime hook
 
   // Memoized utility functions to prevent recreation
   const memoizedCostFor = useCallback((key: BuildingKey) => state ? costFor(state, key) : {}, [state]);
@@ -133,16 +122,7 @@ export function GameProvider({ children }: GameProviderProps) {
     return costs;
   }, [state]);
 
-  // Timer to update display every second (optimized to reduce re-renders)
-  useEffect(() => {
-    const timer = setInterval(() => {
-      const now = Date.now();
-      currentTimeRef.current = now;
-      setCurrentTime(now);
-    }, 1000);
-    
-    return () => clearInterval(timer);
-  }, []);
+  // Time management is now handled by useGameTime hook
 
   useEffect(() => {
     stateRef.current = state;
