@@ -11,7 +11,7 @@ export const GAME_CONSTANTS = {
   
   // Performance constants
   PERFORMANCE_METRICS_UPDATE_INTERVAL: 60, // Update performance metrics every 60 frames
-  NUMBER_FORMAT_THRESHOLD: 1e6,
+  NUMBER_FORMAT_THRESHOLD: 1000,
   NUMBER_FORMAT_DECIMALS: 2,
   
   // Prestige

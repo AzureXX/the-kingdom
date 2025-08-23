@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useMemo, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useMemo, useState, ReactNode, useRef } from 'react';
 import { type BuildingKey, type PrestigeUpgradeKey, type ResourceKey, type TechnologyKey } from './config';
 import { formatNumber as fmt } from './utils';
 
@@ -63,17 +63,20 @@ export function GameProvider({ children }: GameProviderProps) {
     (tickDuration) => performanceFunctions.updateMetrics(tickDuration)
   );
 
-  // Context value creation with grouped dependencies from hooks
+  const stableFmt = useRef(fmt);
+  const stableSetState = useRef(setState);
+
+  // Context value creation with final optimization
   const contextValue = useMemo((): GameContextType => ({
     state,
-    setState,
+    setState: stableSetState.current,
     perSec: gameCalculations.perSec as Record<ResourceKey, number>,
     prestigePotential: gameCalculations.prestigePotential,
     multipliers: gameCalculations.multipliers,
     clickGains: gameCalculations.clickGains,
     technologyCosts: gameCalculations.technologyCosts,
     upgradeCosts: gameCalculations.upgradeCosts,
-    fmt,
+    fmt: stableFmt.current,
     handleClick: actionHandlers.handleClick,
     handleBuyBuilding: actionHandlers.handleBuyBuilding,
     handleBuyUpgrade: actionHandlers.handleBuyUpgrade,
@@ -91,18 +94,15 @@ export function GameProvider({ children }: GameProviderProps) {
     performanceMetrics,
     manualSave: () => state && manualSave(state),
   }), [
-    // OPTIMIZATION: Using grouped dependencies from hooks
-    // This reduces the dependency count significantly
     state,
-    setState,
-    timeValues,        // 4 time values → 1 dependency
-    actionHandlers,    // 5 action handlers → 1 dependency
-    gameCalculations,  // 6 calculation values → 1 dependency
-    utilityFunctions,  // 2 utility functions → 1 dependency
+    timeValues,
+    actionHandlers,
+    gameCalculations,
+    utilityFunctions,
+    saveFunctions,
     lastSavedAt,
     performanceMetrics,
     manualSave,
-    saveFunctions,
   ]);
 
   return (
