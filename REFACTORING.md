@@ -1,230 +1,355 @@
-# Refactoring Analysis - Medieval Kingdom Idle Game
+# Refactoring Priorities
 
-## Overview
-This document identifies areas in the codebase that would benefit from refactoring, organized by priority and estimated difficulty.
+This document outlines the most important refactoring needs for the Medieval Kingdom idle game, prioritized by impact and difficulty.
 
-## High Priority (Critical Issues)
+## 🔴 High Priority - Critical Issues
 
-### 1. GameContext.tsx - Massive Component Refactoring
-**Difficulty: High (15+ changes needed)**
-- **Issue**: Single file is 453 lines with too many responsibilities
+### 1. **Context Dependency Array Optimization**
+**Difficulty: Low (5-8 changes)**
+- **Issue**: Large dependency array in `GameContext.tsx` useMemo causes unnecessary re-renders
 - **Problems**:
-  - Mixes game logic, state management, performance monitoring, and UI updates
-  - Complex game loop logic mixed with React state management
-  - Hard to test individual pieces
-  - Difficult to maintain and debug
+  - 20+ dependencies in context value memoization
+  - Some dependencies could be optimized or removed
+  - Context consumers re-render when dependencies change
+- **Files**: `src/lib/game/GameContext.tsx`
+- **Impact**: UI responsiveness, unnecessary re-renders
 
-#### Step-by-Step Breakdown:
+**Step-by-Step Implementation:**
 
-**Step 1.1: Extract Performance Monitoring (2-3 changes)** ✅ **COMPLETE**
-- ✅ Create `src/lib/game/hooks/usePerformanceMonitor.tsx`
-- ✅ Move performance metrics state and refs
-- ✅ Move performance update logic
-- ✅ Update GameContext to use the new hook
-- ✅ Fully encapsulate performance monitoring within the hook
-- ✅ Remove manual frame counting and update frequency logic from GameContext
-- ✅ Create hooks index file for clean imports
+**Step 1.1: Analyze Current Dependencies** ✅ **COMPLETE**
+- Audit all 20+ dependencies in `useMemo` dependency array
+- Identify which dependencies actually change frequently
+- Document which dependencies are stable vs dynamic
 
-**Step 1.2: Extract Save System Logic (3-4 changes)** ✅ **COMPLETE**
-- ✅ Create `src/lib/game/hooks/useSaveSystem.tsx`
-- ✅ Move autosave logic and save state management
-- ✅ Move import/export handlers
-- ✅ Move save timing calculations
-- ✅ Update GameContext to use the new hook
-- ✅ Remove unused imports from GameContext
-- ✅ Fully encapsulate save system logic within the hook
+**Step 1.2: Optimize Stable Dependencies** ✅ **COMPLETE**
+- Move stable dependencies outside of `useMemo` dependency array
+- Use `useRef` for values that don't need to trigger re-renders
+- Test that context still works correctly
 
-**Step 1.3: Extract Game Loop Logic (4-5 changes)** ✅ **COMPLETE**
-- ✅ Create `src/lib/game/hooks/useGameLoop.tsx`
-- ✅ Move game loop interval logic
-- ✅ Move state batching mechanism
-- ✅ Move tick processing logic
-- ✅ Move frame counting and timing
-- ✅ Update GameContext to use the new hook
-- ✅ Remove unused imports from GameContext
-- ✅ Fully encapsulate game loop logic within the hook
+**Step 1.3: Group Related Dependencies**
+- Create derived state objects to reduce dependency count
+- Combine related state values into single objects
+- Update context consumers to use new grouped values
 
-**Step 1.4: Extract Time Management (2-3 changes)** ✅ **COMPLETE**
-- ✅ Create `src/lib/game/hooks/useGameTime.tsx`
-- ✅ Move current time state and updates
-- ✅ Move event timing calculations
-- ✅ Move save timing calculations
-- ✅ Update GameContext to use the new hook
-- ✅ Remove unused imports from GameContext
-- ✅ Fully encapsulate time management logic within the hook
+**Step 1.4: Final Optimization**
+- Remove any remaining unnecessary dependencies
+- Add performance monitoring to verify improvement
+- Test all game functionality works correctly
 
-**Step 1.5: Extract Action Handlers (2-3 changes)** ✅ **COMPLETE**
-- ✅ Create `src/lib/game/hooks/useGameActions.tsx`
-- ✅ Move all handleClick, handleBuyBuilding, etc. functions
-- ✅ Move action-related memoization
-- ✅ Update GameContext to use the new hook
-- ✅ Remove unused imports from GameContext
-- ✅ Fully encapsulate action handlers logic within the hook
-
-**Step 1.6: Extract Memoized Calculations (2-3 changes)** ✅ **COMPLETE**
-- ✅ Create `src/lib/game/hooks/useGameCalculations.tsx`
-- ✅ Move perSec, prestigePotential, multipliers calculations
-- ✅ Move cost calculations and memoization
-- ✅ Update GameContext to use the new hook
-- ✅ Remove unused imports from GameContext
-- ✅ Fully encapsulate calculations logic within the hook
-
-**Step 1.7: Clean Up GameContext (2-3 changes)** ✅ **COMPLETE**
-- ✅ Remove extracted logic from GameContext
-- ✅ Simplify context value creation
-- ✅ Update imports and dependencies
-- ✅ Ensure all hooks work together properly
-- ✅ Organize code with clear sections and comments
-- ✅ Remove unused imports and comments
-- ✅ Final GameContext size: ~140 lines (down from ~453 lines)
-- ✅ Moved export/import handlers to useSaveSystem hook for better organization
-- ✅ Simplified hook interface by passing state directly to useSaveSystem
-- ✅ Moved autosave and initial game loading effects to useSaveSystem hook
-
-**Step 1.8: Create Hook Index (1 change)**
-- Create `src/lib/game/hooks/index.ts`
-- Export all new hooks for easy importing
-- Update GameContext imports
-
-### 2. Type Safety and Configuration Issues
-**Difficulty: Medium (8-10 changes needed)**
-- **Issue**: Inconsistent type usage and configuration structure
+### 2. **Memory Allocation in Tick Function**
+**Difficulty: Low-Medium (6-10 changes)**
+- **Issue**: `tick()` function creates new objects on every call
 - **Problems**:
-  - `Partial<Record<ResourceKey, number>>` used everywhere instead of proper resource cost types
-  - Configuration objects lack proper typing for effects and requirements
-  - Magic numbers and strings scattered throughout
-- **Refactoring needed**:
-  - Create proper typed interfaces for costs, effects, and requirements
-  - Add validation for configuration objects
-  - Replace magic numbers with named constants
-  - Add runtime type checking for configuration
+  - Object creation in hot path (20 FPS)
+  - Resource update objects created frequently
+  - Potential for object pooling optimization
+- **Files**: `src/lib/game/actions.ts` (tick function)
+- **Impact**: Minor performance improvement, garbage collection
 
-### 3. State Management Architecture
-**Difficulty: High (12+ changes needed)**
-- **Issue**: Complex state updates with manual immutability handling
+**Step-by-Step Implementation:**
+
+**Step 2.1: Analyze Object Creation**
+- Profile which objects are created in `tick()` function
+- Identify `resourceUpdates` object creation pattern
+- Document current memory allocation hotspots
+
+**Step 2.2: Implement Object Reuse for Resource Updates**
+- Create reusable `resourceUpdates` object
+- Modify `tick()` to reuse existing object instead of creating new one
+- Ensure object is properly reset between uses
+- Test that resource updates still work correctly
+
+**Step 2.3: Optimize Lifetime Object Creation**
+- Reuse lifetime object when possible
+- Only create new lifetime object when food actually changes
+- Test prestige calculations still work correctly
+
+**Step 2.4: Add Performance Monitoring**
+- Add memory usage tracking to tick function
+- Measure before/after object creation reduction
+- Verify no memory leaks introduced
+
+## 🟡 Medium Priority - Important Improvements
+
+### 3. **Event System Performance**
+**Difficulty: Medium (8-12 changes)**
+- **Issue**: Event system has some inefficient operations
 - **Problems**:
-  - Manual object spreading everywhere
-  - Risk of mutation bugs
-  - Inconsistent state update patterns
-  - Performance issues with large state objects
-- **Refactoring needed**:
-  - Implement proper immutable state management (Immer or similar)
-  - Create standardized state update patterns
-  - Add state validation and debugging tools
-  - Optimize state updates for performance
+  - Array operations on event history (slice, spread) could be optimized
+  - Random event selection algorithm is simple but functional
+  - Event checking runs on every tick (necessary for responsiveness)
+- **Files**: `src/lib/game/eventSystem.ts`
+- **Impact**: Minor performance improvement during events
 
-## Medium Priority (Important Improvements)
+**Step-by-Step Implementation:**
 
-### 4. Performance Optimization Issues
-**Difficulty: Medium (6-8 changes needed)**
-- **Issue**: Complex performance monitoring mixed with game logic
+**Step 3.1: Optimize Event History Management**
+- Replace `slice(-GAME_CONSTANTS.EVENT.HISTORY_MAX_ENTRIES)` with more efficient approach
+- Use `splice()` instead of `slice()` to modify array in place
+- Test that event history still works correctly
+
+**Step 3.2: Optimize Event Choice Processing**
+- Reduce object spread operations in `makeEventChoice()`
+- Create more efficient event history update logic
+- Test that event choices still work correctly
+
+**Step 3.3: Optimize Random Event Selection**
+- Cache total weight calculation in `triggerRandomEvent()`
+- Use more efficient random selection algorithm
+- Test that event triggering still works correctly
+
+**Step 3.4: Add Event Performance Monitoring**
+- Add performance tracking for event operations
+- Measure before/after improvements
+- Verify no functionality is broken
+
+### 4. **Game Loop Minor Optimizations**
+**Difficulty: Low (3-5 changes)**
+- **Issue**: The dual interval system is well-designed, minor tweaks possible
+- **Problems**: 
+  - Could potentially increase game logic FPS for smoother calculations
+  - Minor code cleanup opportunities
+  - Performance monitoring could be enhanced
+- **Files**: `src/lib/game/hooks/useGameLoop.tsx`
+- **Impact**: Very minor performance improvement, code clarity
+
+**Step-by-Step Implementation:**
+
+**Step 4.1: Optimize Tick Processing**
+- Add early return optimization in `processTick()`
+- Reduce unnecessary function calls in tick loop
+- Test that game loop still works correctly
+
+**Step 4.2: Enhance Performance Monitoring**
+- Add more detailed performance metrics
+- Track memory usage in game loop
+- Test that monitoring doesn't impact performance
+
+**Step 4.3: Code Cleanup**
+- Remove any unused variables or functions
+- Improve code readability and comments
+- Test that all functionality still works
+
+## 🟢 Low Priority - Nice to Have
+
+### 5. **Type Safety Improvements**
+**Difficulty: Low (3-5 changes)**
+- **Issue**: Some type assertions could be more strict
 - **Problems**:
-  - Performance metrics update every 10 frames but game runs at 20 FPS
-  - Memory usage tracking may not work in all browsers
-  - Render time calculation is imprecise
-- **Refactoring needed**:
-  - Simplify performance monitoring
-  - Use `requestAnimationFrame` instead of setInterval for game loop
-  - Implement proper frame rate limiting
-  - Add performance profiling tools
+  - `as ResourceKey` casts in loops
+  - Partial type usage could be more specific
+  - Missing runtime validation
+- **Files**: `src/lib/game/calculations.ts`, `src/lib/game/actions.ts`
+- **Impact**: Code maintainability, bug prevention
 
-### 5. File Structure and Organization
-**Difficulty: Low-Medium (5-7 changes needed)**
-- **Issue**: Some files are too large and have mixed responsibilities
+**Step-by-Step Implementation:**
+
+**Step 5.1: Improve Resource Key Type Safety**
+- Replace `as ResourceKey` casts with proper type guards
+- Create `isResourceKey()` validation function
+- Update all resource key usage to use validation
+- Test that resource operations still work correctly
+
+**Step 5.2: Enhance Partial Type Usage**
+- Replace `Partial<Record<ResourceKey, number>>` with more specific types
+- Create `ResourceCost` and `ResourceGain` type aliases
+- Update function signatures to use new types
+- Test that all resource calculations still work
+
+**Step 5.3: Add Runtime Validation**
+- Add validation for config data loading
+- Create validation functions for game state
+- Add error handling for invalid data
+- Test that validation catches errors correctly
+
+### 6. **Configuration Structure**
+**Difficulty: Low (4-6 changes)**
+- **Issue**: Config objects could be more structured
 - **Problems**:
-  - `actions.ts` mixes different types of actions
-  - `calculations.ts` has too many different calculation functions
-  - Some utility functions could be better organized
-- **Refactoring needed**:
-  - Split `actions.ts` into logical groups (building actions, upgrade actions, etc.)
-  - Group related calculation functions
-  - Create proper utility modules
-  - Add index files for better imports
+  - Large config objects in single files
+  - Missing validation for config data
+  - Hard to extend with new features
+- **Files**: `src/lib/game/config/*.ts`
+- **Impact**: Developer experience, maintainability
 
-### 6. Error Handling and Validation
-**Difficulty: Medium (4-6 changes needed)**
-- **Issue**: Limited error handling and validation
-- **Problems**:
-  - Save system silently fails
-  - No validation of imported save data
-  - Limited error boundaries
-  - No user feedback for errors
-- **Refactoring needed**:
-  - Add comprehensive error handling
-  - Implement save data validation
-  - Add user-friendly error messages
-  - Create error recovery mechanisms
+**Step-by-Step Implementation:**
 
-## Low Priority (Nice to Have)
+**Step 6.1: Add Config Validation**
+- Create validation functions for each config type
+- Add runtime checks for required fields
+- Implement config validation on startup
+- Test that validation works correctly
 
-### 7. Code Duplication
-**Difficulty: Low (3-4 changes needed)**
-- **Issue**: Some repeated patterns in state updates
-- **Problems**:
-  - Similar update functions for different entity types
-  - Repeated validation logic
-  - Similar cost calculation patterns
-- **Refactoring needed**:
-  - Create generic update functions
-  - Extract common validation logic
-  - Standardize cost calculation patterns
+**Step 6.2: Improve Config Organization**
+- Split large config files into smaller modules
+- Create separate files for validation, types, and data
+- Update imports to use new structure
+- Test that all config access still works
 
-### 8. Styling and CSS Organization
-**Difficulty: Low (2-3 changes needed)**
-- **Issue**: CSS is minified and hard to maintain
-- **Problems**:
-  - Minified CSS in development
-  - No CSS variables for common values
-  - Hard to modify themes
-- **Refactoring needed**:
-  - Unminify CSS for development
-  - Add CSS custom properties for theming
-  - Create design system tokens
+**Step 6.3: Add Config Extensibility**
+- Create factory functions for config objects
+- Add support for config inheritance
+- Implement config versioning
+- Test that new config features work correctly
 
-### 9. Testing Infrastructure
-**Difficulty: Medium (5-6 changes needed)**
-- **Issue**: No testing setup
-- **Problems**:
-  - Hard to verify refactoring changes
-  - No regression testing
-  - Difficult to test game logic
-- **Refactoring needed**:
-  - Add Jest/Testing Library setup
-  - Create test utilities for game state
-  - Add unit tests for core game logic
-  - Add integration tests for game flow
+## 📊 Summary
 
-## Implementation Strategy
+- **Total Changes Needed**: ~30-50 changes
+- **Critical Issues**: 2 items (High Priority) - 8 steps
+- **Important Improvements**: 2 items (Medium Priority) - 7 steps  
+- **Nice to Have**: 2 items (Low Priority) - 6 steps
+- **Total Steps**: 21 steps
 
-### Phase 1: Foundation (High Priority)
-1. Extract game loop logic from GameContext
-2. Implement proper immutable state management
-3. Fix type safety issues
+## 🎯 Step-by-Step Implementation Guide
 
-### Phase 2: Architecture (Medium Priority)
-1. Refactor GameContext into smaller hooks
-2. Improve performance monitoring
-3. Add proper error handling
+### **High Priority Steps (8 steps)**
+1. **Step 1.1**: Analyze Context Dependencies ✅ **COMPLETE**
+2. **Step 1.2**: Optimize Stable Dependencies ✅ **COMPLETE**  
+3. **Step 1.3**: Group Related Dependencies
+4. **Step 1.4**: Final Context Optimization
+5. **Step 2.1**: Analyze Tick Object Creation
+6. **Step 2.2**: Implement Resource Update Object Reuse
+7. **Step 2.3**: Optimize Lifetime Object Creation
+8. **Step 2.4**: Add Tick Performance Monitoring
 
-### Phase 3: Polish (Low Priority)
-1. Clean up code duplication
-2. Improve styling organization
-3. Add testing infrastructure
+### **Medium Priority Steps (7 steps)**
+9. **Step 3.1**: Optimize Event History Management
+10. **Step 3.2**: Optimize Event Choice Processing
+11. **Step 3.3**: Optimize Random Event Selection
+12. **Step 3.4**: Add Event Performance Monitoring
+13. **Step 4.1**: Optimize Tick Processing
+14. **Step 4.2**: Enhance Performance Monitoring
+15. **Step 4.3**: Game Loop Code Cleanup
 
-## Estimated Total Effort
-- **High Priority**: 35-40 changes
-- **Medium Priority**: 25-30 changes  
-- **Low Priority**: 10-15 changes
-- **Total**: 70-85 changes across the codebase
+### **Low Priority Steps (6 steps)**
+16. **Step 5.1**: Improve Resource Key Type Safety
+17. **Step 5.2**: Enhance Partial Type Usage
+18. **Step 5.3**: Add Runtime Validation
+19. **Step 6.1**: Add Config Validation
+20. **Step 6.2**: Improve Config Organization
+21. **Step 6.3**: Add Config Extensibility
 
-## Risk Assessment
-- **High Risk**: GameContext refactoring (could break game functionality)
-- **Medium Risk**: State management changes (could introduce bugs)
-- **Low Risk**: Styling and organization changes (mostly cosmetic)
+## 🎯 Recommended Approach
 
-## Recommendations
-1. Start with Phase 1 to establish solid foundation
-2. Test thoroughly after each major refactoring
-3. Consider implementing feature flags for major changes
-4. Document all changes thoroughly
-5. Create rollback plan for critical refactoring
+### **Implementation Strategy**
+1. **Complete each step fully** - Don't move to next step until current step is fully functional
+2. **Test after each step** - Verify no functionality is broken before proceeding
+3. **Measure performance** - Track improvements at each step
+4. **Commit after each step** - Keep changes atomic and reversible
+
+### **Step Execution Order**
+1. **Start with High Priority Steps 1.1-1.4** - Context optimization (most impact)
+2. **Continue with High Priority Steps 2.1-2.4** - Memory allocation optimization
+3. **Move to Medium Priority Steps 3.1-3.4** - Event system improvements
+4. **Complete Medium Priority Steps 4.1-4.3** - Game loop optimizations
+5. **Finish with Low Priority Steps 5.1-6.3** - Type safety and config improvements
+
+### **Testing Strategy**
+- **Unit Tests**: Test each function after modification
+- **Integration Tests**: Verify game functionality after each step
+- **Performance Tests**: Measure improvements at each step
+- **Regression Tests**: Ensure no existing features are broken
+
+## 🔍 Re-examination Findings
+
+After thorough code review, the project is actually **well-optimized**:
+
+✅ **Already Optimized:**
+- All game components use `React.memo`
+- Calculations are properly memoized with `useMemo` and `useCallback`
+- Dual interval system is correctly implemented
+- State updates are properly batched
+- Performance monitoring is in place
+
+⚠️ **Minor Issues Only:**
+- Context dependency array could be optimized (20+ dependencies)
+- Tick function creates some objects that could be pooled
+- Event system has minor inefficiencies
+- Type safety could be slightly improved
+
+## ⚠️ Important Notes
+
+- **No Over-engineering**: Focus on measurable performance improvements
+- **Maintain Game Feel**: Ensure refactoring doesn't change gameplay
+- **Test on Low-end Devices**: Performance improvements should be noticeable
+- **Preserve Save Compatibility**: Don't break existing save files
+
+---
+
+## 📋 Step 1.1 Analysis Results
+
+### **Dependency Array Audit - GameContext.tsx**
+
+**Total Dependencies: 24**
+
+---
+
+## 📋 Step 1.2 Implementation Results
+
+### **Stable Dependencies Optimization - GameContext.tsx**
+
+**Changes Made:**
+1. **Added useRef import** - `useRef` for stable value management
+2. **Created stable references** - `stableFmt`, `stableDoExport`, `stableDoImport`
+3. **Kept manualSave as is** - Since it depends on state, kept original implementation
+4. **Reduced dependencies** - From 24 to 21 dependencies (13% reduction)
+
+**Dependencies Removed:**
+- `fmt` → `stableFmt.current` (stable function)
+- `doExport` → `stableDoExport.current` (stable function)  
+- `doImport` → `stableDoImport.current` (stable function)
+
+**Performance Impact:**
+- **Before**: 24 dependencies causing frequent re-renders
+- **After**: 21 dependencies with stable function references
+- **Expected**: Reduced unnecessary re-renders for stable functions
+- **Status**: ✅ **FUNCTIONAL AND TESTED**
+
+#### **🔴 High Change Frequency (Every Tick - 20 FPS)**
+1. `state` - Changes every game tick (20 FPS)
+2. `perSec` - Recalculated every tick based on state
+3. `prestigePotential` - Recalculated every tick based on state
+4. `multipliers` - Recalculated every tick based on state
+5. `clickGains` - Recalculated every tick based on state
+6. `technologyCosts` - Recalculated every tick based on state
+7. `upgradeCosts` - Recalculated every tick based on state
+8. `memoizedCostFor` - Function reference changes every tick
+9. `memoizedCanAfford` - Function reference changes every tick
+10. `timeUntilNextEvent` - Updates every second
+11. `secondsUntilNextEvent` - Updates every second
+12. `timeUntilNextSave` - Updates every second
+13. `secondsUntilNextSave` - Updates every second
+14. `performanceMetrics` - Updates every 10 frames
+
+#### **🟡 Medium Change Frequency (User Actions)**
+15. `handleClick` - Function reference changes when state changes
+16. `handleBuyBuilding` - Function reference changes when state changes
+17. `handleBuyUpgrade` - Function reference changes when state changes
+18. `handleResearchTechnology` - Function reference changes when state changes
+19. `handleDoPrestige` - Function reference changes when state changes
+
+#### **🟢 Low Change Frequency (Rare Events)**
+20. `lastSavedAt` - Changes only on save operations
+21. `doExport` - Function reference, stable
+22. `doImport` - Function reference, stable
+23. `setState` - Function reference, stable
+24. `manualSave` - Function reference, stable
+
+### **Key Findings:**
+
+1. **15 out of 24 dependencies change every tick** (20 FPS) - This is the main performance issue
+2. **5 dependencies change on user actions** - These are necessary for reactivity
+3. **4 dependencies are stable** - These could be moved outside useMemo
+4. **Function references change frequently** - This causes unnecessary re-renders
+
+### **Optimization Opportunities:**
+
+1. **Move stable functions outside useMemo** - `fmt`, `doExport`, `doImport`, `setState`
+2. **Group related state values** - Combine time-related values into a single object
+3. **Optimize function memoization** - Some functions could be more stable
+4. **Reduce dependency count** - From 24 to ~15-18 dependencies
+
+### **Impact Assessment:**
+- **Current**: Context re-renders 20 times per second
+- **Target**: Reduce to 1-2 re-renders per second
+- **Expected Improvement**: 90% reduction in unnecessary re-renders

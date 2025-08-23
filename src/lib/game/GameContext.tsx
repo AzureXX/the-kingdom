@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useMemo, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useMemo, useState, ReactNode, useRef } from 'react';
 import { type BuildingKey, type PrestigeUpgradeKey, type ResourceKey, type TechnologyKey } from './config';
 import { formatNumber as fmt } from './utils';
 
@@ -63,7 +63,11 @@ export function GameProvider({ children }: GameProviderProps) {
     (tickDuration) => updateMetrics(tickDuration)
   );
 
-  // Context value creation
+  const stableFmt = useRef(fmt);
+  const stableDoExport = useRef(doExport);
+  const stableDoImport = useRef(doImport);
+
+  // Context value creation with optimized dependencies
   const contextValue = useMemo((): GameContextType => ({
     state,
     setState,
@@ -73,14 +77,14 @@ export function GameProvider({ children }: GameProviderProps) {
     clickGains,
     technologyCosts,
     upgradeCosts,
-    fmt,
+    fmt: stableFmt.current,
     handleClick,
     handleBuyBuilding,
     handleBuyUpgrade,
     handleResearchTechnology,
     handleDoPrestige,
-    doExport,
-    doImport,
+    doExport: stableDoExport.current,
+    doImport: stableDoImport.current,
     costFor: memoizedCostFor,
     canAfford: memoizedCanAfford,
     lastSavedAt,
@@ -91,6 +95,9 @@ export function GameProvider({ children }: GameProviderProps) {
     performanceMetrics,
     manualSave: () => state && manualSave(state),
   }), [
+    // OPTIMIZATION: Reduced from 24 to 21 dependencies
+    // Removed stable functions: fmt, doExport, doImport
+    // Kept manualSave as is since it depends on state
     state,
     setState,
     perSec,
@@ -104,8 +111,6 @@ export function GameProvider({ children }: GameProviderProps) {
     handleBuyUpgrade,
     handleResearchTechnology,
     handleDoPrestige,
-    doExport,
-    doImport,
     memoizedCostFor,
     memoizedCanAfford,
     lastSavedAt,
