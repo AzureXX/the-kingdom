@@ -10,13 +10,8 @@ import {
   researchTechnology,
 } from './actions';
 import {
-  doSave,
-  exportSave,
-  importSave,
-  loadSave,
   getFormattedTimeUntilNextSave,
   getTimeUntilNextSave,
-  processOfflineProgress,
 } from './saveSystem';
 import {
   getPerSec,
@@ -28,7 +23,6 @@ import {
   getUpgradeCost,
 } from './calculations';
 import {
-  initNewGame,
   getUpgradeLevel,
 } from './gameState';
 import {
@@ -44,7 +38,7 @@ import {
 } from './utils';
 import { GAME_CONSTANTS } from './constants';
 import type { GameState, Multipliers } from './types';
-import { usePerformanceMonitor } from './hooks';
+import { usePerformanceMonitor, useSaveSystem } from './hooks';
 
 export interface GameContextType {
   state: GameState | null;
@@ -86,11 +80,11 @@ interface GameProviderProps {
 
 export function GameProvider({ children }: GameProviderProps) {
   const [state, setState] = useState<GameState | null>(null);
-  const [lastSavedAt, setLastSavedAt] = useState<number | null>(null);
   const currentTimeRef = useRef<number>(Date.now());
   const [currentTime, setCurrentTime] = useState<number>(Date.now());
   
   const { performanceMetrics, updateMetrics, resetRenderTimer } = usePerformanceMonitor(10);
+  const { lastSavedAt, loadInitialGame, autoSave, manualSave, exportSaveData, importSaveData } = useSaveSystem();
   
   // Use ref to track current state for tick loop to avoid conflicts with rapid clicks
   const stateRef = useRef<GameState | null>(null);
@@ -177,9 +171,7 @@ export function GameProvider({ children }: GameProviderProps) {
   useEffect(() => {        
     const interval = setInterval(() => {
       if (stateRef.current) {
-        const saveTime = Date.now();
-        doSave(stateRef.current);
-        setLastSavedAt(saveTime);
+        autoSave(stateRef.current);
       }
     }, GAME_CONSTANTS.SAVE_INTERVAL_MS);
     
@@ -187,48 +179,15 @@ export function GameProvider({ children }: GameProviderProps) {
     return () => {
       clearInterval(interval);
     };
-  }, []); 
+  }, [autoSave]); 
 
   // Load initial game state
   useEffect(() => {
     if (state === null) {
-      const saved = loadSave();
-      if (!saved) {
-        const newState = initNewGame();
-        setState(newState);
-        // Immediate save for new games
-        const saveTime = Date.now();
-        doSave(newState);
-        setLastSavedAt(saveTime);
-        console.log(`[Initial Save] New game created and saved at ${new Date(saveTime).toLocaleTimeString()}`);
-      } else {
-        const now = Date.now();
-        const last = saved.t || now;
-        const dt = Math.min(
-          GAME_CONSTANTS.OFFLINE_PROGRESS_CAP_HOURS * 60 * 60, 
-          Math.max(0, (now - last) / 1000)
-        );
-        
-        if (dt > 0) {
-          // Use optimized offline progress processing
-          const processedState = processOfflineProgress(saved, dt);
-          setState(processedState);
-          // Save the processed state immediately
-          const saveTime = Date.now();
-          doSave(processedState);
-          setLastSavedAt(saveTime);
-          console.log(`[Initial Save] Offline progress processed and saved at ${new Date(saveTime).toLocaleTimeString()}`);
-        } else {
-          setState(saved);
-          // Save the loaded state immediately to update timestamp
-          const saveTime = Date.now();
-          doSave(saved);
-          setLastSavedAt(saveTime);
-          console.log(`[Initial Save] Existing game loaded and saved at ${new Date(saveTime).toLocaleTimeString()}`);
-        }
-      }
+      const newState = loadInitialGame();
+      setState(newState);
     }
-  }, [state]);
+  }, [state, loadInitialGame]);
 
   // High-frequency game loop (20 FPS) for responsive building production and smooth gameplay
   // Runs independently of user actions to ensure buildings always produce resources
@@ -315,28 +274,15 @@ export function GameProvider({ children }: GameProviderProps) {
     });
   }, []);
 
-  const doExport = useCallback(() => state ? exportSave(state) : '', [state]);
+  const doExport = useCallback(() => state ? exportSaveData(state) : '', [state, exportSaveData]);
   const doImport = useCallback((str: string) => {
-    const loaded = importSave(str);
+    const loaded = importSaveData(str);
     if (loaded) {
-      const saveTime = Date.now();
       setState(loaded);
-      doSave(loaded); // Immediate save of imported data
-      setLastSavedAt(saveTime);
-      console.log(`[Import Save] Imported game saved at ${new Date(saveTime).toLocaleTimeString()}`);
       return true;
     }
     return false;
-  }, []);
-
-  const manualSave = useCallback(() => {
-    if (state) {
-      const saveTime = Date.now();
-      doSave(state);
-      setLastSavedAt(saveTime);
-      console.log(`[Manual Save] Game saved at ${new Date(saveTime).toLocaleTimeString()}`);
-    }
-  }, [state]);
+  }, [importSaveData]);
 
 
   // Memoize the context value to prevent unnecessary re-renders
@@ -365,7 +311,7 @@ export function GameProvider({ children }: GameProviderProps) {
     timeUntilNextSave,
     secondsUntilNextSave,
     performanceMetrics,
-    manualSave,
+    manualSave: () => state && manualSave(state),
   }), [
     state,
     setState,
