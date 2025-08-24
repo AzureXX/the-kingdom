@@ -5,7 +5,7 @@ import type { GameState } from './types';
 import { isValidBuildingKey } from './utils';
 import { logInvalidKey, createValidationErrorHandler, createStateErrorHandler } from './utils/errorLogger';
 
-const { resources: RESOURCES, buildings: BUILDINGS, version: CONFIG_VERSION } = CONFIG;
+const { resources: RESOURCES, buildings: BUILDINGS, technologies: TECHNOLOGIES, prestige: PRESTIGE_CONFIG, version: CONFIG_VERSION } = CONFIG;
 
 // Create specialized error handlers for game state
 const validationHandler = createValidationErrorHandler('gameState');
@@ -20,9 +20,9 @@ export function initNewGame(): GameState {
       t: Date.now(),
       resources: {},
       lifetime: { food: 0 },
-      buildings: { woodcutter: 0, quarry: 0, farm: 0, blacksmith: 0, castle: 0, library: 0, university: 0, laboratory: 0 },
-      technologies: { writing: 0, mathematics: 0, engineering: 0, chemistry: 0, physics: 0, biology: 0 },
-      upgrades: { royalDecrees: 0, masterCraftsmen: 0, fertileLands: 0, militaryMight: 0 },
+      buildings: {} as Record<BuildingKey, number>,
+      technologies: {} as Record<TechnologyKey, number>,
+      upgrades: {} as Record<PrestigeUpgradeKey, number>,
       clicks: 0,
       version: CONFIG_VERSION,
       events: {
@@ -42,6 +42,21 @@ export function initNewGame(): GameState {
     for (const k in RESOURCES) {
       const key = k as ResourceKey;
       state.resources[key] = RESOURCES[key].start || 0;
+    }
+    
+    // Initialize buildings dynamically from CONFIG
+    for (const buildingKey of Object.keys(BUILDINGS)) {
+      state.buildings[buildingKey as BuildingKey] = 0;
+    }
+    
+    // Initialize technologies dynamically from CONFIG
+    for (const techKey of Object.keys(TECHNOLOGIES)) {
+      state.technologies[techKey as TechnologyKey] = 0;
+    }
+    
+    // Initialize upgrades dynamically from CONFIG
+    for (const upgradeKey of Object.keys(PRESTIGE_CONFIG.upgrades)) {
+      state.upgrades[upgradeKey as PrestigeUpgradeKey] = 0;
     }
     
     return state;
