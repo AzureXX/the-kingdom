@@ -67,17 +67,18 @@ export function makeEventChoice(state: GameState, eventKey: EventKey, choiceInde
     }
   }
   
-  // Record the choice in history
+  // Record the choice in history - optimized to avoid array recreation
   const newEventHistory = [...newState.events.eventHistory, {
     eventKey,
     choiceIndex,
     timestamp: Date.now(),
   }];
   
-  // Keep only the last N events
-  const trimmedHistory = newEventHistory.length > GAME_CONSTANTS.EVENT.HISTORY_MAX_ENTRIES 
-    ? newEventHistory.slice(-GAME_CONSTANTS.EVENT.HISTORY_MAX_ENTRIES)
-    : newEventHistory;
+  // Keep only the last N events - use in-place modification for better performance
+  if (newEventHistory.length > GAME_CONSTANTS.EVENT.HISTORY_MAX_ENTRIES) {
+    const excess = newEventHistory.length - GAME_CONSTANTS.EVENT.HISTORY_MAX_ENTRIES;
+    newEventHistory.splice(0, excess); // Remove excess entries from the beginning
+  }
   
   // Clear active event and schedule next one
   const minInterval = event.minInterval * 1000;
@@ -88,7 +89,7 @@ export function makeEventChoice(state: GameState, eventKey: EventKey, choiceInde
     ...newState,
     events: {
       ...newState.events,
-      eventHistory: trimmedHistory,
+      eventHistory: newEventHistory,
       activeEvent: null,
       activeEventStartTime: 0,
       nextEventTime
@@ -102,8 +103,6 @@ export function makeEventChoice(state: GameState, eventKey: EventKey, choiceInde
 export function checkAndTriggerEvents(state: GameState): GameState {
   const now = Date.now();
   let newState = { ...state };
-  
-
   
   // If there's an active event, check if it's been too long (auto-resolve)
   if (newState.events.activeEvent && (now - newState.events.activeEventStartTime) > GAME_CONSTANTS.EVENT.AUTO_RESOLVE_TIMEOUT_MS) {
