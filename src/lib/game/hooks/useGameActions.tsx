@@ -54,12 +54,6 @@ export function useGameActions(
   }), [handleClick, handleBuyBuilding, handleBuyUpgrade, handleResearchTechnology, handleDoPrestige]);
 
   return {
-    actionHandlers, // Grouped action handlers
-    // Individual handlers still available for backward compatibility
-    handleClick,
-    handleBuyBuilding,
-    handleBuyUpgrade,
-    handleResearchTechnology,
-    handleDoPrestige,
+    actionHandlers,
   };
 }

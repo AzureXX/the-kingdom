@@ -38,11 +38,6 @@ export function useGameTime(
   return {
     currentTime,
     currentTimeRef,
-    timeValues, // Grouped time values
-    // Individual values still available for backward compatibility
-    timeUntilNextEvent,
-    secondsUntilNextEvent,
-    timeUntilNextSave,
-    secondsUntilNextSave,
+    timeValues,
   };
 }

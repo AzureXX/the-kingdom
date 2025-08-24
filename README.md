@@ -187,6 +187,16 @@ const stateUpdateInterval = setInterval(() => {
 }, 50);
 ```
 
+**Game Loop Design Philosophy:**
+The game loop is intentionally designed to process every tick without early returns because idle games require continuous resource generation and event processing. Each tick (50ms) contains meaningful updates:
+
+- **Resource Production**: Buildings continuously generate resources
+- **Event System**: Random events can trigger at any time
+- **Research Progress**: Technology research advances continuously
+- **Time-based Mechanics**: Save timers, event timers, etc.
+
+The built-in `if (newState === currentState) return null;` check in `useGameLoop` is sufficient to prevent unnecessary processing when no actual changes occur, but this is rare in practice due to the continuous nature of idle game mechanics.
+
 ### State Management Pattern
 ```typescript
 // Immutable state updates
@@ -297,6 +307,8 @@ export const BUILDINGS: Record<BuildingKey, BuildingDef> = {
 ### Game Loop Performance
 - **Target FPS**: 20 FPS (50ms intervals)
 - **Tick Processing**: < 1ms per tick
+- **Continuous Updates**: Every game tick has meaningful changes (resource production, events, research progress)
+- **No Early Returns**: The game loop is designed to process all ticks since idle games require continuous resource generation
 - **State Updates**: Batched every 50ms
 - **Memory Usage**: Optimized for long-running sessions
 

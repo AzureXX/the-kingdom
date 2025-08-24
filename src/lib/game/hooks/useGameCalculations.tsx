@@ -59,16 +59,7 @@ export function useGameCalculations(state: GameState | null) {
   }), [memoizedCostFor, memoizedCanAfford]);
 
   return {
-    gameCalculations, // Grouped calculation results
-    utilityFunctions, // Grouped utility functions
-    // Individual values still available for backward compatibility
-    perSec,
-    prestigePotential,
-    multipliers,
-    memoizedCostFor,
-    memoizedCanAfford,
-    clickGains,
-    technologyCosts,
-    upgradeCosts,
+    gameCalculations,
+    utilityFunctions,
   };
 }

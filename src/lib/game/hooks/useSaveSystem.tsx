@@ -134,15 +134,7 @@ export function useSaveSystem(
   }), [loadInitialGame, autoSave, manualSave, exportSaveData, importSaveData, doExport, doImport]);
 
   return {
-    saveFunctions, // Grouped save functions
-    // Individual values still available for backward compatibility
+    saveFunctions,
     lastSavedAt,
-    loadInitialGame,
-    autoSave,
-    manualSave,
-    exportSaveData,
-    importSaveData,
-    doExport,
-    doImport,
   };
 }

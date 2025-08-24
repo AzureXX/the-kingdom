@@ -36,7 +36,7 @@ export interface GameContextType {
     renderTime: number;
     memoryUsage: number;
   };
-  manualSave: () => void;
+  manualSave: (state: GameState) => void;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -51,7 +51,7 @@ export function GameProvider({ children }: GameProviderProps) {
 
   // Custom hooks for different game systems
   const { performanceMetrics, performanceFunctions } = usePerformanceMonitor(10);
-  const { lastSavedAt, manualSave, saveFunctions } = useSaveSystem(state, setState);
+  const { lastSavedAt, saveFunctions } = useSaveSystem(state, setState);
   const { timeValues } = useGameTime(state, lastSavedAt);
   const { actionHandlers } = useGameActions(state, setState);
   const { gameCalculations, utilityFunctions } = useGameCalculations(state);
@@ -92,7 +92,7 @@ export function GameProvider({ children }: GameProviderProps) {
     timeUntilNextSave: timeValues.timeUntilNextSave,
     secondsUntilNextSave: timeValues.secondsUntilNextSave,
     performanceMetrics,
-    manualSave: () => state && manualSave(state),
+    manualSave: saveFunctions.manualSave,
   }), [
     state,
     timeValues,
@@ -102,7 +102,6 @@ export function GameProvider({ children }: GameProviderProps) {
     saveFunctions,
     lastSavedAt,
     performanceMetrics,
-    manualSave,
   ]);
 
   return (
