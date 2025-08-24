@@ -2,74 +2,131 @@ import { CONFIG, type ResourceKey, type TechnologyKey, type BuildingKey, type Pr
 import { GAME_CONSTANTS } from './constants';
 import type { GameState } from './types';
 import { isValidBuildingKey } from './utils';
-import { logInvalidKey } from './utils/errorLogger';
+import { logInvalidKey, createValidationErrorHandler, createStateErrorHandler } from './utils/errorLogger';
 
 const { resources: RESOURCES, buildings: BUILDINGS, version: CONFIG_VERSION } = CONFIG;
+
+// Create specialized error handlers for game state
+const validationHandler = createValidationErrorHandler('gameState');
+const stateErrorHandler = createStateErrorHandler('gameState');
 
 /**
  * Initialize a new game state with default values
  */
 export function initNewGame(): GameState {
-  const state: GameState = {
-    t: Date.now(),
-    resources: {},
-    lifetime: { food: 0 },
-    buildings: { woodcutter: 0, quarry: 0, farm: 0, blacksmith: 0, castle: 0, library: 0, university: 0, laboratory: 0 },
-    technologies: { writing: 0, mathematics: 0, engineering: 0, chemistry: 0, physics: 0, biology: 0 },
-    upgrades: { royalDecrees: 0, masterCraftsmen: 0, fertileLands: 0, militaryMight: 0 },
-    clicks: 0,
-    version: CONFIG_VERSION,
-    events: {
-      activeEvent: null,
-      activeEventStartTime: 0,
-      nextEventTime: Date.now() + (Math.random() * (GAME_CONSTANTS.EVENT.INITIAL_MAX_INTERVAL_SECONDS - GAME_CONSTANTS.EVENT.INITIAL_MIN_INTERVAL_SECONDS) + GAME_CONSTANTS.EVENT.INITIAL_MIN_INTERVAL_SECONDS) * 1000,
-      eventHistory: [],
-    },
-    research: {
-      activeResearch: null,
-      researchStartTime: 0,
-      researchEndTime: 0,
-    },
-  };
-  
-  // Initialize resources with starting values
-  for (const k in RESOURCES) {
-    const key = k as ResourceKey;
-    state.resources[key] = RESOURCES[key].start || 0;
+  try {
+    const state: GameState = {
+      t: Date.now(),
+      resources: {},
+      lifetime: { food: 0 },
+      buildings: { woodcutter: 0, quarry: 0, farm: 0, blacksmith: 0, castle: 0, library: 0, university: 0, laboratory: 0 },
+      technologies: { writing: 0, mathematics: 0, engineering: 0, chemistry: 0, physics: 0, biology: 0 },
+      upgrades: { royalDecrees: 0, masterCraftsmen: 0, fertileLands: 0, militaryMight: 0 },
+      clicks: 0,
+      version: CONFIG_VERSION,
+      events: {
+        activeEvent: null,
+        activeEventStartTime: 0,
+        nextEventTime: Date.now() + (Math.random() * (GAME_CONSTANTS.EVENT.INITIAL_MAX_INTERVAL_SECONDS - GAME_CONSTANTS.EVENT.INITIAL_MIN_INTERVAL_SECONDS) + GAME_CONSTANTS.EVENT.INITIAL_MIN_INTERVAL_SECONDS) * 1000,
+        eventHistory: [],
+      },
+      research: {
+        activeResearch: null,
+        researchStartTime: 0,
+        researchEndTime: 0,
+      },
+    };
+    
+    // Initialize resources with starting values
+    for (const k in RESOURCES) {
+      const key = k as ResourceKey;
+      state.resources[key] = RESOURCES[key].start || 0;
+    }
+    
+    return state;
+  } catch (error) {
+    stateErrorHandler('Failed to initialize new game state', { error: error instanceof Error ? error.message : String(error) });
+    throw error; // Re-throw for critical initialization errors
   }
-  
-  return state;
 }
 
 /**
- * Update the game timestamp - Pure function
+ * Update the game timestamp - Pure function with validation
  */
 export function updateTimestamp(state: GameState): GameState {
-  return { ...state, t: Date.now() };
+  try {
+    // Validate input
+    if (!state || typeof state !== 'object') {
+      validationHandler('Invalid state parameter for updateTimestamp', { state: typeof state });
+      throw new Error('Invalid state parameter');
+    }
+
+    return { ...state, t: Date.now() };
+  } catch (error) {
+    stateErrorHandler('Failed to update timestamp', { error: error instanceof Error ? error.message : String(error) });
+    return state; // Return original state on error
+  }
 }
 
 /**
  * Get a resource value safely, returning 0 if not found
  */
 export function getResource(state: GameState, resourceKey: ResourceKey): number {
-  return state.resources[resourceKey] || 0;
+  try {
+    // Validate inputs
+    if (!state || typeof state !== 'object') {
+      validationHandler('Invalid state parameter for getResource', { state: typeof state });
+      return 0;
+    }
+    
+    if (!resourceKey || typeof resourceKey !== 'string') {
+      validationHandler('Invalid resource key for getResource', { resourceKey: typeof resourceKey, value: resourceKey });
+      return 0;
+    }
+
+    return state.resources[resourceKey] || 0;
+  } catch (error) {
+    stateErrorHandler('Failed to get resource', { resourceKey, error: error instanceof Error ? error.message : String(error) });
+    return 0; // Return 0 on error for safety
+  }
 }
 
 /**
- * Set a resource value - Pure function
+ * Set a resource value - Pure function with validation
  */
 export function setResource(state: GameState, resourceKey: ResourceKey, value: number): GameState {
-  const currentValue = state.resources[resourceKey] || 0;
-  const newValue = Math.max(GAME_CONSTANTS.GAME.MIN_RESOURCE_AMOUNT, value);
-  if (currentValue === newValue) return state;
-  
-  return {
-    ...state,
-    resources: {
-      ...state.resources,
-      [resourceKey]: newValue
+  try {
+    // Validate inputs
+    if (!state || typeof state !== 'object') {
+      validationHandler('Invalid state parameter for setResource', { state: typeof state });
+      throw new Error('Invalid state parameter');
     }
-  };
+    
+    if (!resourceKey || typeof resourceKey !== 'string') {
+      validationHandler('Invalid resource key for setResource', { resourceKey: typeof resourceKey, value: resourceKey });
+      throw new Error('Invalid resource key');
+    }
+    
+    if (typeof value !== 'number' || isNaN(value)) {
+      validationHandler('Invalid value for setResource', { value, type: typeof value });
+      throw new Error('Invalid value');
+    }
+
+    const currentValue = state.resources[resourceKey] || 0;
+    const newValue = Math.max(GAME_CONSTANTS.GAME.MIN_RESOURCE_AMOUNT, value);
+    if (currentValue === newValue) return state;
+    
+    return {
+      ...state,
+      resources: {
+        ...state.resources,
+        [resourceKey]: newValue
+      }
+    };
+  } catch (error) {
+    stateErrorHandler('Failed to set resource', { resourceKey, value, error: error instanceof Error ? error.message : String(error) });
+    return state; // Return original state on error
+  }
 }
 
 /**

@@ -9,6 +9,83 @@ export interface ErrorLogOptions {
 }
 
 /**
+ * Error categories for better error handling and debugging
+ */
+export type ErrorCategory = 'validation' | 'calculation' | 'state' | 'config' | 'system' | 'user';
+
+/**
+ * Enhanced error information with categorization
+ */
+export interface GameError {
+  message: string;
+  category: ErrorCategory;
+  context: string;
+  timestamp: string;
+  details?: Record<string, unknown>;
+  stack?: string;
+}
+
+/**
+ * Centralized error handling function for consistent error handling across all game systems
+ */
+export function handleGameError(
+  error: Error | string,
+  category: ErrorCategory,
+  context: string,
+  details?: Record<string, unknown>
+): GameError {
+  const gameError: GameError = {
+    message: typeof error === 'string' ? error : error.message,
+    category,
+    context,
+    timestamp: new Date().toISOString(),
+    details,
+    stack: error instanceof Error ? error.stack : undefined
+  };
+
+  // Log the error with appropriate level based on category
+  const level = category === 'validation' ? 'warn' : 'error';
+  logMessage(gameError.message, {
+    level,
+    context: gameError.context,
+    details: {
+      category: gameError.category,
+      ...gameError.details,
+      stack: gameError.stack
+    }
+  });
+
+  return gameError;
+}
+
+/**
+ * Create a validation error handler for input validation
+ */
+export function createValidationErrorHandler(context: string) {
+  return (message: string, details?: Record<string, unknown>) => {
+    return handleGameError(message, 'validation', context, details);
+  };
+}
+
+/**
+ * Create a calculation error handler for mathematical operations
+ */
+export function createCalculationErrorHandler(context: string) {
+  return (message: string, details?: Record<string, unknown>) => {
+    return handleGameError(message, 'calculation', context, details);
+  };
+}
+
+/**
+ * Create a state error handler for state management operations
+ */
+export function createStateErrorHandler(context: string) {
+  return (message: string, details?: Record<string, unknown>) => {
+    return handleGameError(message, 'state', context, details);
+  };
+}
+
+/**
  * Log a message with consistent formatting and context
  */
 export function logMessage(message: string, options: ErrorLogOptions): void {

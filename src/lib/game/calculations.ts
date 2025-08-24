@@ -3,85 +3,180 @@ import { GAME_CONSTANTS } from './constants';
 import type { GameState, Multipliers } from './types';
 import { getResource, getBuildingCount, getUpgradeLevel, isBuildingUnlocked } from './gameState';
 import { isValidBuildingKey } from './utils';
-import { logInvalidKey } from './utils/errorLogger';
+import { logInvalidKey, createValidationErrorHandler, createCalculationErrorHandler } from './utils/errorLogger';
 
 const { buildings: BUILDINGS, technologies: TECHNOLOGIES, prestige: PRESTIGE_CONFIG } = CONFIG;
+
+// Create specialized error handlers for calculations
+const validationHandler = createValidationErrorHandler('calculations');
+const calculationHandler = createCalculationErrorHandler('calculations');
 
 /**
  * Calculate all multipliers based on current upgrade levels
  */
 export function getMultipliers(state: GameState): Multipliers {
-  const ctx: Multipliers = {
-    clickGain: GAME_CONSTANTS.GAME.DEFAULT_MULTIPLIER,
-    cost: GAME_CONSTANTS.GAME.DEFAULT_MULTIPLIER,
-    prodMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 },
-    useMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 },
-  };
-  
-  for (const key in PRESTIGE_CONFIG.upgrades) {
-    const k = key as PrestigeUpgradeKey;
-    const lvl = getUpgradeLevel(state, k);
-    if (!lvl) continue;
+  try {
+    // Validate input
+    if (!state || typeof state !== 'object') {
+      validationHandler('Invalid state parameter for getMultipliers', { state: typeof state });
+      throw new Error('Invalid state parameter');
+    }
+
+    const ctx: Multipliers = {
+      clickGain: GAME_CONSTANTS.GAME.DEFAULT_MULTIPLIER,
+      cost: GAME_CONSTANTS.GAME.DEFAULT_MULTIPLIER,
+      prodMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 },
+      useMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 },
+    };
     
-    PRESTIGE_CONFIG.upgrades[k].effect(lvl, {
-      muls: ctx,
-      prodMul: ctx.prodMul,
-      useMul: ctx.useMul,
-    });
+    for (const key in PRESTIGE_CONFIG.upgrades) {
+      const k = key as PrestigeUpgradeKey;
+      const lvl = getUpgradeLevel(state, k);
+      if (!lvl) continue;
+      
+      PRESTIGE_CONFIG.upgrades[k].effect(lvl, {
+        muls: ctx,
+        prodMul: ctx.prodMul,
+        useMul: ctx.useMul,
+      });
+    }
+    
+    return ctx;
+  } catch (error) {
+    calculationHandler('Failed to calculate multipliers', { error: error instanceof Error ? error.message : String(error) });
+    // Return default multipliers on error
+    return {
+      clickGain: GAME_CONSTANTS.GAME.DEFAULT_MULTIPLIER,
+      cost: GAME_CONSTANTS.GAME.DEFAULT_MULTIPLIER,
+      prodMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 },
+      useMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 },
+    };
   }
-  
-  return ctx;
 }
 
 /**
  * Calculate the cost for a building based on current ownership and multipliers
  */
 export function costFor(state: GameState, buildKey: BuildingKey): Partial<Record<ResourceKey, number>> {
-  const def = BUILDINGS[buildKey];
-  const owned = getBuildingCount(state, buildKey);
-  const muls = getMultipliers(state);
-  const cost: Partial<Record<ResourceKey, number>> = {};
-  
-  for (const r in def.baseCost) {
-    const rk = r as ResourceKey;
-    cost[rk] = Math.ceil((def.baseCost[rk] || 0) * Math.pow(def.costScale, owned) * muls.cost);
+  try {
+    // Validate inputs
+    if (!state || typeof state !== 'object') {
+      validationHandler('Invalid state parameter for costFor', { state: typeof state });
+      throw new Error('Invalid state parameter');
+    }
+    
+    if (!buildKey || typeof buildKey !== 'string') {
+      validationHandler('Invalid building key for costFor', { buildKey: typeof buildKey, value: buildKey });
+      throw new Error('Invalid building key');
+    }
+
+    const def = BUILDINGS[buildKey];
+    if (!def) {
+      validationHandler('Building definition not found', { buildKey });
+      throw new Error('Building definition not found');
+    }
+
+    const owned = getBuildingCount(state, buildKey);
+    const muls = getMultipliers(state);
+    const cost: Partial<Record<ResourceKey, number>> = {};
+    
+    for (const r in def.baseCost) {
+      const rk = r as ResourceKey;
+      cost[rk] = Math.ceil((def.baseCost[rk] || 0) * Math.pow(def.costScale, owned) * muls.cost);
+    }
+    
+    return cost;
+  } catch (error) {
+    calculationHandler('Failed to calculate building cost', { buildKey, error: error instanceof Error ? error.message : String(error) });
+    return {}; // Return empty cost on error
   }
-  
-  return cost;
 }
 
 /**
  * Calculate the cost for a technology
  */
 export function technologyCostFor(state: GameState, techKey: TechnologyKey): Partial<Record<ResourceKey, number>> {
-  const def = TECHNOLOGIES[techKey];
-  const cost: Partial<Record<ResourceKey, number>> = {};
-  
-  for (const r in def.baseCost) {
-    const rk = r as ResourceKey;
-    cost[rk] = def.baseCost[rk] || 0;
+  try {
+    // Validate inputs
+    if (!state || typeof state !== 'object') {
+      validationHandler('Invalid state parameter for technologyCostFor', { state: typeof state });
+      throw new Error('Invalid state parameter');
+    }
+    
+    if (!techKey || typeof techKey !== 'string') {
+      validationHandler('Invalid technology key for technologyCostFor', { techKey: typeof techKey, value: techKey });
+      throw new Error('Invalid technology key');
+    }
+
+    const def = TECHNOLOGIES[techKey];
+    if (!def) {
+      validationHandler('Technology definition not found', { techKey });
+      throw new Error('Technology definition not found');
+    }
+
+    const cost: Partial<Record<ResourceKey, number>> = {};
+    
+    for (const r in def.baseCost) {
+      const rk = r as ResourceKey;
+      cost[rk] = def.baseCost[rk] || 0;
+    }
+    
+    return cost;
+  } catch (error) {
+    calculationHandler('Failed to calculate technology cost', { techKey, error: error instanceof Error ? error.message : String(error) });
+    return {}; // Return empty cost on error
   }
-  
-  return cost;
 }
 
 /**
  * Check if the player can afford a given cost
  */
 export function canAfford(state: GameState, cost: Partial<Record<ResourceKey, number>>): boolean {
-  for (const r in cost) {
-    const rk = r as ResourceKey;
-    if (getResource(state, rk) < (cost[rk] || 0)) return false;
+  try {
+    // Validate inputs
+    if (!state || typeof state !== 'object') {
+      validationHandler('Invalid state parameter for canAfford', { state: typeof state });
+      return false;
+    }
+    
+    if (!cost || typeof cost !== 'object') {
+      validationHandler('Invalid cost parameter for canAfford', { cost: typeof cost });
+      return false;
+    }
+
+    for (const r in cost) {
+      const rk = r as ResourceKey;
+      if (getResource(state, rk) < (cost[rk] || 0)) return false;
+    }
+    return true;
+  } catch (error) {
+    calculationHandler('Failed to check affordability', { error: error instanceof Error ? error.message : String(error) });
+    return false; // Return false on error for safety
   }
-  return true;
 }
 
 /**
  * Check if a building can be purchased (affordable and unlocked)
  */
 export function canBuyBuilding(state: GameState, buildKey: BuildingKey): boolean {
-  if (!isBuildingUnlocked(state, buildKey)) return false;
-  return canAfford(state, costFor(state, buildKey));
+  try {
+    // Validate inputs
+    if (!state || typeof state !== 'object') {
+      validationHandler('Invalid state parameter for canBuyBuilding', { state: typeof state });
+      return false;
+    }
+    
+    if (!buildKey || typeof buildKey !== 'string') {
+      validationHandler('Invalid building key for canBuyBuilding', { buildKey: typeof buildKey, value: buildKey });
+      return false;
+    }
+
+    if (!isBuildingUnlocked(state, buildKey)) return false;
+    return canAfford(state, costFor(state, buildKey));
+  } catch (error) {
+    calculationHandler('Failed to check if building can be purchased', { buildKey, error: error instanceof Error ? error.message : String(error) });
+    return false; // Return false on error for safety
+  }
 }
 
 /**
