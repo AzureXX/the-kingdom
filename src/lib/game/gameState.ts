@@ -2,6 +2,7 @@ import { CONFIG, type ResourceKey, type TechnologyKey, type BuildingKey, type Pr
 import { GAME_CONSTANTS } from './constants';
 import type { GameState } from './types';
 import { isValidBuildingKey } from './utils';
+import { logInvalidKey } from './utils/errorLogger';
 
 /**
  * Initialize a new game state with default values
@@ -306,7 +307,7 @@ export function getUnlockedBuildings(state: GameState): BuildingKey[] {
   const validKeys: BuildingKey[] = [];
   for (const buildingKey of Object.keys(CONFIG.buildings)) {
     if (!isValidBuildingKey(buildingKey)) {
-      console.warn(`Invalid building key: ${buildingKey}`);
+      logInvalidKey(buildingKey, 'building', 'gameState');
       continue;
     }
     if (isBuildingUnlocked(state, buildingKey)) {

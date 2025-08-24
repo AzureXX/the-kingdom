@@ -3,6 +3,7 @@ import { doSave, exportSave, importSave, loadSave, processOfflineProgress } from
 import { initNewGame } from '../gameState';
 import { GAME_CONSTANTS } from '../constants';
 import { validateAllConfig } from '../config/validation';
+import { logConfigValidation } from '../utils/errorLogger';
 import type { GameState } from '../types';
 
 export function useSaveSystem(
@@ -15,11 +16,7 @@ export function useSaveSystem(
   const loadInitialGame = useCallback((): GameState => {
     // Validate configuration at startup
     const validation = validateAllConfig();
-    if (!validation.isValid) {
-      console.error('❌ Configuration validation failed:', validation.errors);
-    } else {
-      console.log('✅ Configuration validation passed');
-    }
+    logConfigValidation(validation.isValid, validation.errors);
     
     const saved = loadSave();
     if (!saved) {

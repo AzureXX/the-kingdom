@@ -2,6 +2,7 @@ import { CONFIG, type EventKey } from './config';
 import { GAME_CONSTANTS } from './constants';
 import { addResources, getResource, setResource } from './gameState';
 import { isValidResourceKey } from './utils';
+import { logInvalidKey } from './utils/errorLogger';
 import type { GameState } from './types';
 
 /**
@@ -33,7 +34,7 @@ export function canMakeEventChoice(state: GameState, eventKey: EventKey, choiceI
   // Check if player has required resources
   for (const resource in choice.requires) {
     if (!isValidResourceKey(resource)) {
-      console.warn(`Invalid resource key: ${resource}`);
+      logInvalidKey(resource, 'resource', 'event');
       return false;
     }
     if (getResource(state, resource) < (choice.requires[resource] || 0)) {
@@ -60,7 +61,7 @@ export function makeEventChoice(state: GameState, eventKey: EventKey, choiceInde
   // Remove resources that the choice takes
   for (const resource in choice.takes) {
     if (!isValidResourceKey(resource)) {
-      console.warn(`Invalid resource key: ${resource}`);
+      logInvalidKey(resource, 'resource', 'event');
       continue;
     }
     const amount = choice.takes[resource] || 0;

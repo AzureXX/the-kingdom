@@ -3,6 +3,7 @@ import { GAME_CONSTANTS } from './constants';
 import type { GameState, Multipliers } from './types';
 import { getResource, getBuildingCount, getUpgradeLevel, isBuildingUnlocked } from './gameState';
 import { isValidBuildingKey } from './utils';
+import { logInvalidKey } from './utils/errorLogger';
 
 /**
  * Calculate all multipliers based on current upgrade levels
@@ -90,7 +91,7 @@ export function getPerSec(state: GameState): Record<ResourceKey, number> {
   
   for (const key in CONFIG.buildings) {
     if (!isValidBuildingKey(key)) {
-      console.warn(`Invalid building key: ${key}`);
+      logInvalidKey(key, 'building', 'calculation');
       continue;
     }
     const def = CONFIG.buildings[key];
