@@ -183,67 +183,133 @@ export function canBuyBuilding(state: GameState, buildKey: BuildingKey): boolean
  * Calculate production per second for all resources
  */
 export function getPerSec(state: GameState): Record<ResourceKey, number> {
-  const muls = getMultipliers(state);
-  const out: Record<ResourceKey, number> = { gold: 0, wood: 0, stone: 0, food: 0, prestige: 0, researchPoints: 0 };
-  
-  for (const key in BUILDINGS) {
-    if (!isValidBuildingKey(key)) {
-      logInvalidKey(key, 'building', 'calculation');
-      continue;
+  try {
+    // Validate input
+    if (!state || typeof state !== 'object') {
+      validationHandler('Invalid state parameter for getPerSec', { state: typeof state });
+      throw new Error('Invalid state parameter');
     }
-    const def = BUILDINGS[key];
-    const n = getBuildingCount(state, key);
-    if (!n) continue;
+
+    const muls = getMultipliers(state);
+    const out: Record<ResourceKey, number> = { gold: 0, wood: 0, stone: 0, food: 0, prestige: 0, researchPoints: 0 };
     
-    // Add production
-    for (const r in def.baseProd) {
-      const rk = r as ResourceKey;
-      out[rk] += (def.baseProd[rk] || 0) * n * (muls.prodMul[rk] || 1);
+    for (const key in BUILDINGS) {
+      if (!isValidBuildingKey(key)) {
+        logInvalidKey(key, 'building', 'calculation');
+        continue;
+      }
+      const def = BUILDINGS[key];
+      const n = getBuildingCount(state, key);
+      if (!n) continue;
+      
+      // Add production
+      for (const r in def.baseProd) {
+        const rk = r as ResourceKey;
+        out[rk] += (def.baseProd[rk] || 0) * n * (muls.prodMul[rk] || 1);
+      }
+      
+      // Subtract consumption
+      for (const r in def.baseUse) {
+        const rk = r as ResourceKey;
+        out[rk] -= (def.baseUse[rk] || 0) * n * (muls.useMul[rk] || 1);
+      }
     }
     
-    // Subtract consumption
-    for (const r in def.baseUse) {
-      const rk = r as ResourceKey;
-      out[rk] -= (def.baseUse[rk] || 0) * n * (muls.useMul[rk] || 1);
-    }
+    return out;
+  } catch (error) {
+    calculationHandler('Failed to calculate production per second', { error: error instanceof Error ? error.message : String(error) });
+    // Return zero production on error for safety
+    return { gold: 0, wood: 0, stone: 0, food: 0, prestige: 0, researchPoints: 0 };
   }
-  
-  return out;
 }
 
 /**
  * Calculate click gains based on current multipliers
  */
 export function getClickGains(state: GameState): Partial<Record<ResourceKey, number>> {
-  const muls = getMultipliers(state);
-  const base = CONFIG.click.base;
-  const gains: Partial<Record<ResourceKey, number>> = {};
-  
-  for (const r in base) {
-    const rk = r as ResourceKey;
-    const baseValue = base[rk as keyof typeof base] || 0;
-    gains[rk] = baseValue * (muls.clickGain || 1);
+  try {
+    // Validate input
+    if (!state || typeof state !== 'object') {
+      validationHandler('Invalid state parameter for getClickGains', { state: typeof state });
+      throw new Error('Invalid state parameter');
+    }
+
+    const muls = getMultipliers(state);
+    const base = CONFIG.click.base;
+    const gains: Partial<Record<ResourceKey, number>> = {};
+    
+    for (const r in base) {
+      const rk = r as ResourceKey;
+      const baseValue = base[rk as keyof typeof base] || 0;
+      gains[rk] = baseValue * (muls.clickGain || 1);
+    }
+    
+    return gains;
+  } catch (error) {
+    calculationHandler('Failed to calculate click gains', { error: error instanceof Error ? error.message : String(error) });
+    // Return base click gains on error for safety
+    return CONFIG.click.base;
   }
-  
-  return gains;
 }
 
 /**
  * Calculate upgrade cost for a given level
  */
 export function getUpgradeCost(upgradeKey: PrestigeUpgradeKey, level: number): number {
-  const def = PRESTIGE_CONFIG.upgrades[upgradeKey];
-  return Math.ceil(def.costCurve(level));
+  try {
+    // Validate inputs
+    if (!upgradeKey || typeof upgradeKey !== 'string') {
+      validationHandler('Invalid upgrade key for getUpgradeCost', { upgradeKey: typeof upgradeKey, value: upgradeKey });
+      throw new Error('Invalid upgrade key');
+    }
+    
+    if (typeof level !== 'number' || isNaN(level) || level < 0) {
+      validationHandler('Invalid level for getUpgradeCost', { level, type: typeof level });
+      throw new Error('Invalid level');
+    }
+
+    const def = PRESTIGE_CONFIG.upgrades[upgradeKey];
+    if (!def) {
+      validationHandler('Upgrade definition not found', { upgradeKey });
+      throw new Error('Upgrade definition not found');
+    }
+
+    return Math.ceil(def.costCurve(level));
+  } catch (error) {
+    calculationHandler('Failed to calculate upgrade cost', { upgradeKey, level, error: error instanceof Error ? error.message : String(error) });
+    return 999999; // Return high cost on error to prevent purchase
+  }
 }
 
 /**
  * Check if an upgrade can be purchased
  */
 export function canBuyUpgrade(state: GameState, upgradeKey: PrestigeUpgradeKey): boolean {
-  const def = PRESTIGE_CONFIG.upgrades[upgradeKey];
-  const currentLevel = getUpgradeLevel(state, upgradeKey);
-  const cost = getUpgradeCost(upgradeKey, currentLevel);
-  const prestige = getResource(state, 'prestige');
-  
-  return currentLevel < def.max && prestige >= cost;
+  try {
+    // Validate inputs
+    if (!state || typeof state !== 'object') {
+      validationHandler('Invalid state parameter for canBuyUpgrade', { state: typeof state });
+      return false;
+    }
+    
+    if (!upgradeKey || typeof upgradeKey !== 'string') {
+      validationHandler('Invalid upgrade key for canBuyUpgrade', { upgradeKey: typeof upgradeKey, value: upgradeKey });
+      return false;
+    }
+
+    const def = PRESTIGE_CONFIG.upgrades[upgradeKey];
+    if (!def) {
+      validationHandler('Upgrade definition not found', { upgradeKey });
+      return false;
+    }
+
+    const currentLevel = getUpgradeLevel(state, upgradeKey);
+    const cost = getUpgradeCost(upgradeKey, currentLevel);
+    const prestige = getResource(state, 'prestige');
+    
+    return currentLevel < def.max && prestige >= cost;
+  } catch (error) {
+    calculationHandler('Failed to check if upgrade can be purchased', { upgradeKey, error: error instanceof Error ? error.message : String(error) });
+    return false; // Return false on error for safety
+  }
 }

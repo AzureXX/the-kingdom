@@ -134,66 +134,124 @@ export function setResource(state: GameState, resourceKey: ResourceKey, value: n
  */
 
 /**
- * Update a resource value with structural sharing - Pure function
+ * Update a resource value with structural sharing - Pure function with validation
  */
 export function updateResource(state: GameState, resourceKey: ResourceKey, value: number): GameState {
-  const currentValue = state.resources[resourceKey] || 0;
-  if (currentValue === value) return state;
-  
-  return {
-    ...state,
-    resources: {
-      ...state.resources,
-      [resourceKey]: Math.max(GAME_CONSTANTS.GAME.MIN_RESOURCE_AMOUNT, value)
+  try {
+    // Validate inputs
+    if (!state || typeof state !== 'object') {
+      validationHandler('Invalid state parameter for updateResource', { state: typeof state });
+      throw new Error('Invalid state parameter');
     }
-  };
+    
+    if (!resourceKey || typeof resourceKey !== 'string') {
+      validationHandler('Invalid resource key for updateResource', { resourceKey: typeof resourceKey, value: resourceKey });
+      throw new Error('Invalid resource key');
+    }
+    
+    if (typeof value !== 'number' || isNaN(value)) {
+      validationHandler('Invalid value for updateResource', { value, type: typeof value });
+      throw new Error('Invalid value');
+    }
+
+    const currentValue = state.resources[resourceKey] || 0;
+    if (currentValue === value) return state;
+    
+    return {
+      ...state,
+      resources: {
+        ...state.resources,
+        [resourceKey]: Math.max(GAME_CONSTANTS.GAME.MIN_RESOURCE_AMOUNT, value)
+      }
+    };
+  } catch (error) {
+    stateErrorHandler('Failed to update resource', { resourceKey, value, error: error instanceof Error ? error.message : String(error) });
+    return state; // Return original state on error
+  }
 }
 
 /**
- * Update multiple resources at once - Pure function
+ * Update multiple resources at once - Pure function with validation
  */
 export function updateMultipleResources(state: GameState, updates: Partial<Record<ResourceKey, number>>): GameState {
-  if (Object.keys(updates).length === 0) return state;
-  
-  const resourceUpdates: Partial<Record<ResourceKey, number>> = {};
-  let hasChanges = false;
-  
-  for (const [key, value] of Object.entries(updates)) {
-    const resourceKey = key as ResourceKey;
-    const currentValue = state.resources[resourceKey] || 0;
-    const newValue = Math.max(GAME_CONSTANTS.GAME.MIN_RESOURCE_AMOUNT, value);
+  try {
+    // Validate inputs
+    if (!state || typeof state !== 'object') {
+      validationHandler('Invalid state parameter for updateMultipleResources', { state: typeof state });
+      throw new Error('Invalid state parameter');
+    }
     
-    if (currentValue !== newValue) {
-      resourceUpdates[resourceKey] = newValue;
-      hasChanges = true;
+    if (!updates || typeof updates !== 'object') {
+      validationHandler('Invalid updates parameter for updateMultipleResources', { updates: typeof updates });
+      throw new Error('Invalid updates parameter');
     }
+
+    if (Object.keys(updates).length === 0) return state;
+    
+    const resourceUpdates: Partial<Record<ResourceKey, number>> = {};
+    let hasChanges = false;
+    
+    for (const [key, value] of Object.entries(updates)) {
+      const resourceKey = key as ResourceKey;
+      const currentValue = state.resources[resourceKey] || 0;
+      const newValue = Math.max(GAME_CONSTANTS.GAME.MIN_RESOURCE_AMOUNT, value);
+      
+      if (currentValue !== newValue) {
+        resourceUpdates[resourceKey] = newValue;
+        hasChanges = true;
+      }
+    }
+    
+    if (!hasChanges) return state;
+    
+    return {
+      ...state,
+      resources: {
+        ...state.resources,
+        ...resourceUpdates
+      }
+    };
+  } catch (error) {
+    stateErrorHandler('Failed to update multiple resources', { error: error instanceof Error ? error.message : String(error) });
+    return state; // Return original state on error
   }
-  
-  if (!hasChanges) return state;
-  
-  return {
-    ...state,
-    resources: {
-      ...state.resources,
-      ...resourceUpdates
-    }
-  };
 }
 
 /**
- * Update building count with structural sharing - Pure function
+ * Update building count with structural sharing - Pure function with validation
  */
 export function updateBuildingCount(state: GameState, buildingKey: BuildingKey, count: number): GameState {
-  const currentCount = state.buildings[buildingKey] || 0;
-  if (currentCount === count) return state;
-  
-  return {
-    ...state,
-    buildings: {
-      ...state.buildings,
-      [buildingKey]: Math.max(0, count)
+  try {
+    // Validate inputs
+    if (!state || typeof state !== 'object') {
+      validationHandler('Invalid state parameter for updateBuildingCount', { state: typeof state });
+      throw new Error('Invalid state parameter');
     }
-  };
+    
+    if (!buildingKey || typeof buildingKey !== 'string') {
+      validationHandler('Invalid building key for updateBuildingCount', { buildingKey: typeof buildingKey, value: buildingKey });
+      throw new Error('Invalid building key');
+    }
+    
+    if (typeof count !== 'number' || isNaN(count) || count < 0) {
+      validationHandler('Invalid count for updateBuildingCount', { count, type: typeof count });
+      throw new Error('Invalid count');
+    }
+
+    const currentCount = state.buildings[buildingKey] || 0;
+    if (currentCount === count) return state;
+    
+    return {
+      ...state,
+      buildings: {
+        ...state.buildings,
+        [buildingKey]: Math.max(0, count)
+      }
+    };
+  } catch (error) {
+    stateErrorHandler('Failed to update building count', { buildingKey, count, error: error instanceof Error ? error.message : String(error) });
+    return state; // Return original state on error
+  }
 }
 
 /**
