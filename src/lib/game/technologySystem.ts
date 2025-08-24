@@ -1,5 +1,6 @@
-import { CONFIG, type TechnologyKey, type ResourceKey } from './config';
+import { CONFIG, type TechnologyKey } from './config';
 import { getResource, setResource, setTechnologyLevel } from './gameState';
+import { isValidResourceKey, isValidTechnologyKey } from './utils';
 import type { GameState } from './types';
 
 /**
@@ -42,7 +43,11 @@ export function canResearchTechnology(state: GameState, technologyKey: Technolog
   
   // Check if we have enough resources
   for (const [resource, amount] of Object.entries(tech.baseCost)) {
-    if (getResource(state, resource as ResourceKey) < amount) return false;
+    if (!isValidResourceKey(resource)) {
+      console.warn(`Invalid resource key: ${resource}`);
+      return false;
+    }
+    if (getResource(state, resource) < amount) return false;
   }
   
   return true;
@@ -61,8 +66,12 @@ export function startResearch(state: GameState, technologyKey: TechnologyKey): G
   
   // Deduct resources
   for (const [resource, amount] of Object.entries(tech.baseCost)) {
-    const current = getResource(newState, resource as ResourceKey);
-    newState = setResource(newState, resource as ResourceKey, Math.max(0, current - amount));
+    if (!isValidResourceKey(resource)) {
+      console.warn(`Invalid resource key: ${resource}`);
+      continue;
+    }
+    const current = getResource(newState, resource);
+    newState = setResource(newState, resource, Math.max(0, current - amount));
   }
   
   // Start research
@@ -149,25 +158,49 @@ export function getResearchTimeRemaining(state: GameState): number {
  * Get all technologies with prerequisites met (regardless of resources)
  */
 export function getTechnologiesWithPrerequisitesMet(state: GameState): TechnologyKey[] {
-  return Object.keys(CONFIG.technologies).filter(techKey => 
-    hasPrerequisitesMet(state, techKey as TechnologyKey)
-  ) as TechnologyKey[];
+  const validKeys: TechnologyKey[] = [];
+  for (const techKey of Object.keys(CONFIG.technologies)) {
+    if (!isValidTechnologyKey(techKey)) {
+      console.warn(`Invalid technology key: ${techKey}`);
+      continue;
+    }
+    if (hasPrerequisitesMet(state, techKey)) {
+      validKeys.push(techKey);
+    }
+  }
+  return validKeys;
 }
 
 /**
  * Get all available technologies (requirements met, not researched)
  */
 export function getAvailableTechnologies(state: GameState): TechnologyKey[] {
-  return Object.keys(CONFIG.technologies).filter(techKey => 
-    canResearchTechnology(state, techKey as TechnologyKey)
-  ) as TechnologyKey[];
+  const validKeys: TechnologyKey[] = [];
+  for (const techKey of Object.keys(CONFIG.technologies)) {
+    if (!isValidTechnologyKey(techKey)) {
+      console.warn(`Invalid technology key: ${techKey}`);
+      continue;
+    }
+    if (canResearchTechnology(state, techKey)) {
+      validKeys.push(techKey);
+    }
+  }
+  return validKeys;
 }
 
 /**
  * Get all researched technologies
  */
 export function getResearchedTechnologies(state: GameState): TechnologyKey[] {
-  return Object.keys(CONFIG.technologies).filter(techKey => 
-    state.technologies[techKey as TechnologyKey] > 0
-  ) as TechnologyKey[];
+  const validKeys: TechnologyKey[] = [];
+  for (const techKey of Object.keys(CONFIG.technologies)) {
+    if (!isValidTechnologyKey(techKey)) {
+      console.warn(`Invalid technology key: ${techKey}`);
+      continue;
+    }
+    if (state.technologies[techKey] > 0) {
+      validKeys.push(techKey);
+    }
+  }
+  return validKeys;
 }

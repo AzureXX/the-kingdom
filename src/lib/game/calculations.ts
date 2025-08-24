@@ -2,6 +2,7 @@ import { CONFIG, type ResourceKey, type BuildingKey, type PrestigeUpgradeKey, ty
 import { GAME_CONSTANTS } from './constants';
 import type { GameState, Multipliers } from './types';
 import { getResource, getBuildingCount, getUpgradeLevel, isBuildingUnlocked } from './gameState';
+import { isValidBuildingKey } from './utils';
 
 /**
  * Calculate all multipliers based on current upgrade levels
@@ -88,9 +89,12 @@ export function getPerSec(state: GameState): Record<ResourceKey, number> {
   const out: Record<ResourceKey, number> = { gold: 0, wood: 0, stone: 0, food: 0, prestige: 0, researchPoints: 0 };
   
   for (const key in CONFIG.buildings) {
-    const k = key as BuildingKey;
-    const def = CONFIG.buildings[k];
-    const n = getBuildingCount(state, k);
+    if (!isValidBuildingKey(key)) {
+      console.warn(`Invalid building key: ${key}`);
+      continue;
+    }
+    const def = CONFIG.buildings[key];
+    const n = getBuildingCount(state, key);
     if (!n) continue;
     
     // Add production

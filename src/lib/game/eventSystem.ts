@@ -1,6 +1,7 @@
-import { CONFIG, type ResourceKey, type EventKey } from './config';
+import { CONFIG, type EventKey } from './config';
 import { GAME_CONSTANTS } from './constants';
 import { addResources, getResource, setResource } from './gameState';
+import { isValidResourceKey } from './utils';
 import type { GameState } from './types';
 
 /**
@@ -31,8 +32,11 @@ export function canMakeEventChoice(state: GameState, eventKey: EventKey, choiceI
   
   // Check if player has required resources
   for (const resource in choice.requires) {
-    const rk = resource as ResourceKey;
-    if (getResource(state, rk) < (choice.requires[rk] || 0)) {
+    if (!isValidResourceKey(resource)) {
+      console.warn(`Invalid resource key: ${resource}`);
+      return false;
+    }
+    if (getResource(state, resource) < (choice.requires[resource] || 0)) {
       return false;
     }
   }
@@ -55,15 +59,18 @@ export function makeEventChoice(state: GameState, eventKey: EventKey, choiceInde
   
   // Remove resources that the choice takes
   for (const resource in choice.takes) {
-    const rk = resource as ResourceKey;
-    const amount = choice.takes[rk] || 0;
+    if (!isValidResourceKey(resource)) {
+      console.warn(`Invalid resource key: ${resource}`);
+      continue;
+    }
+    const amount = choice.takes[resource] || 0;
     if (amount > 0) {
       // For positive amounts, reduce resources (but not below 0)
-      const current = getResource(newState, rk);
-      newState = setResource(newState, rk, current - amount);
+      const current = getResource(newState, resource);
+      newState = setResource(newState, resource, current - amount);
     } else if (amount < 0) {
       // For negative amounts, add resources (this is for prestige loss)
-      newState = setResource(newState, rk, getResource(newState, rk) + amount);
+      newState = setResource(newState, resource, getResource(newState, resource) + amount);
     }
   }
   

@@ -68,16 +68,16 @@ This document outlines identified refactoring needs for The Kingdom idle game, p
 - **Impact**: Fewer runtime errors, better developer experience
 
 **Step-by-Step Implementation:**
-1. **Add Resource Key Validation** (5 min)
+1. **Add Resource Key Validation** ✅ **COMPLETED** (5 min)
    - Create `isValidResourceKey` helper function
    - Replace `resource as ResourceKey` with validation
    - Add to `src/lib/game/utils.ts`
    
-2. **Add Building Key Validation** (5 min)
+2. **Add Building Key Validation** ✅ **COMPLETED** (5 min)
    - Create `isValidBuildingKey` helper function
    - Apply to building-related functions
    
-3. **Add Technology Key Validation** (5 min)
+3. **Add Technology Key Validation** ✅ **COMPLETED** (5 min)
    - Create `isValidTechnologyKey` helper function
    - Apply to technology-related functions
    
