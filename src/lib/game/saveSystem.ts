@@ -98,7 +98,6 @@ export function getTimeUntilNextSave(lastSavedAt: number | null, currentTime: nu
   
   // Return 0 when it's time to save (or slightly past due)
   if (timeUntilNextSave <= 0) {
-    console.log(`[Debug] Time to save! Returning 0`);
     return 0;
   }
   

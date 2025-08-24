@@ -19,7 +19,6 @@ export function useSaveSystem(
       const saveTime = Date.now();
       doSave(newState);
       setLastSavedAt(saveTime);
-      console.log(`[Initial Save] New game created and saved at ${new Date(saveTime).toLocaleTimeString()}`);
       return newState;
     } else {
       const now = Date.now();
@@ -36,14 +35,12 @@ export function useSaveSystem(
         const saveTime = Date.now();
         doSave(processedState);
         setLastSavedAt(saveTime);
-        console.log(`[Initial Save] Offline progress processed and saved at ${new Date(saveTime).toLocaleTimeString()}`);
         return processedState;
       } else {
         // Save the loaded state immediately to update timestamp
         const saveTime = Date.now();
         doSave(saved);
         setLastSavedAt(saveTime);
-        console.log(`[Initial Save] Existing game loaded and saved at ${new Date(saveTime).toLocaleTimeString()}`);
         return saved;
       }
     }
@@ -61,7 +58,6 @@ export function useSaveSystem(
     const saveTime = Date.now();
     doSave(state);
     setLastSavedAt(saveTime);
-    console.log(`[Manual Save] Game saved at ${new Date(saveTime).toLocaleTimeString()}`);
   }, []);
 
   // Export save function
@@ -76,7 +72,6 @@ export function useSaveSystem(
       const saveTime = Date.now();
       doSave(loaded); // Immediate save of imported data
       setLastSavedAt(saveTime);
-      console.log(`[Import Save] Imported game saved at ${new Date(saveTime).toLocaleTimeString()}`);
       return loaded;
     }
     return null;
