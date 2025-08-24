@@ -107,45 +107,41 @@ export function tick(state: GameState, dtSeconds: number): GameState {
   for (const r in perSec) {
     const rk = r as ResourceKey;
     const delta = (perSec[rk] || 0) * dtSeconds;
+    if (delta === 0) continue;
     
-    if (delta !== 0) {
-      const currentValue = state.resources[rk] || 0;
-      let newValue: number;
-      
-      if (delta < 0) {
-        // Resource consumption - don't go below 0
-        newValue = Math.max(0, currentValue + delta);
-      } else {
-        // Resource production
-        newValue = currentValue + delta;
-      }
-      
-      if (newValue !== currentValue) {
-        resourceUpdates[rk] = newValue;
-        hasResourceChanges = true;
-      }
+    const currentValue = state.resources[rk] || 0;
+    let newValue: number;
+    
+    if (delta < 0) {
+      // Resource consumption - don't go below 0
+      newValue = Math.max(0, currentValue + delta);
+    } else {
+      // Resource production
+      newValue = currentValue + delta;
     }
+    
+    if (newValue !== currentValue) {
+      resourceUpdates[rk] = newValue;
+      hasResourceChanges = true;
+    }
+    
   }
   
-  // Calculate lifetime food change
-  const foodDelta = Math.max(0, (perSec.food || 0) * dtSeconds);
-  const hasLifetimeChange = foodDelta > 0;
-  
   // Early return if no changes occurred
-  if (!hasResourceChanges && !hasLifetimeChange) {
+  if (!hasResourceChanges) {
     // Still need to check events and research progress
     let newState = checkAndTriggerEvents(state);
     newState = checkResearchProgress(newState);
     
-    // Return original state if no changes in events or research
-    if (newState === state) return state;
     return newState;
   }
   
   // Apply resource updates
   let newState = hasResourceChanges ? updateMultipleResources(state, resourceUpdates) : state;
   
-  // Apply lifetime changes if needed
+  // Calculate lifetime food change
+  const foodDelta = Math.max(0, (perSec.food || 0) * dtSeconds);
+  const hasLifetimeChange = foodDelta > 0;
   if (hasLifetimeChange) {
     // Only create new lifetime object if food actually changed
     const currentLifetimeFood = state.lifetime.food;
