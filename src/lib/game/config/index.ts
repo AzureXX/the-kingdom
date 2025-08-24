@@ -5,27 +5,6 @@ import { TECHNOLOGIES } from './technologies';
 import { PRESTIGE_CONFIG } from './prestige';
 import { EVENTS } from './events';
 
-// Import all types from centralized types directory
-export type {
-  ResourceKey,
-  ResourceDef,
-  ResourceCost,
-  ResourceProduction,
-  ResourceConsumption,
-  ResourceAmount,
-  BuildingKey,
-  BuildingDef,
-  TechnologyKey,
-  TechnologyDef,
-  PrestigeUpgradeKey,
-  PrestigeUpgradeDef,
-  EventKey,
-  EventChoice,
-  EventDef,
-  GameState,
-  Multipliers,
-} from '../types';
-
 // Re-export all config objects
 export {
   RESOURCES,

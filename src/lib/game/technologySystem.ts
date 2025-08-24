@@ -1,4 +1,5 @@
-import { CONFIG, type TechnologyKey } from './config';
+import { CONFIG } from './config';
+import type { TechnologyKey } from './types';
 import { getResource, setResource, setTechnologyLevel } from './gameState';
 import { isValidResourceKey, isValidTechnologyKey } from './utils';
 import { logInvalidKey } from './utils/errorLogger';

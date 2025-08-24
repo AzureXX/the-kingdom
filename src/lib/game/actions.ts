@@ -1,4 +1,4 @@
-import { type ResourceKey, type BuildingKey, type PrestigeUpgradeKey, type TechnologyKey } from './config';
+import type { ResourceKey, BuildingKey, PrestigeUpgradeKey, TechnologyKey } from './types';
 import { 
   getResource, 
   getBuildingCount, 

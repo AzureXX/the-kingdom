@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import styles from '@/styles/page.module.scss';
-import { CONFIG, type ResourceKey } from '@/lib/game/config';
+import { CONFIG } from '@/lib/game/config';
+import type { ResourceKey } from '@/lib/game/types';
 import { formatNumber } from '@/lib/game/utils';
 import type { GameState, ResourceAmount } from '@/lib/game/types';
 

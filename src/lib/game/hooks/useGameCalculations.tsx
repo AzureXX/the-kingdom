@@ -4,7 +4,7 @@ import { prestigeGain } from '../prestigeSystem';
 import { getUpgradeLevel } from '../gameState';
 import { CONFIG } from '../config';
 import type { GameState } from '../types';
-import type { BuildingKey, PrestigeUpgradeKey, ResourceKey, TechnologyKey } from '../config';
+import type { BuildingKey, PrestigeUpgradeKey, ResourceKey, TechnologyKey } from '../types';
 
 export function useGameCalculations(state: GameState | null) {
   const TECHNOLOGIES = CONFIG.technologies;

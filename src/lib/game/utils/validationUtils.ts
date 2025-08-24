@@ -1,4 +1,4 @@
-import type { ResourceKey, BuildingKey, TechnologyKey } from '../config';
+import type { ResourceKey, BuildingKey, TechnologyKey } from '../types';
 
 /**
  * Type validation helpers for better runtime safety

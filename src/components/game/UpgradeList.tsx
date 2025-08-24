@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import styles from '@/styles/page.module.scss';
-import { CONFIG, type PrestigeUpgradeKey } from '@/lib/game/config';
+import { CONFIG } from '@/lib/game/config';
+import type { PrestigeUpgradeKey } from '@/lib/game/types';
 import { formatNumber } from '@/lib/game/utils';
 import type { GameState } from '@/lib/game/types';
 

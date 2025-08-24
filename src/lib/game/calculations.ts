@@ -1,4 +1,5 @@
-import { CONFIG, type ResourceKey, type BuildingKey, type PrestigeUpgradeKey, type TechnologyKey } from './config';
+import { CONFIG } from './config';
+import type { ResourceKey, BuildingKey, PrestigeUpgradeKey, TechnologyKey } from './types';
 import { GAME_CONSTANTS } from './constants';
 import type { GameState, Multipliers } from './types';
 import { getResource, getBuildingCount, getUpgradeLevel, isBuildingUnlocked } from './gameState';

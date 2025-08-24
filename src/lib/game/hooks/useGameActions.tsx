@@ -2,7 +2,7 @@ import { useCallback, useMemo } from 'react';
 import { buyBuilding, buyUpgrade, clickAction, researchTechnology } from '../actions';
 import { doPrestige } from '../prestigeSystem';
 import type { GameState } from '../types';
-import type { BuildingKey, PrestigeUpgradeKey, TechnologyKey } from '../config';
+import type { BuildingKey, PrestigeUpgradeKey, TechnologyKey } from '../types';
 
 export function useGameActions(
   state: GameState | null,

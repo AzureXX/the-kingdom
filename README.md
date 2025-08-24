@@ -11,7 +11,7 @@ A sophisticated browser-based idle/clicker game built with Next.js 15, React 19,
 - **Technology Tree**: 6 technologies with prerequisites and research time
 - **Prestige System**: Reset mechanics with permanent upgrades
 - **Dynamic Events**: 8 random events that affect gameplay
-- **Performance Optimization**: High-frequency game loop with batched updates
+
 
 ## 🚀 Features
 
@@ -23,7 +23,7 @@ A sophisticated browser-based idle/clicker game built with Next.js 15, React 19,
 - **Event System**: Random events with choices and consequences
 
 ### Technical Features
-- **High-Performance Game Loop**: 20 FPS game logic with optimized state batching
+- **High-Performance Game Loop**: 20 FPS game logic
 - **Auto-Save System**: Automatic saves every 30 seconds with offline progress
 - **Import/Export**: Save file management with base64 encoding
 - **Performance Monitoring**: Real-time metrics for tick time, render time, and memory usage
@@ -62,7 +62,6 @@ src/
 #### 1. Game Loop (`hooks/useGameLoop.tsx`)
 - **Interval System**: 20 FPS game logic (50ms intervals)
 - **Performance Monitoring**: Tracks tick duration and performance metrics
-- **State Batching**: Processes game ticks independently of React updates
 
 #### 2. Configuration System (`config/`)
 - **Data-Driven Design**: All game content defined in configuration objects
@@ -177,7 +176,6 @@ The game features 8 dynamic events that occur randomly:
 ## 🛠️ Technical Implementation
 
 ### Performance Optimizations
-- **State Batching**: Multiple game ticks processed before React updates
 - **Memoized Calculations**: Expensive operations cached and reused
 - **Pure Functions**: Immutable state updates for predictable behavior
 - **Efficient Rendering**: React.memo and optimized re-render logic
@@ -343,7 +341,6 @@ export const BUILDINGS: Record<BuildingKey, BuildingDef> = {
 - **Tick Processing**: < 1ms per tick
 - **Continuous Updates**: Every game tick has meaningful changes (resource production, events, research progress)
 - **No Early Returns**: The game loop is designed to process all ticks since idle games require continuous resource generation
-- **State Updates**: Batched every 50ms
 - **Memory Usage**: Optimized for long-running sessions
 
 ### Code Quality & Standards

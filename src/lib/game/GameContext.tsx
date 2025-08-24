@@ -1,10 +1,9 @@
 "use client";
 
 import React, { createContext, useContext, useMemo, useState, ReactNode, useRef } from 'react';
-import { type BuildingKey, type PrestigeUpgradeKey, type ResourceKey, type TechnologyKey } from './config';
 import { formatNumber as fmt } from './utils';
 
-import type { GameState, Multipliers } from './types';
+import type { GameState, Multipliers, BuildingKey, PrestigeUpgradeKey, ResourceKey, TechnologyKey } from './types';
 import { usePerformanceMonitor, useSaveSystem, useGameLoop, useGameTime, useGameActions, useGameCalculations } from './hooks';
 
 export interface GameContextType {

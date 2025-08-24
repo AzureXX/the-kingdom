@@ -1,4 +1,5 @@
-import { CONFIG, type ResourceKey, type TechnologyKey, type BuildingKey, type PrestigeUpgradeKey } from './config';
+import { CONFIG } from './config';
+import type { ResourceKey, TechnologyKey, BuildingKey, PrestigeUpgradeKey } from './types';
 import { GAME_CONSTANTS } from './constants';
 import type { GameState } from './types';
 import { isValidBuildingKey } from './utils';
@@ -427,8 +428,8 @@ export function getUnlockedBuildings(state: GameState): BuildingKey[] {
       logInvalidKey(buildingKey, 'building', 'gameState');
       continue;
     }
-    if (isBuildingUnlocked(state, buildingKey)) {
-      validKeys.push(buildingKey);
+    if (isBuildingUnlocked(state, buildingKey as BuildingKey)) {
+      validKeys.push(buildingKey as BuildingKey);
     }
   }
   return validKeys;
