@@ -30,8 +30,8 @@ A sophisticated browser-based idle/clicker game built with Next.js 15, React 19,
 - **Responsive Design**: Modern UI with CSS modules and SCSS
 - **Type Safety**: Full TypeScript implementation with strict typing
 - **Error Handling**: React Error Boundary with graceful fallbacks
-- **Utility Functions**: Number formatting, debouncing, and safe JSON parsing
-- **SVG Icon System**: Custom medieval-themed icon sprites for all game elements
+- **Utility Functions**: Number formatting, debouncing, safe JSON parsing, and error logging
+- **SVG Icon System**: 30+ custom medieval-themed icon sprites for all game elements
 
 ## 🏗️ Architecture
 
@@ -44,17 +44,24 @@ src/
 │   └── ui/               # Reusable UI components
 ├── lib/game/             # Core game logic
 │   ├── config/           # Game configuration
-│   ├── contexts/         # React contexts
 │   ├── hooks/            # Custom React hooks
-│   └── systems/          # Game systems
+│   ├── utils/            # Utility functions
+│   ├── actions.ts        # Game action handlers
+│   ├── calculations.ts   # Game calculations
+│   ├── gameState.ts      # State management
+│   ├── saveSystem.ts     # Save/load system
+│   ├── eventSystem.ts    # Event system
+│   ├── technologySystem.ts # Technology research
+│   └── prestigeSystem.ts # Prestige mechanics
 └── styles/               # SCSS styling
 ```
 
 ### Core Systems
 
-#### 1. Game Loop (`useGameLoop.tsx`)
-- **Interval System**:  game logic (20 FPS) 
+#### 1. Game Loop (`hooks/useGameLoop.tsx`)
+- **Interval System**: 20 FPS game logic (50ms intervals)
 - **Performance Monitoring**: Tracks tick duration and performance metrics
+- **State Batching**: Processes game ticks independently of React updates
 
 #### 2. Configuration System (`config/`)
 - **Data-Driven Design**: All game content defined in configuration objects
@@ -75,11 +82,13 @@ src/
 - **Manual Save**: Player-initiated saves with logging
 - **Save Validation**: Version checking and error handling for corrupted saves
 
-#### 5. Utility System (`utils.ts`)
-- **Number Formatting**: K/M/B/T notation for large values
+#### 5. Utility System (`utils/`)
+- **Number Formatting**: K/M/B/T notation for large values with configurable thresholds
 - **Safe JSON Parsing**: Error handling for save file operations
-- **Base64 Encoding**: Cross-platform encoding/decoding
+- **Base64 Encoding**: Cross-platform encoding/decoding (browser + Node.js)
 - **Debouncing**: Performance optimization for user interactions
+- **Validation Utils**: Type-safe key validation for resources, buildings, and technologies
+- **Error Logging**: Centralized error logging with timestamps and context
 
 #### 6. State Management (`gameState.ts`)
 - **Immutable Updates**: Pure functions for state modifications
