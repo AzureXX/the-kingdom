@@ -1,261 +1,23 @@
-# 🏰 The Kingdom - Medieval Idle/Clicker Game
+# 🏰 Medieval Kingdom - Idle/Clicker Game
 
-A sophisticated browser-based idle/clicker game built with Next.js 15, React 19, and TypeScript. Players build and manage a medieval kingdom through resource management, building construction, technology research, and strategic prestige mechanics.
+A sophisticated browser-based idle/clicker game built with Next.js, React, and TypeScript. Players build and manage a medieval kingdom through resource management, building construction, technology research, and prestige mechanics.
 
 ## 🎮 Game Overview
 
-**The Kingdom** is a data-driven idle game where players start with basic resources and gradually build an empire through:
+**Medieval Kingdom** is an incremental game where players start with basic resources and gradually expand their kingdom through strategic decision-making. The game features:
 
 - **Resource Management**: Gold, Wood, Stone, Food, Prestige, and Research Points
-- **Building Construction**: 8 unique buildings with different production capabilities
-- **Technology Tree**: 6 technologies with prerequisites and research time
+- **Building System**: 8 unique buildings with different production capabilities
+- **Technology Tree**: 6 technologies that unlock advanced buildings and upgrades
 - **Prestige System**: Reset mechanics with permanent upgrades
-- **Dynamic Events**: 8 random events that affect gameplay
+- **Event System**: Random events that provide choices and consequences
+- **Save System**: Automatic and manual save/load functionality
 
-
-## 🚀 Features
-
-### Core Gameplay
-- **Click Actions**: Manual resource generation through "Royal Decrees"
-- **Passive Production**: Buildings continuously generate resources
-- **Technology Research**: Unlock new buildings and capabilities
-- **Prestige Mechanics**: Reset progress for permanent bonuses
-- **Event System**: Random events with choices and consequences
-
-### Technical Features
-- **High-Performance Game Loop**: 20 FPS game logic
-- **Auto-Save System**: Automatic saves every 30 seconds with offline progress
-- **Import/Export**: Save file management with base64 encoding
-- **Performance Monitoring**: Real-time metrics for tick time, render time, and memory usage
-- **Responsive Design**: Modern UI with CSS modules and SCSS
-- **Type Safety**: Full TypeScript implementation with strict typing
-- **Error Handling**: React Error Boundary with graceful fallbacks
-- **Utility Functions**: Number formatting, debouncing, safe JSON parsing, and error logging
-- **SVG Icon System**: 30+ custom medieval-themed icon sprites for all game elements
-
-## 🏗️ Architecture
-
-### Project Structure
-```
-src/
-├── app/                    # Next.js app router
-├── components/            # React components
-│   ├── game/             # Game-specific components
-│   └── ui/               # Reusable UI components
-├── lib/game/             # Core game logic
-│   ├── config/           # Game configuration
-│   ├── types/            # Type definitions (organized by domain)
-│   ├── hooks/            # Custom React hooks
-│   ├── utils/            # Utility functions
-│   ├── actions.ts        # Game action handlers
-│   ├── calculations.ts   # Game calculations
-│   ├── gameState.ts      # State management
-│   ├── saveSystem.ts     # Save/load system
-│   ├── eventSystem.ts    # Event system
-│   ├── technologySystem.ts # Technology research
-│   └── prestigeSystem.ts # Prestige mechanics
-└── styles/               # SCSS styling
-```
-
-### Core Systems
-
-#### 1. Game Loop (`hooks/useGameLoop.tsx`)
-- **Interval System**: 20 FPS game logic (50ms intervals)
-- **Performance Monitoring**: Tracks tick duration and performance metrics
-
-#### 2. Configuration System (`config/`)
-- **Data-Driven Design**: All game content defined in configuration objects
-- **Type Safety**: Strong typing for all game entities
-- **Modular Structure**: Separate configs for resources, buildings, technologies, etc.
-- **Clean Separation**: Configuration data separated from type definitions
-
-#### 3. Types System (`types/`)
-- **Organized by Domain**: Types grouped logically (resources, buildings, technologies, etc.)
-- **Single Source of Truth**: All type definitions centralized in one location
-- **Clean Imports**: Consistent import patterns across the codebase
-- **Maintainable Structure**: Easy to find and modify type definitions
-
-#### 4. State Management (`GameContext.tsx`)
-- **Centralized State**: Single source of truth for game state
-- **Custom Hooks**: Specialized hooks for different game systems
-- **Performance Optimized**: Memoized calculations and efficient updates
-
-#### 5. Save System (`saveSystem.ts`)
-- **Local Storage**: Persistent game saves
-- **Version Control**: Save compatibility management (currently version 4)
-- **Import/Export**: Base64 encoded save files
-- **Offline Progress**: Calculates progress when game is reopened
-- **Auto-Save**: Automatic saves every 30 seconds
-- **Manual Save**: Player-initiated saves with logging
-- **Save Validation**: Version checking and error handling for corrupted saves
-
-#### 6. Utility System (`utils/`)
-- **Number Formatting**: K/M/B/T notation for large values with configurable thresholds
-- **Safe JSON Parsing**: Error handling for save file operations
-- **Base64 Encoding**: Cross-platform encoding/decoding (browser + Node.js)
-- **Debouncing**: Performance optimization for user interactions
-- **Validation Utils**: Type-safe key validation for resources, buildings, and technologies
-- **Error Logging**: Centralized error logging with timestamps and context
-
-#### 7. State Management (`gameState.ts`)
-- **Immutable Updates**: Pure functions for state modifications
-- **Structural Sharing**: Efficient state updates with minimal object creation
-- **Resource Management**: Safe resource access and modification
-- **Building Unlocking**: Technology-based building availability
-
-#### 8. Custom Hooks System
-- **useGameActions**: Optimized action handlers with functional state updates
-- **useGameCalculations**: Memoized calculations to prevent unnecessary recalculations
-- **useGameTime**: Timer management for events and saves with 1-second updates
-- **usePerformanceMonitor**: Performance metrics with configurable update intervals
-- **useSaveSystem**: Comprehensive save management with offline progress processing
-
-## 🎯 Game Mechanics
-
-### Resources
-- **Gold**: Primary currency, generated by blacksmiths and libraries
-- **Wood**: Basic building material, harvested by woodcutters
-- **Stone**: Construction material, extracted by quarries
-- **Food**: Sustenance for population, grown on farms
-- **Prestige**: Advanced currency, earned through castles and prestige resets
-- **Research Points**: Technology advancement currency, generated by libraries and universities
-
-### Buildings
-| Building | Cost | Production | Requirements |
-|----------|------|------------|--------------|
-| **Woodcutter's Hut** | 15 Gold | 1.2 Wood/s | None |
-| **Quarry** | 30 Gold, 5 Wood | 0.8 Stone/s | None |
-| **Farm** | 25 Gold, 8 Wood | 1.5 Food/s | None |
-| **Blacksmith** | 50 Gold, 15 Wood, 10 Stone | 2.5 Gold/s | None |
-| **Castle** | 200 Gold, 50 Wood, 100 Stone, 20 Food | 0.1 Prestige/s | None |
-| **Library** | 100 Gold, 30 Wood, 20 Stone | 1.0 Gold/s, 0.1 RP/s | Writing |
-| **University** | 300 Gold, 80 Wood, 60 Stone, 30 Food | 3.0 Gold/s, 0.05 Prestige/s, 0.3 RP/s | Writing, Mathematics |
-| **Laboratory** | 500 Gold, 100 Wood, 150 Stone, 50 Food | 5.0 Gold/s, 0.1 Prestige/s, 0.5 RP/s | Chemistry, Engineering |
-
-### Technologies
-| Technology | Cost | Research Time | Unlocks | Prerequisites |
-|------------|------|---------------|---------|---------------|
-| **Writing** | 50 Gold, 20 Wood | 30s | Library | None |
-| **Mathematics** | 100 Gold, 30 Wood, 20 Stone | 60s | University | Writing |
-| **Engineering** | 150 Gold, 50 Wood, 40 Stone | 90s | None | Writing, Mathematics |
-| **Chemistry** | 200 Gold, 60 Wood, 50 Stone, 20 Food | 120s | Laboratory | Mathematics, Engineering |
-| **Physics** | 300 Gold, 80 Wood, 70 Stone, 30 Food | 180s | None | Mathematics, Chemistry |
-| **Biology** | 400 Gold, 100 Wood, 90 Stone, 50 Food | 240s | None | Chemistry, Physics |
-
-**Research System Features:**
-- **Single Research**: Only one technology can be researched at a time
-- **Progress Tracking**: Real-time progress bars and time remaining
-- **Prerequisite Checking**: Technologies unlock based on completed research
-- **Resource Deduction**: Costs are paid upfront when research begins
-
-### Prestige Upgrades
-| Upgrade | Effect | Max Level | Cost Curve |
-|---------|--------|-----------|------------|
-| **Royal Decrees** | +25% click gains per level | 20 | 5 × 1.6^level |
-| **Master Craftsmen** | -3% building costs per level | 25 | 8 × 1.7^level |
-| **Fertile Lands** | +20% Food production per level | 25 | 6 × 1.65^level |
-| **Military Might** | +20% Prestige production per level | 20 | 10 × 1.7^level |
-
-### Events
-The game features 8 dynamic events that occur randomly:
-- **Merchant Visit**: Trade resources for gold
-- **Bandit Raid**: Defend against or pay tribute to bandits
-- **Bountiful Harvest**: Bonus resources from nature
-- **Drought**: Reduced production with prayer options
-- **Royal Tax**: Pay taxes or lose prestige
-- **Mysterious Stranger**: Risky prestige for gold trade
-- **Plague**: Population reduction with treatment options
-- **Festival**: Production boost events
-
-**Event System Features:**
-- **Auto-Resolution**: Events automatically resolve after 30 seconds if no choice is made
-- **Event History**: Tracks last 50 event choices with timestamps
-- **Random Timing**: Events occur between 10-30 seconds initially, then 60-180 seconds
-- **Choice Requirements**: Some choices require specific resources to be available
-
-## 🛠️ Technical Implementation
-
-### Performance Optimizations
-- **Memoized Calculations**: Expensive operations cached and reused
-- **Pure Functions**: Immutable state updates for predictable behavior
-- **Efficient Rendering**: React.memo and optimized re-render logic
-- **Offline Progress**: Single-pass calculation for offline time instead of multiple ticks
-- **Structural Sharing**: Minimal object creation during state updates
-- **Performance Monitoring**: Configurable metrics collection with frame-based updates
-
-```typescript
-// High-frequency game logic (20 FPS)
-const gameLoopInterval = setInterval(() => {
-  const tickResult = processTick();
-  if (tickResult) {
-    pendingStateUpdatesRef.current = tickResult.newState;
-    onTickComplete(tickResult.tickDuration);
-  }
-}, 50); // 20 FPS
-
-// Synchronized React updates (20 FPS)
-const stateUpdateInterval = setInterval(() => {
-  if (pendingStateUpdatesRef.current) {
-    onStateUpdate(pendingStateUpdatesRef.current);
-    pendingStateUpdatesRef.current = null;
-  }
-}, 50);
-```
-
-**Game Loop Design Philosophy:**
-The game loop is intentionally designed to process every tick without early returns because idle games require continuous resource generation and event processing. Each tick (50ms) contains meaningful updates:
-
-- **Resource Production**: Buildings continuously generate resources
-- **Event System**: Random events can trigger at any time
-- **Research Progress**: Technology research advances continuously
-- **Time-based Mechanics**: Save timers, event timers, etc.
-
-The built-in `if (newState === currentState) return null;` check in `useGameLoop` is sufficient to prevent unnecessary processing when no actual changes occur, but this is rare in practice due to the continuous nature of idle game mechanics.
-
-### State Management Pattern
-```typescript
-// Immutable state updates
-export function buyBuilding(state: GameState, key: BuildingKey): GameState {
-  const cost = costFor(state, key);
-  if (!canAfford(state, cost)) return state;
-  
-  const newState = pay(state, cost);
-  const current = getBuildingCount(newState, key);
-  return updateBuildingCount(newState, key, current + 1);
-}
-```
-
-## 🎨 UI/UX Design
-
-### Visual Design
-- **Medieval Theme**: Dark color scheme with blue accents
-- **Card-Based Layout**: Organized sections for different game aspects
-- **Responsive Grid**: Adaptive layout for different screen sizes
-- **Icon System**: SVG sprites for consistent visual language
-- **Custom Icons**: 30+ hand-crafted SVG icons for resources, buildings, technologies, and events
-- **Typography**: Geist font family for modern, readable text
-- **Color Variables**: CSS custom properties for consistent theming
-
-### User Experience
-- **Real-Time Feedback**: Live resource counters and production rates
-- **Progress Indicators**: Research progress bars and event timers
-- **Accessibility**: Clear button states and readable typography
-- **Performance Metrics**: Built-in monitoring for debugging
-
-## 🚀 Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
 - Node.js 18+ 
 - npm or yarn
-
-### Technology Stack
-- **Framework**: Next.js 15 with App Router
-- **UI Library**: React 19 with modern hooks
-- **Language**: TypeScript 5 with strict mode
-- **Styling**: SCSS with CSS Modules
-- **Fonts**: Google Fonts (Geist Sans & Geist Mono)
-- **Build Tool**: Turbopack for development
-- **Linting**: ESLint with Next.js rules
 
 ### Installation
 ```bash
@@ -270,121 +32,252 @@ npm install
 npm run dev
 ```
 
-### Available Scripts
-- `npm run dev` - Start development server with Turbopack
-- `npm run build` - Build for production
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
+The game will be available at `http://localhost:3000`
 
-## 🔧 Configuration
+### Build for Production
+```bash
+npm run build
+npm start
+```
 
-### Adding New Content
-The game is designed to be easily extensible. To add new content:
+## 🏗️ Architecture Overview
 
-1. **Resources**: Add to `src/lib/game/config/resources.ts`
-2. **Buildings**: Add to `src/lib/game/config/buildings.ts`
-3. **Technologies**: Add to `src/lib/game/config/technologies.ts`
-4. **Upgrades**: Add to `src/lib/game/config/prestige.ts`
-5. **Events**: Add to `src/lib/game/config/events.ts`
+### Technology Stack
+- **Framework**: Next.js 15.4.6 with App Router
+- **UI Library**: React 19.1.0
+- **Language**: TypeScript 5
+- **Styling**: SCSS with CSS Modules
+- **Build Tool**: Turbopack (development)
 
-**Note**: All type definitions are now centralized in `src/lib/game/types/` directory, organized by domain:
-- `types/resources.ts` - Resource types and interfaces
-- `types/buildings.ts` - Building types and interfaces  
-- `types/technologies.ts` - Technology types and interfaces
-- `types/prestige.ts` - Prestige upgrade types and interfaces
-- `types/events.ts` - Event types and interfaces
-- `types/game.ts` - Game state and multiplier types
+### Project Structure
+```
+src/
+├── app/                    # Next.js App Router pages
+├── components/             # React components
+│   ├── game/              # Game-specific UI components
+│   └── ui/                # Reusable UI components
+├── lib/game/              # Core game logic
+│   ├── config/            # Game configuration
+│   ├── constants/         # Game constants
+│   ├── contexts/          # React contexts
+│   ├── hooks/             # Custom React hooks
+│   ├── types/             # TypeScript type definitions
+│   └── utils/             # Utility functions
+└── styles/                # SCSS stylesheets
+```
 
-### Types System
-The types are organized by domain for better maintainability:
-- **Centralized Location**: All types exported from `src/lib/game/types/index.ts`
-- **Clean Imports**: Use `import type { ... } from '../types'` in config files
-- **Domain Separation**: Related types grouped together (e.g., all resource types in one file)
-- **No Duplication**: Single source of truth for all type definitions
+## 🎯 Core Game Systems
 
-### Adding New Icons
-To add new SVG icons:
-1. Add the icon definition to `src/components/ui/SvgSprites.tsx`
-2. Reference the icon ID in your configuration
-3. Icons use a consistent 24x24 viewBox with medieval theme colors
+### 1. Resource System
+The game features 6 primary resources:
 
-### State Management
-- **Immutable Updates**: All state changes return new objects
-- **Pure Functions**: No side effects in game logic functions
-- **Structural Sharing**: Efficient updates with minimal object recreation
-- **Type Safety**: Full TypeScript coverage for all game entities
+| Resource | Icon | Starting Amount | Description |
+|----------|------|----------------|-------------|
+| Gold | 🪙 | 10 | Primary currency for purchases |
+| Wood | 🌲 | 0 | Basic building material |
+| Stone | 🪨 | 0 | Advanced building material |
+| Food | 🍖 | 0 | Sustains population and buildings |
+| Prestige | 👑 | 0 | Hidden resource for prestige upgrades |
+| Research Points | 🔬 | 0 | Hidden resource for technology research |
 
-### Example: Adding a New Building
+### 2. Building System
+8 unique buildings with different production and consumption patterns:
+
+#### Basic Buildings
+- **Woodcutter's Hut**: Produces Wood (1.2/s) - Cost: 15 Gold
+- **Quarry**: Produces Stone (0.8/s) - Cost: 30 Gold, 5 Wood
+- **Farm**: Produces Food (1.5/s) - Cost: 25 Gold, 8 Wood
+- **Blacksmith**: Produces Gold (2.5/s), consumes Wood (0.3/s) and Stone (0.2/s) - Cost: 50 Gold, 15 Wood, 10 Stone
+
+#### Advanced Buildings
+- **Castle**: Produces Prestige (0.1/s), consumes Food (0.5/s) - Cost: 200 Gold, 50 Wood, 100 Stone, 20 Food
+- **Library**: Produces Gold (1.0/s) and Research Points (0.1/s) - Cost: 100 Gold, 30 Wood, 20 Stone - Requires Writing technology
+- **University**: Produces Gold (3.0/s), Prestige (0.05/s), and Research Points (0.3/s), consumes Food (1.0/s) - Cost: 300 Gold, 80 Wood, 60 Stone, 30 Food - Requires Writing and Mathematics
+- **Laboratory**: Produces Gold (5.0/s), Prestige (0.1/s), and Research Points (0.5/s), consumes Food (2.0/s) - Cost: 500 Gold, 100 Wood, 150 Stone, 50 Food - Requires Chemistry and Engineering
+
+### 3. Technology System
+6 technologies that unlock advanced buildings and provide strategic depth:
+
+| Technology | Cost | Research Time | Unlocks | Prerequisites |
+|------------|------|---------------|---------|---------------|
+| Writing | 50 Gold, 20 Wood | 30s | Library | None |
+| Mathematics | 100 Gold, 30 Wood, 20 Stone | 60s | University | Writing |
+| Engineering | 150 Gold, 50 Wood, 40 Stone | 90s | - | Writing, Mathematics |
+| Chemistry | 200 Gold, 60 Wood, 50 Stone, 20 Food | 120s | Laboratory | Mathematics, Engineering |
+| Physics | 300 Gold, 80 Wood, 70 Stone, 30 Food | 180s | - | Mathematics, Chemistry |
+| Biology | 400 Gold, 100 Wood, 90 Stone, 50 Food | 240s | - | Chemistry, Physics |
+
+### 4. Prestige System
+Prestige is earned by resetting the game with accumulated Food. The formula is:
+```
+Prestige = sqrt(Total Food Generated / 1000)
+```
+
+Prestige can be spent on 4 permanent upgrades:
+
+| Upgrade | Effect | Cost Formula | Max Level |
+|---------|--------|--------------|-----------|
+| Royal Decrees | +25% click gains per level | 5 × 1.6^level | 20 |
+| Master Craftsmen | -3% building costs per level | 8 × 1.7^level | 25 |
+| Fertile Lands | +20% Food production per level | 6 × 1.65^level | 25 |
+| Military Might | +20% Prestige production per level | 10 × 1.7^level | 20 |
+
+### 5. Event System
+Random events occur every 1-3 minutes, providing players with choices that affect resources:
+
+#### Event Types
+- **Merchant Visit**: Trade resources for Gold
+- **Bandit Raid**: Lose resources or pay tribute
+- **Bountiful Harvest**: Gain multiple resources
+- **Drought**: Lose Food or accept reduced production
+- **Royal Tax**: Pay Gold or lose Prestige
+- **Mysterious Stranger**: Trade Gold for Prestige
+- **Plague**: Lose Prestige or accept consequences
+- **Festival**: Gain resources through celebration
+
+## 🔧 Technical Implementation
+
+### Game Loop Architecture
+The game uses a sophisticated hook-based architecture with the following key components:
+
+#### Core Hooks
+- **useGameLoop**: Manages the main game tick (20 FPS)
+- **useGameActions**: Handles player interactions
+- **useGameCalculations**: Computes game state and costs
+- **useSaveSystem**: Manages save/load functionality
+- **useGameTime**: Tracks time-based events
+- **usePerformanceMonitor**: Monitors game performance
+
+#### State Management
+- **GameContext**: Central React context for game state
+- **Immutable Updates**: All state changes use structural sharing
+- **Validation**: Comprehensive input validation and error handling
+- **Performance**: Optimized re-renders with React.memo and useMemo
+
+### Save System
+- **Automatic Saves**: Every 30 seconds
+- **Manual Saves**: Export/Import functionality
+- **Offline Progress**: Capped at 1 hour of offline time
+- **Version Control**: Save versioning for compatibility
+
+### Performance Optimizations
+- **Debounced Updates**: Prevents excessive re-renders
+- **Memoized Calculations**: Cached expensive computations
+- **Structural Sharing**: Minimal object recreation
+- **Frame Rate Control**: 20 FPS game loop for smooth gameplay
+
+## 🎨 UI/UX Design
+
+### Visual Design
+- **Theme**: Dark medieval aesthetic with blue/purple gradients
+- **Icons**: Custom SVG sprites for all game elements
+- **Typography**: Clean, readable fonts with proper hierarchy
+- **Animations**: Smooth transitions and hover effects
+
+### Responsive Layout
+- **Grid System**: CSS Grid for flexible layouts
+- **Mobile-Friendly**: Responsive design for various screen sizes
+- **Accessibility**: Proper contrast ratios and keyboard navigation
+
+### User Interface Components
+- **Resource Display**: Real-time resource counters with per-second rates
+- **Building List**: Interactive building purchase interface
+- **Technology Tree**: Visual technology research system
+- **Prestige Modal**: Prestige calculation and upgrade interface
+- **Event System**: Modal-based event choices with consequences
+
+## 🔍 Configuration System
+
+The game is fully data-driven through configuration files:
+
+### Adding New Resources
 ```typescript
-// In buildings.ts
-import type { BuildingKey, BuildingDef } from '../types';
-
-export const BUILDINGS: Record<BuildingKey, BuildingDef> = {
-  // ... existing buildings
-  newBuilding: {
-    name: 'New Building',
-    icon: 'ic-new-building',
-    desc: 'Description of the new building.',
-    baseCost: { gold: 100, wood: 20 },
-    costScale: 1.15,
-    baseProd: { gold: 5.0 },
-    baseUse: { food: 1.0 },
-    requiresTech: 'advancedTech',
+// src/lib/game/config/resources.ts
+export const RESOURCES: Record<ResourceKey, ResourceDef> = {
+  newResource: { 
+    name: 'New Resource', 
+    icon: 'ic-new-resource', 
+    decimals: 0, 
+    start: 0 
   },
 };
 ```
 
-## 📊 Performance Characteristics
+### Adding New Buildings
+```typescript
+// src/lib/game/config/buildings.ts
+export const BUILDINGS: Record<BuildingKey, BuildingDef> = {
+  newBuilding: {
+    name: 'New Building',
+    icon: 'ic-new-building',
+    desc: 'Description of the building.',
+    baseCost: { gold: 100 },
+    costScale: 1.15,
+    baseProd: { gold: 5.0 },
+    baseUse: { food: 1.0 },
+  },
+};
+```
 
-### Game Loop Performance
-- **Target FPS**: 20 FPS (50ms intervals)
-- **Tick Processing**: < 1ms per tick
-- **Continuous Updates**: Every game tick has meaningful changes (resource production, events, research progress)
-- **No Early Returns**: The game loop is designed to process all ticks since idle games require continuous resource generation
-- **Memory Usage**: Optimized for long-running sessions
+### Adding New Technologies
+```typescript
+// src/lib/game/config/technologies.ts
+export const TECHNOLOGIES: Record<TechnologyKey, TechnologyDef> = {
+  newTechnology: {
+    name: 'New Technology',
+    icon: 'ic-new-technology',
+    desc: 'Description of the technology.',
+    baseCost: { gold: 200, researchPoints: 50 },
+    costScale: 1.0,
+    researchTime: 120,
+    requiresTech: ['prerequisite'],
+  },
+};
+```
 
-### Code Quality & Standards
-- **TypeScript**: Strict mode with comprehensive type definitions
-- **ESLint**: Next.js core web vitals and TypeScript rules
-- **Code Style**: Functional programming with pure functions
-- **Error Handling**: Graceful degradation and user-friendly error messages
-- **Performance**: Optimized for 60 FPS rendering and smooth gameplay
-- **Memory Management**: Efficient object creation and garbage collection
-- **Console Logging**: Comprehensive logging for debugging and save operations
+## 🧪 Development Guidelines
 
-### Browser Compatibility
-- **Modern Browsers**: Chrome 90+, Firefox 88+, Safari 14+
-- **Mobile Support**: Responsive design for mobile devices
-- **Offline Capable**: Local storage and offline progress calculation
+### Code Style
+- **TypeScript**: Strict type checking enabled
+- **ESLint**: Configured with Next.js rules
+- **SCSS**: Modular styling with CSS Modules
+- **React**: Functional components with hooks
 
-## 🔮 Future Enhancements
+### Testing Strategy
+- **Component Testing**: React components with proper props
+- **Game Logic Testing**: Pure functions for game calculations
+- **Integration Testing**: Game loop and state management
+- **Performance Testing**: Frame rate and memory usage monitoring
 
-### Planned Features
-- **Cloud Saves**: Cross-device synchronization
-- **Achievements**: Milestone tracking and rewards
-- **Multiplayer**: Cooperative and competitive features
-- **Modding Support**: User-created content system
-- **Mobile App**: Native mobile application
+### Error Handling
+- **Validation**: Input validation for all game functions
+- **Error Boundaries**: React error boundaries for UI errors
+- **Logging**: Comprehensive error logging system
+- **Graceful Degradation**: Fallback behavior for errors
+
+## 📊 Performance Metrics
+
+The game includes built-in performance monitoring:
+
+- **Frame Rate**: Target 20 FPS for smooth gameplay
+- **Render Time**: Component render performance tracking
+- **Memory Usage**: Browser memory consumption monitoring
+- **Tick Duration**: Game loop execution time
 
 ## 🤝 Contributing
 
-### Development Guidelines
-- **TypeScript**: Strict typing and comprehensive interfaces
-- **Performance**: Optimize for 60 FPS rendering and smooth gameplay
-- **Testing**: Unit tests for game logic and integration tests for UI
-- **Documentation**: Clear code comments and API documentation
-- **Error Handling**: Implement graceful fallbacks and user-friendly error messages
-- **Accessibility**: Use semantic HTML and ARIA attributes where appropriate
-- **Responsive Design**: Ensure mobile-friendly layouts and interactions
+### Development Setup
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
 
-### Code Style
-- **Functional Programming**: Pure functions and immutable state
-- **React Patterns**: Hooks-based architecture with proper memoization
-- **CSS Modules**: Scoped styling with consistent naming conventions
-- **Error Handling**: Graceful degradation and user-friendly error messages
-- **Component Structure**: Memoized components with clear prop interfaces
-- **State Updates**: Immutable state modifications with structural sharing
-- **Performance**: Use React.memo and useCallback for expensive operations
+### Code Review Process
+- All changes require review
+- Maintain code style consistency
+- Ensure performance impact is minimal
+- Update documentation as needed
 
 ## 📄 License
 
@@ -394,11 +287,11 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - **Next.js Team**: For the excellent React framework
 - **React Team**: For the powerful UI library
+- **TypeScript Team**: For the type-safe development experience
 - **Idle Game Community**: For inspiration and feedback
-- **Open Source Contributors**: For the tools and libraries used
-- **Google Fonts**: For the Geist font family
-- **SVG Community**: For the scalable vector graphics standards
 
 ---
 
-**The Kingdom** represents a modern approach to browser-based gaming, combining the addictive mechanics of idle games with the technical sophistication of modern web development. Whether you're a player looking for an engaging gaming experience or a developer interested in game architecture, this project offers insights into building complex, performant web applications.
+**Happy Kingdom Building!** 🏰👑
+
+*Built with ❤️ using Next.js, React, and TypeScript*
