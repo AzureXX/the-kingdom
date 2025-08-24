@@ -5,6 +5,8 @@ import { getResource, getBuildingCount, getUpgradeLevel, isBuildingUnlocked } fr
 import { isValidBuildingKey } from './utils';
 import { logInvalidKey } from './utils/errorLogger';
 
+const { buildings: BUILDINGS, technologies: TECHNOLOGIES, prestige: PRESTIGE_CONFIG } = CONFIG;
+
 /**
  * Calculate all multipliers based on current upgrade levels
  */
@@ -16,12 +18,12 @@ export function getMultipliers(state: GameState): Multipliers {
     useMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 },
   };
   
-  for (const key in CONFIG.prestige.upgrades) {
+  for (const key in PRESTIGE_CONFIG.upgrades) {
     const k = key as PrestigeUpgradeKey;
     const lvl = getUpgradeLevel(state, k);
     if (!lvl) continue;
     
-    CONFIG.prestige.upgrades[k].effect(lvl, {
+    PRESTIGE_CONFIG.upgrades[k].effect(lvl, {
       muls: ctx,
       prodMul: ctx.prodMul,
       useMul: ctx.useMul,
@@ -35,7 +37,7 @@ export function getMultipliers(state: GameState): Multipliers {
  * Calculate the cost for a building based on current ownership and multipliers
  */
 export function costFor(state: GameState, buildKey: BuildingKey): Partial<Record<ResourceKey, number>> {
-  const def = CONFIG.buildings[buildKey];
+  const def = BUILDINGS[buildKey];
   const owned = getBuildingCount(state, buildKey);
   const muls = getMultipliers(state);
   const cost: Partial<Record<ResourceKey, number>> = {};
@@ -52,7 +54,7 @@ export function costFor(state: GameState, buildKey: BuildingKey): Partial<Record
  * Calculate the cost for a technology
  */
 export function technologyCostFor(state: GameState, techKey: TechnologyKey): Partial<Record<ResourceKey, number>> {
-  const def = CONFIG.technologies[techKey];
+  const def = TECHNOLOGIES[techKey];
   const cost: Partial<Record<ResourceKey, number>> = {};
   
   for (const r in def.baseCost) {
@@ -89,12 +91,12 @@ export function getPerSec(state: GameState): Record<ResourceKey, number> {
   const muls = getMultipliers(state);
   const out: Record<ResourceKey, number> = { gold: 0, wood: 0, stone: 0, food: 0, prestige: 0, researchPoints: 0 };
   
-  for (const key in CONFIG.buildings) {
+  for (const key in BUILDINGS) {
     if (!isValidBuildingKey(key)) {
       logInvalidKey(key, 'building', 'calculation');
       continue;
     }
-    const def = CONFIG.buildings[key];
+    const def = BUILDINGS[key];
     const n = getBuildingCount(state, key);
     if (!n) continue;
     
@@ -135,7 +137,7 @@ export function getClickGains(state: GameState): Partial<Record<ResourceKey, num
  * Calculate upgrade cost for a given level
  */
 export function getUpgradeCost(upgradeKey: PrestigeUpgradeKey, level: number): number {
-  const def = CONFIG.prestige.upgrades[upgradeKey];
+  const def = PRESTIGE_CONFIG.upgrades[upgradeKey];
   return Math.ceil(def.costCurve(level));
 }
 
@@ -143,7 +145,7 @@ export function getUpgradeCost(upgradeKey: PrestigeUpgradeKey, level: number): n
  * Check if an upgrade can be purchased
  */
 export function canBuyUpgrade(state: GameState, upgradeKey: PrestigeUpgradeKey): boolean {
-  const def = CONFIG.prestige.upgrades[upgradeKey];
+  const def = PRESTIGE_CONFIG.upgrades[upgradeKey];
   const currentLevel = getUpgradeLevel(state, upgradeKey);
   const cost = getUpgradeCost(upgradeKey, currentLevel);
   const prestige = getResource(state, 'prestige');

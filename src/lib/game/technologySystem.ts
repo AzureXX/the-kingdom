@@ -4,6 +4,8 @@ import { isValidResourceKey, isValidTechnologyKey } from './utils';
 import { logInvalidKey } from './utils/errorLogger';
 import type { GameState } from './types';
 
+const { technologies: TECHNOLOGIES } = CONFIG;
+
 /**
  * Check if all required technologies are researched
  */
@@ -19,7 +21,7 @@ export function hasAllRequiredTechnologies(state: GameState, requiredTechs: Tech
  * Check if a technology has prerequisites met (regardless of resources)
  */
 export function hasPrerequisitesMet(state: GameState, technologyKey: TechnologyKey): boolean {
-  const tech = CONFIG.technologies[technologyKey];
+  const tech = TECHNOLOGIES[technologyKey];
   if (!tech) return false;
   
   // Check if already researched
@@ -33,7 +35,7 @@ export function hasPrerequisitesMet(state: GameState, technologyKey: TechnologyK
  * Check if a technology can be researched (requirements met and not already researched)
  */
 export function canResearchTechnology(state: GameState, technologyKey: TechnologyKey): boolean {
-  const tech = CONFIG.technologies[technologyKey];
+  const tech = TECHNOLOGIES[technologyKey];
   if (!tech) return false;
   
   // Check if already researched
@@ -60,7 +62,7 @@ export function canResearchTechnology(state: GameState, technologyKey: Technolog
 export function startResearch(state: GameState, technologyKey: TechnologyKey): GameState {
   if (!canResearchTechnology(state, technologyKey)) return state;
   
-  const tech = CONFIG.technologies[technologyKey];
+  const tech = TECHNOLOGIES[technologyKey];
   if (!tech) return state;
   
   let newState = { ...state };
@@ -104,7 +106,7 @@ export function checkResearchProgress(state: GameState): GameState {
  * Complete research for a technology - Pure function
  */
 export function completeResearch(state: GameState, technologyKey: TechnologyKey): GameState {
-  const tech = CONFIG.technologies[technologyKey];
+  const tech = TECHNOLOGIES[technologyKey];
   if (!tech) return state;
   
   let newState = { ...state };

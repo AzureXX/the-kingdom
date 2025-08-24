@@ -5,16 +5,18 @@ import { isValidResourceKey } from './utils';
 import { logInvalidKey } from './utils/errorLogger';
 import type { GameState } from './types';
 
+const { events: EVENTS } = CONFIG;
+
 /**
  * Trigger a random event based on weights
  */
 export function triggerRandomEvent(): EventKey | null {
-  const events = Object.keys(CONFIG.events) as EventKey[];
-  const totalWeight = events.reduce((sum, key) => sum + CONFIG.events[key].weight, 0);
+  const events = Object.keys(EVENTS) as EventKey[];
+  const totalWeight = events.reduce((sum, key) => sum + EVENTS[key].weight, 0);
   let random = Math.random() * totalWeight;
   
   for (const eventKey of events) {
-    random -= CONFIG.events[eventKey].weight;
+    random -= EVENTS[eventKey].weight;
     if (random <= 0) {
       return eventKey;
     }
@@ -27,7 +29,7 @@ export function triggerRandomEvent(): EventKey | null {
  * Check if player can make a specific event choice
  */
 export function canMakeEventChoice(state: GameState, eventKey: EventKey, choiceIndex: number): boolean {
-  const event = CONFIG.events[eventKey];
+  const event = EVENTS[eventKey];
   const choice = event.choices[choiceIndex];
   if (!choice) return false;
   
@@ -49,7 +51,7 @@ export function canMakeEventChoice(state: GameState, eventKey: EventKey, choiceI
  * Process an event choice and update game state - Pure function
  */
 export function makeEventChoice(state: GameState, eventKey: EventKey, choiceIndex: number): GameState {
-  const event = CONFIG.events[eventKey];
+  const event = EVENTS[eventKey];
   const choice = event.choices[choiceIndex];
   if (!choice) return state;
   
@@ -115,7 +117,7 @@ export function checkAndTriggerEvents(state: GameState): GameState {
   // If there's an active event, check if it's been too long (auto-resolve)
   if (newState.events.activeEvent && (now - newState.events.activeEventStartTime) > GAME_CONSTANTS.EVENT.AUTO_RESOLVE_TIMEOUT_MS) {
     // Auto-resolve by choosing the default choice
-    const event = CONFIG.events[newState.events.activeEvent];
+    const event = EVENTS[newState.events.activeEvent];
     const defaultChoiceIndex = event.defaultChoiceIndex || 0;
     newState = makeEventChoice(newState, newState.events.activeEvent, defaultChoiceIndex);
   }

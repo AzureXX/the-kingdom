@@ -4,6 +4,8 @@ import type { GameState } from './types';
 import { isValidBuildingKey } from './utils';
 import { logInvalidKey } from './utils/errorLogger';
 
+const { resources: RESOURCES, buildings: BUILDINGS, version: CONFIG_VERSION } = CONFIG;
+
 /**
  * Initialize a new game state with default values
  */
@@ -16,7 +18,7 @@ export function initNewGame(): GameState {
     technologies: { writing: 0, mathematics: 0, engineering: 0, chemistry: 0, physics: 0, biology: 0 },
     upgrades: { royalDecrees: 0, masterCraftsmen: 0, fertileLands: 0, militaryMight: 0 },
     clicks: 0,
-    version: CONFIG.version,
+    version: CONFIG_VERSION,
     events: {
       activeEvent: null,
       activeEventStartTime: 0,
@@ -31,9 +33,9 @@ export function initNewGame(): GameState {
   };
   
   // Initialize resources with starting values
-  for (const k in CONFIG.resources) {
+  for (const k in RESOURCES) {
     const key = k as ResourceKey;
-    state.resources[key] = CONFIG.resources[key].start || 0;
+    state.resources[key] = RESOURCES[key].start || 0;
   }
   
   return state;
@@ -295,7 +297,7 @@ export function hasAllRequiredTechnologiesForBuilding(state: GameState, required
  * Check if a building is unlocked (no tech requirement or tech is researched)
  */
 export function isBuildingUnlocked(state: GameState, buildingKey: BuildingKey): boolean {
-  const building = CONFIG.buildings[buildingKey];
+  const building = BUILDINGS[buildingKey];
   if (!building || !building.requiresTech) return true;
   return hasAllRequiredTechnologiesForBuilding(state, building.requiresTech);
 }
@@ -305,7 +307,7 @@ export function isBuildingUnlocked(state: GameState, buildingKey: BuildingKey): 
  */
 export function getUnlockedBuildings(state: GameState): BuildingKey[] {
   const validKeys: BuildingKey[] = [];
-  for (const buildingKey of Object.keys(CONFIG.buildings)) {
+  for (const buildingKey of Object.keys(BUILDINGS)) {
     if (!isValidBuildingKey(buildingKey)) {
       logInvalidKey(buildingKey, 'building', 'gameState');
       continue;

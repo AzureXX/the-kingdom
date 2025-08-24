@@ -36,8 +36,8 @@ export {
   EVENTS,
 };
 
-// Main game configuration object
-export const CONFIG = {
+// Main game configuration object - stable reference to prevent recreation
+export const CONFIG = Object.freeze({
   tickRate: GAME_CONSTANTS.GAME_TICK_RATE,
   version: 4, // Increment version for save compatibility
   resources: RESOURCES,
@@ -46,6 +46,6 @@ export const CONFIG = {
   technologies: TECHNOLOGIES,
   prestige: PRESTIGE_CONFIG,
   events: EVENTS,
-};
+});
 
 export const SAVE_KEY = 'medieval-kingdom-v4';
