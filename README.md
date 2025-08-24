@@ -44,6 +44,7 @@ src/
 │   └── ui/               # Reusable UI components
 ├── lib/game/             # Core game logic
 │   ├── config/           # Game configuration
+│   ├── types/            # Type definitions (organized by domain)
 │   ├── hooks/            # Custom React hooks
 │   ├── utils/            # Utility functions
 │   ├── actions.ts        # Game action handlers
@@ -67,13 +68,20 @@ src/
 - **Data-Driven Design**: All game content defined in configuration objects
 - **Type Safety**: Strong typing for all game entities
 - **Modular Structure**: Separate configs for resources, buildings, technologies, etc.
+- **Clean Separation**: Configuration data separated from type definitions
 
-#### 3. State Management (`GameContext.tsx`)
+#### 3. Types System (`types/`)
+- **Organized by Domain**: Types grouped logically (resources, buildings, technologies, etc.)
+- **Single Source of Truth**: All type definitions centralized in one location
+- **Clean Imports**: Consistent import patterns across the codebase
+- **Maintainable Structure**: Easy to find and modify type definitions
+
+#### 4. State Management (`GameContext.tsx`)
 - **Centralized State**: Single source of truth for game state
 - **Custom Hooks**: Specialized hooks for different game systems
 - **Performance Optimized**: Memoized calculations and efficient updates
 
-#### 4. Save System (`saveSystem.ts`)
+#### 5. Save System (`saveSystem.ts`)
 - **Local Storage**: Persistent game saves
 - **Version Control**: Save compatibility management (currently version 4)
 - **Import/Export**: Base64 encoded save files
@@ -82,7 +90,7 @@ src/
 - **Manual Save**: Player-initiated saves with logging
 - **Save Validation**: Version checking and error handling for corrupted saves
 
-#### 5. Utility System (`utils/`)
+#### 6. Utility System (`utils/`)
 - **Number Formatting**: K/M/B/T notation for large values with configurable thresholds
 - **Safe JSON Parsing**: Error handling for save file operations
 - **Base64 Encoding**: Cross-platform encoding/decoding (browser + Node.js)
@@ -90,13 +98,13 @@ src/
 - **Validation Utils**: Type-safe key validation for resources, buildings, and technologies
 - **Error Logging**: Centralized error logging with timestamps and context
 
-#### 6. State Management (`gameState.ts`)
+#### 7. State Management (`gameState.ts`)
 - **Immutable Updates**: Pure functions for state modifications
 - **Structural Sharing**: Efficient state updates with minimal object creation
 - **Resource Management**: Safe resource access and modification
 - **Building Unlocking**: Technology-based building availability
 
-#### 7. Custom Hooks System
+#### 8. Custom Hooks System
 - **useGameActions**: Optimized action handlers with functional state updates
 - **useGameCalculations**: Memoized calculations to prevent unnecessary recalculations
 - **useGameTime**: Timer management for events and saves with 1-second updates
@@ -281,6 +289,21 @@ The game is designed to be easily extensible. To add new content:
 4. **Upgrades**: Add to `src/lib/game/config/prestige.ts`
 5. **Events**: Add to `src/lib/game/config/events.ts`
 
+**Note**: All type definitions are now centralized in `src/lib/game/types/` directory, organized by domain:
+- `types/resources.ts` - Resource types and interfaces
+- `types/buildings.ts` - Building types and interfaces  
+- `types/technologies.ts` - Technology types and interfaces
+- `types/prestige.ts` - Prestige upgrade types and interfaces
+- `types/events.ts` - Event types and interfaces
+- `types/game.ts` - Game state and multiplier types
+
+### Types System
+The types are organized by domain for better maintainability:
+- **Centralized Location**: All types exported from `src/lib/game/types/index.ts`
+- **Clean Imports**: Use `import type { ... } from '../types'` in config files
+- **Domain Separation**: Related types grouped together (e.g., all resource types in one file)
+- **No Duplication**: Single source of truth for all type definitions
+
 ### Adding New Icons
 To add new SVG icons:
 1. Add the icon definition to `src/components/ui/SvgSprites.tsx`
@@ -296,6 +319,8 @@ To add new SVG icons:
 ### Example: Adding a New Building
 ```typescript
 // In buildings.ts
+import type { BuildingKey, BuildingDef } from '../types';
+
 export const BUILDINGS: Record<BuildingKey, BuildingDef> = {
   // ... existing buildings
   newBuilding: {

@@ -1,12 +1,4 @@
-export type ResourceKey = 'gold' | 'wood' | 'stone' | 'food' | 'prestige' | 'researchPoints';
-
-export type ResourceDef = {
-  name: string;
-  icon: string;
-  decimals: number;
-  start: number;
-  hidden?: boolean; // Whether to hide this resource until first earned
-};
+import type { ResourceKey, ResourceDef } from '../types';
 
 export const RESOURCES: Record<ResourceKey, ResourceDef> = {
   gold: { name: 'Gold', icon: 'ic-gold', decimals: 0, start: 10 },

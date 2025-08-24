@@ -1,6 +1,4 @@
-import type { TechnologyKey, TechnologyDef } from './types';
-
-export type { TechnologyKey, TechnologyDef };
+import type { TechnologyKey, TechnologyDef } from '../types';
 
 export const TECHNOLOGIES: Record<TechnologyKey, TechnologyDef> = {
   writing: {

@@ -1,10 +1,10 @@
-import type { BuildingKey, PrestigeUpgradeKey, ResourceKey, EventKey, TechnologyKey } from './config';
+// Game state related type definitions
 
-// More specific types for resource-related operations
-export type ResourceCost = Partial<Record<ResourceKey, number>>;
-export type ResourceProduction = Partial<Record<ResourceKey, number>>;
-export type ResourceConsumption = Partial<Record<ResourceKey, number>>;
-export type ResourceAmount = Record<ResourceKey, number>;
+import type { ResourceKey } from './resources';
+import type { BuildingKey } from './buildings';
+import type { TechnologyKey } from './technologies';
+import type { PrestigeUpgradeKey } from  './prestige';
+import type { EventKey } from './events';
 
 export type GameState = {
   t: number;

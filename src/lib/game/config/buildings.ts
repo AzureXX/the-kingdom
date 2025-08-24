@@ -1,6 +1,4 @@
-import type { BuildingKey, BuildingDef } from './types';
-
-export type { BuildingKey, BuildingDef };
+import type { BuildingKey, BuildingDef } from '../types';
 
 export const BUILDINGS: Record<BuildingKey, BuildingDef> = {
   woodcutter: {

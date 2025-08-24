@@ -1,27 +1,4 @@
-import type { ResourceKey } from './resources';
-
-export type PrestigeUpgradeKey =
-  | 'royalDecrees'
-  | 'masterCraftsmen'
-  | 'fertileLands'
-  | 'militaryMight';
-
-export type PrestigeUpgradeDef = {
-  name: string;
-  icon: string;
-  desc: string;
-  costCurve: (level: number) => number;
-  max: number;
-  // Effect mutates multipliers in-place
-  effect: (
-    level: number,
-    ctx: {
-      muls: { clickGain: number; cost: number };
-      prodMul: Record<ResourceKey, number>;
-      useMul: Record<ResourceKey, number>;
-    }
-  ) => void;
-};
+import type { ResourceKey, PrestigeUpgradeKey, PrestigeUpgradeDef } from '../types';
 
 export const PRESTIGE_CONFIG = {
   gainFrom: 'food' as ResourceKey,

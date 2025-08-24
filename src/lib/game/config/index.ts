@@ -1,20 +1,30 @@
 import { GAME_CONSTANTS } from '../constants';
-import { RESOURCES, CLICK_CONFIG, type ResourceKey } from './resources';
-import { BUILDINGS, type BuildingKey, type BuildingDef } from './buildings';
-import { TECHNOLOGIES, type TechnologyKey, type TechnologyDef } from './technologies';
-import { PRESTIGE_CONFIG, type PrestigeUpgradeKey } from './prestige';
-import { EVENTS, type EventKey } from './events';
+import { RESOURCES, CLICK_CONFIG } from './resources';
+import { BUILDINGS } from './buildings';
+import { TECHNOLOGIES } from './technologies';
+import { PRESTIGE_CONFIG } from './prestige';
+import { EVENTS } from './events';
 
-// Re-export all types for convenience
+// Import all types from centralized types directory
 export type {
   ResourceKey,
+  ResourceDef,
+  ResourceCost,
+  ResourceProduction,
+  ResourceConsumption,
+  ResourceAmount,
   BuildingKey,
   BuildingDef,
   TechnologyKey,
   TechnologyDef,
   PrestigeUpgradeKey,
+  PrestigeUpgradeDef,
   EventKey,
-};
+  EventChoice,
+  EventDef,
+  GameState,
+  Multipliers,
+} from '../types';
 
 // Re-export all config objects
 export {
