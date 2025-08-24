@@ -53,10 +53,8 @@ src/
 ### Core Systems
 
 #### 1. Game Loop (`useGameLoop.tsx`)
-- **Dual Interval System**: Separates game logic (20 FPS) from UI updates (20 FPS)
-- **State Batching**: Collects multiple ticks before updating React state
+- **Interval System**:  game logic (20 FPS) 
 - **Performance Monitoring**: Tracks tick duration and performance metrics
-- **Scalable Architecture**: Game logic can run at higher FPS while UI remains efficient
 
 #### 2. Configuration System (`config/`)
 - **Data-Driven Design**: All game content defined in configuration objects
@@ -170,9 +168,6 @@ The game features 8 dynamic events that occur randomly:
 - **Structural Sharing**: Minimal object creation during state updates
 - **Performance Monitoring**: Configurable metrics collection with frame-based updates
 
-### Dual Interval Game Loop Architecture
-The game uses a sophisticated dual interval system that separates game logic from UI rendering:
-
 ```typescript
 // High-frequency game logic (20 FPS)
 const gameLoopInterval = setInterval(() => {
@@ -191,13 +186,6 @@ const stateUpdateInterval = setInterval(() => {
   }
 }, 50);
 ```
-
-**Benefits of Dual Interval System:**
-- **Smooth Game Logic**: Game calculations run at consistent 20 FPS regardless of UI performance
-- **Efficient Rendering**: React state updates are batched to prevent unnecessary re-renders
-- **Performance Isolation**: UI lag doesn't affect game mechanics
-- **Battery Optimization**: Lower UI update frequency saves power on mobile devices
-- **Scalability**: Game logic can run at higher FPS (100+) while UI stays at 20 FPS
 
 ### State Management Pattern
 ```typescript

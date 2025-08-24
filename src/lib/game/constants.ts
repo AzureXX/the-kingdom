@@ -7,7 +7,6 @@ export const GAME_CONSTANTS = {
   
   // Game loop constants
   GAME_TICK_RATE: 20, // 20 FPS = 50ms intervals - minimum for smooth gameplay
-  UI_UPDATE_RATE: 20, // 20 FPS = 50ms intervals - synchronized with game loop
   
   // Performance constants
   PERFORMANCE_METRICS_UPDATE_INTERVAL: 60, // Update performance metrics every 60 frames
