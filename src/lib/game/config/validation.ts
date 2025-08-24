@@ -1,5 +1,5 @@
 import { CONFIG } from './index';
-import type { ResourceKey, BuildingKey, TechnologyKey, PrestigeUpgradeKey, EventKey } from './index';
+import type { ResourceKey, BuildingKey, TechnologyKey, PrestigeUpgradeKey, EventKey } from '../types';
 
 /**
  * Configuration validation functions

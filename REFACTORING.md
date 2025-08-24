@@ -13,11 +13,11 @@ This document outlines identified refactoring opportunities in order of priority
 **Should be**: Remove type exports from config/index.ts, only export config objects
 
 **Step-by-Step Breakdown:**
-1. **Remove type imports** from config/index.ts (lines 20-36)
-2. **Keep only config object exports** (RESOURCES, BUILDINGS, etc.)
-3. **Verify all types are accessible** from `../types` in consuming files
-4. **Test that game still compiles** without type errors
-5. **Run game to ensure** no runtime type issues
+1. ✅ **Remove type imports** from config/index.ts (lines 20-36) - COMPLETED
+2. ✅ **Keep only config object exports** (RESOURCES, BUILDINGS, etc.) - COMPLETED
+3. ✅ **Verify all types are accessible** from `../types` in consuming files - COMPLETED
+4. ⏳ **Test that game still compiles** without type errors - PENDING
+5. ⏳ **Run game to ensure** no runtime type issues - PENDING
 
 ## 🟡 Medium Priority (Code Quality)
 
