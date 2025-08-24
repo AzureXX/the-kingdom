@@ -1,4 +1,4 @@
-import { useState, useRef, useMemo } from 'react';
+import { useState, useRef, useMemo, useCallback } from 'react';
 
 export interface PerformanceMetrics {
   tickTime: number;
@@ -28,7 +28,7 @@ export function usePerformanceMonitor(updateInterval: number = 10) {
   const frameCountRef = useRef<number>(0);
 
   // Update performance metrics in refs (no re-renders)
-  const updateMetrics = (tickDuration: number) => {
+  const updateMetrics = useCallback((tickDuration: number) => {
     frameCountRef.current++;
     
     // Only update performance metrics every N frames to reduce re-renders
@@ -55,15 +55,15 @@ export function usePerformanceMonitor(updateInterval: number = 10) {
         memoryUsage: performanceMetricsRef.current.memoryUsage,
       });
     }
-  };
+  }, [updateInterval]);
 
   // Reset render start time (called when game loop starts)
-  const resetRenderTimer = () => {
+  const resetRenderTimer = useCallback(() => {
     renderStartTimeRef.current = performance.now();
-  };
+  }, []);
 
   // Get current metrics without triggering re-render
-  const getCurrentMetrics = () => performanceMetricsRef.current;
+  const getCurrentMetrics = useCallback(() => performanceMetricsRef.current, []);
 
   // Group performance monitoring functions together for cleaner consumption
   const performanceFunctions = useMemo(() => ({

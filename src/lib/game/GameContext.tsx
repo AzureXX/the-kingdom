@@ -36,7 +36,7 @@ export interface GameContextType {
     renderTime: number;
     memoryUsage: number;
   };
-  manualSave: (state: GameState) => void;
+  manualSave: () => void;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);

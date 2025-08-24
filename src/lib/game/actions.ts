@@ -76,8 +76,6 @@ export function clickAction(state: GameState): GameState {
   const gains = getClickGains(state);
   const newState = addResources(state, gains);
   
-
-  
   // Only update clicks if it actually changed
   if (newState.clicks === state.clicks) return newState;
   

@@ -60,9 +60,10 @@ export function useSaveSystem(
   }, []);
 
   // Manual save function
-  const manualSave = useCallback((state: GameState) => {
+  const manualSave = useCallback(() => {
+    if (!stateRef.current) return;
     const saveTime = Date.now();
-    doSave(state);
+    doSave(stateRef.current);
     setLastSavedAt(saveTime);
   }, []);
 

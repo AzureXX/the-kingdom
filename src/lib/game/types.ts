@@ -1,5 +1,11 @@
 import type { BuildingKey, PrestigeUpgradeKey, ResourceKey, EventKey, TechnologyKey } from './config';
 
+// More specific types for resource-related operations
+export type ResourceCost = Partial<Record<ResourceKey, number>>;
+export type ResourceProduction = Partial<Record<ResourceKey, number>>;
+export type ResourceConsumption = Partial<Record<ResourceKey, number>>;
+export type ResourceAmount = Record<ResourceKey, number>;
+
 export type GameState = {
   t: number;
   resources: Partial<Record<ResourceKey, number>>;
