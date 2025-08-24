@@ -1,6 +1,6 @@
 import { CONFIG } from './config';
 import type { ResourceKey, TechnologyKey, BuildingKey, PrestigeUpgradeKey } from './types';
-import { GAME_CONSTANTS } from './constants';
+import { GAME_CONSTANTS, EVENT_CONSTANTS } from './constants';
 import type { GameState } from './types';
 import { isValidBuildingKey } from './utils';
 import { logInvalidKey, createValidationErrorHandler, createStateErrorHandler } from './utils/errorLogger';
@@ -28,7 +28,7 @@ export function initNewGame(): GameState {
       events: {
         activeEvent: null,
         activeEventStartTime: 0,
-        nextEventTime: Date.now() + (Math.random() * (GAME_CONSTANTS.EVENT.INITIAL_MAX_INTERVAL_SECONDS - GAME_CONSTANTS.EVENT.INITIAL_MIN_INTERVAL_SECONDS) + GAME_CONSTANTS.EVENT.INITIAL_MIN_INTERVAL_SECONDS) * 1000,
+        nextEventTime: Date.now() + (Math.random() * (EVENT_CONSTANTS.INITIAL_MAX_INTERVAL_SECONDS - EVENT_CONSTANTS.INITIAL_MIN_INTERVAL_SECONDS) + EVENT_CONSTANTS.INITIAL_MIN_INTERVAL_SECONDS) * 1000,
         eventHistory: [],
       },
       research: {

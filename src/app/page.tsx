@@ -12,7 +12,7 @@ import { EventModal } from '@/components/ui/EventModal';
 import { EventNotification } from '@/components/ui/EventNotification';
 import { SvgSprites } from '@/components/ui/SvgSprites';
 import { PerformanceMonitor } from '@/components/ui/PerformanceMonitor';
-import { GAME_CONSTANTS } from '@/lib/game/constants';
+import { UI_CONSTANTS } from '@/lib/game/constants';
 import { getPrestigeFormula } from '@/lib/game/prestigeSystem';
 import { clearSave } from '@/lib/game/saveSystem';
 
@@ -65,11 +65,11 @@ export default function GamePage() {
               const blob = new Blob([text], { type: 'text/plain' });
               const a = document.createElement('a');
               a.href = URL.createObjectURL(blob);
-              a.download = GAME_CONSTANTS.EXPORT_FILENAME;
+              a.download = UI_CONSTANTS.EXPORT_FILENAME;
               a.click();
             }}
           >Export Save</button>
-          <input ref={fileInputRef} type="file" accept={GAME_CONSTANTS.IMPORT_FILE_TYPES} style={{ display: 'none' }} onChange={(e) => {
+          <input ref={fileInputRef} type="file" accept={UI_CONSTANTS.IMPORT_FILE_TYPES} style={{ display: 'none' }} onChange={(e) => {
             const f = e.target.files?.[0];
             if (!f) return;
             const fr = new FileReader();

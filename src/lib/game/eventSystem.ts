@@ -1,6 +1,6 @@
 import { CONFIG } from './config';
 import type { EventKey, ResourceKey } from './types';
-import { GAME_CONSTANTS } from './constants';
+import { EVENT_CONSTANTS } from './constants';
 import { addResources, getResource, setResource } from './gameState';
 import { isValidResourceKey } from './utils';
 import { logInvalidKey } from './utils/errorLogger';
@@ -88,8 +88,8 @@ export function makeEventChoice(state: GameState, eventKey: EventKey, choiceInde
   }];
   
   // Keep only the last N events - use in-place modification for better performance
-  if (newEventHistory.length > GAME_CONSTANTS.EVENT.HISTORY_MAX_ENTRIES) {
-    const excess = newEventHistory.length - GAME_CONSTANTS.EVENT.HISTORY_MAX_ENTRIES;
+  if (newEventHistory.length > EVENT_CONSTANTS.HISTORY_MAX_ENTRIES) {
+  const excess = newEventHistory.length - EVENT_CONSTANTS.HISTORY_MAX_ENTRIES;
     newEventHistory.splice(0, excess); // Remove excess entries from the beginning
   }
   
@@ -118,7 +118,7 @@ export function checkAndTriggerEvents(state: GameState): GameState {
   let newState = { ...state };
   
   // If there's an active event, check if it's been too long (auto-resolve)
-  if (newState.events.activeEvent && (now - newState.events.activeEventStartTime) > GAME_CONSTANTS.EVENT.AUTO_RESOLVE_TIMEOUT_MS) {
+  if (newState.events.activeEvent && (now - newState.events.activeEventStartTime) > EVENT_CONSTANTS.AUTO_RESOLVE_TIMEOUT_MS) {
     // Auto-resolve by choosing the default choice
     const event = EVENTS[newState.events.activeEvent];
     const defaultChoiceIndex = event.defaultChoiceIndex || 0;

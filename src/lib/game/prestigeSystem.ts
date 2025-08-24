@@ -1,4 +1,4 @@
-import { GAME_CONSTANTS } from './constants';
+import { PRESTIGE_CONSTANTS } from './constants';
 import { initNewGame } from './gameState';
 import type { GameState } from './types';
 
@@ -6,7 +6,7 @@ import type { GameState } from './types';
  * Calculate prestige gain based on lifetime food production
  */
 export function prestigeGain(state: GameState): number {
-  const div = GAME_CONSTANTS.PRESTIGE_DIVISOR;
+  const div = PRESTIGE_CONSTANTS.PRESTIGE_DIVISOR;
   const x = state.lifetime.food || 0;
   return Math.floor(Math.sqrt(x / div));
 }
@@ -35,7 +35,7 @@ export function doPrestige(state: GameState): GameState {
  * Get prestige formula description
  */
 export function getPrestigeFormula(): string {
-  return `floor( √(lifetimeFood / ${GAME_CONSTANTS.PRESTIGE_DIVISOR}) )`;
+  return `floor( √(lifetimeFood / ${PRESTIGE_CONSTANTS.PRESTIGE_DIVISOR}) )`;
 }
 
 /**
