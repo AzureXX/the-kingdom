@@ -8,8 +8,19 @@ export function useGameLoop(
   onStateUpdate: (newState: GameState) => void,
   onTickComplete: (tickDuration: number) => void
 ) {
-  // Use ref to track current state for tick loop to avoid conflicts with rapid clicks
+  // Use refs to track stable references and avoid unnecessary re-renders
   const stateRef = useRef<GameState | null>(null);
+  const onStateUpdateRef = useRef(onStateUpdate);
+  const onTickCompleteRef = useRef(onTickComplete);
+  
+  // Update refs when callbacks change to maintain latest references
+  useEffect(() => {
+    onStateUpdateRef.current = onStateUpdate;
+  }, [onStateUpdate]);
+  
+  useEffect(() => {
+    onTickCompleteRef.current = onTickComplete;
+  }, [onTickComplete]);
   
   const processTick = useCallback(() => {
     const currentState = stateRef.current;
@@ -42,17 +53,15 @@ export function useGameLoop(
       
       const { newState, tickDuration } = tickResult;
       
-      onStateUpdate(newState);
-      
-      // Notify parent about tick completion for performance monitoring
-      onTickComplete(tickDuration);
+      // Use refs to avoid dependency on changing callback functions
+      onStateUpdateRef.current(newState);
+      onTickCompleteRef.current(tickDuration);
     }, 1000 / GAME_CONSTANTS.GAME_TICK_RATE);
-    
     
     return () => {
       clearInterval(gameLoopInterval);
     };
-  }, [processTick, onStateUpdate, onTickComplete]);
+  }, [processTick]);
   
   useEffect(() => {
     stateRef.current = state;

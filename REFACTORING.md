@@ -117,13 +117,13 @@ This document outlines the refactoring needs identified in the codebase, priorit
 - **Impact**: Minor performance improvement, cleaner code
 
 **Implementation Steps:**
-1. **Step 1**: Audit useCallback dependencies
-   - Review all useCallback dependency arrays
-   - Remove unnecessary dependencies
-   - **Files**: `src/lib/game/hooks/useGameActions.tsx` (lines 15-45)
-   - **Risk**: Low - only optimizes dependencies
+1. **Step 1**: ✅ Optimize useGameLoop dependencies
+   - Use refs for callback functions to avoid dependency changes
+   - Remove onStateUpdate and onTickComplete from useEffect dependencies
+   - **Files**: `src/lib/game/hooks/useGameLoop.tsx`
+   - **Risk**: Low - only changes dependency management
 
-2. **Step 2**: Optimize useMemo dependencies
+2. **Step 2**: ✅ Optimize useMemo dependencies
    - Review useMemo dependency arrays
    - Ensure dependencies are minimal and stable
    - **Files**: `src/lib/game/hooks/useGameCalculations.tsx`
