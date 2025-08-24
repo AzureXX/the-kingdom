@@ -45,7 +45,7 @@ export function getMultipliers(state: GameState): Multipliers {
     return ctx;
   } catch (error) {
     calculationHandler('Failed to calculate multipliers', { error: error instanceof Error ? error.message : String(error) });
-    // Return default multipliers on error
+    // Return default multipliers on error for safety
     return {
       clickGain: GAME_CONSTANTS.GAME.DEFAULT_MULTIPLIER,
       cost: GAME_CONSTANTS.GAME.DEFAULT_MULTIPLIER,
@@ -89,7 +89,7 @@ export function costFor(state: GameState, buildKey: BuildingKey): Partial<Record
     return cost;
   } catch (error) {
     calculationHandler('Failed to calculate building cost', { buildKey, error: error instanceof Error ? error.message : String(error) });
-    return {}; // Return empty cost on error
+    return {}; // Return empty cost on error for safety
   }
 }
 
@@ -125,7 +125,7 @@ export function technologyCostFor(state: GameState, techKey: TechnologyKey): Par
     return cost;
   } catch (error) {
     calculationHandler('Failed to calculate technology cost', { techKey, error: error instanceof Error ? error.message : String(error) });
-    return {}; // Return empty cost on error
+    return {}; // Return empty cost on error for safety
   }
 }
 
