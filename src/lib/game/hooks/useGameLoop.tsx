@@ -34,7 +34,7 @@ export function useGameLoop(
     let newState = tick(currentState, 1 / GAME_CONSTANTS.GAME_TICK_RATE);
     
     // Process loop actions
-    newState = processLoopActionTick(newState, 1 / GAME_CONSTANTS.GAME_TICK_RATE);
+    newState = processLoopActionTick(newState);
     
     // Measure tick completion time
     const tickEndTime = performance.now();

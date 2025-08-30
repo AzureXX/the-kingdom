@@ -6,7 +6,7 @@ export function calculatePointsPerTick(): number {
   return 100;
 }
 
-export function calculateProgress(action: LoopActionState, pointsPerTick: number): LoopActionProgress {
+export function calculateProgress(action: LoopActionState): LoopActionProgress {
   const actionDef = LOOP_ACTIONS[action.actionKey];
   const pointsRequired = actionDef.loopPointsRequired;
   const progressPercentage = (action.currentPoints / pointsRequired) * 100;
@@ -27,11 +27,6 @@ export function calculateProgress(action: LoopActionState, pointsPerTick: number
   };
 }
 
-export function shouldAutoRestart(state: any, actionKey: string): boolean {
-  // This will be implemented when we have the full game state context
-  // For now, return false to prevent auto-restart
-  return false;
-}
 
 export function calculateLoopActionEfficiency(action: LoopActionState): number {
   if (action.totalLoopsCompleted === 0) return 0;
@@ -47,7 +42,7 @@ export function calculateLoopActionEfficiency(action: LoopActionState): number {
 
 export function getLoopActionStats(action: LoopActionState) {
   const actionDef = LOOP_ACTIONS[action.actionKey];
-  const progress = calculateProgress(action, 100);
+  const progress = calculateProgress(action);
   
   return {
     name: actionDef.name,

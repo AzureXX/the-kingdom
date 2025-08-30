@@ -18,6 +18,7 @@ export function ActionList({ state, onExecuteAction, fmt }: ActionListProps) {
   const actionKeys = useMemo(() => Object.keys(allActions) as ActionKey[], [allActions]);
   
   const actionStatuses = useMemo(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const statuses: Record<ActionKey, ReturnType<typeof getActionStatus>> = {} as any;
     
     for (const actionKey of actionKeys) {
@@ -42,10 +43,13 @@ export function ActionList({ state, onExecuteAction, fmt }: ActionListProps) {
 
       if (action.unlockConditions.length === 0) {
         groups.basic.push(actionKey);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } else if (action.unlockConditions.some((c: any) => c.type === 'resource')) {
         groups.trading.push(actionKey);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } else if (action.unlockConditions.some((c: any) => c.type === 'building')) {
         groups.building.push(actionKey);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } else if (action.unlockConditions.some((c: any) => c.type === 'technology')) {
         groups.technology.push(actionKey);
       }

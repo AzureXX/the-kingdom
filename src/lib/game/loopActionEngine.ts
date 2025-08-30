@@ -75,7 +75,7 @@ export function resumeLoopAction(state: GameState, actionKey: LoopActionKey): Ga
   };
 }
 
-export function processLoopActionTick(state: GameState, dtSeconds: number): GameState {
+export function processLoopActionTick(state: GameState): GameState {
   let newState = { ...state };
   
   // Process each action and collect completed loops

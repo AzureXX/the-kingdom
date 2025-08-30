@@ -47,7 +47,7 @@ export function LoopActionList({ gameState, onToggleLoopAction }: LoopActionList
       </div>
       
       <div className={styles.grid}>
-        {Object.entries(LOOP_ACTIONS).map(([actionKey, actionDef]) => {
+        {Object.entries(LOOP_ACTIONS).map(([actionKey]) => {
           const state = getLoopActionState(actionKey as LoopActionKey);
           const canStart = canStartAction(actionKey as LoopActionKey);
           

@@ -1,5 +1,4 @@
 import type { LoopActionDef } from '../types/loopActions';
-import type { ResourceKey } from '../types/resources';
 
 export const LOOP_ACTIONS: Record<string, LoopActionDef> = {
   basicGathering: {

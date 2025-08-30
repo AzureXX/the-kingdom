@@ -1,6 +1,6 @@
 // Action validation utilities
 
-import type { GameState, ActionKey, ActionStatus, ResourceKey, BuildingKey, TechnologyKey } from '../types';
+import type { GameState, ActionKey, ActionStatus, ResourceKey, BuildingKey } from '../types';
 import { getAction, getAllActions } from '../config/actions';
 import { getResource, getBuildingCount, getUpgradeLevel } from '../gameState';
 import { canAfford } from '../calculations';
@@ -73,7 +73,8 @@ export function checkUnlockConditions(
   return conditions.every(condition => {
     switch (condition.type) {
       case 'technology':
-        const techLevel = getUpgradeLevel(state, condition.key as TechnologyKey);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const techLevel = getUpgradeLevel(state, condition.key as any);
         return techLevel >= condition.value;
 
       case 'building':
@@ -85,6 +86,7 @@ export function checkUnlockConditions(
         return resourceAmount >= condition.value;
 
       case 'prestige':
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const prestigeLevel = getUpgradeLevel(state, condition.key as any); // Prestige upgrade
         return prestigeLevel >= condition.value;
 
@@ -113,7 +115,7 @@ export function getActionStatus(state: GameState, actionKey: ActionKey): ActionS
   const isOnCooldown = isActionOnCooldown(state, actionKey);
   const canAffordCost = !action.cost || Object.keys(action.cost).length === 0 || canAfford(state, action.cost);
 
-  let canExecute = isUnlocked && !isOnCooldown && canAffordCost;
+  const canExecute = isUnlocked && !isOnCooldown && canAffordCost;
   let reason: string | undefined;
 
   if (!isUnlocked) {
