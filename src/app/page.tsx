@@ -5,6 +5,7 @@ import styles from '@/styles/page.module.scss';
 import { useGameContext } from '@/lib/game/GameContext';
 import { ResourceDisplay } from '@/components/game/ResourceDisplay';
 import { ActionList } from '@/components/game/ActionList';
+import { LoopActionList } from '@/components/game/LoopActionList';
 import { BuildingList } from '@/components/game/BuildingList';
 import { TechnologyList } from '@/components/game/TechnologyList';
 import { UpgradeList } from '@/components/game/UpgradeList';
@@ -28,6 +29,7 @@ export default function GamePage() {
     handleBuyUpgrade,
     handleResearchTechnology,
     handleDoPrestige,
+    handleToggleLoopAction,
     doExport,
     doImport,
     costFor,
@@ -109,6 +111,14 @@ export default function GamePage() {
               <button className={`${styles.button} ${styles.bad}`} onClick={() => setPrestigeOpen(true)}>Ascend to Greater Kingdom (Prestige)</button>
             </div>
           </div>
+        </section>
+
+        <section className={styles.card}>
+          <h2>Loop Actions</h2>
+          <LoopActionList 
+            gameState={state} 
+            onToggleLoopAction={handleToggleLoopAction} 
+          />
         </section>
 
         <section className={styles.card}>

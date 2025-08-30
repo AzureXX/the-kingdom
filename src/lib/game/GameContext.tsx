@@ -4,7 +4,8 @@ import React, { createContext, useContext, useMemo, useState, ReactNode, useRef 
 import { formatNumber as fmt } from './utils';
 
 import type { GameState, Multipliers, BuildingKey, PrestigeUpgradeKey, ResourceKey, TechnologyKey, ActionKey } from './types';
-import { usePerformanceMonitor, useSaveSystem, useGameLoop, useGameTime, useGameActions, useGameCalculations } from './hooks';
+import type { LoopActionKey } from './types/loopActions';
+import { usePerformanceMonitor, useSaveSystem, useGameLoop, useGameTime, useGameActions, useGameCalculations, useLoopActions } from './hooks';
 
 export interface GameContextType {
   state: GameState | null;
@@ -20,6 +21,7 @@ export interface GameContextType {
   handleBuyUpgrade: (key: PrestigeUpgradeKey) => void;
   handleResearchTechnology: (key: TechnologyKey) => void;
   handleDoPrestige: () => void;
+  handleToggleLoopAction: (actionKey: LoopActionKey) => void;
   doExport: () => string;
   doImport: (str: string) => boolean;
   costFor: (key: BuildingKey) => Partial<Record<ResourceKey, number>>;
@@ -53,6 +55,7 @@ export function GameProvider({ children }: GameProviderProps) {
   const { timeValues } = useGameTime(state, lastSavedAt);
   const { actionHandlers } = useGameActions(state, setState);
   const { gameCalculations, utilityFunctions } = useGameCalculations(state);
+  const { handleToggleLoopAction } = useLoopActions(state, setState);
 
   // Game loop integration
   useGameLoop(
@@ -79,6 +82,7 @@ export function GameProvider({ children }: GameProviderProps) {
     handleBuyUpgrade: actionHandlers.handleBuyUpgrade,
     handleResearchTechnology: actionHandlers.handleResearchTechnology,
     handleDoPrestige: actionHandlers.handleDoPrestige,
+    handleToggleLoopAction,
     doExport: saveFunctions.doExport,
     doImport: saveFunctions.doImport,
     costFor: utilityFunctions.memoizedCostFor,
@@ -98,6 +102,7 @@ export function GameProvider({ children }: GameProviderProps) {
     utilityFunctions,
     saveFunctions,
     lastSavedAt,
+    handleToggleLoopAction,
     performanceMetrics,
   ]);
 

@@ -45,6 +45,16 @@ export type {
   ActionUnlockCondition,
 } from './actions';
 
+// Loop Action types
+export type {
+  LoopActionKey,
+  LoopActionDef,
+  LoopActionState,
+  LoopActionProgress,
+  LoopActionSettings,
+  LoopActionCategory,
+} from './loopActions';
+
 // Game state types
 export type {
   GameState,

@@ -19,7 +19,7 @@ export {
 // Main game configuration object - stable reference to prevent recreation
 export const CONFIG = Object.freeze({
   tickRate: GAME_CONSTANTS.GAME_TICK_RATE,
-  version: 5, // Increment version for save compatibility with new action system
+  version: 1,
   resources: RESOURCES,
   buildings: BUILDINGS,
   technologies: TECHNOLOGIES,
@@ -28,4 +28,4 @@ export const CONFIG = Object.freeze({
   actions: ACTIONS,
 });
 
-export const SAVE_KEY = 'medieval-kingdom-v5';
+export const SAVE_KEY = 'medieval-kingdom-v1';

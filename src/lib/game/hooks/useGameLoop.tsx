@@ -1,6 +1,7 @@
 import { useEffect, useRef, useCallback } from 'react';
 import { GAME_CONSTANTS } from '../constants';
 import { tick } from '../actions';
+import { processLoopActionTick } from '../loopActionEngine';
 import type { GameState } from '../types';
 
 export function useGameLoop(
@@ -30,7 +31,10 @@ export function useGameLoop(
     const tickStartTime = performance.now();
     
     // Run game logic tick - this happens every 50ms (20 FPS)
-    const newState = tick(currentState, 1 / GAME_CONSTANTS.GAME_TICK_RATE);
+    let newState = tick(currentState, 1 / GAME_CONSTANTS.GAME_TICK_RATE);
+    
+    // Process loop actions
+    newState = processLoopActionTick(newState, 1 / GAME_CONSTANTS.GAME_TICK_RATE);
     
     // Measure tick completion time
     const tickEndTime = performance.now();

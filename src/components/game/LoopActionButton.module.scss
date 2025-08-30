@@ -1,0 +1,203 @@
+.container {
+  position: relative;
+  display: inline-block;
+}
+
+.button {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border: 2px solid #4a5568;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    border-color: #63b3ed;
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+  
+  &.active {
+    border-color: #48bb78;
+    background: linear-gradient(135deg, #22543d 0%, #38a169 100%);
+    
+    &:hover {
+      border-color: #68d391;
+    }
+  }
+  
+  &.paused {
+    border-color: #ed8936;
+    background: linear-gradient(135deg, #744210 0%, #dd6b20 100%);
+    
+    &:hover {
+      border-color: #f6ad55;
+    }
+  }
+  
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    
+    &:hover {
+      transform: none;
+      box-shadow: none;
+    }
+  }
+}
+
+.icon {
+  z-index: 2;
+  position: relative;
+  margin-bottom: 4px;
+}
+
+.progressBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 0 0 10px 10px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #48bb78 0%, #68d391 100%);
+  transition: width 0.3s ease;
+  border-radius: 0 0 10px 10px;
+}
+
+.loopCount {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-size: 10px;
+  padding: 2px 4px;
+  border-radius: 8px;
+  z-index: 3;
+}
+
+.tooltipContainer {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 8px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.tooltip {
+  background: rgba(0, 0, 0, 0.95);
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  min-width: 250px;
+  max-width: 300px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+  border: 1px solid #4a5568;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid rgba(0, 0, 0, 0.95);
+  }
+}
+
+.tooltipHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.tooltipIcon {
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+.tooltipName {
+  color: #63b3ed;
+}
+
+.tooltipDescription {
+  margin-bottom: 12px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #cbd5e0;
+}
+
+.tooltipStats {
+  margin-bottom: 12px;
+  font-size: 12px;
+  
+  > div {
+    margin-bottom: 4px;
+    color: #e2e8f0;
+  }
+}
+
+.tooltipCosts,
+.tooltipGains,
+.tooltipRequirements {
+  margin-bottom: 8px;
+  font-size: 12px;
+  
+  > div:first-child {
+    font-weight: bold;
+    color: #63b3ed;
+    margin-bottom: 4px;
+  }
+  
+  > div:not(:first-child) {
+    margin-left: 12px;
+    color: #e2e8f0;
+  }
+}
+
+.tooltipCosts > div:not(:first-child) {
+  color: #feb2b2;
+}
+
+.tooltipGains > div:not(:first-child) {
+  color: #9ae6b4;
+}
+
+.tooltipRequirements > div:not(:first-child) {
+  color: #feb2b2;
+}
+
+.tooltipStatus {
+  font-size: 12px;
+  font-weight: bold;
+  color: #68d391;
+  text-align: center;
+  padding-top: 8px;
+  border-top: 1px solid #4a5568;
+}

@@ -6,6 +6,7 @@ import type { TechnologyKey } from './technologies';
 import type { PrestigeUpgradeKey } from  './prestige';
 import type { EventKey } from './events';
 import type { ActionUnlocks, ActionCooldowns } from './actions';
+import type { LoopActionState, LoopActionSettings } from './loopActions';
 
 export type GameState = {
   t: number;
@@ -35,6 +36,8 @@ export type GameState = {
     unlocks: ActionUnlocks;
     cooldowns: ActionCooldowns;
   };
+  loopActions: LoopActionState[];
+  loopSettings: LoopActionSettings;
 };
 
 export type Multipliers = {

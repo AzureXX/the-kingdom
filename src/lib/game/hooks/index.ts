@@ -10,3 +10,5 @@ export { useGameTime } from './useGameTime';
 export { useGameActions } from './useGameActions';
 
 export { useGameCalculations } from './useGameCalculations';
+
+export { useLoopActions } from './useLoopActions';
