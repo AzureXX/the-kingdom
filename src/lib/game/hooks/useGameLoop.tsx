@@ -42,18 +42,20 @@ export function useGameLoop(
     return { newState, tickDuration };
   }, []);
 
+  useEffect(() => {
+    stateRef.current = state;
+  }, [state]);
+
   // High-frequency game loop (20 FPS) for responsive building production and smooth gameplay
   // Runs independently of user actions to ensure buildings always produce resources
   useEffect(() => {
-    if (!stateRef.current) return;
-    
     const gameLoopInterval = setInterval(() => {
+      if(!stateRef.current) return;
       const tickResult = processTick();
-      if (!tickResult) return; // Early return if no changes
+      if (!tickResult) return;
       
       const { newState, tickDuration } = tickResult;
       
-      // Use refs to avoid dependency on changing callback functions
       onStateUpdateRef.current(newState);
       onTickCompleteRef.current(tickDuration);
     }, 1000 / GAME_CONSTANTS.GAME_TICK_RATE);
@@ -62,10 +64,6 @@ export function useGameLoop(
       clearInterval(gameLoopInterval);
     };
   }, [processTick]);
-  
-  useEffect(() => {
-    stateRef.current = state;
-  }, [state]);
 
   return {
     processTick,
