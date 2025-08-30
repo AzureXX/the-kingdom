@@ -1,5 +1,5 @@
 import { useMemo, useCallback } from 'react';
-import { getPerSec, costFor, canAfford, getMultipliers, getClickGains, technologyCostFor, getUpgradeCost } from '../calculations';
+import { getPerSec, costFor, canAfford, getMultipliers, technologyCostFor, getUpgradeCost } from '../calculations';
 import { prestigeGain } from '../prestigeSystem';
 import { getUpgradeLevel } from '../gameState';
 import { CONFIG } from '../config';
@@ -20,10 +20,7 @@ export function useGameCalculations(state: GameState | null) {
   // Memoized utility functions to prevent recreation
   const memoizedCostFor = useCallback((key: BuildingKey) => state ? costFor(state, key) : {}, [state]);
   const memoizedCanAfford = useCallback((cost: Partial<Record<ResourceKey, number>>) => state ? canAfford(state, cost) : false, [state]);
-  
-  // Memoize click gains calculation since it depends on multipliers
-  const clickGains = useMemo(() => state ? getClickGains(state) : {}, [state]);
-  
+    
   // Memoize technology costs to prevent recalculation on every render
   // TECHNOLOGIES is stable reference, so we only depend on state
   const technologyCosts = useMemo(() => {
@@ -52,10 +49,9 @@ export function useGameCalculations(state: GameState | null) {
     perSec,
     prestigePotential,
     multipliers,
-    clickGains,
     technologyCosts,
     upgradeCosts,
-  }), [perSec, prestigePotential, multipliers, clickGains, technologyCosts, upgradeCosts]);
+  }), [perSec, prestigePotential, multipliers, technologyCosts, upgradeCosts]);
 
   // Group utility functions together for cleaner consumption
   const utilityFunctions = useMemo(() => ({

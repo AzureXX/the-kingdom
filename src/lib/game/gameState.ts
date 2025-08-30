@@ -36,6 +36,10 @@ export function initNewGame(): GameState {
         researchStartTime: 0,
         researchEndTime: 0,
       },
+      actions: {
+        unlocks: {},
+        cooldowns: {},
+      },
     };
     
     // Initialize resources with starting values

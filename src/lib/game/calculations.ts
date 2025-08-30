@@ -224,34 +224,7 @@ export function getPerSec(state: GameState): Record<ResourceKey, number> {
   }
 }
 
-/**
- * Calculate click gains based on current multipliers
- */
-export function getClickGains(state: GameState): Partial<Record<ResourceKey, number>> {
-  try {
-    // Validate input
-    if (!state || typeof state !== 'object') {
-      validationHandler('Invalid state parameter for getClickGains', { state: typeof state });
-      throw new Error('Invalid state parameter');
-    }
 
-    const muls = getMultipliers(state);
-    const base = CONFIG.click.base;
-    const gains: Partial<Record<ResourceKey, number>> = {};
-    
-    for (const r in base) {
-      const rk = r as ResourceKey;
-      const baseValue = base[rk as keyof typeof base] || 0;
-      gains[rk] = baseValue * (muls.clickGain || 1);
-    }
-    
-    return gains;
-  } catch (error) {
-    calculationHandler('Failed to calculate click gains', { error: error instanceof Error ? error.message : String(error) });
-    // Return base click gains on error for safety
-    return CONFIG.click.base;
-  }
-}
 
 /**
  * Calculate upgrade cost for a given level

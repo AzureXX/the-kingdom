@@ -1,4 +1,4 @@
-import type { ResourceKey, BuildingKey, PrestigeUpgradeKey, TechnologyKey } from './types';
+import type { ResourceKey, BuildingKey, PrestigeUpgradeKey, TechnologyKey, ActionKey } from './types';
 import { 
   getResource, 
   getBuildingCount, 
@@ -9,11 +9,13 @@ import {
   updateUpgradeLevel,
   updateResource
 } from './gameState';
-import { costFor, canAfford, getClickGains, getUpgradeCost, canBuyUpgrade, getPerSec } from './calculations';
+import { costFor, canAfford, getUpgradeCost, canBuyUpgrade, getPerSec } from './calculations';
 import { checkAndTriggerEvents } from './eventSystem';
 import { startResearch, checkResearchProgress } from './technologySystem';
 import type { GameState } from './types';
 import { createStateErrorHandler } from './utils/errorLogger';
+import { getAction } from './config/actions';
+import { canExecuteAction } from './utils/actionValidation';
 
 const stateErrorHandler = createStateErrorHandler('actions');
 
@@ -87,22 +89,104 @@ export function buyUpgrade(state: GameState, key: PrestigeUpgradeKey): GameState
   }
 }
 
+
+
 /**
- * Perform click action - Optimized pure function with error handling
+ * Execute a game action - Main function for the new action system
  */
-export function clickAction(state: GameState): GameState {
+export function executeAction(state: GameState, actionKey: ActionKey): GameState {
   try {
-    const gains = getClickGains(state);
-    const newState = addResources(state, gains);
-    
-    // Only update clicks if it actually changed
-    if (newState.clicks === state.clicks) return newState;
-    
-    return { ...newState, clicks: newState.clicks + 1 };
+    const action = getAction(actionKey);
+    if (!action) {
+      stateErrorHandler('Action not found', { actionKey });
+      return state;
+    }
+
+    // Check if action can be executed
+    if (!canExecuteAction(state, actionKey)) {
+      return state;
+    }
+
+    // Pay the cost if any
+    let newState = action.cost && Object.keys(action.cost).length > 0 
+      ? pay(state, action.cost) 
+      : state;
+
+    // Add the gains
+    newState = addResources(newState, action.gains);
+
+    // Update action unlock tracking if it's a one-time unlock
+    if (action.oneTimeUnlock) {
+      newState = updateActionUnlock(newState, actionKey);
+    }
+
+    // Update action cooldown if applicable
+    if (action.cooldown) {
+      newState = updateActionCooldown(newState, actionKey, action.cooldown);
+    }
+
+    // Update click counter for legacy compatibility
+    if (newState.clicks === state.clicks) {
+      newState = { ...newState, clicks: newState.clicks + 1 };
+    }
+
+    return newState;
   } catch (error) {
-    stateErrorHandler('Failed to perform click action', { error: error instanceof Error ? error.message : String(error) });
-    return state; // Return original state on error
+    stateErrorHandler('Failed to execute action', { actionKey, error: error instanceof Error ? error.message : String(error) });
+    return state;
   }
+}
+
+/**
+ * Update action unlock status for one-time unlock actions
+ */
+function updateActionUnlock(state: GameState, actionKey: ActionKey): GameState {
+  const currentUnlocks = state.actions?.unlocks || {};
+  const currentUnlock = currentUnlocks[actionKey];
+  
+  if (currentUnlock?.unlocked) {
+    return state; // Already unlocked
+  }
+
+  const newUnlock = {
+    unlocked: true,
+    unlockedAt: state.t,
+    lastUsed: state.t,
+  };
+
+  const newUnlocks = {
+    ...currentUnlocks,
+    [actionKey]: newUnlock,
+  };
+
+  return {
+    ...state,
+    actions: {
+      ...state.actions,
+      unlocks: newUnlocks,
+    },
+  };
+}
+
+/**
+ * Update action cooldown timer
+ */
+function updateActionCooldown(state: GameState, actionKey: ActionKey, cooldown: number): GameState {
+  const currentCooldowns = state.actions?.cooldowns || {};
+  const newCooldown = state.t + cooldown;
+
+  const newCooldowns = {
+    ...currentCooldowns,
+    [actionKey]: newCooldown,
+  };
+
+  return {
+    ...state,
+    actions: {
+      ...state.actions,
+      cooldowns: newCooldowns,
+    },
+  };
 }
 
 /**

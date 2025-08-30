@@ -4,6 +4,7 @@ import React, { useRef, useState } from 'react';
 import styles from '@/styles/page.module.scss';
 import { useGameContext } from '@/lib/game/GameContext';
 import { ResourceDisplay } from '@/components/game/ResourceDisplay';
+import { ActionList } from '@/components/game/ActionList';
 import { BuildingList } from '@/components/game/BuildingList';
 import { TechnologyList } from '@/components/game/TechnologyList';
 import { UpgradeList } from '@/components/game/UpgradeList';
@@ -22,7 +23,7 @@ export default function GamePage() {
     perSec,
     prestigePotential,
     fmt,
-    handleClick,
+    handleExecuteAction,
     handleBuyBuilding,
     handleBuyUpgrade,
     handleResearchTechnology,
@@ -98,8 +99,12 @@ export default function GamePage() {
             <ResourceDisplay state={state} perSec={perSec} />
             <div className={styles.hr}></div>
             <div className={styles.controls}>
-              <button onClick={handleClick} className={styles.button}>Issue Royal Decree (+)</button>
-              <span className={styles.tiny}>Click gains scale with upgrades.</span>
+              <ActionList 
+                state={state} 
+                onExecuteAction={handleExecuteAction} 
+                fmt={fmt} 
+              />
+              <span className={styles.tiny}>Actions unlock through progression.</span>
               <span className={styles.right}></span>
               <button className={`${styles.button} ${styles.bad}`} onClick={() => setPrestigeOpen(true)}>Ascend to Greater Kingdom (Prestige)</button>
             </div>

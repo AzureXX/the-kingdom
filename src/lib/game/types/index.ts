@@ -35,6 +35,16 @@ export type {
   EventDef,
 } from './events';
 
+// Action types
+export type {
+  ActionKey,
+  ActionDef,
+  ActionStatus,
+  ActionUnlocks,
+  ActionCooldowns,
+  ActionUnlockCondition,
+} from './actions';
+
 // Game state types
 export type {
   GameState,

@@ -15,6 +15,24 @@
 .pill{padding:.1rem .5rem;border:1px solid #3141a6;border-radius:999px;background:#0f1532;font-size:.8rem}
 .controls{display:flex;gap:10px;flex-wrap:wrap}
 .right{margin-left:auto}
+
+// Action system styles
+.actionList{display:flex;flex-direction:column;gap:16px;flex:1}
+.actionGroup{display:flex;flex-direction:column;gap:8px}
+.actionGroupTitle{font-size:12px;color:#bfc9ff;text-transform:uppercase;letter-spacing:.1em;margin:0;opacity:.8}
+.actionButtons{display:flex;flex-wrap:wrap;gap:8px}
+.actionIcon{font-size:16px;margin-right:6px}
+.actionName{font-weight:600}
+.actionCost{font-size:11px;opacity:.7;margin-left:8px;padding:2px 6px;background:#1a2350;border-radius:6px;border:1px solid #3141a6}
+
+// Button state variations
+.button.disabled{opacity:.4;cursor:not-allowed;filter:grayscale(50%)}
+.button.cooldown{opacity:.7;cursor:not-allowed;background:#4a5568}
+.button.cannotAfford{opacity:.6;cursor:not-allowed;background:#7f1d1d}
+
+// Timer variations
+.timerUrgent{color:var(--warn);animation:pulse 1s infinite}
+.timerSave{color:var(--good);animation:pulse 1s infinite}
 /* CSS Modules requires a local class; use .button only */
 .button{appearance:none;border:none;border-radius:12px;padding:10px 14px;background:#22307b;color:#e6e9ff;cursor:pointer;font-weight:600;transition:.15s transform,.15s background, .15s opacity}
 .button:disabled{opacity:.55;cursor:not-allowed;filter:grayscale(30%)}

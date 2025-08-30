@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useMemo, useState, ReactNode, useRef } from 'react';
 import { formatNumber as fmt } from './utils';
 
-import type { GameState, Multipliers, BuildingKey, PrestigeUpgradeKey, ResourceKey, TechnologyKey } from './types';
+import type { GameState, Multipliers, BuildingKey, PrestigeUpgradeKey, ResourceKey, TechnologyKey, ActionKey } from './types';
 import { usePerformanceMonitor, useSaveSystem, useGameLoop, useGameTime, useGameActions, useGameCalculations } from './hooks';
 
 export interface GameContextType {
@@ -12,11 +12,10 @@ export interface GameContextType {
   perSec: Record<ResourceKey, number>;
   prestigePotential: number;
   multipliers: Multipliers | null;
-  clickGains: Partial<Record<ResourceKey, number>>;
   technologyCosts: Record<TechnologyKey, Partial<Record<ResourceKey, number>>>;
   upgradeCosts: Record<PrestigeUpgradeKey, number>;
   fmt: (n: number, decimals?: number) => string;
-  handleClick: () => void;
+  handleExecuteAction: (key: ActionKey) => void;
   handleBuyBuilding: (key: BuildingKey) => void;
   handleBuyUpgrade: (key: PrestigeUpgradeKey) => void;
   handleResearchTechnology: (key: TechnologyKey) => void;
@@ -72,11 +71,10 @@ export function GameProvider({ children }: GameProviderProps) {
     perSec: gameCalculations.perSec as Record<ResourceKey, number>,
     prestigePotential: gameCalculations.prestigePotential,
     multipliers: gameCalculations.multipliers,
-    clickGains: gameCalculations.clickGains,
     technologyCosts: gameCalculations.technologyCosts,
     upgradeCosts: gameCalculations.upgradeCosts,
     fmt: stableFmt.current,
-    handleClick: actionHandlers.handleClick,
+    handleExecuteAction: actionHandlers.handleExecuteAction,
     handleBuyBuilding: actionHandlers.handleBuyBuilding,
     handleBuyUpgrade: actionHandlers.handleBuyUpgrade,
     handleResearchTechnology: actionHandlers.handleResearchTechnology,

@@ -5,6 +5,7 @@ import type { BuildingKey } from './buildings';
 import type { TechnologyKey } from './technologies';
 import type { PrestigeUpgradeKey } from  './prestige';
 import type { EventKey } from './events';
+import type { ActionUnlocks, ActionCooldowns } from './actions';
 
 export type GameState = {
   t: number;
@@ -29,6 +30,10 @@ export type GameState = {
     activeResearch: TechnologyKey | null;
     researchStartTime: number;
     researchEndTime: number;
+  };
+  actions: {
+    unlocks: ActionUnlocks;
+    cooldowns: ActionCooldowns;
   };
 };
 

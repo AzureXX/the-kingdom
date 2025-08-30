@@ -7,6 +7,7 @@ A sophisticated browser-based idle/clicker game built with Next.js, React, and T
 **Medieval Kingdom** is an incremental game where players start with basic resources and gradually expand their kingdom through strategic decision-making. The game features:
 
 - **Resource Management**: Gold, Wood, Stone, Food, Prestige, and Research Points
+- **Action System**: 12 configurable actions with unlock conditions and progression
 - **Building System**: 8 unique buildings with different production capabilities
 - **Technology Tree**: 6 technologies that unlock advanced buildings and upgrades
 - **Prestige System**: Reset mechanics with permanent upgrades
@@ -80,7 +81,36 @@ The game features 6 primary resources:
 | Prestige | 👑 | 0 | Hidden resource for prestige upgrades |
 | Research Points | 🔬 | 0 | Hidden resource for technology research |
 
-### 2. Building System
+### 2. Action System
+The game features 12 configurable actions that provide active gameplay beyond passive resource generation:
+
+#### Basic Actions (Always Available)
+- **🌲 Gather Wood**: +2 wood - Basic resource gathering
+- **🪨 Gather Stone**: +1 stone - Basic resource gathering  
+- **🍖 Hunt Food**: +1 food - Basic resource gathering
+
+#### Trading Actions (Unlock with Resource Thresholds)
+- **💰 Sell Wood**: -10 wood, +5 gold (unlocks at 50+ wood)
+- **💰 Sell Stone**: -5 stone, +8 gold (unlocks at 25+ stone)
+- **💰 Sell Food**: -20 food, +15 gold (unlocks at 100+ food)
+
+#### Building-Dependent Actions
+- **🔨 Craft Tools**: -5 wood, +2 stone (requires Blacksmith)
+- **⚔️ Forge Weapons**: -3 stone, +10 gold (requires Blacksmith)
+- **🌾 Farm Work**: -2 food, +5 wood (requires Farm)
+
+#### Technology-Dependent Actions
+- **🪨 Advanced Mining**: +3 stone (requires Engineering)
+- **🔬 Scientific Research**: +2 research points (requires Chemistry)
+- **👑 Royal Diplomacy**: +1 prestige (requires Writing)
+
+**Action Features:**
+- **Progressive Unlocking**: Actions unlock through building construction, technology research, and resource accumulation
+- **One-time Unlocks**: Trading actions become permanently available after first unlock
+- **Strategic Choices**: Players must balance resource costs and gains
+- **Visual Feedback**: Emoji icons and hover tooltips for clear understanding
+
+### 3. Building System
 8 unique buildings with different production and consumption patterns:
 
 #### Basic Buildings
@@ -95,7 +125,7 @@ The game features 6 primary resources:
 - **University**: Produces Gold (3.0/s), Prestige (0.05/s), and Research Points (0.3/s), consumes Food (1.0/s) - Cost: 300 Gold, 80 Wood, 60 Stone, 30 Food - Requires Writing and Mathematics
 - **Laboratory**: Produces Gold (5.0/s), Prestige (0.1/s), and Research Points (0.5/s), consumes Food (2.0/s) - Cost: 500 Gold, 100 Wood, 150 Stone, 50 Food - Requires Chemistry and Engineering
 
-### 3. Technology System
+### 4. Technology System
 6 technologies that unlock advanced buildings and provide strategic depth:
 
 | Technology | Cost | Research Time | Unlocks | Prerequisites |
@@ -107,7 +137,7 @@ The game features 6 primary resources:
 | Physics | 300 Gold, 80 Wood, 70 Stone, 30 Food | 180s | - | Mathematics, Chemistry |
 | Biology | 400 Gold, 100 Wood, 90 Stone, 50 Food | 240s | - | Chemistry, Physics |
 
-### 4. Prestige System
+### 5. Prestige System
 Prestige is earned by resetting the game with accumulated Food. The formula is:
 ```
 Prestige = sqrt(Total Food Generated / 1000)
@@ -122,18 +152,18 @@ Prestige can be spent on 4 permanent upgrades:
 | Fertile Lands | +20% Food production per level | 6 × 1.65^level | 25 |
 | Military Might | +20% Prestige production per level | 10 × 1.7^level | 20 |
 
-### 5. Event System
+### 6. Event System
 Random events occur every 1-3 minutes, providing players with choices that affect resources:
 
 #### Event Types
-- **Merchant Visit**: Trade resources for Gold
-- **Bandit Raid**: Lose resources or pay tribute
-- **Bountiful Harvest**: Gain multiple resources
-- **Drought**: Lose Food or accept reduced production
-- **Royal Tax**: Pay Gold or lose Prestige
-- **Mysterious Stranger**: Trade Gold for Prestige
-- **Plague**: Lose Prestige or accept consequences
-- **Festival**: Gain resources through celebration
+- **🛒 Merchant Visit**: Trade resources for Gold
+- **⚔️ Bandit Raid**: Lose resources or pay tribute
+- **🌾 Bountiful Harvest**: Gain multiple resources
+- **🌵 Drought**: Lose Food or accept reduced production
+- **👑 Royal Tax**: Pay Gold or lose Prestige
+- **👤 Mysterious Stranger**: Trade Gold for Prestige
+- **🦠 Plague**: Lose Prestige or accept consequences
+- **🎉 Festival**: Gain resources through celebration
 
 ## 🔧 Technical Implementation
 
@@ -142,7 +172,7 @@ The game uses a sophisticated hook-based architecture with the following key com
 
 #### Core Hooks
 - **useGameLoop**: Manages the main game tick (20 FPS)
-- **useGameActions**: Handles player interactions
+- **useGameActions**: Handles player interactions and action execution
 - **useGameCalculations**: Computes game state and costs
 - **useSaveSystem**: Manages save/load functionality
 - **useGameTime**: Tracks time-based events
@@ -170,7 +200,7 @@ The game uses a sophisticated hook-based architecture with the following key com
 
 ### Visual Design
 - **Theme**: Dark medieval aesthetic with blue/purple gradients
-- **Icons**: Custom SVG sprites for all game elements
+- **Icons**: Emoji icons for actions and events, providing intuitive visual feedback
 - **Typography**: Clean, readable fonts with proper hierarchy
 - **Animations**: Smooth transitions and hover effects
 
@@ -181,6 +211,7 @@ The game uses a sophisticated hook-based architecture with the following key com
 
 ### User Interface Components
 - **Resource Display**: Real-time resource counters with per-second rates
+- **Action System**: Interactive action buttons with unlock conditions and tooltips
 - **Building List**: Interactive building purchase interface
 - **Technology Tree**: Visual technology research system
 - **Prestige Modal**: Prestige calculation and upgrade interface
@@ -190,13 +221,31 @@ The game uses a sophisticated hook-based architecture with the following key com
 
 The game is fully data-driven through configuration files:
 
+### Adding New Actions
+```typescript
+// src/lib/game/config/actions.ts
+export const ACTIONS: Record<ActionKey, ActionDef> = {
+  newAction: {
+    name: 'New Action',
+    icon: '🎯',
+    description: 'Description of the action.',
+    cost: { wood: 5 },
+    gains: { gold: 10 },
+    unlockConditions: [
+      { type: 'building', key: 'blacksmith', value: 1 }
+    ],
+    oneTimeUnlock: false,
+  },
+};
+```
+
 ### Adding New Resources
 ```typescript
 // src/lib/game/config/resources.ts
 export const RESOURCES: Record<ResourceKey, ResourceDef> = {
   newResource: { 
     name: 'New Resource', 
-    icon: 'ic-new-resource', 
+    icon: '🎯', 
     decimals: 0, 
     start: 0 
   },
@@ -209,7 +258,7 @@ export const RESOURCES: Record<ResourceKey, ResourceDef> = {
 export const BUILDINGS: Record<BuildingKey, BuildingDef> = {
   newBuilding: {
     name: 'New Building',
-    icon: 'ic-new-building',
+    icon: '🏗️',
     desc: 'Description of the building.',
     baseCost: { gold: 100 },
     costScale: 1.15,
@@ -225,7 +274,7 @@ export const BUILDINGS: Record<BuildingKey, BuildingDef> = {
 export const TECHNOLOGIES: Record<TechnologyKey, TechnologyDef> = {
   newTechnology: {
     name: 'New Technology',
-    icon: 'ic-new-technology',
+    icon: '🔬',
     desc: 'Description of the technology.',
     baseCost: { gold: 200, researchPoints: 50 },
     costScale: 1.0,
@@ -263,6 +312,7 @@ The game includes built-in performance monitoring:
 - **Render Time**: Component render performance tracking
 - **Memory Usage**: Browser memory consumption monitoring
 - **Tick Duration**: Game loop execution time
+- **Action System**: Optimized action validation and execution
 
 ## 🤝 Contributing
 
@@ -272,6 +322,15 @@ The game includes built-in performance monitoring:
 3. Make your changes
 4. Add tests if applicable
 5. Submit a pull request
+
+### Adding New Content
+The game is designed to be easily extensible:
+- **Actions**: Add new actions in `src/lib/game/config/actions.ts`
+- **Events**: Add new events in `src/lib/game/config/events.ts`
+- **Buildings**: Add new buildings in `src/lib/game/config/buildings.ts`
+- **Technologies**: Add new technologies in `src/lib/game/config/technologies.ts`
+
+All new content automatically integrates with the existing systems and UI components.
 
 ### Code Review Process
 - All changes require review
@@ -295,3 +354,18 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 **Happy Kingdom Building!** 🏰👑
 
 *Built with ❤️ using Next.js, React, and TypeScript*
+
+## 🆕 Recent Updates
+
+### Action System (v5.0)
+- **12 Configurable Actions**: From basic resource gathering to advanced technology-dependent actions
+- **Progressive Unlocking**: Actions unlock through building construction, technology research, and resource accumulation
+- **Emoji Icons**: Intuitive visual representation for all actions and events
+- **One-time Unlocks**: Trading actions become permanently available after first unlock
+- **Strategic Gameplay**: Balance resource costs and gains for optimal progression
+
+### Enhanced User Experience
+- **Visual Feedback**: Hover tooltips with detailed action information
+- **Action Grouping**: Actions organized by category (Basic, Trading, Building, Technology)
+- **Responsive Design**: Action buttons adapt to different screen sizes
+- **Performance Optimized**: Efficient action validation and execution

@@ -9,6 +9,4 @@ export const RESOURCES: Record<ResourceKey, ResourceDef> = {
   researchPoints: { name: 'Research Points', icon: 'ic-research', decimals: 0, start: 0, hidden: true },
 };
 
-export const CLICK_CONFIG = {
-  base: { gold: 1, food: 0.1 },
-};
+

@@ -1,18 +1,18 @@
 import { useCallback, useMemo } from 'react';
-import { buyBuilding, buyUpgrade, clickAction, researchTechnology } from '../actions';
+import { buyBuilding, buyUpgrade, executeAction, researchTechnology } from '../actions';
 import { doPrestige } from '../prestigeSystem';
 import type { GameState } from '../types';
-import type { BuildingKey, PrestigeUpgradeKey, TechnologyKey } from '../types';
+import type { BuildingKey, PrestigeUpgradeKey, TechnologyKey, ActionKey } from '../types';
 
 export function useGameActions(
   state: GameState | null,
   setState: React.Dispatch<React.SetStateAction<GameState | null>>
 ) {
   // Optimized action handlers using functional state updates
-  const handleClick = useCallback(() => {
+  const handleExecuteAction = useCallback((actionKey: ActionKey) => {
     setState(currentState => {
       if (!currentState) return currentState;
-      return clickAction(currentState);
+      return executeAction(currentState, actionKey);
     });
   }, [setState]);
 
@@ -46,12 +46,12 @@ export function useGameActions(
 
   // Group action handlers together for cleaner consumption
   const actionHandlers = useMemo(() => ({
-    handleClick,
+    handleExecuteAction,
     handleBuyBuilding,
     handleBuyUpgrade,
     handleResearchTechnology,
     handleDoPrestige,
-  }), [handleClick, handleBuyBuilding, handleBuyUpgrade, handleResearchTechnology, handleDoPrestige]);
+  }), [handleExecuteAction, handleBuyBuilding, handleBuyUpgrade, handleResearchTechnology, handleDoPrestige]);
 
   return {
     actionHandlers,

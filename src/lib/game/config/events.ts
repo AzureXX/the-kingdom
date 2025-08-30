@@ -3,7 +3,7 @@ import type {  EventKey, EventDef } from '../types';
 export const EVENTS: Record<EventKey, EventDef> = {
   merchantVisit: {
     name: 'Merchant Visit',
-    icon: 'ic-merchant',
+    icon: '🛒',
     desc: 'A merchant offers to trade goods for Gold.',
     choices: [
       {
@@ -26,7 +26,7 @@ export const EVENTS: Record<EventKey, EventDef> = {
   },
   banditRaid: {
     name: 'Bandit Raid',
-    icon: 'ic-bandit',
+    icon: '⚔️',
     desc: 'Bandits attack your village, stealing resources.',
     choices: [
       {
@@ -49,7 +49,7 @@ export const EVENTS: Record<EventKey, EventDef> = {
   },
   bountifulHarvest: {
     name: 'Bountiful Harvest',
-    icon: 'ic-harvest',
+    icon: '🌾',
     desc: 'A rare event where all resources grow naturally.',
     choices: [
       {
@@ -72,7 +72,7 @@ export const EVENTS: Record<EventKey, EventDef> = {
   },
   drought: {
     name: 'Drought',
-    icon: 'ic-drought',
+    icon: '🌵',
     desc: 'A severe drought reduces resource production.',
     choices: [
       {
@@ -95,7 +95,7 @@ export const EVENTS: Record<EventKey, EventDef> = {
   },
   royalTax: {
     name: 'Royal Tax',
-    icon: 'ic-tax',
+    icon: '👑',
     desc: 'The king demands a tax, reducing your resources.',
     choices: [
       {
@@ -118,7 +118,7 @@ export const EVENTS: Record<EventKey, EventDef> = {
   },
   mysteriousStranger: {
     name: 'Mysterious Stranger',
-    icon: 'ic-stranger',
+    icon: '👤',
     desc: 'A mysterious stranger offers a mysterious gift.',
     choices: [
       {
@@ -141,7 +141,7 @@ export const EVENTS: Record<EventKey, EventDef> = {
   },
   plague: {
     name: 'Plague',
-    icon: 'ic-plague',
+    icon: '🦠',
     desc: 'A deadly plague strikes your village, reducing population.',
     choices: [
       {
@@ -164,7 +164,7 @@ export const EVENTS: Record<EventKey, EventDef> = {
   },
   festival: {
     name: 'Festival',
-    icon: 'ic-festival',
+    icon: '🎉',
     desc: 'A festive event boosts resource production.',
     choices: [
       {
