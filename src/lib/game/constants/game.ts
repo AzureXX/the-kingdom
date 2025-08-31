@@ -6,7 +6,7 @@ export const GAME_CONSTANTS = {
   MAX_TICK_STEP: 5,
   
   // Game loop constants
-  GAME_TICK_RATE: 20, // 20 FPS = 50ms intervals - minimum for smooth gameplay
+  GAME_TICK_RATE: 20,
   
   // Performance constants
   PERFORMANCE_METRICS_UPDATE_INTERVAL: 60, // Update performance metrics every 60 frames
@@ -16,7 +16,7 @@ export const GAME_CONSTANTS = {
   // Performance values
   PERFORMANCE: {
     POINTS_PER_TICK: 100,
-    POINTS_PER_SECOND: 2000, // 100 * 20 FPS
+    POINTS_PER_SECOND: 2000,
   },
   
   // Game mechanics
