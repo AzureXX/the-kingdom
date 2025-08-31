@@ -43,7 +43,7 @@ export const LOOP_ACTIONS: Record<string, LoopActionDef> = {
     description: 'Continuous food farming operation.',
     cost: { food: 5 },
     gains: { food: 12 },
-    unlockConditions: [{ type: 'building', key: 'farm', value: 1 }],
+    unlockConditions: [{ type: 'building', key: 'farm', value: 1 }, { type: 'resource', key: 'food', value: 100 }],
     loopPointsRequired: 1200,
     loopCategory: 'gathering',
     showWhenLocked: true,
