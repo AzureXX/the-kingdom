@@ -44,6 +44,13 @@ export function useGameActions(
     });
   }, [setState]);
 
+  const handleTogglePause = useCallback(() => {
+    setState(currentState => {
+      if (!currentState) return currentState;
+      return { ...currentState, isPaused: !currentState.isPaused };
+    });
+  }, [setState]);
+
   // Group action handlers together for cleaner consumption
   const actionHandlers = useMemo(() => ({
     handleExecuteAction,
@@ -51,7 +58,8 @@ export function useGameActions(
     handleBuyUpgrade,
     handleResearchTechnology,
     handleDoPrestige,
-  }), [handleExecuteAction, handleBuyBuilding, handleBuyUpgrade, handleResearchTechnology, handleDoPrestige]);
+    handleTogglePause,
+  }), [handleExecuteAction, handleBuyBuilding, handleBuyUpgrade, handleResearchTechnology, handleDoPrestige, handleTogglePause]);
 
   return {
     actionHandlers,

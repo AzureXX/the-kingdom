@@ -26,6 +26,7 @@ export function initNewGame(): GameState {
       upgrades: {} as Record<PrestigeUpgradeKey, number>,
       clicks: 0,
       version: CONFIG_VERSION,
+      isPaused: false,
       events: {
         activeEvent: null,
         activeEventStartTime: 0,

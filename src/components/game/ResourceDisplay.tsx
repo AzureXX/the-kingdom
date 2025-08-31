@@ -36,7 +36,7 @@ export const ResourceDisplay = memo(function ResourceDisplay({ state, perSec }: 
                 {resource.name}: {formatNumber(value, resource.decimals)}
               </div>
               <small className={`${styles.tiny} ${cls}`}>
-                {perSecond >= 0 ? '+' : ''}{formatNumber(perSecond, resource.decimals)}/s
+                {state.isPaused ? 'PAUSED' : `${perSecond >= 0 ? '+' : ''}${formatNumber(perSecond, resource.decimals)}/s`}
               </small>
             </div>
           </div>

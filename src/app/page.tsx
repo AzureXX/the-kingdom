@@ -30,6 +30,7 @@ export default function GamePage() {
     handleResearchTechnology,
     handleDoPrestige,
     handleToggleLoopAction,
+    handleTogglePause,
     doExport,
     doImport,
     costFor,
@@ -38,6 +39,19 @@ export default function GamePage() {
     timeUntilNextSave,
     secondsUntilNextSave,
   } = useGameContext();
+
+  // Add keyboard shortcut for pause (Space bar)
+  React.useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.code === 'Space' && event.target === document.body) {
+        event.preventDefault();
+        handleTogglePause();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyPress);
+    return () => document.removeEventListener('keydown', handleKeyPress);
+  }, [handleTogglePause]);
 
   const [prestigeOpen, setPrestigeOpen] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);
@@ -60,6 +74,13 @@ export default function GamePage() {
         <div className={styles.footer}>
           <span className={styles.tiny}>Autosaves: <span className={`${styles.chip} ${secondsUntilNextSave <= 5 ? styles.timerSave : ''}`}>{timeUntilNextSave}</span></span>
           <span className={styles.tiny}>Next Event: <span className={`${styles.chip} ${secondsUntilNextEvent <= 10 ? styles.timerUrgent : ''}`}>{timeUntilNextEvent}</span></span>
+          <button 
+            className={`${styles.button} ${state.isPaused ? styles.warn : ''}`} 
+            onClick={handleTogglePause}
+            title={state.isPaused ? 'Resume Game' : 'Pause Game'}
+          >
+            {state.isPaused ? '▶️ Resume' : '⏸️ Pause'}
+          </button>
           <button className={styles.button} onClick={() => setHelpOpen(true)}>Help</button>
           <button
             className={styles.button}
@@ -93,7 +114,7 @@ export default function GamePage() {
           }}>Hard Reset</button>
         </div>
       </header>
-
+      
       <main className={styles.wrap}>
         <section className={styles.card}>
           <h2>Resources</h2>

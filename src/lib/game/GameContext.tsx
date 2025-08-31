@@ -3,39 +3,24 @@
 import React, { createContext, useContext, useMemo, useState, ReactNode, useRef } from 'react';
 import { formatNumber as fmt } from './utils';
 
-import type { GameState, Multipliers, BuildingKey, PrestigeUpgradeKey, ResourceKey, TechnologyKey, ActionKey } from './types';
-import type { LoopActionKey } from './types/loopActions';
+import type { GameState, Multipliers, ResourceKey, TechnologyKey } from './types';
+import type { GameActionHandlers, GameUtilityFunctions, GameTimeInfo, PerformanceMetrics } from './types/context';
 import { usePerformanceMonitor, useSaveSystem, useGameLoop, useGameTime, useGameActions, useGameCalculations, useLoopActions } from './hooks';
 
-export interface GameContextType {
+export interface GameContextType extends 
+  GameActionHandlers, 
+  GameUtilityFunctions, 
+  GameTimeInfo {
   state: GameState | null;
   setState: React.Dispatch<React.SetStateAction<GameState | null>>;
   perSec: Record<ResourceKey, number>;
   prestigePotential: number;
   multipliers: Multipliers | null;
   technologyCosts: Record<TechnologyKey, Partial<Record<ResourceKey, number>>>;
-  upgradeCosts: Record<PrestigeUpgradeKey, number>;
-  fmt: (n: number, decimals?: number) => string;
-  handleExecuteAction: (key: ActionKey) => void;
-  handleBuyBuilding: (key: BuildingKey) => void;
-  handleBuyUpgrade: (key: PrestigeUpgradeKey) => void;
-  handleResearchTechnology: (key: TechnologyKey) => void;
-  handleDoPrestige: () => void;
-  handleToggleLoopAction: (actionKey: LoopActionKey) => void;
+  upgradeCosts: Record<string, number>;
+  performanceMetrics: PerformanceMetrics;
   doExport: () => string;
   doImport: (str: string) => boolean;
-  costFor: (key: BuildingKey) => Partial<Record<ResourceKey, number>>;
-  canAfford: (cost: Partial<Record<ResourceKey, number>>) => boolean;
-  lastSavedAt: number | null;
-  timeUntilNextEvent: string;
-  secondsUntilNextEvent: number;
-  timeUntilNextSave: string;
-  secondsUntilNextSave: number;
-  performanceMetrics: {
-    tickTime: number;
-    renderTime: number;
-    memoryUsage: number;
-  };
   manualSave: () => void;
 }
 
@@ -76,23 +61,32 @@ export function GameProvider({ children }: GameProviderProps) {
     multipliers: gameCalculations.multipliers,
     technologyCosts: gameCalculations.technologyCosts,
     upgradeCosts: gameCalculations.upgradeCosts,
-    fmt: stableFmt.current,
+    performanceMetrics,
+    
+    // Action handlers (from GameActionHandlers)
     handleExecuteAction: actionHandlers.handleExecuteAction,
     handleBuyBuilding: actionHandlers.handleBuyBuilding,
     handleBuyUpgrade: actionHandlers.handleBuyUpgrade,
     handleResearchTechnology: actionHandlers.handleResearchTechnology,
     handleDoPrestige: actionHandlers.handleDoPrestige,
     handleToggleLoopAction,
-    doExport: saveFunctions.doExport,
-    doImport: saveFunctions.doImport,
+    handleTogglePause: actionHandlers.handleTogglePause,
+    
+    // Utility functions (from GameUtilityFunctions)
+    fmt: stableFmt.current,
     costFor: utilityFunctions.memoizedCostFor,
     canAfford: utilityFunctions.memoizedCanAfford,
+    
+    // Time info (from GameTimeInfo)
     lastSavedAt,
     timeUntilNextEvent: timeValues.timeUntilNextEvent,
     secondsUntilNextEvent: timeValues.secondsUntilNextEvent,
     timeUntilNextSave: timeValues.timeUntilNextSave,
     secondsUntilNextSave: timeValues.secondsUntilNextSave,
-    performanceMetrics,
+    
+    // Save functions
+    doExport: saveFunctions.doExport,
+    doImport: saveFunctions.doImport,
     manualSave: saveFunctions.manualSave,
   }), [
     state,

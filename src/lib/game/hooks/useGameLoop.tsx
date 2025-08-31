@@ -25,7 +25,7 @@ export function useGameLoop(
   
   const processTick = useCallback(() => {
     const currentState = stateRef.current;
-    if (!currentState) return null;
+    if (!currentState || currentState.isPaused) return null; // Add pause check
     
     // Measure tick performance
     const tickStartTime = performance.now();

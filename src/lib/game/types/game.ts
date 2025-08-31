@@ -17,6 +17,7 @@ export type GameState = {
   upgrades: Record<PrestigeUpgradeKey, number>;
   clicks: number;
   version: number;
+  isPaused: boolean;
   events: {
     activeEvent: EventKey | null;
     activeEventStartTime: number;
