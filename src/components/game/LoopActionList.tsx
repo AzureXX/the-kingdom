@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { LoopActionButton } from './LoopActionButton';
 import { LOOP_ACTIONS } from '../../lib/game/config/loopActions';
 import type { LoopActionKey, LoopActionState } from '../../lib/game/types/loopActions';
@@ -11,7 +11,7 @@ interface LoopActionListProps {
   onToggleLoopAction: (actionKey: LoopActionKey) => void;
 }
 
-export function LoopActionList({ gameState, onToggleLoopAction }: LoopActionListProps) {
+export const LoopActionList = memo(function LoopActionList({ gameState, onToggleLoopAction }: LoopActionListProps) {
   const getLoopActionState = (actionKey: LoopActionKey): LoopActionState => {
     const existingState = gameState.loopActions.find(la => la.actionKey === actionKey);
     if (existingState) {
@@ -97,4 +97,4 @@ export function LoopActionList({ gameState, onToggleLoopAction }: LoopActionList
       )}
     </div>
   );
-}
+});

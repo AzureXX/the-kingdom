@@ -1,6 +1,6 @@
 // ActionButton component for individual game actions
 
-import React from 'react';
+import React, { memo } from 'react';
 
 import { getAction } from '@/lib/game/config/actions';
 
@@ -15,7 +15,7 @@ interface ActionButtonProps {
   fmt: (n: number, decimals?: number) => string;
 }
 
-export function ActionButton({ actionKey, status, onExecute, fmt }: ActionButtonProps) {
+export const ActionButton = memo(function ActionButton({ actionKey, status, onExecute, fmt }: ActionButtonProps) {
   const action = getAction(actionKey);
   if (!action) return null;
 
@@ -97,4 +97,4 @@ export function ActionButton({ actionKey, status, onExecute, fmt }: ActionButton
       )}
     </button>
   );
-}
+});

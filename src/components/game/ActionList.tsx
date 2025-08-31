@@ -1,6 +1,6 @@
 // ActionList component to display all available actions
 
-import React, { useMemo } from 'react';
+import React, { useMemo, memo } from 'react';
 import type { GameState, ActionKey, ActionUnlockCondition } from '@/lib/game/types';
 import { getAllActions } from '@/lib/game/config/actions';
 import { ActionValidator } from '@/lib/game/utils/actionValidation';
@@ -13,7 +13,7 @@ interface ActionListProps {
   fmt: (n: number, decimals?: number) => string;
 }
 
-export function ActionList({ state, onExecuteAction, fmt }: ActionListProps) {
+export const ActionList = memo(function ActionList({ state, onExecuteAction, fmt }: ActionListProps) {
   const allActions = useMemo(() => getAllActions(), []);
   const actionKeys = useMemo(() => Object.keys(allActions) as ActionKey[], [allActions]);
   
@@ -83,4 +83,4 @@ export function ActionList({ state, onExecuteAction, fmt }: ActionListProps) {
       {renderActionGroup('Technology Actions', groupedActions.technology)}
     </div>
   );
-}
+});
