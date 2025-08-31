@@ -1,9 +1,8 @@
 import React, { memo } from 'react';
 import styles from '@/styles/page.module.scss';
 import { CONFIG } from '@/lib/game/config';
-import type { ResourceKey } from '@/lib/game/types';
 import { formatNumber } from '@/lib/game/utils';
-import type { GameState, ResourceAmount } from '@/lib/game/types';
+import type { GameState, ResourceAmount, ResourceKey } from '@/lib/game/types';
 import resourceStyles from './ResourceDisplay.module.scss';
 
 interface ResourceDisplayProps {

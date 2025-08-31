@@ -1,10 +1,9 @@
 import React, { memo } from 'react';
 import styles from '@/styles/page.module.scss';
 import { CONFIG } from '@/lib/game/config';
-import type { TechnologyKey, ResourceKey } from '@/lib/game/types';
+import type { TechnologyKey, ResourceKey, GameState } from '@/lib/game/types';
 import { formatNumber } from '@/lib/game/utils';
 import { canResearchTechnology, getResearchProgress, getResearchTimeRemaining, getTechnologiesWithPrerequisitesMet } from '@/lib/game/technologySystem';
-import type { GameState } from '@/lib/game/types';
 
 interface TechnologyListProps {
   state: GameState;
