@@ -29,3 +29,9 @@ export type EventDef = {
   maxInterval: number; // seconds
   weight: number; // relative chance of this event occurring
 };
+
+// Validation type for event intervals
+export type ValidEventDef = EventDef & {
+  minInterval: number;
+  maxInterval: number;
+}

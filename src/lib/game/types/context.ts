@@ -42,3 +42,21 @@ export interface PerformanceMetrics {
   renderTime: number;
   memoryUsage: number;
 }
+
+/**
+ * Validation result for game operations
+ */
+export interface ValidationResult {
+  isValid: boolean;
+  errors: string[];
+  warnings: string[];
+}
+
+/**
+ * Game operation result with validation
+ */
+export interface GameOperationResult {
+  success: boolean;
+  validation: ValidationResult;
+  message?: string;
+}

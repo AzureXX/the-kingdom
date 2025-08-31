@@ -54,7 +54,7 @@ export const BUILDINGS: Record<BuildingKey, BuildingDef> = {
     costScale: 1.22,
     baseProd: { gold: 1.0, researchPoints: 0.1 },
     baseUse: {},
-    requiresTech: 'writing',
+    requiresTech: ['writing'],
   },
   university: {
     name: 'University',

@@ -1,6 +1,6 @@
 // Action system type definitions
 
-import type { ResourceKey, BuildingKey, TechnologyKey, PrestigeUpgradeKey } from './index';
+import type { ResourceKey, BuildingKey, TechnologyKey, PrestigeUpgradeKey, ResourceCost } from './index';
 
 /**
  * Unique identifier for each action
@@ -79,7 +79,7 @@ export interface ActionDef {
   description: string;
   
   /** Resources required to execute this action (optional) */
-  cost?: Partial<Record<ResourceKey, number>>;
+  cost?: ResourceCost;
   
   /** Resources gained when executing this action */
   gains: Partial<Record<ResourceKey, number>>;
@@ -123,3 +123,16 @@ export type ActionUnlocks = {
 export type ActionCooldowns = {
   [key in ActionKey]?: number;
 };
+
+// Type guard functions for unlock conditions
+export const isTechnologyUnlock = (condition: ActionUnlockCondition): condition is TechnologyUnlockCondition => 
+  condition.type === 'technology';
+
+export const isBuildingUnlock = (condition: ActionUnlockCondition): condition is BuildingUnlockCondition => 
+  condition.type === 'building';
+
+export const isResourceUnlock = (condition: ActionUnlockCondition): condition is ResourceUnlockCondition => 
+  condition.type === 'resource';
+
+export const isPrestigeUnlock = (condition: ActionUnlockCondition): condition is PrestigeUnlockCondition => 
+  condition.type === 'prestige';

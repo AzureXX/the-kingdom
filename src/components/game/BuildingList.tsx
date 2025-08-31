@@ -5,8 +5,7 @@ import { formatNumber } from '@/lib/game/utils';
 import { getUnlockedBuildings } from '@/lib/game/gameState';
 import { canBuyBuilding } from '@/lib/game/calculations';
 
-import type { BuildingKey, ResourceKey, TechnologyKey } from '@/lib/game/types';
-import type { GameState, ResourceCost } from '@/lib/game/types';
+import type { GameState, BuildingKey, ResourceKey, TechnologyKey, ResourceCost } from '@/lib/game/types';
 
 import styles from '@/styles/page.module.scss';
 import buildingStyles from './BuildingList.module.scss';
@@ -35,6 +34,7 @@ export const BuildingList = memo(function BuildingList({ state, costFor, onBuyBu
         const owned = state.buildings[buildingKey] || 0;
         const cost = costFor(buildingKey);
         const costStr = Object.entries(cost)
+          .filter(([, value]) => value !== undefined && value > 0)
           .map(([resourceKey, value]) => `${CONFIG.resources[resourceKey as ResourceKey].name} ${formatNumber(value || 0)}`)
           .join(' · ');
         const canAfford = canBuyBuilding(state, buildingKey);

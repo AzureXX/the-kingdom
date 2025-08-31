@@ -8,6 +8,7 @@ export type {
   ResourceProduction,
   ResourceConsumption,
   ResourceAmount,
+  ResourceOperation,
 } from './resources';
 
 // Building types

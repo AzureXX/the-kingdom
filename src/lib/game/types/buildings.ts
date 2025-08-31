@@ -13,5 +13,5 @@ export type BuildingDef = {
   costScale: number;
   baseProd: Partial<Record<ResourceKey, number>>;
   baseUse: Partial<Record<ResourceKey, number>>;
-  requiresTech?: TechnologyKey | TechnologyKey[]; // Technology(s) required to unlock this building
+  requiresTech?: TechnologyKey[];
 };
