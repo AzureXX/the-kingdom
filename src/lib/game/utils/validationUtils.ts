@@ -1,6 +1,33 @@
 /**
  * Configuration validation utilities for the game
  * Provides comprehensive validation for all game configuration objects
+ * 
+ * @remarks
+ * This module provides a complete validation system for game configuration:
+ * - Resource definitions validation
+ * - Building definitions validation  
+ * - Technology definitions validation
+ * - Action definitions validation
+ * - Cross-reference validation
+ * - Comprehensive error reporting
+ * 
+ * @example
+ * ```typescript
+ * import { validateGameConfig } from './validationUtils';
+ * 
+ * const result = validateGameConfig({
+ *   resources: RESOURCES,
+ *   buildings: BUILDINGS,
+ *   technologies: TECHNOLOGIES,
+ *   actions: ACTIONS
+ * });
+ * 
+ * if (result.isValid) {
+ *   console.log('✅ Configuration is valid');
+ * } else {
+ *   console.error('❌ Configuration errors:', result.errors);
+ * }
+ * ```
  */
 
 import type { 
@@ -18,25 +45,76 @@ import type {
 } from '../types';
 
 // Simple validation functions for individual keys
+/**
+ * Validates if a string is a valid resource key.
+ * 
+ * @param key - The string to validate
+ * @returns True if the key is a valid resource key, false otherwise
+ * 
+ * @example
+ * ```typescript
+ * isValidResourceKey('gold');     // Returns: true
+ * isValidResourceKey('invalid');  // Returns: false
+ * ```
+ */
 export function isValidResourceKey(key: string): key is ResourceKey {
   return ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'].includes(key as ResourceKey);
 }
 
+/**
+ * Validates if a string is a valid building key.
+ * 
+ * @param key - The string to validate
+ * @returns True if the key is a valid building key, false otherwise
+ * 
+ * @example
+ * ```typescript
+ * isValidBuildingKey('woodcutter');  // Returns: true
+ * isValidBuildingKey('invalid');     // Returns: false
+ * ```
+ */
 export function isValidBuildingKey(key: string): key is BuildingKey {
   return ['woodcutter', 'quarry', 'farm', 'blacksmith', 'castle', 'library', 'university', 'laboratory'].includes(key as BuildingKey);
 }
 
+/**
+ * Validates if a string is a valid technology key.
+ * 
+ * @param key - The string to validate
+ * @returns True if the key is a valid technology key, false otherwise
+ * 
+ * @example
+ * ```typescript
+ * isValidTechnologyKey('writing');   // Returns: true
+ * isValidTechnologyKey('invalid');   // Returns: false
+ * ```
+ */
 export function isValidTechnologyKey(key: string): key is TechnologyKey {
   return ['writing', 'mathematics', 'engineering', 'chemistry', 'physics', 'biology'].includes(key as TechnologyKey);
 }
 
 // Validation result types
+/**
+ * Result of a validation operation containing errors and warnings.
+ * 
+ * @remarks
+ * - `isValid`: True if no errors were found, false otherwise
+ * - `errors`: Array of validation errors that prevent the configuration from being valid
+ * - `warnings`: Array of validation warnings that don't prevent validity but indicate potential issues
+ */
 export interface ValidationResult {
   isValid: boolean;
   errors: ValidationError[];
   warnings: ValidationWarning[];
 }
 
+/**
+ * Represents a validation error that prevents the configuration from being valid.
+ * 
+ * @remarks
+ * Errors are critical issues that must be fixed before the configuration can be used.
+ * Examples: missing required fields, invalid data types, broken references.
+ */
 export interface ValidationError {
   type: 'error';
   category: 'resource' | 'building' | 'technology' | 'action' | 'general';
@@ -44,6 +122,13 @@ export interface ValidationError {
   details?: Record<string, unknown>;
 }
 
+/**
+ * Represents a validation warning that doesn't prevent validity but indicates potential issues.
+ * 
+ * @remarks
+ * Warnings are non-critical issues that should be reviewed.
+ * Examples: unused keys, deprecated patterns, performance concerns.
+ */
 export interface ValidationWarning {
   type: 'warning';
   category: 'resource' | 'building' | 'technology' | 'action' | 'general';
@@ -52,7 +137,26 @@ export interface ValidationWarning {
 }
 
 /**
- * Validate resource definitions
+ * Validates resource definitions for completeness and correctness.
+ * 
+ * @param resources - Record of resource definitions to validate
+ * @param allKeys - Array of all expected resource keys
+ * @returns Validation result with any errors or warnings found
+ * 
+ * @example
+ * ```typescript
+ * const result = validateResources(RESOURCES, ['gold', 'wood', 'stone']);
+ * if (!result.isValid) {
+ *   console.error('Resource validation failed:', result.errors);
+ * }
+ * ```
+ * 
+ * @remarks
+ * Validates:
+ * - All required resource keys are present
+ * - Required fields (name, icon, decimals, start) are valid
+ * - Data types are correct
+ * - Values are within acceptable ranges
  */
 export function validateResources(
   resources: Record<ResourceKey, ResourceDef>,
@@ -549,7 +653,42 @@ function validateResourceOperation(
 }
 
 /**
- * Comprehensive configuration validation
+ * Performs comprehensive validation of the entire game configuration.
+ * This is the main entry point for configuration validation.
+ * 
+ * @param config - Complete game configuration object to validate
+ * @returns Validation result with all errors and warnings found
+ * 
+ * @example
+ * ```typescript
+ * import { validateGameConfig } from './validationUtils';
+ * 
+ * const validationResult = validateGameConfig({
+ *   resources: RESOURCES,
+ *   buildings: BUILDINGS,
+ *   technologies: TECHNOLOGIES,
+ *   actions: ACTIONS
+ * });
+ * 
+ * if (validationResult.isValid) {
+ *   console.log('✅ Game configuration is valid');
+ * } else {
+ *   console.error('❌ Configuration validation failed:');
+ *   validationResult.errors.forEach(error => {
+ *     console.error(`  ${error.category}: ${error.message}`);
+ *   });
+ * }
+ * ```
+ * 
+ * @remarks
+ * This function validates:
+ * - Individual configuration sections (resources, buildings, technologies, actions)
+ * - Cross-references between different configuration types
+ * - Data integrity and consistency
+ * - Required fields and data types
+ * 
+ * The validation is comprehensive and will catch most configuration issues
+ * before they cause runtime errors.
  */
 export function validateGameConfig(config: {
   resources: Record<ResourceKey, ResourceDef>;
@@ -588,7 +727,31 @@ export function validateGameConfig(config: {
 }
 
 /**
- * Format validation results for display
+ * Formats validation results into a human-readable string for display.
+ * Useful for logging, debugging, and user feedback.
+ * 
+ * @param results - Validation results to format
+ * @returns Formatted string representation of validation results
+ * 
+ * @example
+ * ```typescript
+ * const results = validateGameConfig(config);
+ * const formatted = formatValidationResults(results);
+ * console.log(formatted);
+ * // Output:
+ * // ❌ Configuration Errors (2):
+ * //   • RESOURCE: Resource gold has invalid start value
+ * //   • BUILDING: Building woodcutter requires unknown technology: invalid
+ * // 
+ * // ❌ Configuration has errors and cannot be used.
+ * ```
+ * 
+ * @remarks
+ * The formatted output includes:
+ * - Error count and details
+ * - Warning count and details  
+ * - Overall validation status
+ * - Clear visual indicators (✅, ❌, ⚠️)
  */
 export function formatValidationResults(results: ValidationResult): string {
   let output = '';
