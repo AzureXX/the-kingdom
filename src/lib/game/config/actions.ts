@@ -114,7 +114,7 @@ export const ACTIONS: Record<ActionKey, ActionDef> = {
   // Technology-Dependent Actions
   advancedMining: {
     name: 'Advanced Mining',
-    icon: 'ic-stone',
+    icon: '🪨',
     description: 'Use advanced mining techniques. Requires Engineering technology.',
     cost: {},
     gains: { stone: 3 },
@@ -126,7 +126,7 @@ export const ACTIONS: Record<ActionKey, ActionDef> = {
 
   scientificResearch: {
     name: 'Scientific Research',
-    icon: 'ic-research',
+    icon: '🔬',
     description: 'Conduct scientific research. Requires Chemistry technology.',
     cost: {},
     gains: { researchPoints: 2 },
@@ -138,7 +138,7 @@ export const ACTIONS: Record<ActionKey, ActionDef> = {
 
   royalDiplomacy: {
     name: 'Royal Diplomacy',
-    icon: 'ic-prestige',
+    icon: '👑',
     description: 'Engage in royal diplomacy. Requires Writing technology.',
     cost: {},
     gains: { prestige: 1 },
@@ -169,5 +169,31 @@ export function getAllActions(): Record<ActionKey, ActionDef> {
 export function getBasicActions(): ActionKey[] {
   return Object.entries(ACTIONS)
     .filter(([, action]) => action.unlockConditions.length === 0)
+    .map(([key]) => key as ActionKey);
+}
+
+/**
+ * Get actions that require a specific building
+ */
+export function getActionsRequiringBuilding(buildingKey: string): ActionKey[] {
+  return Object.entries(ACTIONS)
+    .filter(([, action]) => 
+      action.unlockConditions.some(condition => 
+        condition.type === 'building' && condition.key === buildingKey
+      )
+    )
+    .map(([key]) => key as ActionKey);
+}
+
+/**
+ * Get actions that require a specific technology
+ */
+export function getActionsRequiringTechnology(technologyKey: string): ActionKey[] {
+  return Object.entries(ACTIONS)
+    .filter(([, action]) => 
+      action.unlockConditions.some(condition => 
+        condition.type === 'technology' && condition.key === technologyKey
+      )
+    )
     .map(([key]) => key as ActionKey);
 }

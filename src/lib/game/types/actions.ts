@@ -20,13 +20,49 @@ export type ActionKey =
   | 'royalDiplomacy';
 
 /**
- * Unlock condition for an action
+ * Technology unlock condition for an action
  */
-export interface ActionUnlockCondition {
-  type: 'technology' | 'building' | 'resource' | 'prestige';
-  key: ResourceKey | BuildingKey | TechnologyKey | PrestigeUpgradeKey;
+export interface TechnologyUnlockCondition {
+  type: 'technology';
+  key: TechnologyKey;
   value: number;
 }
+
+/**
+ * Building unlock condition for an action
+ */
+export interface BuildingUnlockCondition {
+  type: 'building';
+  key: BuildingKey;
+  value: number;
+}
+
+/**
+ * Resource unlock condition for an action
+ */
+export interface ResourceUnlockCondition {
+  type: 'resource';
+  key: ResourceKey;
+  value: number;
+}
+
+/**
+ * Prestige unlock condition for an action
+ */
+export interface PrestigeUnlockCondition {
+  type: 'prestige';
+  key: PrestigeUpgradeKey;
+  value: number;
+}
+
+/**
+ * Unlock condition for an action - discriminated union for better type safety
+ */
+export type ActionUnlockCondition = 
+  | TechnologyUnlockCondition
+  | BuildingUnlockCondition
+  | ResourceUnlockCondition
+  | PrestigeUnlockCondition;
 
 /**
  * Definition of a game action
