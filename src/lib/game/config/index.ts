@@ -1,4 +1,3 @@
-import { GAME_CONSTANTS } from '../constants';
 import { RESOURCES } from './resources';
 import { BUILDINGS } from './buildings';
 import { TECHNOLOGIES } from './technologies';
