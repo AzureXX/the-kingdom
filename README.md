@@ -200,7 +200,7 @@ The game uses a sophisticated hook-based architecture with the following key com
 
 ### Visual Design
 - **Theme**: Dark medieval aesthetic with blue/purple gradients
-- **Icons**: Emoji icons for actions and events, providing intuitive visual feedback
+- **Icons**: SVG icons (using `ic-*` format) when available, with emoji icons as alternatives, providing intuitive visual feedback
 - **Typography**: Clean, readable fonts with proper hierarchy
 - **Animations**: Smooth transitions and hover effects
 
