@@ -1,7 +1,7 @@
 // ActionList component to display all available actions
 
 import React, { useMemo } from 'react';
-import type { GameState, ActionKey } from '@/lib/game/types';
+import type { GameState, ActionKey, ActionUnlockCondition } from '@/lib/game/types';
 import { getAllActions } from '@/lib/game/config/actions';
 import { getActionStatus } from '@/lib/game/utils/actionValidation';
 import { ActionButton } from './ActionButton';
@@ -18,8 +18,7 @@ export function ActionList({ state, onExecuteAction, fmt }: ActionListProps) {
   const actionKeys = useMemo(() => Object.keys(allActions) as ActionKey[], [allActions]);
   
   const actionStatuses = useMemo(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const statuses: Record<ActionKey, ReturnType<typeof getActionStatus>> = {} as any;
+    const statuses: Record<ActionKey, ReturnType<typeof getActionStatus>> = {} as Record<ActionKey, ReturnType<typeof getActionStatus>>;
     
     for (const actionKey of actionKeys) {
       statuses[actionKey] = getActionStatus(state, actionKey);
@@ -43,14 +42,11 @@ export function ActionList({ state, onExecuteAction, fmt }: ActionListProps) {
 
       if (action.unlockConditions.length === 0) {
         groups.basic.push(actionKey);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } else if (action.unlockConditions.some((c: any) => c.type === 'resource')) {
+      } else if (action.unlockConditions.some((c: ActionUnlockCondition) => c.type === 'resource')) {
         groups.trading.push(actionKey);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } else if (action.unlockConditions.some((c: any) => c.type === 'building')) {
+      } else if (action.unlockConditions.some((c: ActionUnlockCondition) => c.type === 'building')) {
         groups.building.push(actionKey);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } else if (action.unlockConditions.some((c: any) => c.type === 'technology')) {
+      } else if (action.unlockConditions.some((c: ActionUnlockCondition) => c.type === 'technology')) {
         groups.technology.push(actionKey);
       }
     }

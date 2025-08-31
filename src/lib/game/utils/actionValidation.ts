@@ -1,8 +1,8 @@
 // Action validation utilities
 
-import type { GameState, ActionKey, ActionStatus, ResourceKey, BuildingKey } from '../types';
+import type { GameState, ActionKey, ActionStatus, ResourceKey, BuildingKey, ActionUnlockCondition, TechnologyKey, PrestigeUpgradeKey } from '../types';
 import { getAction, getAllActions } from '../config/actions';
-import { getResource, getBuildingCount, getUpgradeLevel } from '../gameState';
+import { getResource, getBuildingCount, getUpgradeLevel, getTechnologyLevel } from '../gameState';
 import { canAfford } from '../calculations';
 
 /**
@@ -66,15 +66,14 @@ export function isActionOnCooldown(state: GameState, actionKey: ActionKey): bool
  */
 export function checkUnlockConditions(
   state: GameState, 
-  conditions: Array<{ type: string; key: string; value: number }>
+  conditions: ActionUnlockCondition[]
 ): boolean {
   if (conditions.length === 0) return true;
 
   return conditions.every(condition => {
     switch (condition.type) {
       case 'technology':
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const techLevel = getUpgradeLevel(state, condition.key as any);
+        const techLevel = getTechnologyLevel(state, condition.key as TechnologyKey);
         return techLevel >= condition.value;
 
       case 'building':
@@ -86,8 +85,7 @@ export function checkUnlockConditions(
         return resourceAmount >= condition.value;
 
       case 'prestige':
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const prestigeLevel = getUpgradeLevel(state, condition.key as any); // Prestige upgrade
+        const prestigeLevel = getUpgradeLevel(state, condition.key as PrestigeUpgradeKey); // Prestige upgrade
         return prestigeLevel >= condition.value;
 
       default:

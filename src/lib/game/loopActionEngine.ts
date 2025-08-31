@@ -87,14 +87,11 @@ export function processLoopActionTick(state: GameState): GameState {
     const newPoints = action.currentPoints + pointsPerTick;
     const pointsRequired = LOOP_ACTIONS[action.actionKey].loopPointsRequired;
     
-    console.log(`Processing ${action.actionKey}: ${action.currentPoints} -> ${newPoints} (need ${pointsRequired})`);
-    
     // Check if loop is complete
     if (newPoints >= pointsRequired) {
       // Complete the loop - add gains and reset points to 0
       const actionDef = LOOP_ACTIONS[action.actionKey];
       newState = addResources(newState, actionDef.gains);
-      console.log(`LOOP COMPLETED: ${action.actionKey} - Points: ${newPoints}/${pointsRequired} - Loops: ${action.totalLoopsCompleted + 1}`);
       
       // Reset points to 0 and increment loop count
       return {
