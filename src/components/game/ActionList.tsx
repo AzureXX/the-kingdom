@@ -3,7 +3,7 @@
 import React, { useMemo } from 'react';
 import type { GameState, ActionKey, ActionUnlockCondition } from '@/lib/game/types';
 import { getAllActions } from '@/lib/game/config/actions';
-import { getActionStatus } from '@/lib/game/utils/actionValidation';
+import { ActionValidator } from '@/lib/game/utils/actionValidation';
 import { ActionButton } from './ActionButton';
 import styles from '@/styles/page.module.scss';
 
@@ -18,10 +18,10 @@ export function ActionList({ state, onExecuteAction, fmt }: ActionListProps) {
   const actionKeys = useMemo(() => Object.keys(allActions) as ActionKey[], [allActions]);
   
   const actionStatuses = useMemo(() => {
-    const statuses: Record<ActionKey, ReturnType<typeof getActionStatus>> = {} as Record<ActionKey, ReturnType<typeof getActionStatus>>;
+    const statuses: Record<ActionKey, ReturnType<typeof ActionValidator.getActionStatus>> = {} as Record<ActionKey, ReturnType<typeof ActionValidator.getActionStatus>>;
     
     for (const actionKey of actionKeys) {
-      statuses[actionKey] = getActionStatus(state, actionKey);
+      statuses[actionKey] = ActionValidator.getActionStatus(state, actionKey);
     }
     
     return statuses;

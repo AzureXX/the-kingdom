@@ -16,7 +16,7 @@ import { checkAndTriggerEvents } from './eventSystem';
 import { startResearch, checkResearchProgress } from './technologySystem';
 import { createStateErrorHandler } from './utils/errorLogger';
 import { getAction } from './config/actions';
-import { canExecuteAction } from './utils/actionValidation';
+import { ActionValidator } from './utils/actionValidation';
 
 const stateErrorHandler = createStateErrorHandler('actions');
 
@@ -104,7 +104,7 @@ export function executeAction(state: GameState, actionKey: ActionKey): GameState
     }
 
     // Check if action can be executed
-    if (!canExecuteAction(state, actionKey)) {
+    if (!ActionValidator.canExecuteAction(state, actionKey)) {
       return state;
     }
 
