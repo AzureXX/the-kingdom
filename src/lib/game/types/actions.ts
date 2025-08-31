@@ -1,6 +1,6 @@
 // Action system type definitions
 
-import type { ResourceKey, BuildingKey, TechnologyKey, PrestigeUpgradeKey, ResourceCost } from './index';
+import type { ResourceKey, BuildingKey, TechnologyKey, PrestigeUpgradeKey, ResourceCost, ResourceProduction } from './index';
 
 /**
  * Unique identifier for each action
@@ -82,7 +82,7 @@ export interface ActionDef {
   cost?: ResourceCost;
   
   /** Resources gained when executing this action */
-  gains: Partial<Record<ResourceKey, number>>;
+  gains: ResourceProduction;
   
   /** Conditions that must be met before this action becomes available */
   unlockConditions: ActionUnlockCondition[];
@@ -100,8 +100,8 @@ export interface ActionDef {
 export interface ActionStatus {
   canExecute: boolean;
   reason?: string;
-  cost: Partial<Record<ResourceKey, number>>;
-  gains: Partial<Record<ResourceKey, number>>;
+  cost: ResourceCost;
+  gains: ResourceProduction;
   cooldownRemaining?: number;
   isUnlocked: boolean;
 }

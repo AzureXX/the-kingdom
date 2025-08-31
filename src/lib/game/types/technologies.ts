@@ -1,6 +1,6 @@
 // Technology-related type definitions
 
-import type { ResourceKey } from './resources';
+import type { ResourceCost } from './resources';
 import type { BuildingKey } from './buildings';
 
 export type TechnologyKey = 'writing' | 'mathematics' | 'engineering' | 'chemistry' | 'physics' | 'biology';
@@ -20,7 +20,7 @@ export type TechnologyDef = {
   desc: string;
   
   /** Base cost in resources to research this technology */
-  baseCost: Partial<Record<ResourceKey, number>>;
+  baseCost: ResourceCost;
   
   /** Cost scaling factor for research (typically 1.0 for technologies) */
   costScale: number;
@@ -36,7 +36,7 @@ export type TechnologyDef = {
   
   /** Custom effect function that runs when research completes (optional) */
   effect?: (state: { 
-    resources: Partial<Record<ResourceKey, number>>; 
+    resources: ResourceCost; 
     buildings: Record<BuildingKey, number>; 
     technologies: Record<TechnologyKey, number> 
   }) => void;

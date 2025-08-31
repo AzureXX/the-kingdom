@@ -1,4 +1,4 @@
-import type { ResourceKey, BuildingKey, PrestigeUpgradeKey, TechnologyKey, ActionKey } from './types';
+import type { ResourceKey, BuildingKey, PrestigeUpgradeKey, TechnologyKey, ActionKey, ResourceCost } from './types';
 import type { GameState } from './types';
 
 import { 
@@ -23,7 +23,7 @@ const stateErrorHandler = createStateErrorHandler('actions');
 /**
  * Pay resources (subtract from state) - Optimized pure function with error handling
  */
-export function pay(state: GameState, cost: Partial<Record<ResourceKey, number>>): GameState {
+export function pay(state: GameState, cost: ResourceCost): GameState {
   try {
     if (Object.keys(cost).length === 0) return state;
     

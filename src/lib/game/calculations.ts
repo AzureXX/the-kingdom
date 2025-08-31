@@ -1,4 +1,4 @@
-import type { ResourceKey, BuildingKey, PrestigeUpgradeKey, TechnologyKey } from './types';
+import type { ResourceKey, BuildingKey, PrestigeUpgradeKey, TechnologyKey, ResourceCost } from './types';
 import type { GameState, Multipliers } from './types';
 
 import { CONFIG } from './config';
@@ -59,7 +59,7 @@ export function getMultipliers(state: GameState): Multipliers {
 /**
  * Calculate the cost for a building based on current ownership and multipliers
  */
-export function costFor(state: GameState, buildKey: BuildingKey): Partial<Record<ResourceKey, number>> {
+export function costFor(state: GameState, buildKey: BuildingKey): ResourceCost {
   try {
     // Validate inputs
     if (!state || typeof state !== 'object') {
@@ -80,7 +80,7 @@ export function costFor(state: GameState, buildKey: BuildingKey): Partial<Record
 
     const owned = getBuildingCount(state, buildKey);
     const muls = getMultipliers(state);
-    const cost: Partial<Record<ResourceKey, number>> = {};
+    const cost: ResourceCost = {};
     
     for (const r in def.baseCost) {
       const rk = r as ResourceKey;
@@ -97,7 +97,7 @@ export function costFor(state: GameState, buildKey: BuildingKey): Partial<Record
 /**
  * Calculate the cost for a technology
  */
-export function technologyCostFor(state: GameState, techKey: TechnologyKey): Partial<Record<ResourceKey, number>> {
+export function technologyCostFor(state: GameState, techKey: TechnologyKey): ResourceCost {
   try {
     // Validate inputs
     if (!state || typeof state !== 'object') {
@@ -116,7 +116,7 @@ export function technologyCostFor(state: GameState, techKey: TechnologyKey): Par
       throw new Error('Technology definition not found');
     }
 
-    const cost: Partial<Record<ResourceKey, number>> = {};
+    const cost: ResourceCost = {};
     
     for (const r in def.baseCost) {
       const rk = r as ResourceKey;
@@ -133,7 +133,7 @@ export function technologyCostFor(state: GameState, techKey: TechnologyKey): Par
 /**
  * Check if the player can afford a given cost
  */
-export function canAfford(state: GameState, cost: Partial<Record<ResourceKey, number>>): boolean {
+export function canAfford(state: GameState, cost: ResourceCost): boolean {
   try {
     // Validate inputs
     if (!state || typeof state !== 'object') {

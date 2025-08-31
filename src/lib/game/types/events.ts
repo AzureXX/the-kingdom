@@ -1,6 +1,6 @@
 // Event-related type definitions
 
-import type { ResourceKey } from './resources';
+import type { ResourceProduction, ResourceConsumption, ResourceCost } from './resources';
 
 export type EventKey = 
   | 'merchantVisit'
@@ -14,9 +14,9 @@ export type EventKey =
 
 export type EventChoice = {
   text: string;
-  gives: Partial<Record<ResourceKey, number>>;
-  takes: Partial<Record<ResourceKey, number>>;
-  requires: Partial<Record<ResourceKey, number>>;
+  gives: ResourceProduction;
+  takes: ResourceConsumption;
+  requires: ResourceCost;
 };
 
 export type EventDef = {

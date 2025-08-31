@@ -1,4 +1,4 @@
-import { ResourceKey } from './resources';
+import { ResourceCost, ResourceProduction } from './resources';
 import { ActionUnlockCondition } from './actions';
 
 export type LoopActionCategory = 'gathering' | 'crafting' | 'research' | 'military';
@@ -19,8 +19,8 @@ export interface LoopActionDef {
   name: string;
   icon: string;
   description: string;
-  cost?: Partial<Record<ResourceKey, number>>;
-  gains: Partial<Record<ResourceKey, number>>;
+  cost?: ResourceCost;
+  gains: ResourceProduction;
   unlockConditions: ActionUnlockCondition[];
   loopPointsRequired: number;
   loopCategory: LoopActionCategory;

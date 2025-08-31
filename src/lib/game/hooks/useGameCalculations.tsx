@@ -4,19 +4,19 @@ import { prestigeGain } from '../prestigeSystem';
 import { getUpgradeLevel } from '../gameState';
 import { CONFIG } from '../config';
 import type { GameState, Multipliers } from '../types';
-import type { BuildingKey, PrestigeUpgradeKey, ResourceKey, TechnologyKey } from '../types';
+import type { BuildingKey, PrestigeUpgradeKey, ResourceKey, TechnologyKey, ResourceCost } from '../types';
 
 export function useGameCalculations(state: GameState | null): {
   gameCalculations: {
     perSec: Partial<Record<ResourceKey, number>>;
     prestigePotential: number;
     multipliers: Multipliers | null;
-    technologyCosts: Record<TechnologyKey, Partial<Record<ResourceKey, number>>>;
+    technologyCosts: Record<TechnologyKey, ResourceCost>;
     upgradeCosts: Record<PrestigeUpgradeKey, number>;
   };
   utilityFunctions: {
-    memoizedCostFor: (key: BuildingKey) => Partial<Record<ResourceKey, number>>;
-    memoizedCanAfford: (cost: Partial<Record<ResourceKey, number>>) => boolean;
+    memoizedCostFor: (key: BuildingKey) => ResourceCost;
+    memoizedCanAfford: (cost: ResourceCost) => boolean;
   };
 } {
   const TECHNOLOGIES = CONFIG.technologies;
@@ -31,13 +31,13 @@ export function useGameCalculations(state: GameState | null): {
   
   // Memoized utility functions to prevent recreation
   const memoizedCostFor = useCallback((key: BuildingKey) => state ? costFor(state, key) : {}, [state]);
-  const memoizedCanAfford = useCallback((cost: Partial<Record<ResourceKey, number>>) => state ? canAfford(state, cost) : false, [state]);
+  const memoizedCanAfford = useCallback((cost: ResourceCost) => state ? canAfford(state, cost) : false, [state]);
     
   // Memoize technology costs to prevent recalculation on every render
   // TECHNOLOGIES is stable reference, so we only depend on state
   const technologyCosts = useMemo(() => {
-    if (!state) return {} as Record<TechnologyKey, Partial<Record<ResourceKey, number>>>;
-    const costs: Record<TechnologyKey, Partial<Record<ResourceKey, number>>> = {} as Record<TechnologyKey, Partial<Record<ResourceKey, number>>>;
+    if (!state) return {} as Record<TechnologyKey, ResourceCost>;
+    const costs: Record<TechnologyKey, ResourceCost> = {} as Record<TechnologyKey, ResourceCost>;
     for (const techKey of Object.keys(TECHNOLOGIES) as TechnologyKey[]) {
       costs[techKey] = technologyCostFor(state, techKey);
     }

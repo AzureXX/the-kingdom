@@ -1,5 +1,5 @@
 import { CONFIG } from './config';
-import type { ResourceKey, TechnologyKey, BuildingKey, PrestigeUpgradeKey } from './types';
+import type { ResourceKey, TechnologyKey, BuildingKey, PrestigeUpgradeKey, ResourceCost, ResourceProduction } from './types';
 import { GAME_CONSTANTS, EVENT_CONSTANTS } from './constants';
 import type { GameState } from './types';
 import { isValidBuildingKey } from './utils';
@@ -197,7 +197,7 @@ export function updateResource(state: GameState, resourceKey: ResourceKey, value
 /**
  * Update multiple resources at once - Pure function with validation
  */
-export function updateMultipleResources(state: GameState, updates: Partial<Record<ResourceKey, number>>): GameState {
+export function updateMultipleResources(state: GameState, updates: ResourceCost): GameState {
   try {
     // Validate inputs
     if (!state || typeof state !== 'object') {
@@ -361,7 +361,7 @@ export function setUpgradeLevel(state: GameState, upgradeKey: PrestigeUpgradeKey
 /**
  * Add resources to the game state - Pure function
  */
-export function addResources(state: GameState, obj: Partial<Record<ResourceKey, number>>): GameState {
+export function addResources(state: GameState, obj: ResourceProduction): GameState {
   if (Object.keys(obj).length === 0) return state;
   
   const resourceUpdates: Partial<Record<ResourceKey, number>> = {};
