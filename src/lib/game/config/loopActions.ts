@@ -22,7 +22,7 @@ export const LOOP_ACTIONS: Record<string, LoopActionDef> = {
     unlockConditions: [{ type: 'building', key: 'quarry', value: 1 }],
     loopPointsRequired: 1000,
     loopCategory: 'gathering',
-    showWhenLocked: false,
+    showWhenLocked: true,
   },
   
   continuousLogging: {
@@ -34,7 +34,7 @@ export const LOOP_ACTIONS: Record<string, LoopActionDef> = {
     unlockConditions: [{ type: 'building', key: 'woodcutter', value: 1 }],
     loopPointsRequired: 800,
     loopCategory: 'gathering',
-    showWhenLocked: false,
+    showWhenLocked: true,
   },
   
   continuousFarming: {
@@ -46,7 +46,7 @@ export const LOOP_ACTIONS: Record<string, LoopActionDef> = {
     unlockConditions: [{ type: 'building', key: 'farm', value: 1 }],
     loopPointsRequired: 1200,
     loopCategory: 'gathering',
-    showWhenLocked: false,
+    showWhenLocked: true,
   },
   
   massToolProduction: {
