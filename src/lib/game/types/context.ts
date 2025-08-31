@@ -1,4 +1,4 @@
-import type { ActionKey, BuildingKey, PrestigeUpgradeKey, TechnologyKey } from './index';
+import type { ActionKey, BuildingKey, PrestigeUpgradeKey, TechnologyKey, ResourceKey } from './index';
 import type { LoopActionKey } from './loopActions';
 
 /**
@@ -19,8 +19,8 @@ export interface GameActionHandlers {
  */
 export interface GameUtilityFunctions {
   fmt: (n: number, decimals?: number) => string;
-  costFor: (key: BuildingKey) => Partial<Record<string, number>>;
-  canAfford: (cost: Partial<Record<string, number>>) => boolean;
+  costFor: (key: BuildingKey) => Partial<Record<ResourceKey, number>>;
+  canAfford: (cost: Partial<Record<ResourceKey, number>>) => boolean;
 }
 
 /**

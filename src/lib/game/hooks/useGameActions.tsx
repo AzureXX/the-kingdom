@@ -9,7 +9,16 @@ import type { BuildingKey, PrestigeUpgradeKey, TechnologyKey, ActionKey } from '
 export function useGameActions(
   state: GameState | null,
   setState: React.Dispatch<React.SetStateAction<GameState | null>>
-) {
+): {
+  actionHandlers: {
+    handleExecuteAction: (actionKey: ActionKey) => void;
+    handleBuyBuilding: (key: BuildingKey) => void;
+    handleBuyUpgrade: (key: PrestigeUpgradeKey) => void;
+    handleResearchTechnology: (key: TechnologyKey) => void;
+    handleDoPrestige: () => void;
+    handleTogglePause: () => void;
+  };
+} {
   // Optimized action handlers using functional state updates
   const handleExecuteAction = useCallback((actionKey: ActionKey) => {
     setState(currentState => {

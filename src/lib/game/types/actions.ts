@@ -65,16 +65,32 @@ export type ActionUnlockCondition =
   | PrestigeUnlockCondition;
 
 /**
- * Definition of a game action
+ * Definition of a game action that players can execute.
+ * Actions provide the primary interactive gameplay beyond passive resource generation.
  */
 export interface ActionDef {
+  /** Human-readable name of the action */
   name: string;
+  
+  /** Visual icon (emoji) representing the action */
   icon: string;
+  
+  /** Detailed description of what the action does */
   description: string;
+  
+  /** Resources required to execute this action (optional) */
   cost?: Partial<Record<ResourceKey, number>>;
+  
+  /** Resources gained when executing this action */
   gains: Partial<Record<ResourceKey, number>>;
+  
+  /** Conditions that must be met before this action becomes available */
   unlockConditions: ActionUnlockCondition[];
+  
+  /** Cooldown time in milliseconds before action can be used again (optional) */
   cooldown?: number;
+  
+  /** Whether this action becomes permanently unlocked after first use */
   oneTimeUnlock: boolean;
 }
 
