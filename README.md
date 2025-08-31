@@ -299,10 +299,58 @@ export const TECHNOLOGIES: Record<TechnologyKey, TechnologyDef> = {
 - **Performance Testing**: Frame rate and memory usage monitoring
 
 ### Error Handling
-- **Validation**: Input validation for all game functions
-- **Error Boundaries**: React error boundaries for UI errors
-- **Logging**: Comprehensive error logging system
-- **Graceful Degradation**: Fallback behavior for errors
+The game uses a sophisticated, consistent error handling system that ensures stability and provides comprehensive debugging information:
+
+#### **Error Handling Pattern (Consistent Across All Functions)**
+```typescript
+export function gameFunction(state: GameState): GameState {
+  try {
+    // 1. Input validation with descriptive errors
+    if (!state || typeof state !== 'object') {
+      validationHandler('Invalid state parameter', { state: typeof state });
+      throw new Error('Invalid state parameter');
+    }
+    
+    // 2. Function logic here...
+    return newState;
+  } catch (error) {
+    // 3. Comprehensive error logging with context
+    stateErrorHandler('Failed to execute function', { 
+      error: error instanceof Error ? error.message : String(error) 
+    });
+    
+    // 4. Safe fallback - return original state or safe default
+    return state; // Prevents crashes and maintains game stability
+  }
+}
+```
+
+#### **Key Principles**
+- **Input Validation**: All functions validate inputs before processing
+- **Descriptive Errors**: Clear error messages with context for debugging
+- **Error Catching**: All thrown errors are caught and handled gracefully
+- **Safe Fallbacks**: Functions always return valid state, never crash
+- **Comprehensive Logging**: All errors are logged with full context and stack traces
+- **Game Stability**: Errors don't interrupt gameplay or cause crashes
+
+#### **Error Handler Types**
+- **`validationHandler`**: For input validation errors
+- **`calculationHandler`**: For mathematical operation errors  
+- **`stateErrorHandler`**: For state management errors
+- **`handleGameError`**: Central error handling with categorization
+
+#### **Error Recovery Strategy**
+- **State Functions**: Return original state on error (preserves game state)
+- **Calculation Functions**: Return safe default values (e.g., default multipliers)
+- **UI Components**: Use React error boundaries for graceful degradation
+- **Game Loop**: Continues running even if individual operations fail
+
+#### **Benefits of This Approach**
+- **No Game Crashes**: Errors are contained and handled gracefully
+- **Easy Debugging**: Comprehensive error logging with full context
+- **Maintainable Code**: Consistent error handling patterns across all functions
+- **User Experience**: Game continues running smoothly even with errors
+- **Development Speed**: Clear error messages help identify issues quickly
 
 ## 📊 Performance Metrics
 
