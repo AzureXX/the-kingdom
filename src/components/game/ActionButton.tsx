@@ -1,8 +1,11 @@
 // ActionButton component for individual game actions
 
 import React from 'react';
-import type { ActionKey, ActionStatus } from '@/lib/game/types';
+
 import { getAction } from '@/lib/game/config/actions';
+
+import type { ActionKey, ActionStatus } from '@/lib/game/types';
+
 import styles from '@/styles/page.module.scss';
 
 interface ActionButtonProps {

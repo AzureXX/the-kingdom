@@ -1,6 +1,8 @@
 import { useCallback, useMemo } from 'react';
+
 import { buyBuilding, buyUpgrade, executeAction, researchTechnology } from '../actions';
 import { doPrestige } from '../prestigeSystem';
+
 import type { GameState } from '../types';
 import type { BuildingKey, PrestigeUpgradeKey, TechnologyKey, ActionKey } from '../types';
 

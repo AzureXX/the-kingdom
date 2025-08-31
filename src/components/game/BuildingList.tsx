@@ -1,11 +1,14 @@
 import React, { memo } from 'react';
-import styles from '@/styles/page.module.scss';
+
 import { CONFIG } from '@/lib/game/config';
-import type { BuildingKey, ResourceKey, TechnologyKey } from '@/lib/game/types';
 import { formatNumber } from '@/lib/game/utils';
 import { getUnlockedBuildings } from '@/lib/game/gameState';
 import { canBuyBuilding } from '@/lib/game/calculations';
+
+import type { BuildingKey, ResourceKey, TechnologyKey } from '@/lib/game/types';
 import type { GameState, ResourceCost } from '@/lib/game/types';
+
+import styles from '@/styles/page.module.scss';
 
 interface BuildingListProps {
   state: GameState;

@@ -1,7 +1,8 @@
-import { CONFIG } from './config';
 import type { ResourceKey, BuildingKey, PrestigeUpgradeKey, TechnologyKey } from './types';
-import { GAME_CONSTANTS } from './constants';
 import type { GameState, Multipliers } from './types';
+
+import { CONFIG } from './config';
+import { GAME_CONSTANTS } from './constants';
 import { getResource, getBuildingCount, getUpgradeLevel, isBuildingUnlocked } from './gameState';
 import { isValidBuildingKey } from './utils';
 import { logInvalidKey, createValidationErrorHandler, createCalculationErrorHandler } from './utils/errorLogger';

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState } from 'react';
-import styles from '@/styles/page.module.scss';
+
 import { useGameContext } from '@/lib/game/GameContext';
 import { ResourceDisplay } from '@/components/game/ResourceDisplay';
 import { ActionList } from '@/components/game/ActionList';
@@ -17,6 +17,8 @@ import { PerformanceMonitor } from '@/components/ui/PerformanceMonitor';
 import { UI_CONSTANTS } from '@/lib/game/constants';
 import { getPrestigeFormula } from '@/lib/game/prestigeSystem';
 import { clearSave } from '@/lib/game/saveSystem';
+
+import styles from '@/styles/page.module.scss';
 
 export default function GamePage() {
   const {

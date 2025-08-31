@@ -1,11 +1,12 @@
 "use client";
 
 import React, { createContext, useContext, useMemo, useState, ReactNode, useRef } from 'react';
+
+import { usePerformanceMonitor, useSaveSystem, useGameLoop, useGameTime, useGameActions, useGameCalculations, useLoopActions } from './hooks';
 import { formatNumber as fmt } from './utils';
 
 import type { GameState, Multipliers, ResourceKey, TechnologyKey } from './types';
 import type { GameActionHandlers, GameUtilityFunctions, GameTimeInfo, PerformanceMetrics } from './types/context';
-import { usePerformanceMonitor, useSaveSystem, useGameLoop, useGameTime, useGameActions, useGameCalculations, useLoopActions } from './hooks';
 
 export interface GameContextType extends 
   GameActionHandlers, 

@@ -1,7 +1,9 @@
 import { useEffect, useRef, useCallback } from 'react';
+
 import { GAME_CONSTANTS } from '../constants';
 import { tick } from '../actions';
 import { processLoopActionTick } from '../loopActionEngine';
+
 import type { GameState } from '../types';
 
 export function useGameLoop(

@@ -1,4 +1,6 @@
 import type { ResourceKey, BuildingKey, PrestigeUpgradeKey, TechnologyKey, ActionKey } from './types';
+import type { GameState } from './types';
+
 import { 
   getResource, 
   getBuildingCount, 
@@ -12,7 +14,6 @@ import {
 import { costFor, canAfford, getUpgradeCost, canBuyUpgrade, getPerSec } from './calculations';
 import { checkAndTriggerEvents } from './eventSystem';
 import { startResearch, checkResearchProgress } from './technologySystem';
-import type { GameState } from './types';
 import { createStateErrorHandler } from './utils/errorLogger';
 import { getAction } from './config/actions';
 import { canExecuteAction } from './utils/actionValidation';
