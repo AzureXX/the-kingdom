@@ -308,7 +308,7 @@ export const TECHNOLOGIES: Record<TechnologyKey, TechnologyDef> = {
 
 The game includes built-in performance monitoring:
 
-- **Frame Rate**: Target 20 FPS for smooth gameplay
+- **Frame Rate**: Target 20 FPS ideal for both performance for smooth gameplay,
 - **Render Time**: Component render performance tracking
 - **Memory Usage**: Browser memory consumption monitoring
 - **Tick Duration**: Game loop execution time
