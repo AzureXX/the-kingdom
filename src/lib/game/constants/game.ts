@@ -13,6 +13,24 @@ export const GAME_CONSTANTS = {
   NUMBER_FORMAT_THRESHOLD: 1000,
   NUMBER_FORMAT_DECIMALS: 2,
   
+  // Performance monitoring configuration
+  PERFORMANCE_MONITORING: {
+    HISTORY_SIZE: 100, // Number of samples to keep for averages
+    UPDATE_INTERVAL: 10, // Update metrics every N frames
+    THRESHOLDS: {
+      TICK_TIME_WARNING: 50, // 60 FPS = 16.67ms per frame
+      RENDER_TIME_WARNING: 500, // Half of 60 FPS
+      MEMORY_WARNING: 100 * 1024 * 1024, // 100MB
+      FPS_WARNING: 1.5
+    },
+    BUDGET: {
+      MAX_TICK_TIME: 50, // 30 FPS = 33.33ms per frame
+      MAX_RENDER_TIME: 500, // Half of 30 FPS
+      MIN_FPS: 1, // Minimum acceptable FPS
+      MAX_MEMORY_USAGE: 200 * 1024 * 1024 // 200MB
+    }
+  },
+  
   // Performance values
   PERFORMANCE: {
     POINTS_PER_TICK: 100,

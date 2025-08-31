@@ -41,6 +41,17 @@ export interface PerformanceMetrics {
   tickTime: number;
   renderTime: number;
   memoryUsage: number;
+  fps: number;
+  frameCount: number;
+  averageTickTime: number;
+  averageRenderTime: number;
+  performanceScore: number;
+}
+
+export interface PerformanceSuggestion {
+  type: 'warning' | 'info' | 'optimization';
+  message: string;
+  priority: 'low' | 'medium' | 'high';
 }
 
 /**

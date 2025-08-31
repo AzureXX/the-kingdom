@@ -6,7 +6,7 @@ import { usePerformanceMonitor, useSaveSystem, useGameLoop, useGameTime, useGame
 import { formatNumber as fmt } from './utils';
 
 import type { GameState, Multipliers, ResourceKey, TechnologyKey, PrestigeUpgradeKey, ResourceCost } from './types';
-import type { GameActionHandlers, GameUtilityFunctions, GameTimeInfo, PerformanceMetrics } from './types/context';
+import type { GameActionHandlers, GameUtilityFunctions, GameTimeInfo, PerformanceMetrics, PerformanceSuggestion } from './types/context';
 
 export interface GameContextType extends 
   GameActionHandlers, 
@@ -20,6 +20,12 @@ export interface GameContextType extends
   technologyCosts: Record<TechnologyKey, ResourceCost>;
   upgradeCosts: Record<PrestigeUpgradeKey, number>;
   performanceMetrics: PerformanceMetrics;
+  performanceFunctions: {
+    updateMetrics: (tickDuration: number) => void;
+    resetRenderTimer: () => void;
+    getCurrentMetrics: () => PerformanceMetrics;
+    getPerformanceSuggestions: () => PerformanceSuggestion[];
+  };
   doExport: () => string;
   doImport: (str: string) => boolean;
   manualSave: () => void;
@@ -36,7 +42,7 @@ export function GameProvider({ children }: GameProviderProps) {
   const [state, setState] = useState<GameState | null>(null);
 
   // Custom hooks for different game systems
-  const { performanceMetrics, performanceFunctions } = usePerformanceMonitor(10);
+  const { performanceMetrics, performanceFunctions } = usePerformanceMonitor();
   const { lastSavedAt, saveFunctions } = useSaveSystem(state, setState);
   const { timeValues } = useGameTime(state, lastSavedAt);
   const { actionHandlers } = useGameActions(state, setState);
@@ -63,6 +69,7 @@ export function GameProvider({ children }: GameProviderProps) {
     technologyCosts: gameCalculations.technologyCosts,
     upgradeCosts: gameCalculations.upgradeCosts,
     performanceMetrics,
+    performanceFunctions,
     
     // Action handlers (from GameActionHandlers)
     handleExecuteAction: actionHandlers.handleExecuteAction,
@@ -99,6 +106,7 @@ export function GameProvider({ children }: GameProviderProps) {
     lastSavedAt,
     handleToggleLoopAction,
     performanceMetrics,
+    performanceFunctions,
   ]);
 
   return (
