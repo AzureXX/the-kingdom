@@ -4,6 +4,7 @@ import { LOOP_ACTIONS } from './config/loopActions';
 import { pay } from './actions';
 import { addResources } from './gameState';
 import { canAfford } from './calculations';
+import { logMessage } from './utils/errorLogger';
 import { checkUnlockConditions } from './utils/actionValidation';
 
 export function startLoopAction(state: GameState, actionKey: LoopActionKey): GameState {
@@ -63,6 +64,25 @@ export function resumeLoopAction(state: GameState, actionKey: LoopActionKey): Ga
   const actionIndex = state.loopActions.findIndex(la => la.actionKey === actionKey);
   if (actionIndex === -1) return state;
   
+  const action = state.loopActions[actionIndex];
+  const actionDef = LOOP_ACTIONS[actionKey];
+  
+  let newState = state;
+  
+  // Only charge cost if there's no progress (meaning no cost was paid for current loop)
+  if (actionDef.cost && Object.keys(actionDef.cost).length > 0 && action.currentPoints === 0) {
+    if (!canAfford(state, actionDef.cost)) {
+      logMessage(`Cannot resume loop action ${actionDef.name} - insufficient resources for next loop`, {
+        level: 'warn',
+        context: 'loopAction',
+        details: { actionKey, cost: actionDef.cost }
+      });
+      return state;
+    }
+    
+    newState = pay(state, actionDef.cost);
+  }
+  
   const updatedLoopActions = [...state.loopActions];
   updatedLoopActions[actionIndex] = {
     ...updatedLoopActions[actionIndex],
@@ -70,7 +90,7 @@ export function resumeLoopAction(state: GameState, actionKey: LoopActionKey): Ga
   };
   
   return {
-    ...state,
+    ...newState,
     loopActions: updatedLoopActions,
   };
 }
@@ -89,11 +109,31 @@ export function processLoopActionTick(state: GameState): GameState {
     
     // Check if loop is complete
     if (newPoints >= pointsRequired) {
-      // Complete the loop - add gains and reset points to 0
       const actionDef = LOOP_ACTIONS[action.actionKey];
+      
       newState = addResources(newState, actionDef.gains);
       
-      // Reset points to 0 and increment loop count
+      if (actionDef.cost && Object.keys(actionDef.cost).length > 0) {
+        if (!canAfford(newState, actionDef.cost)) {
+          logMessage(`Loop action ${actionDef.name} paused after completing loop - insufficient resources for next loop`, {
+            level: 'warn',
+            context: 'loopAction',
+            details: { actionKey: action.actionKey, cost: actionDef.cost }
+          });
+          
+          return {
+            ...action,
+            currentPoints: 0,
+            totalLoopsCompleted: action.totalLoopsCompleted + 1,
+            isActive: false,
+            isPaused: true,
+            lastTickAt: newState.t,
+          };
+        }
+        
+        newState = pay(newState, actionDef.cost);
+      }
+      
       return {
         ...action,
         currentPoints: 0,
@@ -118,24 +158,36 @@ export function processLoopActionTick(state: GameState): GameState {
 
 function addLoopAction(state: GameState, actionKey: LoopActionKey): GameState {
   const actionDef = LOOP_ACTIONS[actionKey];
-  
-  // Pay costs if any
   let newState = state;
-  if (actionDef.cost && Object.keys(actionDef.cost).length > 0) {
-    newState = pay(state, actionDef.cost);
-  }
   
   // Check if action already exists (from previous start/pause)
-  const existingIndex = newState.loopActions.findIndex(la => la.actionKey === actionKey);
+  const existingIndex = state.loopActions.findIndex((la: LoopActionState) => la.actionKey === actionKey);
   
   if (existingIndex !== -1) {
     // Update existing action - resume from paused state
+    const existingAction = state.loopActions[existingIndex];
+    
+    // Only charge cost if there's no progress (meaning no cost was paid for current loop)
+    if (actionDef.cost && Object.keys(actionDef.cost).length > 0 && existingAction.currentPoints === 0) {
+      if (!canAfford(state, actionDef.cost)) {
+        // Can't afford the cost - log and return unchanged state
+        logMessage(`Cannot resume loop action ${actionDef.name} - insufficient resources for next loop`, {
+          level: 'warn',
+          context: 'loopAction',
+          details: { actionKey, cost: actionDef.cost }
+        });
+        return state; // Return unchanged state
+      }
+      
+      newState = pay(state, actionDef.cost);
+    }
+    
     const updatedLoopActions = [...newState.loopActions];
     updatedLoopActions[existingIndex] = {
       ...updatedLoopActions[existingIndex],
       isActive: true,
       // Keep current progress when resuming
-      currentPoints: updatedLoopActions[existingIndex].currentPoints,
+      currentPoints: existingAction.currentPoints,
       startedAt: state.t,
       lastTickAt: state.t,
       isPaused: false,
@@ -146,6 +198,21 @@ function addLoopAction(state: GameState, actionKey: LoopActionKey): GameState {
       loopActions: updatedLoopActions,
     };
   } else {
+    // Create new loop action - always charge cost for first loop
+    if (actionDef.cost && Object.keys(actionDef.cost).length > 0) {
+      if (!canAfford(state, actionDef.cost)) {
+        // Can't afford the cost - log and return unchanged state
+        logMessage(`Cannot start loop action ${actionDef.name} - insufficient resources for first loop`, {
+          level: 'warn',
+          context: 'loopAction',
+          details: { actionKey, cost: actionDef.cost }
+        });
+        return state; // Return unchanged state
+      }
+      
+      newState = pay(state, actionDef.cost);
+    }
+    
     // Create new loop action state
     const newLoopAction: LoopActionState = {
       actionKey,
