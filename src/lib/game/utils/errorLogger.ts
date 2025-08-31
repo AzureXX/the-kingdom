@@ -61,7 +61,7 @@ export function handleGameError(
 /**
  * Create a validation error handler for input validation
  */
-export function createValidationErrorHandler(context: string) {
+export function createValidationErrorHandler(context: string): (message: string, details?: Record<string, unknown>) => GameError {
   return (message: string, details?: Record<string, unknown>) => {
     return handleGameError(message, 'validation', context, details);
   };
@@ -70,7 +70,7 @@ export function createValidationErrorHandler(context: string) {
 /**
  * Create a calculation error handler for mathematical operations
  */
-export function createCalculationErrorHandler(context: string) {
+export function createCalculationErrorHandler(context: string): (message: string, details?: Record<string, unknown>) => GameError {
   return (message: string, details?: Record<string, unknown>) => {
     return handleGameError(message, 'calculation', context, details);
   };
@@ -79,7 +79,7 @@ export function createCalculationErrorHandler(context: string) {
 /**
  * Create a state error handler for state management operations
  */
-export function createStateErrorHandler(context: string) {
+export function createStateErrorHandler(context: string): (message: string, details?: Record<string, unknown>) => GameError {
   return (message: string, details?: Record<string, unknown>) => {
     return handleGameError(message, 'state', context, details);
   };

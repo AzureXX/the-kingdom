@@ -153,7 +153,11 @@ export function getActiveEvent(state: GameState): EventKey | null {
 /**
  * Get event history
  */
-export function getEventHistory(state: GameState) {
+export function getEventHistory(state: GameState): Array<{
+  eventKey: EventKey;
+  choiceIndex: number;
+  timestamp: number;
+}> {
   return state.events.eventHistory;
 }
 

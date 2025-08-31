@@ -40,7 +40,17 @@ export function calculateLoopActionEfficiency(action: LoopActionState): number {
   return totalPointsGenerated / timeActive;
 }
 
-export function getLoopActionStats(action: LoopActionState) {
+export function getLoopActionStats(action: LoopActionState): {
+  name: string;
+  icon: string;
+  category: string;
+  progress: LoopActionProgress;
+  efficiency: number;
+  isActive: boolean;
+  isPaused: boolean;
+  totalLoopsCompleted: number;
+  startedAt: number;
+} {
   const actionDef = LOOP_ACTIONS[action.actionKey];
   const progress = calculateProgress(action);
   
