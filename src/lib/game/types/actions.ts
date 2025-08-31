@@ -39,9 +39,6 @@ export interface ActionDef {
   gains: Partial<Record<ResourceKey, number>>;
   unlockConditions: ActionUnlockCondition[];
   cooldown?: number;
-  requiresTech?: TechnologyKey[];
-  requiresBuilding?: Partial<Record<BuildingKey, number>>;
-  requiresResource?: Partial<Record<ResourceKey, number>>;
   oneTimeUnlock: boolean;
 }
 

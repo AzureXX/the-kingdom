@@ -172,31 +172,3 @@ export function getBasicActions(): ActionKey[] {
     .filter(([, action]) => action.unlockConditions.length === 0)
     .map(([key]) => key as ActionKey);
 }
-
-/**
- * Get actions that require specific technology
- */
-export function getActionsByTechnology(techKey: TechnologyKey): ActionKey[] {
-  return Object.entries(ACTIONS)
-    .filter(([, action]) => 
-      action.requiresTech?.includes(techKey) || 
-      action.unlockConditions.some(condition => 
-        condition.type === 'technology' && condition.key === techKey
-      )
-    )
-    .map(([key]) => key as ActionKey);
-}
-
-/**
- * Get actions that require specific building
- */
-export function getActionsByBuilding(buildingKey: BuildingKey): ActionKey[] {
-  return Object.entries(ACTIONS)
-    .filter(([, action]) => 
-      action.requiresBuilding?.[buildingKey] || 
-      action.unlockConditions.some(condition => 
-        condition.type === 'building' && condition.key === buildingKey
-      )
-    )
-    .map(([key]) => key as ActionKey);
-}
