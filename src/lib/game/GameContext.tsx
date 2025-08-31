@@ -4,6 +4,7 @@ import React, { createContext, useContext, useMemo, useState, ReactNode, useRef 
 
 import { usePerformanceMonitor, useSaveSystem, useGameLoop, useGameTime, useGameActions, useGameCalculations, useLoopActions } from './hooks';
 import { formatNumber as fmt } from './utils';
+import { validateConfiguration } from './config';
 
 import type { GameState, Multipliers, ResourceKey, TechnologyKey, PrestigeUpgradeKey, ResourceCost } from './types';
 import type { GameActionHandlers, GameUtilityFunctions, GameTimeInfo, PerformanceMetrics, PerformanceSuggestion } from './types/context';
@@ -40,6 +41,11 @@ interface GameProviderProps {
 export function GameProvider({ children }: GameProviderProps) {
   // Core state management
   const [state, setState] = useState<GameState | null>(null);
+
+  // Validate configuration on startup
+  useMemo(() => {
+    validateConfiguration();
+  }, []);
 
   // Custom hooks for different game systems
   const { performanceMetrics, performanceFunctions } = usePerformanceMonitor();

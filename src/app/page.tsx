@@ -14,6 +14,7 @@ import { EventModal } from '@/components/ui/EventModal';
 import { EventNotification } from '@/components/ui/EventNotification';
 import { SvgSprites } from '@/components/ui/SvgSprites';
 import { PerformanceMonitor } from '@/components/ui/PerformanceMonitor';
+import { ConfigurationValidator } from '@/components/ui/ConfigurationValidator';
 import { UI_CONSTANTS } from '@/lib/game/constants';
 import { getPrestigeFormula } from '@/lib/game/prestigeSystem';
 import { clearSave } from '@/lib/game/saveSystem';
@@ -171,6 +172,10 @@ export default function GamePage() {
 
         <section className={`${styles.card} ${styles.fullRow}`}>
           <PerformanceMonitor />
+        </section>
+
+        <section className={`${styles.card} ${styles.fullRow}`}>
+          <ConfigurationValidator />
         </section>
       </main>
 

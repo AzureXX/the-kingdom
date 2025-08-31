@@ -8,4 +8,17 @@ export { safeJsonParse, encodeBase64, decodeBase64 } from './stringUtils';
 export { debounce } from './performanceUtils';
 
 // Validation utilities
-export { isValidResourceKey, isValidBuildingKey, isValidTechnologyKey } from './validationUtils';
+export { 
+  isValidResourceKey, 
+  isValidBuildingKey, 
+  isValidTechnologyKey,
+  validateGameConfig,
+  validateResources,
+  validateBuildings,
+  validateTechnologies,
+  validateActions,
+  formatValidationResults,
+  type ValidationResult,
+  type ValidationError,
+  type ValidationWarning
+} from './validationUtils';
