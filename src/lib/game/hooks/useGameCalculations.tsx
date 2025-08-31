@@ -3,10 +3,22 @@ import { getPerSec, costFor, canAfford, getMultipliers, technologyCostFor, getUp
 import { prestigeGain } from '../prestigeSystem';
 import { getUpgradeLevel } from '../gameState';
 import { CONFIG } from '../config';
-import type { GameState } from '../types';
+import type { GameState, Multipliers } from '../types';
 import type { BuildingKey, PrestigeUpgradeKey, ResourceKey, TechnologyKey } from '../types';
 
-export function useGameCalculations(state: GameState | null) {
+export function useGameCalculations(state: GameState | null): {
+  gameCalculations: {
+    perSec: Partial<Record<ResourceKey, number>>;
+    prestigePotential: number;
+    multipliers: Multipliers | null;
+    technologyCosts: Record<TechnologyKey, Partial<Record<ResourceKey, number>>>;
+    upgradeCosts: Record<PrestigeUpgradeKey, number>;
+  };
+  utilityFunctions: {
+    memoizedCostFor: (key: BuildingKey) => Partial<Record<ResourceKey, number>>;
+    memoizedCanAfford: (cost: Partial<Record<ResourceKey, number>>) => boolean;
+  };
+} {
   const TECHNOLOGIES = CONFIG.technologies;
   const PRESTIGE_UPGRADES = CONFIG.prestige.upgrades;
   

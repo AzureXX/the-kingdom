@@ -1,6 +1,7 @@
 // Action system configuration
 
 import type { ActionKey, ActionDef } from '../types/actions';
+import type { BuildingKey, TechnologyKey } from '../types';
 
 /**
  * All available game actions with their configurations
@@ -175,7 +176,7 @@ export function getBasicActions(): ActionKey[] {
 /**
  * Get actions that require a specific building
  */
-export function getActionsRequiringBuilding(buildingKey: string): ActionKey[] {
+export function getActionsRequiringBuilding(buildingKey: BuildingKey): ActionKey[] {
   return Object.entries(ACTIONS)
     .filter(([, action]) => 
       action.unlockConditions.some(condition => 
@@ -188,7 +189,7 @@ export function getActionsRequiringBuilding(buildingKey: string): ActionKey[] {
 /**
  * Get actions that require a specific technology
  */
-export function getActionsRequiringTechnology(technologyKey: string): ActionKey[] {
+export function getActionsRequiringTechnology(technologyKey: TechnologyKey): ActionKey[] {
   return Object.entries(ACTIONS)
     .filter(([, action]) => 
       action.unlockConditions.some(condition => 

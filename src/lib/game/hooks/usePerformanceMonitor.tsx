@@ -6,7 +6,18 @@ export interface PerformanceMetrics {
   memoryUsage: number;
 }
 
-export function usePerformanceMonitor(updateInterval: number = 10) {
+export function usePerformanceMonitor(updateInterval: number = 10): {
+  performanceFunctions: {
+    updateMetrics: (tickDuration: number) => void;
+    resetRenderTimer: () => void;
+    getCurrentMetrics: () => PerformanceMetrics;
+  };
+  performanceMetrics: PerformanceMetrics;
+  updateMetrics: (tickDuration: number) => void;
+  resetRenderTimer: () => void;
+  getCurrentMetrics: () => PerformanceMetrics;
+  frameCountRef: React.MutableRefObject<number>;
+} {
   // Performance metrics stored in refs to avoid unnecessary re-renders
   const performanceMetricsRef = useRef<PerformanceMetrics>({
     tickTime: 0,

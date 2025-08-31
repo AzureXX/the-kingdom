@@ -1,6 +1,6 @@
-import type { LoopActionDef } from '../types/loopActions';
+import type { LoopActionDef, LoopActionKey } from '../types/loopActions';
 
-export const LOOP_ACTIONS: Record<string, LoopActionDef> = {
+export const LOOP_ACTIONS: Record<LoopActionKey, LoopActionDef> = {
   basicGathering: {
     name: 'Basic Gathering',
     icon: '🌾',
