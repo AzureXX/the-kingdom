@@ -5,7 +5,7 @@ import React, { createContext, useContext, useMemo, useState, ReactNode, useRef 
 import { usePerformanceMonitor, useSaveSystem, useGameLoop, useGameTime, useGameActions, useGameCalculations, useLoopActions } from './hooks';
 import { formatNumber as fmt } from './utils';
 
-import type { GameState, Multipliers, ResourceKey, TechnologyKey } from './types';
+import type { GameState, Multipliers, ResourceKey, TechnologyKey, PrestigeUpgradeKey } from './types';
 import type { GameActionHandlers, GameUtilityFunctions, GameTimeInfo, PerformanceMetrics } from './types/context';
 
 export interface GameContextType extends 
@@ -18,7 +18,7 @@ export interface GameContextType extends
   prestigePotential: number;
   multipliers: Multipliers | null;
   technologyCosts: Record<TechnologyKey, Partial<Record<ResourceKey, number>>>;
-  upgradeCosts: Record<string, number>;
+  upgradeCosts: Record<PrestigeUpgradeKey, number>;
   performanceMetrics: PerformanceMetrics;
   doExport: () => string;
   doImport: (str: string) => boolean;

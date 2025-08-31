@@ -1,6 +1,6 @@
 // Action system type definitions
 
-import type { ResourceKey, BuildingKey, TechnologyKey } from './index';
+import type { ResourceKey, BuildingKey, TechnologyKey, PrestigeUpgradeKey } from './index';
 
 /**
  * Unique identifier for each action
@@ -24,7 +24,7 @@ export type ActionKey =
  */
 export interface ActionUnlockCondition {
   type: 'technology' | 'building' | 'resource' | 'prestige';
-  key: string;
+  key: ResourceKey | BuildingKey | TechnologyKey | PrestigeUpgradeKey;
   value: number;
 }
 

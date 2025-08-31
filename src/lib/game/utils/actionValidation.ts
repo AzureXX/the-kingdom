@@ -85,7 +85,7 @@ export function checkUnlockConditions(
         return resourceAmount >= condition.value;
 
       case 'prestige':
-        const prestigeLevel = getUpgradeLevel(state, condition.key as PrestigeUpgradeKey); // Prestige upgrade
+        const prestigeLevel = getUpgradeLevel(state, condition.key as PrestigeUpgradeKey);
         return prestigeLevel >= condition.value;
 
       default:

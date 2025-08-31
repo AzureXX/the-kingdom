@@ -2,6 +2,8 @@
  * Centralized error logging utility for consistent error handling across the game
  */
 
+import type { ErrorInfo } from 'react';
+
 export interface ErrorLogOptions {
   level: 'warn' | 'error' | 'log';
   context: string;
@@ -149,5 +151,35 @@ export function logSaveOperation(operation: string, success: boolean, details?: 
     level: success ? 'log' : 'error',
     context: 'save',
     details
+  });
+}
+
+/**
+ * Log error boundary operations for better error tracking and recovery
+ */
+export function logErrorBoundaryOperation(operation: string, success: boolean, details?: Record<string, unknown>): void {
+  const message = success 
+    ? `✅ ${operation} completed successfully`
+    : `❌ ${operation} failed`;
+    
+  logMessage(message, {
+    level: success ? 'log' : 'error',
+    context: 'errorBoundary',
+    details
+  });
+}
+
+/**
+ * Log game errors caught by error boundary
+ */
+export function logGameError(error: Error, errorInfo: ErrorInfo): void {
+  logMessage('Game Error caught by boundary', {
+    level: 'error',
+    context: 'errorBoundary',
+    details: {
+      error: error.message,
+      stack: error.stack,
+      componentStack: errorInfo.componentStack
+    }
   });
 }

@@ -1,7 +1,6 @@
 // Action system configuration
 
 import type { ActionKey, ActionDef } from '../types/actions';
-import type { BuildingKey, TechnologyKey } from '../types';
 
 /**
  * All available game actions with their configurations

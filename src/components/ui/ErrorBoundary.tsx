@@ -3,6 +3,7 @@
 import React, { Component, ReactNode } from 'react';
 import { loadSave, hasSave } from '@/lib/game/saveSystem';
 import { SAVE_KEY } from '@/lib/game/config';
+import { logGameError, logErrorBoundaryOperation } from '@/lib/game/utils/errorLogger';
 
 interface Props {
   children: ReactNode;
@@ -36,7 +37,7 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error('Game Error:', error, errorInfo);
+    logGameError(error, errorInfo);
   }
 
   handleRecoverGame = () => {
@@ -47,16 +48,19 @@ export class ErrorBoundary extends Component<Props, State> {
       if (savedState) {
         // Store the recovered state in localStorage for the game to pick up
         localStorage.setItem(SAVE_KEY, JSON.stringify(savedState));
-        console.log('✅ Game state recovered from save');
+        logErrorBoundaryOperation('Game state recovery', true, { saveKey: SAVE_KEY });
         
         // Reload the page to restart with recovered state
         window.location.reload();
       } else {
-        console.error('❌ No save data found for recovery');
+        logErrorBoundaryOperation('Game state recovery', false, { reason: 'No save data found' });
         this.setState({ isRecovering: false });
       }
     } catch (recoveryError) {
-      console.error('❌ Failed to recover game:', recoveryError);
+      logErrorBoundaryOperation('Game state recovery', false, { 
+        reason: 'Recovery failed', 
+        error: recoveryError instanceof Error ? recoveryError.message : String(recoveryError) 
+      });
       this.setState({ isRecovering: false });
     }
   }
