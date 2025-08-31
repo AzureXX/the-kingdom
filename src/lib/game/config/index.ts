@@ -18,7 +18,6 @@ export {
 
 // Main game configuration object - stable reference to prevent recreation
 export const CONFIG = Object.freeze({
-  tickRate: GAME_CONSTANTS.GAME_TICK_RATE,
   version: 1,
   resources: RESOURCES,
   buildings: BUILDINGS,

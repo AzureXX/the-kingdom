@@ -18,7 +18,7 @@ export const TECHNOLOGIES: Record<TechnologyKey, TechnologyDef> = {
     costScale: 1.0,
     researchTime: 60,
     unlocksBuildings: ['university'],
-    requiresTech: 'writing',
+    requiresTech: ['writing'],
   },
   engineering: {
     name: 'Engineering',

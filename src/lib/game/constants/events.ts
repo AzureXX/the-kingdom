@@ -5,4 +5,8 @@ export const EVENT_CONSTANTS = {
   HISTORY_MAX_ENTRIES: 50,
   INITIAL_MIN_INTERVAL_SECONDS: 10, // Reduced from 60 to 10 seconds for faster initial events
   INITIAL_MAX_INTERVAL_SECONDS: 30, // Reduced from 120 to 30 seconds for faster initial events
+  
+  // Standard event timing intervals (in seconds)
+  STANDARD_MIN_INTERVAL_SECONDS: 60,
+  STANDARD_MAX_INTERVAL_SECONDS: 180,
 } as const;

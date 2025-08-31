@@ -1,4 +1,5 @@
 import type {  EventKey, EventDef } from '../types';
+import { EVENT_CONSTANTS } from '../constants/events';
 
 export const EVENTS: Record<EventKey, EventDef> = {
   merchantVisit: {
@@ -20,8 +21,8 @@ export const EVENTS: Record<EventKey, EventDef> = {
       },
     ],
     defaultChoiceIndex: 1, // Reject trade by default
-    minInterval: 60,
-    maxInterval: 180,
+    minInterval: EVENT_CONSTANTS.STANDARD_MIN_INTERVAL_SECONDS,
+    maxInterval: EVENT_CONSTANTS.STANDARD_MAX_INTERVAL_SECONDS,
     weight: 0.2,
   },
   banditRaid: {
@@ -43,8 +44,8 @@ export const EVENTS: Record<EventKey, EventDef> = {
       },
     ],
     defaultChoiceIndex: 1, // Pay tribute by default
-    minInterval: 60,
-    maxInterval: 180,
+    minInterval: EVENT_CONSTANTS.STANDARD_MIN_INTERVAL_SECONDS,
+    maxInterval: EVENT_CONSTANTS.STANDARD_MAX_INTERVAL_SECONDS,
     weight: 0.3,
   },
   bountifulHarvest: {
@@ -66,8 +67,8 @@ export const EVENTS: Record<EventKey, EventDef> = {
       },
     ],
     defaultChoiceIndex: 0, // Harvest all by default (positive event)
-    minInterval: 60,
-    maxInterval: 180,
+    minInterval: EVENT_CONSTANTS.STANDARD_MIN_INTERVAL_SECONDS,
+    maxInterval: EVENT_CONSTANTS.STANDARD_MAX_INTERVAL_SECONDS,
     weight: 0.1,
   },
   drought: {
@@ -89,8 +90,8 @@ export const EVENTS: Record<EventKey, EventDef> = {
       },
     ],
     defaultChoiceIndex: 1, // Accept drought by default
-    minInterval: 60,
-    maxInterval: 180,
+    minInterval: EVENT_CONSTANTS.STANDARD_MIN_INTERVAL_SECONDS,
+    maxInterval: EVENT_CONSTANTS.STANDARD_MAX_INTERVAL_SECONDS,
     weight: 0.2,
   },
   royalTax: {
@@ -112,8 +113,8 @@ export const EVENTS: Record<EventKey, EventDef> = {
       },
     ],
     defaultChoiceIndex: 1, // Pay tax by default
-    minInterval: 60,
-    maxInterval: 180,
+    minInterval: EVENT_CONSTANTS.STANDARD_MIN_INTERVAL_SECONDS,
+    maxInterval: EVENT_CONSTANTS.STANDARD_MAX_INTERVAL_SECONDS,
     weight: 0.1,
   },
   mysteriousStranger: {
@@ -135,8 +136,8 @@ export const EVENTS: Record<EventKey, EventDef> = {
       },
     ],
     defaultChoiceIndex: 0, // Accept gift by default
-    minInterval: 60,
-    maxInterval: 180,
+    minInterval: EVENT_CONSTANTS.STANDARD_MIN_INTERVAL_SECONDS,
+    maxInterval: EVENT_CONSTANTS.STANDARD_MAX_INTERVAL_SECONDS,
     weight: 0.05,
   },
   plague: {
@@ -158,8 +159,8 @@ export const EVENTS: Record<EventKey, EventDef> = {
       },
     ],
     defaultChoiceIndex: 1, // Let plague run by default
-    minInterval: 60,
-    maxInterval: 180,
+    minInterval: EVENT_CONSTANTS.STANDARD_MIN_INTERVAL_SECONDS,
+    maxInterval: EVENT_CONSTANTS.STANDARD_MAX_INTERVAL_SECONDS,
     weight: 0.15,
   },
   festival: {
@@ -181,8 +182,8 @@ export const EVENTS: Record<EventKey, EventDef> = {
       },
     ],
     defaultChoiceIndex: 0, // Attend festival by default
-    minInterval: 60,
-    maxInterval: 180,
+    minInterval: EVENT_CONSTANTS.STANDARD_MIN_INTERVAL_SECONDS,
+    maxInterval: EVENT_CONSTANTS.STANDARD_MAX_INTERVAL_SECONDS,
     weight: 0.1,
   },
 };
