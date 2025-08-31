@@ -24,6 +24,7 @@ export interface LoopActionDef {
   unlockConditions: ActionUnlockCondition[];
   loopPointsRequired: number;
   loopCategory: LoopActionCategory;
+  showWhenLocked?: boolean;
 }
 
 export interface LoopActionState {

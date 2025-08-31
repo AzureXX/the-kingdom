@@ -34,6 +34,25 @@ export function LoopActionList({ gameState, onToggleLoopAction }: LoopActionList
     return canStartLoopAction(gameState, actionKey);
   };
 
+  const shouldShowAction = (actionKey: LoopActionKey): boolean => {
+    const actionDef = LOOP_ACTIONS[actionKey];
+    if (!actionDef) return false;
+    
+    // Always show if the action is currently active
+    const existingState = gameState.loopActions.find(la => la.actionKey === actionKey);
+    if (existingState && existingState.isActive) return true;
+    
+    // If showWhenLocked is true, always show the action
+    if (actionDef.showWhenLocked) return true;
+    
+    // If showWhenLocked is false or undefined, only show if requirements are met
+    return canStartAction(actionKey);
+  };
+
+  const visibleActions = Object.entries(LOOP_ACTIONS).filter(([actionKey]) => 
+    shouldShowAction(actionKey as LoopActionKey)
+  );
+  const hiddenActions = Object.entries(LOOP_ACTIONS).length - visibleActions.length;
   const activeCount = gameState.loopActions.filter(la => la.isActive).length;
   const maxConcurrent = gameState.loopSettings.maxConcurrentActions;
 
@@ -47,7 +66,7 @@ export function LoopActionList({ gameState, onToggleLoopAction }: LoopActionList
       </div>
       
       <div className={styles.grid}>
-        {Object.entries(LOOP_ACTIONS).map(([actionKey]) => {
+        {visibleActions.map(([actionKey]) => {
           const state = getLoopActionState(actionKey as LoopActionKey);
           const canStart = canStartAction(actionKey as LoopActionKey);
           
@@ -64,6 +83,12 @@ export function LoopActionList({ gameState, onToggleLoopAction }: LoopActionList
           );
         })}
       </div>
+      
+      {hiddenActions > 0 && (
+        <div className={styles.hiddenInfo}>
+          {hiddenActions} loop action{hiddenActions !== 1 ? 's' : ''} hidden (build requirements to unlock)
+        </div>
+      )}
       
       {activeCount >= maxConcurrent && (
         <div className={styles.warning}>

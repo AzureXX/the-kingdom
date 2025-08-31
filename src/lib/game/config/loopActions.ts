@@ -10,6 +10,7 @@ export const LOOP_ACTIONS: Record<string, LoopActionDef> = {
     unlockConditions: [], // No unlock conditions - available from start
     loopPointsRequired: 1000,
     loopCategory: 'gathering',
+    showWhenLocked: true,
   },
   
   continuousMining: {
@@ -21,6 +22,7 @@ export const LOOP_ACTIONS: Record<string, LoopActionDef> = {
     unlockConditions: [{ type: 'building', key: 'quarry', value: 1 }],
     loopPointsRequired: 1000,
     loopCategory: 'gathering',
+    showWhenLocked: false,
   },
   
   continuousLogging: {
@@ -32,6 +34,7 @@ export const LOOP_ACTIONS: Record<string, LoopActionDef> = {
     unlockConditions: [{ type: 'building', key: 'woodcutter', value: 1 }],
     loopPointsRequired: 800,
     loopCategory: 'gathering',
+    showWhenLocked: false,
   },
   
   continuousFarming: {
@@ -43,6 +46,7 @@ export const LOOP_ACTIONS: Record<string, LoopActionDef> = {
     unlockConditions: [{ type: 'building', key: 'farm', value: 1 }],
     loopPointsRequired: 1200,
     loopCategory: 'gathering',
+    showWhenLocked: false,
   },
   
   massToolProduction: {
@@ -54,6 +58,7 @@ export const LOOP_ACTIONS: Record<string, LoopActionDef> = {
     unlockConditions: [{ type: 'building', key: 'blacksmith', value: 1 }],
     loopPointsRequired: 1500,
     loopCategory: 'crafting',
+    showWhenLocked: false,
   },
   
   weaponForging: {
@@ -65,6 +70,7 @@ export const LOOP_ACTIONS: Record<string, LoopActionDef> = {
     unlockConditions: [{ type: 'building', key: 'blacksmith', value: 1 }],
     loopPointsRequired: 2000,
     loopCategory: 'crafting',
+    showWhenLocked: false,
   },
   
   ongoingResearch: {
@@ -76,6 +82,7 @@ export const LOOP_ACTIONS: Record<string, LoopActionDef> = {
     unlockConditions: [{ type: 'building', key: 'library', value: 1 }],
     loopPointsRequired: 3000,
     loopCategory: 'research',
+    showWhenLocked: false,
   },
   
   advancedStudies: {
@@ -87,6 +94,7 @@ export const LOOP_ACTIONS: Record<string, LoopActionDef> = {
     unlockConditions: [{ type: 'building', key: 'university', value: 1 }],
     loopPointsRequired: 5000,
     loopCategory: 'research',
+    showWhenLocked: false,
   },
   
   trainingSoldiers: {
@@ -98,6 +106,7 @@ export const LOOP_ACTIONS: Record<string, LoopActionDef> = {
     unlockConditions: [{ type: 'building', key: 'castle', value: 1 }],
     loopPointsRequired: 2500,
     loopCategory: 'military',
+    showWhenLocked: false,
   },
   
   fortification: {
@@ -109,6 +118,7 @@ export const LOOP_ACTIONS: Record<string, LoopActionDef> = {
     unlockConditions: [{ type: 'building', key: 'castle', value: 1 }],
     loopPointsRequired: 4000,
     loopCategory: 'military',
+    showWhenLocked: false,
   },
 };
 

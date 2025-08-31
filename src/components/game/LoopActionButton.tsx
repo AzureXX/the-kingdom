@@ -101,6 +101,11 @@ export function LoopActionButton({
             Progress saved: {currentPoints.toFixed(0)} / {progress.pointsRequired.toFixed(0)}
           </div>
         )}
+        {isDisabled && actionDef.showWhenLocked && (
+          <div style={{ fontSize: '10px', marginTop: '4px', color: '#fbbf24' }}>
+            Preview mode - build requirements to unlock
+          </div>
+        )}
       </div>
     </div>
   );
@@ -114,10 +119,10 @@ export function LoopActionButton({
       onMouseLeave={handleMouseLeave}
     >
       <button
-        className={`${styles.button} ${isActive ? styles.active : ''} ${!isActive && !isDisabled ? styles.paused : ''} ${isDisabled ? styles.disabled : ''}`}
+        className={`${styles.button} ${isActive ? styles.active : ''} ${!isActive && !isDisabled ? styles.paused : ''} ${isDisabled ? (actionDef.showWhenLocked ? styles.preview : styles.disabled) : ''}`}
         onClick={handleClick}
         disabled={isDisabled}
-        title={isActive ? `Pause ${actionDef.name}` : isDisabled ? `Locked: ${actionDef.name}` : `Start/Resume ${actionDef.name}`}
+        title={isActive ? `Pause ${actionDef.name}` : isDisabled ? `Locked: ${actionDef.name} - Build requirements to unlock` : `Start/Resume ${actionDef.name}`}
       >
         <div className={styles.icon}>{actionDef.icon}</div>
         <div className={styles.progressBar}>
