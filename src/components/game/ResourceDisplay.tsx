@@ -4,6 +4,7 @@ import { CONFIG } from '@/lib/game/config';
 import type { ResourceKey } from '@/lib/game/types';
 import { formatNumber } from '@/lib/game/utils';
 import type { GameState, ResourceAmount } from '@/lib/game/types';
+import resourceStyles from './ResourceDisplay.module.scss';
 
 interface ResourceDisplayProps {
   state: GameState;
@@ -26,7 +27,11 @@ export const ResourceDisplay = memo(function ResourceDisplay({ state, perSec }: 
         
         return (
           <div key={resourceKey} className={styles.res}>
-            <span className={styles.icon} style={{ color: resourceKey === 'prestige' ? '#ffd166' : resourceKey === 'researchPoints' ? '#4CAF50' : '#8ea2ff' }}>
+            <span className={`${styles.icon} ${resourceStyles.resourceIcon} ${
+              resourceKey === 'prestige' ? resourceStyles.prestige : 
+              resourceKey === 'researchPoints' ? resourceStyles.researchPoints : 
+              resourceStyles.default
+            }`}>
               <svg className={styles.icon}>
                 <use href={`#${resource.icon}`}></use>
               </svg>

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import { getFormattedTimeUntilNextEvent, getTimeUntilNextEvent } from '../eventSystem';
 import { getFormattedTimeUntilNextSave, getTimeUntilNextSave } from '../saveSystem';
 import type { GameState } from '../types';
+import { GAME_CONSTANTS } from '../constants';
 
 export function useGameTime(
   state: GameState | null,
@@ -16,7 +17,7 @@ export function useGameTime(
       const now = Date.now();
       currentTimeRef.current = now;
       setCurrentTime(now);
-    }, 1000);
+    }, GAME_CONSTANTS.TIME_CONSTANTS.MILLISECONDS_PER_SECOND);
     
     return () => clearInterval(timer);
   }, []);

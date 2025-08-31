@@ -9,6 +9,7 @@ import type { BuildingKey, ResourceKey, TechnologyKey } from '@/lib/game/types';
 import type { GameState, ResourceCost } from '@/lib/game/types';
 
 import styles from '@/styles/page.module.scss';
+import buildingStyles from './BuildingList.module.scss';
 
 interface BuildingListProps {
   state: GameState;
@@ -50,7 +51,7 @@ export const BuildingList = memo(function BuildingList({ state, costFor, onBuyBu
               <div className={styles.name}>
                 {building.name} <span className={styles.pill}>x{owned}</span>
                 {techRequirements && (
-                  <span className={styles.pill} style={{ marginLeft: '8px', backgroundColor: '#1a2350' }}>
+                  <span className={`${styles.pill} ${buildingStyles.techRequirementsPill}`}>
                     Tech: {techRequirements}
                   </span>
                 )}

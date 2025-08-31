@@ -1,6 +1,7 @@
 import type { GameState } from './types/game';
 import type { LoopActionKey, LoopActionState, LoopActionProgress } from './types/loopActions';
 import { LOOP_ACTIONS } from './config/loopActions';
+import { GAME_CONSTANTS } from './constants';
 import { pay } from './actions';
 import { addResources } from './gameState';
 import { canAfford } from './calculations';
@@ -282,8 +283,7 @@ export function getLoopActionProgress(action: LoopActionState): LoopActionProgre
   const progressPercentage = (action.currentPoints / pointsRequired) * 100;
   
   // Calculate time remaining (rough estimate)
-  // 100 points per tick, 20 FPS = 2000 points per second
-  const pointsPerSecond = 2000;
+  const pointsPerSecond = GAME_CONSTANTS.PERFORMANCE.POINTS_PER_SECOND;
   const pointsRemaining = pointsRequired - action.currentPoints;
   const timeRemaining = pointsRemaining / pointsPerSecond;
   

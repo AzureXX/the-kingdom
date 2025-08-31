@@ -90,7 +90,7 @@ export function getTimeUntilNextSave(lastSavedAt: number | null, currentTime: nu
     // If no save yet, calculate from current time
     const timeSinceStart = currentTime % GAME_CONSTANTS.SAVE_INTERVAL_MS;
     const timeUntilNextSave = GAME_CONSTANTS.SAVE_INTERVAL_MS - timeSinceStart;
-    return Math.max(0, Math.ceil(timeUntilNextSave / 1000));
+    return Math.max(0, Math.ceil(timeUntilNextSave / GAME_CONSTANTS.TIME_CONSTANTS.MILLISECONDS_PER_SECOND));
   }
   
   const timeSinceLastSave = currentTime - lastSavedAt;
@@ -101,7 +101,7 @@ export function getTimeUntilNextSave(lastSavedAt: number | null, currentTime: nu
     return 0;
   }
   
-  const result = Math.ceil(timeUntilNextSave / 1000);
+  const result = Math.ceil(timeUntilNextSave / GAME_CONSTANTS.TIME_CONSTANTS.MILLISECONDS_PER_SECOND);
   return result;
 }
 
@@ -117,8 +117,8 @@ export function getFormattedTimeUntilNextSave(lastSavedAt: number | null, curren
     return 'Saving...';
   }
   
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = seconds % 60;
+  const minutes = Math.floor(seconds / GAME_CONSTANTS.TIME_CONSTANTS.SECONDS_PER_MINUTE);
+  const remainingSeconds = seconds % GAME_CONSTANTS.TIME_CONSTANTS.SECONDS_PER_MINUTE;
   
   if (minutes > 0) {
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;

@@ -1,5 +1,6 @@
 import { CONFIG } from './config';
 import type { TechnologyKey } from './types';
+import { GAME_CONSTANTS } from './constants';
 import { getResource, setResource, setTechnologyLevel } from './gameState';
 import { isValidResourceKey, isValidTechnologyKey } from './utils';
 import { logInvalidKey } from './utils/errorLogger';
@@ -85,7 +86,7 @@ export function startResearch(state: GameState, technologyKey: TechnologyKey): G
       ...newState.research,
       activeResearch: technologyKey,
       researchStartTime: Date.now(),
-      researchEndTime: Date.now() + (tech.researchTime * 1000)
+      researchEndTime: Date.now() + (tech.researchTime * GAME_CONSTANTS.TIME_CONSTANTS.MILLISECONDS_PER_SECOND)
     }
   };
 }
@@ -155,7 +156,7 @@ export function getResearchTimeRemaining(state: GameState): number {
   if (!state.research.activeResearch) return 0;
   
   const remaining = state.research.researchEndTime - Date.now();
-  return Math.max(0, Math.ceil(remaining / 1000));
+  return Math.max(0, Math.ceil(remaining / GAME_CONSTANTS.TIME_CONSTANTS.MILLISECONDS_PER_SECOND));
 }
 
 /**

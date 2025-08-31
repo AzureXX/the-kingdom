@@ -4,6 +4,7 @@ import React, { Component, ReactNode } from 'react';
 import { loadSave, hasSave } from '@/lib/game/saveSystem';
 import { SAVE_KEY } from '@/lib/game/config';
 import { logGameError, logErrorBoundaryOperation } from '@/lib/game/utils/errorLogger';
+import styles from './ErrorBoundary.module.scss';
 
 interface Props {
   children: ReactNode;
@@ -72,34 +73,16 @@ export class ErrorBoundary extends Component<Props, State> {
       }
 
       return (
-        <div style={{
-          padding: '20px',
-          textAlign: 'center',
-          color: '#e6e9ff',
-          background: '#0f1532',
-          border: '1px solid #21307a',
-          borderRadius: '12px',
-          margin: '20px'
-        }}>
+        <div className={styles.errorBoundary}>
           <h3>Something went wrong</h3>
           <p>The game encountered an error. You can try to recover your progress or refresh the page.</p>
           
           {this.state.hasSaveData && (
-            <div style={{ marginBottom: '15px' }}>
+            <div className={styles.buttonContainer}>
               <button 
                 onClick={this.handleRecoverGame}
                 disabled={this.state.isRecovering}
-                style={{
-                  background: '#28a745',
-                  color: '#ffffff',
-                  border: 'none',
-                  padding: '10px 20px',
-                  borderRadius: '8px',
-                  cursor: this.state.isRecovering ? 'not-allowed' : 'pointer',
-                  fontWeight: '600',
-                  marginRight: '10px',
-                  opacity: this.state.isRecovering ? 0.6 : 1
-                }}
+                className={styles.recoverButton}
               >
                 {this.state.isRecovering ? 'Recovering...' : 'Recover Game'}
               </button>
@@ -108,21 +91,13 @@ export class ErrorBoundary extends Component<Props, State> {
           
           <button 
             onClick={() => window.location.reload()}
-            style={{
-              background: '#22307b',
-              color: '#e6e9ff',
-              border: 'none',
-              padding: '10px 20px',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              fontWeight: '600'
-            }}
+            className={styles.refreshButton}
           >
             Refresh Game
           </button>
           
           {this.state.hasSaveData && (
-            <p style={{ fontSize: '14px', marginTop: '15px', opacity: 0.8 }}>
+            <p className={styles.saveDataHint}>
               💾 Save data detected - you can recover your progress
             </p>
           )}

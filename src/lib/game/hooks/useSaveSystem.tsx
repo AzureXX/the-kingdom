@@ -30,8 +30,8 @@ export function useSaveSystem(
       const now = Date.now();
       const last = saved.t || now;
       const dt = Math.min(
-        GAME_CONSTANTS.OFFLINE_PROGRESS_CAP_HOURS * 60 * 60, 
-        Math.max(0, (now - last) / 1000)
+        GAME_CONSTANTS.OFFLINE_PROGRESS_CAP_HOURS * GAME_CONSTANTS.TIME_CONSTANTS.MINUTES_PER_HOUR * GAME_CONSTANTS.TIME_CONSTANTS.SECONDS_PER_MINUTE, 
+        Math.max(0, (now - last) / GAME_CONSTANTS.TIME_CONSTANTS.MILLISECONDS_PER_SECOND)
       );
       
       if (dt > 0) {

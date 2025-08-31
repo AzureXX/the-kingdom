@@ -1,6 +1,6 @@
 import { CONFIG } from './config';
 import type { EventKey, ResourceKey } from './types';
-import { EVENT_CONSTANTS } from './constants';
+import { EVENT_CONSTANTS, GAME_CONSTANTS } from './constants';
 import { addResources, getResource, setResource } from './gameState';
 import { isValidResourceKey } from './utils';
 import { logInvalidKey } from './utils/errorLogger';
@@ -94,8 +94,8 @@ export function makeEventChoice(state: GameState, eventKey: EventKey, choiceInde
   }
   
   // Clear active event and schedule next one
-  const minInterval = event.minInterval * 1000;
-  const maxInterval = event.maxInterval * 1000;
+  const minInterval = event.minInterval * GAME_CONSTANTS.TIME_CONSTANTS.MILLISECONDS_PER_SECOND;
+  const maxInterval = event.maxInterval * GAME_CONSTANTS.TIME_CONSTANTS.MILLISECONDS_PER_SECOND;
   const nextEventTime = Date.now() + minInterval + Math.random() * (maxInterval - minInterval);
   
   return {
@@ -167,7 +167,7 @@ export function getEventHistory(state: GameState): Array<{
 export function getTimeUntilNextEvent(state: GameState): number {
   const now = Date.now();
   const timeUntil = state.events.nextEventTime - now;
-  return Math.max(0, Math.ceil(timeUntil / 1000));
+  return Math.max(0, Math.ceil(timeUntil / GAME_CONSTANTS.TIME_CONSTANTS.MILLISECONDS_PER_SECOND));
 }
 
 /**
@@ -180,8 +180,8 @@ export function getFormattedTimeUntilNextEvent(state: GameState): string {
     return 'Any moment...';
   }
   
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = seconds % 60;
+  const minutes = Math.floor(seconds / GAME_CONSTANTS.TIME_CONSTANTS.SECONDS_PER_MINUTE);
+  const remainingSeconds = seconds % GAME_CONSTANTS.TIME_CONSTANTS.SECONDS_PER_MINUTE;
   
   if (minutes > 0) {
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;

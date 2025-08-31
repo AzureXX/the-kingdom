@@ -18,8 +18,8 @@ export function formatNumber(n: number, dec = 0): string {
     let i = 0;
     let x = n;
     
-    while (Math.abs(x) >= 1000 && i < units.length - 1) {
-      x /= 1000;
+    while (Math.abs(x) >= GAME_CONSTANTS.NUMBER_FORMAT_THRESHOLD && i < units.length - 1) {
+      x /= GAME_CONSTANTS.NUMBER_FORMAT_THRESHOLD;
       i++;
     }
     

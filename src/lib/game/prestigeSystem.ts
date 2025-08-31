@@ -1,4 +1,4 @@
-import { PRESTIGE_CONSTANTS } from './constants';
+import { PRESTIGE_CONSTANTS, GAME_CONSTANTS } from './constants';
 import { initNewGame } from './gameState';
 import type { GameState } from './types';
 
@@ -46,7 +46,7 @@ export function getPrestigeEfficiency(state: GameState): number {
   if (lifetimeFood <= 0) return 0;
   
   const prestige = prestigeGain(state);
-  const hours = lifetimeFood / 3600; // Assuming 1 food per second = 3600 per hour
+  const hours = lifetimeFood / (GAME_CONSTANTS.TIME_CONSTANTS.SECONDS_PER_MINUTE * GAME_CONSTANTS.TIME_CONSTANTS.MINUTES_PER_HOUR);
   
   return prestige / hours;
 }
