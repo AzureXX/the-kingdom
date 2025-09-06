@@ -3,20 +3,20 @@
 import React, { useRef, useState } from 'react';
 
 import { useGameContext } from '@/lib/game/GameContext';
-import { ResourceDisplay } from '@/components/game/ResourceDisplay';
-import { ActionList } from '@/components/game/ActionList';
-import { LoopActionList } from '@/components/game/LoopActionList';
-import { BuildingList } from '@/components/game/BuildingList';
-import { TechnologyList } from '@/components/game/TechnologyList';
-import { UpgradeList } from '@/components/game/UpgradeList';
+import { useSceneNavigation } from '@/hooks/useSceneNavigation';
+import { 
+  SceneNavigation, 
+  ActionsScene, 
+  BuildingsScene, 
+  ResearchScene, 
+  PrestigeScene, 
+  PerformanceScene 
+} from '@/components/scenes';
 import { Modal } from '@/components/ui/Modal';
 import { EventModal } from '@/components/ui/EventModal';
 import { EventNotification } from '@/components/ui/EventNotification';
 import { SvgSprites } from '@/components/ui/SvgSprites';
-import { PerformanceMonitor } from '@/components/ui/PerformanceMonitor';
-import { ConfigurationValidator } from '@/components/ui/ConfigurationValidator';
 import { UI_CONSTANTS } from '@/lib/game/constants';
-import { getPrestigeFormula } from '@/lib/game/prestigeSystem';
 import { clearSave } from '@/lib/game/saveSystem';
 
 import styles from '@/styles/page.module.scss';
@@ -43,6 +43,12 @@ export default function GamePage() {
     secondsUntilNextSave,
   } = useGameContext();
 
+  const {
+    currentScene,
+    isTransitioning,
+    changeScene
+  } = useSceneNavigation();
+
   // Add keyboard shortcut for pause (Space bar)
   React.useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
@@ -56,7 +62,6 @@ export default function GamePage() {
     return () => document.removeEventListener('keydown', handleKeyPress);
   }, [handleTogglePause]);
 
-  const [prestigeOpen, setPrestigeOpen] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -69,6 +74,36 @@ export default function GamePage() {
       </div>
     );
   }
+
+  const renderCurrentScene = () => {
+    const sceneProps = {
+      state,
+      perSec,
+      fmt,
+      costFor,
+      onExecuteAction: handleExecuteAction,
+      onBuyBuilding: handleBuyBuilding,
+      onBuyUpgrade: handleBuyUpgrade,
+      onResearchTechnology: handleResearchTechnology,
+      onToggleLoopAction: handleToggleLoopAction,
+      prestigePotential
+    };
+
+    switch (currentScene) {
+      case 'actions':
+        return <ActionsScene {...sceneProps} />;
+      case 'buildings':
+        return <BuildingsScene {...sceneProps} />;
+      case 'research':
+        return <ResearchScene {...sceneProps} />;
+      case 'prestige':
+        return <PrestigeScene {...sceneProps} onDoPrestige={handleDoPrestige} />;
+      case 'performance':
+        return <PerformanceScene {...sceneProps} />;
+      default:
+        return <ActionsScene {...sceneProps} />;
+    }
+  };
 
   return (
     <div className={styles.page}>
@@ -118,80 +153,15 @@ export default function GamePage() {
         </div>
       </header>
       
-      <main className={styles.wrap}>
-        <section className={styles.card}>
-          <h2>Resources</h2>
-          <div className={styles.section}>
-            <ResourceDisplay state={state} perSec={perSec} />
-            <div className={styles.hr}></div>
-            <div className={styles.controls}>
-              <ActionList 
-                state={state} 
-                onExecuteAction={handleExecuteAction} 
-                fmt={fmt} 
-              />
-              <span className={styles.tiny}>Actions unlock through progression.</span>
-              <span className={styles.right}></span>
-              <button className={`${styles.button} ${styles.bad}`} onClick={() => setPrestigeOpen(true)}>Ascend to Greater Kingdom (Prestige)</button>
-            </div>
-          </div>
-        </section>
-
-        <section className={styles.card}>
-          <h2>Loop Actions</h2>
-          <LoopActionList 
-            gameState={state} 
-            onToggleLoopAction={handleToggleLoopAction} 
-          />
-        </section>
-
-        <section className={styles.card}>
-          <h2>Buildings</h2>
-          <BuildingList 
-            state={state} 
-            costFor={costFor} 
-            onBuyBuilding={handleBuyBuilding} 
-          />
-        </section>
-
-        <section className={styles.card}>
-          <h2>Technologies</h2>
-          <TechnologyList 
-            state={state} 
-            onResearchTechnology={handleResearchTechnology} 
-          />
-        </section>
-
-        <section className={`${styles.card} ${styles.fullRow}`}>
-          <h2>Prestige Upgrades</h2>
-          <UpgradeList 
-            state={state} 
-            onBuyUpgrade={handleBuyUpgrade} 
-          />
-        </section>
-
-        <section className={`${styles.card} ${styles.fullRow}`}>
-          <PerformanceMonitor />
-        </section>
-
-        <section className={`${styles.card} ${styles.fullRow}`}>
-          <ConfigurationValidator />
-        </section>
+      <SceneNavigation 
+        currentScene={currentScene}
+        onSceneChange={changeScene}
+        disabled={isTransitioning}
+      />
+      
+      <main className={`${styles.wrap} ${isTransitioning ? styles.transitioning : ''}`}>
+        {renderCurrentScene()}
       </main>
-
-      <Modal 
-        isOpen={prestigeOpen} 
-        onClose={() => setPrestigeOpen(false)}
-        title="Ascend to Greater Kingdom"
-      >
-        <p>Prestiging resets your resources and buildings, but grants <strong>Prestige</strong> based on your total <strong>Food</strong> generated. Prestige unlocks powerful permanent upgrades.</p>
-        <p>Current potential Prestige: <span style={{ color: 'var(--good)' }}>{fmt(prestigePotential)}</span></p>
-        <div className={styles.hr}></div>
-        <div className={styles.row}>
-          <button className={styles.bad} onClick={() => { handleDoPrestige(); setPrestigeOpen(false); }}>Ascend Now</button>
-          <span className={styles.tiny}>Formula: {getPrestigeFormula()}</span>
-        </div>
-      </Modal>
 
       <Modal 
         isOpen={helpOpen} 
@@ -199,10 +169,13 @@ export default function GamePage() {
         title="How to play"
       >
         <ul>
-          <li>Click <em>Issue Royal Decree</em> to gain starter <strong>Gold</strong> and <strong>Food</strong>.</li>
-          <li>Buy buildings. They produce resources continuously</li>
-          <li>When progress slows, open <em>Ascend to Greater Kingdom</em> to prestige and spend <strong>Prestige</strong> on upgrades.</li>
-          <li>Everything is data-driven – you can add new resources or buildings by editing the CONFIG object in the source.</li>
+          <li>Use the scene navigation tabs to switch between different game aspects</li>
+          <li>Click <em>Issue Royal Decree</em> to gain starter <strong>Gold</strong> and <strong>Food</strong></li>
+          <li>Buy buildings in the Buildings scene - they produce resources continuously</li>
+          <li>Research technologies in the Research scene to unlock new buildings and actions</li>
+          <li>When progress slows, use the Prestige scene to ascend and spend <strong>Prestige</strong> on upgrades</li>
+          <li>Monitor performance in the Performance scene</li>
+          <li>Use number keys (1-5) or arrow keys to navigate between scenes</li>
         </ul>
       </Modal>
 
