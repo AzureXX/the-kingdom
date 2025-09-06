@@ -8,6 +8,7 @@ A sophisticated browser-based idle/clicker game built with Next.js, React, and T
 
 - **Resource Management**: Gold, Wood, Stone, Food, Prestige, and Research Points
 - **Action System**: 12 configurable actions with unlock conditions and progression
+- **Loop Actions System**: 10 automated actions that run continuously with resource costs
 - **Building System**: 8 unique buildings with different production capabilities
 - **Technology Tree**: 6 technologies that unlock advanced buildings and upgrades
 - **Prestige System**: Reset mechanics with permanent upgrades
@@ -108,9 +109,37 @@ The game features 12 configurable actions that provide active gameplay beyond pa
 - **Progressive Unlocking**: Actions unlock through building construction, technology research, and resource accumulation
 - **One-time Unlocks**: Trading actions become permanently available after first unlock
 - **Strategic Choices**: Players must balance resource costs and gains
-- **Visual Feedback**: Emoji icons and hover tooltips for clear understanding
+- **Visual Feedback**: SVG icons and hover tooltips for clear understanding
 
-### 3. Building System
+### 3. Loop Actions System
+The game features 10 automated loop actions that run continuously, providing passive resource generation with ongoing costs:
+
+#### Gathering Loop Actions
+- **🌾 Basic Gathering**: +5 food (no cost, available from start)
+- **⛏️ Continuous Mining**: +10 stone, costs 5 food (requires Quarry)
+- **🪓 Continuous Logging**: +8 wood, costs 5 food (requires Woodcutter's Hut)
+- **🚜 Continuous Farming**: +12 food, costs 5 food (requires Farm + 100 food)
+
+#### Crafting Loop Actions
+- **🔨 Mass Tool Production**: +15 stone, costs 20 wood (requires Blacksmith)
+- **⚔️ Weapon Forging**: +25 gold, costs 30 stone (requires Blacksmith)
+
+#### Research Loop Actions
+- **📚 Ongoing Research**: +5 research points, costs 10 food (requires Library)
+- **🎓 Advanced Studies**: +10 research points, costs 15 food + 5 gold (requires University)
+
+#### Military Loop Actions
+- **🛡️ Training Soldiers**: +2 prestige, costs 20 food + 10 gold (requires Castle)
+- **🏰 Fortification**: +5 prestige, costs 50 stone + 30 wood + 20 gold (requires Castle)
+
+**Loop Action Features:**
+- **Automated Operation**: Actions run continuously once activated
+- **Resource Management**: Each action has ongoing costs and gains
+- **Progressive Unlocking**: Actions unlock through building construction and resource thresholds
+- **Strategic Depth**: Players must balance loop action costs with their resource production
+- **Categories**: Actions are organized by type (Gathering, Crafting, Research, Military)
+
+### 4. Building System
 8 unique buildings with different production and consumption patterns:
 
 #### Basic Buildings
@@ -125,8 +154,14 @@ The game features 12 configurable actions that provide active gameplay beyond pa
 - **University**: Produces Gold (3.0/s), Prestige (0.05/s), and Research Points (0.3/s), consumes Food (1.0/s) - Cost: 300 Gold, 80 Wood, 60 Stone, 30 Food - Requires Writing and Mathematics
 - **Laboratory**: Produces Gold (5.0/s), Prestige (0.1/s), and Research Points (0.5/s), consumes Food (2.0/s) - Cost: 500 Gold, 100 Wood, 150 Stone, 50 Food - Requires Chemistry and Engineering
 
-### 4. Technology System
-6 technologies that unlock advanced buildings and provide strategic depth:
+### 5. Technology System
+6 technologies that unlock advanced buildings and provide strategic depth. Research is time-based and requires active management:
+
+**Research Mechanics:**
+- **Time-based Research**: Each technology has a specific research duration
+- **Active Research**: Only one technology can be researched at a time
+- **Resource Costs**: Technologies require specific resource combinations
+- **Prerequisites**: Some technologies require other technologies to be completed first
 
 | Technology | Cost | Research Time | Unlocks | Prerequisites |
 |------------|------|---------------|---------|---------------|
@@ -137,7 +172,7 @@ The game features 12 configurable actions that provide active gameplay beyond pa
 | Physics | 300 Gold, 80 Wood, 70 Stone, 30 Food | 180s | - | Mathematics, Chemistry |
 | Biology | 400 Gold, 100 Wood, 90 Stone, 50 Food | 240s | - | Chemistry, Physics |
 
-### 5. Prestige System
+### 6. Prestige System
 Prestige is earned by resetting the game with accumulated Food. The formula is:
 ```
 Prestige = sqrt(Total Food Generated / 1000)
@@ -152,8 +187,13 @@ Prestige can be spent on 4 permanent upgrades:
 | Fertile Lands | +20% Food production per level | 6 × 1.65^level | 25 |
 | Military Might | +20% Prestige production per level | 10 × 1.7^level | 20 |
 
-### 6. Event System
-Random events occur every 1-3 minutes, providing players with choices that affect resources:
+### 7. Event System
+Random events occur at different intervals based on game progression, providing players with choices that affect resources:
+
+**Event Timing:**
+- **Initial Events**: 10-30 seconds (faster events for new players)
+- **Standard Events**: 1-3 minutes (60-180 seconds)
+- **Auto-resolve**: Events automatically resolve after 30 seconds if no choice is made
 
 #### Event Types
 - **🛒 Merchant Visit**: Trade resources for Gold
@@ -171,12 +211,13 @@ Random events occur every 1-3 minutes, providing players with choices that affec
 The game uses a sophisticated hook-based architecture with the following key components:
 
 #### Core Hooks
-- **useGameLoop**: Manages the main game tick (20 FPS)
+- **useGameLoop**: Manages the main game tick (20 FPS) with pause support
 - **useGameActions**: Handles player interactions and action execution
 - **useGameCalculations**: Computes game state and costs
-- **useSaveSystem**: Manages save/load functionality
-- **useGameTime**: Tracks time-based events
-- **usePerformanceMonitor**: Monitors game performance
+- **useSaveSystem**: Manages save/load functionality with 30-second intervals
+- **useGameTime**: Tracks time-based events and research progress
+- **usePerformanceMonitor**: Monitors game performance with real-time metrics
+- **useLoopActions**: Manages automated loop action execution
 
 #### State Management
 - **GameContext**: Central React context for game state
@@ -185,10 +226,11 @@ The game uses a sophisticated hook-based architecture with the following key com
 - **Performance**: Optimized re-renders with React.memo and useMemo
 
 ### Save System
-- **Automatic Saves**: Every 30 seconds
-- **Manual Saves**: Export/Import functionality
-- **Offline Progress**: Capped at 1 hour of offline time
-- **Version Control**: Save versioning for compatibility
+- **Automatic Saves**: Every 30 seconds to localStorage
+- **Manual Saves**: Export/Import functionality with `.txt` and `.save` file support
+- **Offline Progress**: Capped at 1 hour of offline time for balanced progression
+- **Version Control**: Save versioning for compatibility across updates
+- **File Management**: Automatic filename generation (`medieval-kingdom.save.txt`)
 
 ### Performance Optimizations
 - **Debounced Updates**: Prevents excessive re-renders
@@ -200,7 +242,7 @@ The game uses a sophisticated hook-based architecture with the following key com
 
 ### Visual Design
 - **Theme**: Dark medieval aesthetic with blue/purple gradients
-- **Icons**: SVG icons (using `ic-*` format) when available, with emoji icons as alternatives, providing intuitive visual feedback
+- **Icons**: SVG icons (using `ic-*` format) for resources, buildings, and technologies, with emoji icons for actions and events, providing intuitive visual feedback
 - **Typography**: Clean, readable fonts with proper hierarchy
 - **Animations**: Smooth transitions and hover effects
 
@@ -209,9 +251,15 @@ The game uses a sophisticated hook-based architecture with the following key com
 - **Mobile-Friendly**: Responsive design for various screen sizes
 - **Accessibility**: Proper contrast ratios and keyboard navigation
 
+### Keyboard Shortcuts
+- **Space Bar**: Toggle game pause/resume
+- **Tab Navigation**: Full keyboard navigation support
+- **Enter/Space**: Activate buttons and confirm actions
+
 ### User Interface Components
 - **Resource Display**: Real-time resource counters with per-second rates
 - **Action System**: Interactive action buttons with unlock conditions and tooltips
+- **Loop Actions System**: Automated action management with toggle controls
 - **Building List**: Interactive building purchase interface
 - **Technology Tree**: Visual technology research system
 - **Prestige Modal**: Prestige calculation and upgrade interface
@@ -274,12 +322,32 @@ export const BUILDINGS: Record<BuildingKey, BuildingDef> = {
 export const TECHNOLOGIES: Record<TechnologyKey, TechnologyDef> = {
   newTechnology: {
     name: 'New Technology',
-    icon: '🔬',
+    icon: 'ic-research',
     desc: 'Description of the technology.',
     baseCost: { gold: 200, researchPoints: 50 },
     costScale: 1.0,
     researchTime: 120,
     requiresTech: ['prerequisite'],
+  },
+};
+```
+
+### Adding New Loop Actions
+```typescript
+// src/lib/game/config/loopActions.ts
+export const LOOP_ACTIONS: Record<LoopActionKey, LoopActionDef> = {
+  newLoopAction: {
+    name: 'New Loop Action',
+    icon: '🎯',
+    description: 'Description of the loop action.',
+    cost: { food: 5 },
+    gains: { gold: 10 },
+    unlockConditions: [
+      { type: 'building', key: 'blacksmith', value: 1 }
+    ],
+    loopPointsRequired: 1000,
+    loopCategory: 'crafting',
+    showWhenLocked: false,
   },
 };
 ```
@@ -354,13 +422,14 @@ export function gameFunction(state: GameState): GameState {
 
 ## 📊 Performance Metrics
 
-The game includes built-in performance monitoring:
+The game includes built-in performance monitoring with real-time metrics:
 
-- **Frame Rate**: Target 20 FPS ideal for both performance for smooth gameplay,
-- **Render Time**: Component render performance tracking
-- **Memory Usage**: Browser memory consumption monitoring
-- **Tick Duration**: Game loop execution time
-- **Action System**: Optimized action validation and execution
+- **Frame Rate**: Target 20 FPS for smooth gameplay with performance warnings below 1.5 FPS
+- **Render Time**: Component render performance tracking with warnings above 500ms
+- **Memory Usage**: Browser memory consumption monitoring with warnings above 100MB
+- **Tick Duration**: Game loop execution time with warnings above 50ms
+- **Performance Score**: Overall performance rating based on multiple metrics
+- **Budget Monitoring**: Tracks performance against defined budgets for optimal gameplay
 
 ## 🤝 Contributing
 
@@ -374,6 +443,7 @@ The game includes built-in performance monitoring:
 ### Adding New Content
 The game is designed to be easily extensible:
 - **Actions**: Add new actions in `src/lib/game/config/actions.ts`
+- **Loop Actions**: Add new loop actions in `src/lib/game/config/loopActions.ts`
 - **Events**: Add new events in `src/lib/game/config/events.ts`
 - **Buildings**: Add new buildings in `src/lib/game/config/buildings.ts`
 - **Technologies**: Add new technologies in `src/lib/game/config/technologies.ts`
@@ -405,15 +475,23 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 🆕 Recent Updates
 
+### Loop Actions System (v6.0)
+- **10 Automated Loop Actions**: Continuous resource generation with ongoing costs
+- **Categorized Actions**: Organized by type (Gathering, Crafting, Research, Military)
+- **Progressive Unlocking**: Actions unlock through building construction and resource thresholds
+- **Strategic Resource Management**: Balance loop action costs with production capabilities
+- **Visual Feedback**: Clear indicators for active loop actions and resource flows
+
 ### Action System (v5.0)
 - **12 Configurable Actions**: From basic resource gathering to advanced technology-dependent actions
 - **Progressive Unlocking**: Actions unlock through building construction, technology research, and resource accumulation
-- **Emoji Icons**: Intuitive visual representation for all actions and events
+- **Mixed Icon System**: SVG icons for resources/buildings, emoji icons for actions and events
 - **One-time Unlocks**: Trading actions become permanently available after first unlock
 - **Strategic Gameplay**: Balance resource costs and gains for optimal progression
 
 ### Enhanced User Experience
 - **Visual Feedback**: Hover tooltips with detailed action information
 - **Action Grouping**: Actions organized by category (Basic, Trading, Building, Technology)
+- **Loop Action Management**: Toggle controls for automated actions
 - **Responsive Design**: Action buttons adapt to different screen sizes
 - **Performance Optimized**: Efficient action validation and execution
