@@ -20,7 +20,7 @@ export function initNewGame(): GameState {
     const state: GameState = {
       t: Date.now(),
       resources: {},
-      lifetime: { food: 0 },
+      lifetime: {},
       buildings: {} as Record<BuildingKey, number>,
       technologies: {} as Record<TechnologyKey, number>,
       upgrades: {} as Record<PrestigeUpgradeKey, number>,
@@ -359,13 +359,15 @@ export function setUpgradeLevel(state: GameState, upgradeKey: PrestigeUpgradeKey
 }
 
 /**
- * Add resources to the game state - Pure function
+ * Add resources to the game state - Pure function with lifetime resource tracking
  */
 export function addResources(state: GameState, obj: ResourceProduction): GameState {
   if (Object.keys(obj).length === 0) return state;
   
   const resourceUpdates: Partial<Record<ResourceKey, number>> = {};
+  const lifetimeUpdates: Partial<Record<ResourceKey, number>> = {};
   let hasChanges = false;
+  let hasLifetimeChanges = false;
   
   for (const r in obj) {
     const rk = r as ResourceKey;
@@ -376,18 +378,37 @@ export function addResources(state: GameState, obj: ResourceProduction): GameSta
     if (delta !== 0) {
       resourceUpdates[rk] = newValue;
       hasChanges = true;
+      
+      // Track lifetime resources for statistics and prestige calculations
+      if (delta > 0) {
+        const currentLifetime = state.lifetime[rk] || 0;
+        const newLifetime = currentLifetime + delta;
+        lifetimeUpdates[rk] = newLifetime;
+        hasLifetimeChanges = true;
+      }
     }
   }
   
   if (!hasChanges) return state;
   
-  return {
+  // Update resources
+  let newState = {
     ...state,
     resources: {
       ...state.resources,
       ...resourceUpdates
     }
   };
+  
+  // Update lifetime resources if any were gained
+  if (hasLifetimeChanges) {
+    newState = {
+      ...newState,
+      lifetime: { ...newState.lifetime, ...lifetimeUpdates }
+    };
+  }
+  
+  return newState;
 }
 
 /**

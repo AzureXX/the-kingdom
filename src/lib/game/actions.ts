@@ -251,20 +251,26 @@ export function tick(state: GameState, dtSeconds: number): GameState {
     // Apply resource updates
     let newState = hasResourceChanges ? updateMultipleResources(state, resourceUpdates) : state;
     
-    // Calculate lifetime food change
-    const foodDelta = Math.max(0, (perSec.food || 0) * dtSeconds);
-    const hasLifetimeChange = foodDelta > 0;
-    if (hasLifetimeChange) {
-      // Only create new lifetime object if food actually changed
-      const currentLifetimeFood = state.lifetime.food;
-      const newLifetimeFood = currentLifetimeFood + foodDelta;
-      
-      if (newLifetimeFood !== currentLifetimeFood) {
-        newState = {
-          ...newState,
-          lifetime: { ...newState.lifetime, food: newLifetimeFood }
-        };
+    // Track lifetime resources for statistics and prestige calculations
+    const lifetimeUpdates: Partial<Record<ResourceKey, number>> = {};
+    let hasLifetimeChanges = false;
+    
+    for (const r in perSec) {
+      const rk = r as ResourceKey;
+      const delta = Math.max(0, (perSec[rk] || 0) * dtSeconds);
+      if (delta > 0) {
+        const currentLifetime = state.lifetime[rk] || 0;
+        const newLifetime = currentLifetime + delta;
+        lifetimeUpdates[rk] = newLifetime;
+        hasLifetimeChanges = true;
       }
+    }
+    
+    if (hasLifetimeChanges) {
+      newState = {
+        ...newState,
+        lifetime: { ...newState.lifetime, ...lifetimeUpdates }
+      };
     }
     
     // Always check for events and research progress, even if no resource changes

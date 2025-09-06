@@ -20,10 +20,7 @@ export type GameState = {
   resources: Partial<Record<ResourceKey, number>>;
   
   /** Lifetime statistics that persist across prestige resets */
-  lifetime: { 
-    /** Total food generated across all time, used for prestige calculations */
-    food: number 
-  };
+  lifetime: Partial<Record<ResourceKey, number>>;
   
   /** Number of each building type owned by the player */
   buildings: Record<BuildingKey, number>;
