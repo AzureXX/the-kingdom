@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { useGameContext } from '../../lib/game/GameContext';
+import { useGameStateContext } from '../../lib/game/providers';
 import { CONFIG } from '../../lib/game/config';
 import { canMakeEventChoice, makeEventChoice } from '../../lib/game/eventSystem';
 import { formatNumber as fmt } from '../../lib/game/utils';
@@ -13,7 +13,7 @@ interface EventModalProps {
 }
 
 export function EventModal({ isOpen, onClose }: EventModalProps) {
-  const { state, setState } = useGameContext();
+  const { state, setState } = useGameStateContext();
   
   if (!isOpen || !state || !state.events.activeEvent) {
     return null;

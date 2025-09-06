@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { useGameContext } from '@/lib/game/GameContext';
+import { useGameStateContext } from '@/lib/game/providers';
 import styles from '@/styles/page.module.scss';
 
 export const PerformanceMonitor: React.FC = () => {
-  const { performanceMetrics, performanceFunctions } = useGameContext();
+  const { performanceMetrics, performanceFunctions } = useGameStateContext();
   const [showDetailed, setShowDetailed] = useState(false);
 
   const formatMemory = (bytes: number): string => {
