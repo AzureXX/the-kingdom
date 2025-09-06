@@ -13,7 +13,6 @@ import type {
   BuildingKey,
   TechnologyKey,
   ActionKey,
-  EventKey
 } from './types';
 import { ACHIEVEMENTS } from './config/achievements';
 import { getResource, getBuildingCount, getTechnologyLevel } from './gameState';
@@ -124,7 +123,7 @@ function checkRequirement(
   try {
     const { type, target, value, operator = '>=' } = requirement;
     let currentValue = 0;
-    let targetValue = value;
+    const targetValue = value;
 
     switch (type) {
       case 'resource':
@@ -255,7 +254,6 @@ export function checkAchievements(state: GameState): GameState {
 
       // Calculate progress
       const progressData = calculateAchievementProgress(state, achievement);
-      const previousProgress = newProgress[achievementKey] || 0;
       newProgress[achievementKey] = progressData.progress;
 
       // Check if achievement is unlocked
@@ -344,7 +342,7 @@ function applyAchievementRewards(state: GameState, achievement: AchievementDef):
  */
 function applyReward(state: GameState, reward: AchievementReward): GameState {
   try {
-    const { type, target, value, permanent } = reward;
+    const { type, target, value } = reward;
 
     switch (type) {
       case 'resource':

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useAchievements } from '@/lib/game/hooks';
 import { ACHIEVEMENTS } from '@/lib/game/config/achievements';
 import styles from './AchievementNotification.module.scss';
@@ -17,6 +17,21 @@ export function AchievementNotification({
   const { pendingNotifications, markNotificationAsShown, getRarityColor } = useAchievements();
   const [visibleNotifications, setVisibleNotifications] = useState<typeof pendingNotifications>([]);
   const [isAnimating, setIsAnimating] = useState(false);
+
+  const handleClose = useCallback((achievementKey: string) => {
+    setIsAnimating(false);
+    
+    setTimeout(() => {
+      setVisibleNotifications(prev => 
+        prev.filter(n => !(n.achievementKey === achievementKey))
+      );
+      markNotificationAsShown(achievementKey);
+      
+      if (onClose) {
+        onClose();
+      }
+    }, 300); // Wait for animation to complete
+  }, [markNotificationAsShown, onClose]);
 
   useEffect(() => {
     if (pendingNotifications && pendingNotifications.length > 0) {
@@ -36,23 +51,9 @@ export function AchievementNotification({
         return () => clearTimeout(timer);
       }
     }
-  }, [pendingNotifications, autoCloseDelay]);
+  }, [pendingNotifications, autoCloseDelay, visibleNotifications, handleClose]);
 
-  const handleClose = (achievementKey: string) => {
-    setIsAnimating(false);
-    
-    setTimeout(() => {
-      setVisibleNotifications(prev => 
-        prev.filter(n => !(n.achievementKey === achievementKey))
-      );
-      markNotificationAsShown(achievementKey);
-      
-      if (onClose) {
-        onClose();
-      }
-    }, 300); // Wait for animation to complete
-  };
-
+  
   if (visibleNotifications.length === 0) {
     return null;
   }

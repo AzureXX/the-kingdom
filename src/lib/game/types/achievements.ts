@@ -1,10 +1,5 @@
 // Achievement system type definitions
 
-import type { ResourceKey } from './resources';
-import type { BuildingKey } from './buildings';
-import type { TechnologyKey } from './technologies';
-import type { ActionKey } from './actions';
-import type { EventKey } from './events';
 
 /**
  * Unique identifier for an achievement
@@ -205,7 +200,7 @@ export type AchievementSortOption =
  */
 export type AchievementCheckContext = {
   /** Current game state */
-  state: any; // Will be GameState when imported
+  state: unknown; // Will be GameState when imported
   /** Time since last check (seconds) */
   deltaTime: number;
   /** Whether this is a full check or incremental */

@@ -3,15 +3,15 @@
 import React, { useState } from 'react';
 import { AchievementList } from '../game/AchievementList';
 import { useAchievements } from '@/lib/game/hooks';
-import type { AchievementFilter, AchievementSortOption } from '@/lib/game/types';
+import type { AchievementFilter, AchievementSortOption, GameState } from '@/lib/game/types';
 import styles from './AchievementScene.module.scss';
 
 interface AchievementSceneProps {
-  state: any; // GameState
+  state: GameState;
   onAchievementClick?: (achievementKey: string) => void;
 }
 
-export function AchievementScene({ state, onAchievementClick }: AchievementSceneProps) {
+export function AchievementScene({ onAchievementClick }: AchievementSceneProps) {
   const { stats, pendingNotifications } = useAchievements();
   const [filter, setFilter] = useState<AchievementFilter>({});
   const [sortBy, setSortBy] = useState<AchievementSortOption>('progress');
@@ -94,7 +94,7 @@ export function AchievementScene({ state, onAchievementClick }: AchievementScene
             <label className={styles.filterLabel}>Category:</label>
             <select
               value={filter.category || 'all'}
-              onChange={(e) => handleFilterChange({ category: e.target.value as any })}
+              onChange={(e) => handleFilterChange({ category: e.target.value as AchievementFilter['category'] })}
               className={styles.filterSelect}
             >
               <option value="all">All Categories</option>
@@ -113,7 +113,7 @@ export function AchievementScene({ state, onAchievementClick }: AchievementScene
             <label className={styles.filterLabel}>Rarity:</label>
             <select
               value={filter.rarity || 'all'}
-              onChange={(e) => handleFilterChange({ rarity: e.target.value as any })}
+              onChange={(e) => handleFilterChange({ rarity: e.target.value as AchievementFilter['rarity'] })}
               className={styles.filterSelect}
             >
               <option value="all">All Rarities</option>
@@ -129,7 +129,7 @@ export function AchievementScene({ state, onAchievementClick }: AchievementScene
             <label className={styles.filterLabel}>Status:</label>
             <select
               value={filter.status || 'all'}
-              onChange={(e) => handleFilterChange({ status: e.target.value as any })}
+              onChange={(e) => handleFilterChange({ status: e.target.value as AchievementFilter['status'] })}
               className={styles.filterSelect}
             >
               <option value="all">All Status</option>

@@ -12,7 +12,6 @@ import { ACHIEVEMENTS } from '../config/achievements';
 import type { 
   AchievementKey, 
   AchievementDef, 
-  AchievementProgress, 
   AchievementFilter, 
   AchievementSortOption,
   AchievementStats 
@@ -22,7 +21,7 @@ import type {
  * Hook for managing achievement-related functionality
  */
 export function useAchievements() {
-  const { state, updateState } = useGameStateContext();
+  const { state, setState } = useGameStateContext();
 
   /**
    * Get all achievements with their current progress
@@ -217,8 +216,8 @@ export function useAchievements() {
     if (!state) return;
     
     const newState = markNotificationShown(state, achievementKey);
-    updateState(newState);
-  }, [state, updateState]);
+    setState(newState);
+  }, [state, setState]);
 
   /**
    * Check achievements (called by game loop)
@@ -228,9 +227,9 @@ export function useAchievements() {
     
     const newState = checkAchievements(state);
     if (newState !== state) {
-      updateState(newState);
+      setState(newState);
     }
-  }, [state, updateState]);
+  }, [state, setState]);
 
   /**
    * Get achievement progress for display

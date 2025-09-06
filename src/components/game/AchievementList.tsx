@@ -49,7 +49,7 @@ export function AchievementList({
         <div className={styles.filters}>
           <select
             value={localFilter.category || 'all'}
-            onChange={(e) => handleFilterChange({ category: e.target.value as any })}
+            onChange={(e) => handleFilterChange({ category: e.target.value as AchievementFilter['category'] })}
             className={styles.filterSelect}
           >
             <option value="all">All Categories</option>
@@ -65,7 +65,7 @@ export function AchievementList({
 
           <select
             value={localFilter.rarity || 'all'}
-            onChange={(e) => handleFilterChange({ rarity: e.target.value as any })}
+            onChange={(e) => handleFilterChange({ rarity: e.target.value as AchievementFilter['rarity'] })}
             className={styles.filterSelect}
           >
             <option value="all">All Rarities</option>
@@ -78,7 +78,7 @@ export function AchievementList({
 
           <select
             value={localFilter.status || 'all'}
-            onChange={(e) => handleFilterChange({ status: e.target.value as any })}
+            onChange={(e) => handleFilterChange({ status: e.target.value as AchievementFilter['status'] })}
             className={styles.filterSelect}
           >
             <option value="all">All Status</option>
