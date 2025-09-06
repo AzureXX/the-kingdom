@@ -5,6 +5,7 @@ import type { GameState } from './types';
 import { isValidBuildingKey } from './utils';
 import { logInvalidKey, createValidationErrorHandler, createStateErrorHandler } from './utils/errorLogger';
 import { DEFAULT_LOOP_SETTINGS } from './config/loopActions';
+import { initAchievementState } from './achievementSystem';
 
 const { resources: RESOURCES, buildings: BUILDINGS, technologies: TECHNOLOGIES, prestige: PRESTIGE_CONFIG, version: CONFIG_VERSION } = CONFIG;
 
@@ -44,6 +45,7 @@ export function initNewGame(): GameState {
       },
       loopActions: [],
       loopSettings: DEFAULT_LOOP_SETTINGS,
+      achievements: initAchievementState(),
     };
     
     // Initialize resources with starting values

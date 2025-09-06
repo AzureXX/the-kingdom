@@ -12,3 +12,5 @@ export { useGameActions } from './useGameActions';
 export { useGameCalculations } from './useGameCalculations';
 
 export { useLoopActions } from './useLoopActions';
+
+export { useAchievements } from './useAchievements';

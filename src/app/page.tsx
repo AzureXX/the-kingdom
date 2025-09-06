@@ -10,11 +10,13 @@ import {
   BuildingsScene, 
   ResearchScene, 
   PrestigeScene, 
-  PerformanceScene 
+  PerformanceScene,
+  AchievementScene
 } from '@/components/scenes';
 import { Modal } from '@/components/ui/Modal';
 import { EventModal } from '@/components/ui/EventModal';
 import { EventNotification } from '@/components/ui/EventNotification';
+import { AchievementNotification } from '@/components/ui/AchievementNotification';
 import { SvgSprites } from '@/components/ui/SvgSprites';
 import { UI_CONSTANTS } from '@/lib/game/constants';
 import { clearSave } from '@/lib/game/saveSystem';
@@ -100,6 +102,8 @@ export default function GamePage() {
         return <PrestigeScene {...sceneProps} onDoPrestige={handleDoPrestige} />;
       case 'performance':
         return <PerformanceScene {...sceneProps} />;
+      case 'achievements':
+        return <AchievementScene {...sceneProps} />;
       default:
         return <ActionsScene {...sceneProps} />;
     }
@@ -175,11 +179,12 @@ export default function GamePage() {
           <li>Research technologies in the Research scene to unlock new buildings and actions</li>
           <li>When progress slows, use the Prestige scene to ascend and spend <strong>Prestige</strong> on upgrades</li>
           <li>Monitor performance in the Performance scene</li>
-          <li>Use number keys (1-5) or arrow keys to navigate between scenes</li>
+          <li>Use number keys (1-6) or arrow keys to navigate between scenes</li>
         </ul>
       </Modal>
 
       <EventNotification />
+      <AchievementNotification />
       
       <EventModal 
         isOpen={state?.events.activeEvent !== null} 

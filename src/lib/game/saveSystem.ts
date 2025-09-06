@@ -3,6 +3,7 @@ import { GAME_CONSTANTS } from './constants';
 import { safeJsonParse, encodeBase64, decodeBase64 } from './utils';
 import { updateTimestamp } from './gameState';
 import { tick } from './actions';
+import { migrateGameState } from './utils/migrationUtils';
 import type { GameState } from './types';
 
 /**
@@ -15,7 +16,10 @@ export function loadSave(): GameState | null {
   if (!raw) return null;
   
   const obj = safeJsonParse(raw, null as GameState | null);
-  if (obj && obj.version === CONFIG.version) return obj;
+  if (obj && obj.version === CONFIG.version) {
+    // Migrate the state to ensure it has all required properties
+    return migrateGameState(obj);
+  }
   
   return null;
 }
@@ -49,7 +53,10 @@ export function importSave(text: string): GameState | null {
   try {
     const json = decodeBase64(text);
     const obj = safeJsonParse(json, null as GameState | null);
-    if (obj && obj.version === CONFIG.version) return obj;
+    if (obj && obj.version === CONFIG.version) {
+      // Migrate the state to ensure it has all required properties
+      return migrateGameState(obj);
+    }
   } catch {
     return null;
   }

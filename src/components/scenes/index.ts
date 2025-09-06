@@ -4,3 +4,4 @@ export { BuildingsScene } from './BuildingsScene';
 export { ResearchScene } from './ResearchScene';
 export { PrestigeScene } from './PrestigeScene';
 export { PerformanceScene } from './PerformanceScene';
+export { AchievementScene } from './AchievementScene';

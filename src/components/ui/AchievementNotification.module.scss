@@ -1,0 +1,281 @@
+// Achievement Notification Styles
+
+.notificationContainer {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 400px;
+  pointer-events: none;
+}
+
+.notification {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  border: 2px solid var(--rarity-color, #6b7280);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  pointer-events: auto;
+  position: relative;
+  transform: translateX(100%);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: calc(var(--index, 0) * 8px);
+
+  &.latest {
+    z-index: 1001;
+  }
+
+  &.animating {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  &:not(.latest) {
+    transform: translateX(0);
+    opacity: 0.8;
+    scale: 0.95;
+  }
+}
+
+.notificationContent {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px;
+  position: relative;
+}
+
+.iconContainer {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.icon {
+  font-size: 2.5rem;
+  display: block;
+  line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.rarityIndicator {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 12px;
+  height: 12px;
+  background: var(--rarity-color, #6b7280);
+  border-radius: 50%;
+  border: 2px solid #1e293b;
+  box-shadow: 0 0 8px var(--rarity-color, #6b7280);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% { 
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+.textContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--rarity-color, #6b7280);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.achievementName {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #f8fafc;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.achievementDescription {
+  font-size: 0.9rem;
+  color: #cbd5e1;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.rewardInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.levelBadge {
+  background: var(--rarity-color, #6b7280);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.closeButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  border: none;
+  color: #94a3b8;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.5);
+    color: #f1f5f9;
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.progressBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--rarity-color, #6b7280), #ffffff);
+  width: 0%;
+  animation: progress 5s linear forwards;
+}
+
+@keyframes progress {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
+// Rarity-specific styles
+.notification {
+  &[style*="--rarity-color: #9CA3AF"] { // common
+    border-color: #9CA3AF;
+    box-shadow: 0 10px 30px rgba(156, 163, 175, 0.2);
+  }
+
+  &[style*="--rarity-color: #10B981"] { // uncommon
+    border-color: #10B981;
+    box-shadow: 0 10px 30px rgba(16, 185, 129, 0.2);
+  }
+
+  &[style*="--rarity-color: #3B82F6"] { // rare
+    border-color: #3B82F6;
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+  }
+
+  &[style*="--rarity-color: #8B5CF6"] { // epic
+    border-color: #8B5CF6;
+    box-shadow: 0 10px 30px rgba(139, 92, 246, 0.2);
+  }
+
+  &[style*="--rarity-color: #F59E0B"] { // legendary
+    border-color: #F59E0B;
+    box-shadow: 0 10px 30px rgba(245, 158, 11, 0.2);
+    animation: legendaryGlow 2s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes legendaryGlow {
+  from {
+    box-shadow: 0 10px 30px rgba(245, 158, 11, 0.2);
+  }
+  to {
+    box-shadow: 0 15px 40px rgba(245, 158, 11, 0.4);
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .notificationContainer {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    max-width: none;
+  }
+
+  .notification {
+    margin-bottom: 8px;
+  }
+
+  .notificationContent {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .icon {
+    font-size: 2rem;
+  }
+
+  .achievementName {
+    font-size: 1rem;
+  }
+
+  .achievementDescription {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .notificationContainer {
+    top: 5px;
+    right: 5px;
+    left: 5px;
+  }
+
+  .notificationContent {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .icon {
+    font-size: 1.8rem;
+  }
+
+  .achievementName {
+    font-size: 0.95rem;
+  }
+
+  .achievementDescription {
+    font-size: 0.8rem;
+  }
+
+  .rewardInfo {
+    font-size: 0.8rem;
+  }
+}

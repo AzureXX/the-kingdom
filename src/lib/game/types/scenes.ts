@@ -1,4 +1,4 @@
-export type SceneKey = 'actions' | 'buildings' | 'research' | 'prestige' | 'performance';
+export type SceneKey = 'actions' | 'buildings' | 'research' | 'prestige' | 'performance' | 'achievements';
 
 export interface SceneConfig {
   key: SceneKey;
@@ -56,7 +56,15 @@ export const SCENE_CONFIGS: Record<SceneKey, SceneConfig> = {
     icon: '📊',
     color: '#607D8B',
     keyboardShortcut: '5'
+  },
+  achievements: {
+    key: 'achievements',
+    title: 'Achievements',
+    description: 'Track your progress and unlock rewards',
+    icon: '🏆',
+    color: '#FFD700',
+    keyboardShortcut: '6'
   }
 };
 
-export const SCENE_ORDER: SceneKey[] = ['actions', 'buildings', 'research', 'prestige', 'performance'];
+export const SCENE_ORDER: SceneKey[] = ['actions', 'buildings', 'research', 'prestige', 'performance', 'achievements'];

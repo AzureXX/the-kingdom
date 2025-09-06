@@ -7,6 +7,7 @@ import type { PrestigeUpgradeKey } from  './prestige';
 import type { EventKey } from './events';
 import type { ActionUnlocks, ActionCooldowns } from './actions';
 import type { LoopActionState, LoopActionSettings } from './loopActions';
+import type { AchievementState } from './achievements';
 
 /**
  * Represents the complete state of the game at any given moment.
@@ -82,6 +83,9 @@ export type GameState = {
   
   /** Configuration settings for loop actions */
   loopSettings: LoopActionSettings;
+  
+  /** Achievement system state */
+  achievements: AchievementState;
 };
 
 export type Multipliers = {

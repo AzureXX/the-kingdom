@@ -14,6 +14,7 @@ import {
 import { costFor, canAfford, getUpgradeCost, canBuyUpgrade, getPerSec } from './calculations';
 import { checkAndTriggerEvents } from './eventSystem';
 import { startResearch, checkResearchProgress } from './technologySystem';
+import { checkAchievements } from './achievementSystem';
 import { createStateErrorHandler } from './utils/errorLogger';
 import { getAction } from './config/actions';
 import { ActionValidator } from './utils/actionValidation';
@@ -279,6 +280,9 @@ export function tick(state: GameState, dtSeconds: number): GameState {
     
     // Check research progress and update state
     newState = checkResearchProgress(newState);
+    
+    // Check achievements and update state
+    newState = checkAchievements(newState);
     
     return newState;
   } catch (error) {

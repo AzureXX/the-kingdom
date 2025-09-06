@@ -1,0 +1,303 @@
+// Achievement Card Styles
+
+.achievementCard {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  border: 2px solid #333;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    border-color: #555;
+  }
+
+  &:focus {
+    outline: 2px solid #4f46e5;
+    outline-offset: 2px;
+  }
+
+  &.unlocked {
+    border-color: #10b981;
+    background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #10b981, #34d399);
+    }
+  }
+
+  &.locked {
+    opacity: 0.7;
+    filter: grayscale(0.3);
+  }
+
+  &.compact {
+    padding: 12px;
+    margin-bottom: 8px;
+    
+    .header {
+      margin-bottom: 8px;
+    }
+    
+    .content {
+      .description {
+        font-size: 0.9rem;
+        margin-bottom: 8px;
+      }
+    }
+  }
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.iconContainer {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.icon {
+  font-size: 2rem;
+  display: block;
+  line-height: 1;
+}
+
+.unlockBadge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #10b981;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: bold;
+  border: 2px solid #1a1a2e;
+}
+
+.titleSection {
+  flex: 1;
+  min-width: 0;
+}
+
+.name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+  color: #f3f4f6;
+  line-height: 1.2;
+}
+
+.meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 0.8rem;
+}
+
+.category {
+  background: #374151;
+  color: #d1d5db;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: capitalize;
+}
+
+.points {
+  background: #1e40af;
+  color: #dbeafe;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.rarity {
+  background: #6b7280;
+  color: #f9fafb;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+
+.content {
+  margin-top: 8px;
+}
+
+.description {
+  color: #d1d5db;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  margin: 0 0 12px 0;
+}
+
+.progressSection {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.progressBar {
+  flex: 1;
+  height: 6px;
+  background: #374151;
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: shimmer 2s infinite;
+  }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.progressText {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.levelInfo {
+  background: #7c3aed;
+  color: #f3e8ff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.hiddenContent {
+  margin-top: 8px;
+}
+
+.hiddenText {
+  color: #6b7280;
+  font-style: italic;
+  font-size: 0.9rem;
+  margin: 0;
+  text-align: center;
+  padding: 12px;
+  background: #374151;
+  border-radius: 6px;
+}
+
+// Rarity-specific styles
+.common {
+  border-color: #6b7280;
+  
+  &.unlocked {
+    border-color: #9ca3af;
+    background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+  }
+}
+
+.uncommon {
+  border-color: #10b981;
+  
+  &.unlocked {
+    border-color: #34d399;
+    background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
+  }
+}
+
+.rare {
+  border-color: #3b82f6;
+  
+  &.unlocked {
+    border-color: #60a5fa;
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+  }
+}
+
+.epic {
+  border-color: #8b5cf6;
+  
+  &.unlocked {
+    border-color: #a78bfa;
+    background: linear-gradient(135deg, #581c87 0%, #7c3aed 100%);
+  }
+}
+
+.legendary {
+  border-color: #f59e0b;
+  
+  &.unlocked {
+    border-color: #fbbf24;
+    background: linear-gradient(135deg, #92400e 0%, #d97706 100%);
+    
+    &::before {
+      background: linear-gradient(90deg, #f59e0b, #fbbf24, #fcd34d);
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .achievementCard {
+    padding: 12px;
+    margin-bottom: 8px;
+  }
+  
+  .header {
+    gap: 8px;
+  }
+  
+  .icon {
+    font-size: 1.5rem;
+  }
+  
+  .name {
+    font-size: 1rem;
+  }
+  
+  .meta {
+    font-size: 0.75rem;
+    gap: 6px;
+  }
+  
+  .description {
+    font-size: 0.9rem;
+  }
+}

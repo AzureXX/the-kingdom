@@ -56,6 +56,27 @@ export type {
   LoopActionCategory,
 } from './loopActions';
 
+// Achievement types
+export type {
+  AchievementKey,
+  AchievementCategory,
+  AchievementRarity,
+  AchievementRequirementType,
+  AchievementOperator,
+  AchievementRewardType,
+  AchievementRequirement,
+  AchievementReward,
+  AchievementDef,
+  AchievementNotification,
+  AchievementProgress,
+  AchievementState,
+  AchievementFilter,
+  AchievementSortOption,
+  AchievementCheckContext,
+  AchievementValidationResult,
+  AchievementStats,
+} from './achievements';
+
 // Game state types
 export type {
   GameState,

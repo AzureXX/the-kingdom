@@ -4,6 +4,7 @@ import { TECHNOLOGIES } from './technologies';
 import { PRESTIGE_CONFIG } from './prestige';
 import { EVENTS } from './events';
 import { ACTIONS } from './actions';
+import { ACHIEVEMENTS } from './achievements';
 import { validateGameConfig, formatValidationResults } from '../utils/validationUtils';
 
 // Re-export all config objects
@@ -14,6 +15,7 @@ export {
   PRESTIGE_CONFIG,
   EVENTS,
   ACTIONS,
+  ACHIEVEMENTS,
 };
 
 // Main game configuration object - stable reference to prevent recreation
@@ -25,6 +27,7 @@ export const CONFIG = Object.freeze({
   prestige: PRESTIGE_CONFIG,
   events: EVENTS,
   actions: ACTIONS,
+  achievements: ACHIEVEMENTS,
 });
 
 export const SAVE_KEY = 'medieval-kingdom-v1';
