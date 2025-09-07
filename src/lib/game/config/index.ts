@@ -4,7 +4,7 @@ import { TECHNOLOGIES } from './technologies';
 import { PRESTIGE_CONFIG } from './prestige';
 import { EVENTS } from './events';
 import { ACTIONS } from './actions';
-import { ACHIEVEMENTS } from './achievements';
+import { ACHIEVEMENTS } from './achievements/index';
 import { validateGameConfig, formatValidationResults } from '../utils/validationUtils';
 
 // Re-export all config objects

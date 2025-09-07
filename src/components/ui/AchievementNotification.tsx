@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useCallback } from 'react';
 import { useAchievements } from '@/lib/game/hooks';
-import { ACHIEVEMENTS } from '@/lib/game/config/achievements';
+import { ACHIEVEMENTS } from '@/lib/game/config/achievements/index';
 import styles from './AchievementNotification.module.scss';
 
 interface AchievementNotificationProps {

@@ -8,7 +8,7 @@ import {
   markNotificationShown, 
   getAchievementStats 
 } from '../achievementSystem';
-import { ACHIEVEMENTS } from '../config/achievements';
+import { ACHIEVEMENTS } from '../config/achievements/index';
 import type { 
   AchievementKey, 
   AchievementDef, 
