@@ -2,6 +2,7 @@
 
 import type { GameState } from '../types';
 import { initAchievementState } from '../achievementSystem';
+import { createStateErrorHandler } from './errorLogger';
 
 /**
  * Migrate game state to include achievement data if missing
@@ -54,7 +55,8 @@ export function migrateGameState(state: GameState): GameState {
 
     return state;
   } catch (error) {
-    console.error('Failed to migrate game state:', error);
+    const migrationErrorHandler = createStateErrorHandler('migration');
+    migrationErrorHandler('Failed to migrate game state', { error: error instanceof Error ? error.message : String(error) });
     // Return state with initialized achievements as fallback
     return {
       ...state,

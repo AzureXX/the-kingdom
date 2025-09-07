@@ -265,17 +265,12 @@ export function checkAchievements(state: GameState): GameState {
         // Only add notification if this is a new unlock (not already unlocked)
         // and no notification already exists for this achievement
         if (!wasAlreadyUnlocked && !newNotifications.some(n => n.achievementKey === achievementKey)) {
-          console.log(`[ACHIEVEMENT] Adding notification for ${achievementKey}`);
           newNotifications.push({
             achievementKey,
             timestamp: Date.now(),
             level: currentLevel + 1,
             shown: false
           });
-        } else if (wasAlreadyUnlocked) {
-          console.log(`[ACHIEVEMENT] Skipping notification for ${achievementKey} - already unlocked`);
-        } else if (newNotifications.some(n => n.achievementKey === achievementKey)) {
-          console.log(`[ACHIEVEMENT] Skipping notification for ${achievementKey} - notification already exists`);
         }
 
         // Apply rewards
@@ -353,7 +348,7 @@ function applyAchievementRewards(state: GameState, achievement: AchievementDef):
 function applyReward(state: GameState, reward: AchievementReward): GameState {
   try {
     // Skip reward application for now - just return state unchanged
-    console.log(`Achievement reward skipped:`, reward);
+    stateErrorHandler('Achievement reward skipped', { reward });
     return state;
   } catch (error) {
     stateErrorHandler('Failed to apply reward', { 

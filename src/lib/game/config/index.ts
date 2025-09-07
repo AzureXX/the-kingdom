@@ -7,6 +7,7 @@ import { ACTIONS } from './actions';
 import { LOOP_ACTIONS } from './loopActions';
 import { ACHIEVEMENTS } from './achievements';
 import { validateGameConfig, formatValidationResults } from '../utils/validationUtils';
+import { logMessage } from '../utils/errorLogger';
 
 // Re-export all config objects
 export {
@@ -50,25 +51,25 @@ export function validateConfiguration(): void {
     });
 
     if (validationResult.isValid) {
-      console.log('✅ Configuration validation passed');
+      logMessage('Configuration validation passed', { level: 'log', context: 'config' });
       
       if (validationResult.warnings.length > 0) {
-        console.warn(`⚠️  Found ${validationResult.warnings.length} configuration warnings:`);
+        logMessage(`Found ${validationResult.warnings.length} configuration warnings`, { level: 'warn', context: 'config' });
         for (const warning of validationResult.warnings) {
-          console.warn(`  ${warning.category}: ${warning.message}`, warning.details);
+          logMessage(`${warning.category}: ${warning.message}`, { level: 'warn', context: 'config', details: warning.details });
         }
       }
     } else {
-      console.error('❌ Configuration validation failed');
-      console.error(formatValidationResults(validationResult));
+      logMessage('Configuration validation failed', { level: 'error', context: 'config' });
+      logMessage(formatValidationResults(validationResult), { level: 'error', context: 'config' });
       
       // Log detailed errors for debugging
       for (const error of validationResult.errors) {
-        console.error(`  ${error.category}: ${error.message}`, error.details);
+        logMessage(`${error.category}: ${error.message}`, { level: 'error', context: 'config', details: error.details });
       }
     }
   } catch (error) {
-    console.error('💥 Configuration validation crashed:', error);
+    logMessage('Configuration validation crashed', { level: 'error', context: 'config', details: { error: error instanceof Error ? error.message : String(error) } });
   }
   
   console.groupEnd();
