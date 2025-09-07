@@ -11,10 +11,10 @@ import {
   updateUpgradeLevel,
   updateResource
 } from './gameState';
+import { checkAchievements } from './achievementSystem';
 import { costFor, canAfford, getUpgradeCost, canBuyUpgrade, getPerSec } from './calculations';
 import { checkAndTriggerEvents } from './eventSystem';
 import { startResearch, checkResearchProgress } from './technologySystem';
-import { checkAchievements } from './achievementSystem';
 import { createStateErrorHandler } from './utils/errorLogger';
 import { getAction } from './config/actions';
 import { ActionValidator } from './utils/actionValidation';
@@ -60,7 +60,10 @@ export function buyBuilding(state: GameState, key: BuildingKey): GameState {
     
     const newState = pay(state, cost);
     const current = getBuildingCount(newState, key);
-    return updateBuildingCount(newState, key, current + 1);
+    const stateWithBuilding = updateBuildingCount(newState, key, current + 1);
+    
+    // Check achievements after building purchase
+    return checkAchievements(stateWithBuilding);
   } catch (error) {
     stateErrorHandler('Failed to buy building', { buildingKey: key, error: error instanceof Error ? error.message : String(error) });
     return state; // Return original state on error
@@ -242,9 +245,10 @@ export function tick(state: GameState, dtSeconds: number): GameState {
     
     // Early return if no changes occurred
     if (!hasResourceChanges) {
-      // Still need to check events and research progress
+      // Still need to check events, research progress, and achievements
       let newState = checkAndTriggerEvents(state);
       newState = checkResearchProgress(newState);
+      newState = checkAchievements(newState);
       
       return newState;
     }

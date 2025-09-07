@@ -12,7 +12,13 @@ export function migrateGameState(state: GameState): GameState {
     if (!state.achievements) {
       return {
         ...state,
-        achievements: initAchievementState()
+        achievements: initAchievementState(),
+        achievementMultipliers: {
+          clickGain: 1,
+          cost: 1,
+          prodMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 },
+          useMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 },
+        }
       };
     }
 
@@ -31,9 +37,18 @@ export function migrateGameState(state: GameState): GameState {
         }
       };
 
+      // Add achievement multipliers if missing
+      const achievementMultipliers = state.achievementMultipliers || {
+        clickGain: 1,
+        cost: 1,
+        prodMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 },
+        useMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 },
+      };
+
       return {
         ...state,
-        achievements
+        achievements,
+        achievementMultipliers
       };
     }
 
@@ -43,7 +58,13 @@ export function migrateGameState(state: GameState): GameState {
     // Return state with initialized achievements as fallback
     return {
       ...state,
-      achievements: initAchievementState()
+      achievements: initAchievementState(),
+      achievementMultipliers: {
+        clickGain: 1,
+        cost: 1,
+        prodMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 },
+        useMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 },
+      }
     };
   }
 }
@@ -56,5 +77,7 @@ export function needsMigration(state: GameState): boolean {
          !state.achievements.unlocked || 
          !state.achievements.progress || 
          !state.achievements.notifications ||
-         !state.achievements.stats;
+         state.achievements.totalPoints === undefined ||
+         !state.achievements.stats ||
+         !state.achievementMultipliers;
 }

@@ -86,6 +86,9 @@ export type GameState = {
   
   /** Achievement system state */
   achievements: AchievementState;
+  
+  /** Achievement-based multipliers */
+  achievementMultipliers: Multipliers;
 };
 
 export type Multipliers = {

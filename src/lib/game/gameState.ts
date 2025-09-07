@@ -5,7 +5,7 @@ import type { GameState } from './types';
 import { isValidBuildingKey } from './utils';
 import { logInvalidKey, createValidationErrorHandler, createStateErrorHandler } from './utils/errorLogger';
 import { DEFAULT_LOOP_SETTINGS } from './config/loopActions';
-import { initAchievementState } from './achievementSystem';
+import { initAchievementState, checkAchievements } from './achievementSystem';
 
 const { resources: RESOURCES, buildings: BUILDINGS, technologies: TECHNOLOGIES, prestige: PRESTIGE_CONFIG, version: CONFIG_VERSION } = CONFIG;
 
@@ -46,6 +46,12 @@ export function initNewGame(): GameState {
       loopActions: [],
       loopSettings: DEFAULT_LOOP_SETTINGS,
       achievements: initAchievementState(),
+      achievementMultipliers: {
+        clickGain: 1,
+        cost: 1,
+        prodMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 },
+        useMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 },
+      },
     };
     
     // Initialize resources with starting values
@@ -409,6 +415,9 @@ export function addResources(state: GameState, obj: ResourceProduction): GameSta
       lifetime: { ...newState.lifetime, ...lifetimeUpdates }
     };
   }
+  
+  // Check achievements after resource changes
+  newState = checkAchievements(newState);
   
   return newState;
 }

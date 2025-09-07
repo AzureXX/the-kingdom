@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { AchievementList } from '../game/AchievementList';
 import { useAchievements } from '@/lib/game/hooks';
+import { useGameStateContext } from '@/lib/game/providers';
 import type { AchievementFilter, AchievementSortOption, GameState } from '@/lib/game/types';
 import styles from './AchievementScene.module.scss';
 
@@ -13,6 +14,7 @@ interface AchievementSceneProps {
 
 export function AchievementScene({ onAchievementClick }: AchievementSceneProps) {
   const { stats, pendingNotifications } = useAchievements();
+  const { state, setState } = useGameStateContext();
   const [filter, setFilter] = useState<AchievementFilter>({});
   const [sortBy, setSortBy] = useState<AchievementSortOption>('progress');
   const [showStats, setShowStats] = useState(false);
@@ -50,6 +52,7 @@ export function AchievementScene({ onAchievementClick }: AchievementSceneProps) 
       percentage: Math.round((count / stats.unlockedAchievements) * 100) || 0
     }));
   };
+
 
   return (
     <div className={styles.achievementScene}>
@@ -163,6 +166,7 @@ export function AchievementScene({ onAchievementClick }: AchievementSceneProps) 
           >
             {showStats ? 'Hide Stats' : 'Show Stats'}
           </button>
+
         </div>
       </div>
 

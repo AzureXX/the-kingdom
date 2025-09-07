@@ -184,10 +184,10 @@ function checkRequirement(
         if (target === 'category_complete') {
           // Check if all achievements in a category are complete
           const categoryAchievements = Object.values(ACHIEVEMENTS).filter(a => a.category === 'resource');
-          currentValue = categoryAchievements.every(a => state.achievements.unlocked[a.key]) ? 1 : 0;
+          currentValue = categoryAchievements.every(a => state.achievements?.unlocked?.[a.key]) ? 1 : 0;
         } else if (target === 'all_complete') {
           const allAchievements = Object.keys(ACHIEVEMENTS);
-          currentValue = allAchievements.every(key => state.achievements.unlocked[key]) ? 1 : 0;
+          currentValue = allAchievements.every(key => state.achievements?.unlocked?.[key]) ? 1 : 0;
         }
         break;
       
@@ -259,19 +259,30 @@ export function checkAchievements(state: GameState): GameState {
       // Check if achievement is unlocked
       if (progressData.isComplete && (!newUnlocked[achievementKey] || achievement.repeatable)) {
         const currentLevel = newUnlocked[achievementKey] || 0;
+        const wasAlreadyUnlocked = !!newUnlocked[achievementKey];
         newUnlocked[achievementKey] = currentLevel + 1;
         hasChanges = true;
 
-        // Add notification
-        newNotifications.push({
-          achievementKey,
-          timestamp: Date.now(),
-          level: currentLevel + 1,
-          shown: false
-        });
+        // Only add notification if this is a new unlock (not already unlocked)
+        // and no notification already exists for this achievement
+        if (!wasAlreadyUnlocked && !newNotifications.some(n => n.achievementKey === achievementKey)) {
+          console.log(`[ACHIEVEMENT] Adding notification for ${achievementKey}`);
+          newNotifications.push({
+            achievementKey,
+            timestamp: Date.now(),
+            level: currentLevel + 1,
+            shown: false
+          });
+        } else if (wasAlreadyUnlocked) {
+          console.log(`[ACHIEVEMENT] Skipping notification for ${achievementKey} - already unlocked`);
+        } else if (newNotifications.some(n => n.achievementKey === achievementKey)) {
+          console.log(`[ACHIEVEMENT] Skipping notification for ${achievementKey} - notification already exists`);
+        }
 
         // Apply rewards
-        state = applyAchievementRewards(state, achievement);
+        const stateWithRewards = applyAchievementRewards(state, achievement);
+        // Update the state reference to include rewards
+        state = stateWithRewards;
       }
     }
 
@@ -342,29 +353,9 @@ function applyAchievementRewards(state: GameState, achievement: AchievementDef):
  */
 function applyReward(state: GameState, reward: AchievementReward): GameState {
   try {
-    const { type, target, value } = reward;
-
-    switch (type) {
-      case 'resource':
-        return addResources(state, { [target as ResourceKey]: value });
-      
-      case 'multiplier':
-        // Apply multiplier to game state (would need to be handled in game loop)
-        // For now, just return the state unchanged
-        return state;
-      
-      case 'unlock':
-        // Unlock something (would need specific unlock logic)
-        return state;
-      
-      case 'cosmetic':
-        // Cosmetic reward (would need UI system)
-        return state;
-      
-      default:
-        validationHandler('Unknown reward type', { type, target });
-        return state;
-    }
+    // Skip reward application for now - just return state unchanged
+    console.log(`Achievement reward skipped:`, reward);
+    return state;
   } catch (error) {
     stateErrorHandler('Failed to apply reward', { 
       reward: reward,

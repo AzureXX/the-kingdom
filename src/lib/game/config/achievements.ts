@@ -164,7 +164,7 @@ export const ACHIEVEMENTS: Record<AchievementKey, AchievementDef> = {
     rarity: 'common',
     points: 10,
     requirements: [
-      { type: 'building', target: 'woodcutterHut', value: 1 }
+      { type: 'building', target: 'total', value: 1 }
     ],
     rewards: [
       { type: 'resource', target: 'gold', value: 50, permanent: false }
@@ -200,7 +200,7 @@ export const ACHIEVEMENTS: Record<AchievementKey, AchievementDef> = {
     rarity: 'uncommon',
     points: 40,
     requirements: [
-      { type: 'building', target: 'woodcutterHut', value: 1 },
+      { type: 'building', target: 'woodcutter', value: 1 },
       { type: 'building', target: 'quarry', value: 1 },
       { type: 'building', target: 'farm', value: 1 },
       { type: 'building', target: 'blacksmith', value: 1 },
@@ -563,7 +563,7 @@ export const ACHIEVEMENTS: Record<AchievementKey, AchievementDef> = {
     rarity: 'epic',
     points: 150,
     requirements: [
-      { type: 'building', target: 'woodcutterHut', value: 10 },
+      { type: 'building', target: 'woodcutter', value: 10 },
       { type: 'building', target: 'quarry', value: 10 },
       { type: 'building', target: 'farm', value: 10 },
       { type: 'building', target: 'blacksmith', value: 10 },
