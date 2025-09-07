@@ -14,7 +14,7 @@ import type {
   TechnologyKey,
   ActionKey,
 } from './types';
-import { ACHIEVEMENTS } from './config/achievements/index';
+import { ACHIEVEMENTS } from './config/achievements';
 import { getResource, getBuildingCount, getTechnologyLevel } from './gameState';
 import { createValidationErrorHandler, createStateErrorHandler } from './utils/errorLogger';
 
