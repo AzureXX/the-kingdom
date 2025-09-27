@@ -15,6 +15,7 @@ export function useGameLoop(
   const stateRef = useRef<GameState | null>(null);
   const onStateUpdateRef = useRef(onStateUpdate);
   const onTickCompleteRef = useRef(onTickComplete);
+  const tickCounterRef = useRef(0);
   
   // Update refs when callbacks change to maintain latest references
   useEffect(() => {
@@ -29,11 +30,14 @@ export function useGameLoop(
     const currentState = stateRef.current;
     if (!currentState || currentState.isPaused) return null; // Add pause check
     
+    // Increment tick counter for frame skipping
+    tickCounterRef.current++;
+    
     // Measure tick performance
     const tickStartTime = performance.now();
     
     // Run game logic tick - this happens every 50ms (20 FPS)
-    let newState = tick(currentState, 1 / GAME_CONSTANTS.GAME_TICK_RATE);
+    let newState = tick(currentState, 1 / GAME_CONSTANTS.GAME_TICK_RATE, tickCounterRef.current);
     
     // Process loop actions
     newState = processLoopActionTick(newState);

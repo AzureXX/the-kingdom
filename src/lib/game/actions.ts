@@ -18,6 +18,7 @@ import { startResearch, checkResearchProgress } from './technologySystem';
 import { createStateErrorHandler } from './utils/errorLogger';
 import { getAction } from './config/actions';
 import { ActionValidator } from './utils/actionValidation';
+import { GAME_CONSTANTS } from './constants';
 
 const stateErrorHandler = createStateErrorHandler('actions');
 
@@ -190,9 +191,9 @@ export function researchTechnology(state: GameState, key: TechnologyKey): GameSt
 }
 
 /**
- * Process game tick (time-based updates) - Optimized pure function with error handling
+ * Process game tick (time-based updates) - Optimized pure function with error handling and frame skipping
  */
-export function tick(state: GameState, dtSeconds: number): GameState {
+export function tick(state: GameState, dtSeconds: number, tickCounter: number = 0): GameState {
   try {
     // Early return if no time has passed
     if (dtSeconds <= 0) return state;
@@ -204,10 +205,21 @@ export function tick(state: GameState, dtSeconds: number): GameState {
     
     // Early return if no changes occurred
     if (Object.keys(resourceChanges).length === 0) {
-      // Still need to check events, research progress, and achievements
-      let newState = checkAndTriggerEvents(state);
+      // Still need to check events, research progress, and achievements with frame skipping
+      let newState = state;
+      
+      // Check events with frame skipping (every 3 ticks)
+      if (tickCounter % GAME_CONSTANTS.FRAME_SKIP.EVENTS === 0) {
+        newState = checkAndTriggerEvents(newState);
+      }
+      
+      // Always check research progress (time-sensitive)
       newState = checkResearchProgress(newState);
-      newState = checkAchievements(newState);
+      
+      // Check achievements with frame skipping (every 5 ticks)
+      if (tickCounter % GAME_CONSTANTS.FRAME_SKIP.ACHIEVEMENTS === 0) {
+        newState = checkAchievements(newState);
+      }
       
       return newState;
     }
@@ -237,15 +249,19 @@ export function tick(state: GameState, dtSeconds: number): GameState {
       };
     }
     
-    // Always check for events and research progress, even if no resource changes
+    // Check for events and research progress with frame skipping
     // This ensures events trigger even when buildings aren't producing resources
-    newState = checkAndTriggerEvents(newState);
+    if (tickCounter % GAME_CONSTANTS.FRAME_SKIP.EVENTS === 0) {
+      newState = checkAndTriggerEvents(newState);
+    }
     
-    // Check research progress and update state
+    // Always check research progress (time-sensitive)
     newState = checkResearchProgress(newState);
     
-    // Check achievements and update state
-    newState = checkAchievements(newState);
+    // Check achievements with frame skipping
+    if (tickCounter % GAME_CONSTANTS.FRAME_SKIP.ACHIEVEMENTS === 0) {
+      newState = checkAchievements(newState);
+    }
     
     return newState;
   } catch (error) {

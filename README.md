@@ -243,6 +243,8 @@ The game uses a sophisticated hook-based architecture with the following key com
 - **Memoized Calculations**: Cached expensive computations
 - **Structural Sharing**: Minimal object recreation
 - **Frame Rate Control**: 20 FPS game loop for smooth gameplay
+- **Background Execution**: Game continues running even when tab is not active (uses `setInterval` instead of `requestAnimationFrame`)
+- **State-Driven Architecture**: All calculations are tied to current game state, making state-independent caching suboptimal
 
 ## 🎨 UI/UX Design
 

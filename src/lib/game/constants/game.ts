@@ -8,6 +8,12 @@ export const GAME_CONSTANTS = {
   // Game loop constants
   GAME_TICK_RATE: 20,
   
+  // Frame skipping configuration for performance optimization
+  FRAME_SKIP: {
+    EVENTS: 3,        // Check events every 3 ticks (6.67 FPS)
+    ACHIEVEMENTS: 5,  // Check achievements every 5 ticks (4 FPS)
+  },
+  
   // Performance constants
   PERFORMANCE_METRICS_UPDATE_INTERVAL: 60, // Update performance metrics every 60 frames
   NUMBER_FORMAT_THRESHOLD: 1000,
