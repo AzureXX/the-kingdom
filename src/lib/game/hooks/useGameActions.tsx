@@ -10,14 +10,13 @@ export function useGameActions(
   state: GameState | null,
   setState: React.Dispatch<React.SetStateAction<GameState | null>>
 ): {
-  actionHandlers: {
-    handleExecuteAction: (actionKey: ActionKey) => void;
-    handleBuyBuilding: (key: BuildingKey) => void;
-    handleBuyUpgrade: (key: PrestigeUpgradeKey) => void;
-    handleResearchTechnology: (key: TechnologyKey) => void;
-    handleDoPrestige: () => void;
-    handleTogglePause: () => void;
-  };
+  // Action handlers - flattened for easier access
+  handleExecuteAction: (actionKey: ActionKey) => void;
+  handleBuyBuilding: (key: BuildingKey) => void;
+  handleBuyUpgrade: (key: PrestigeUpgradeKey) => void;
+  handleResearchTechnology: (key: TechnologyKey) => void;
+  handleDoPrestige: () => void;
+  handleTogglePause: () => void;
 } {
   // Optimized action handlers using functional state updates
   const handleExecuteAction = useCallback((actionKey: ActionKey) => {
@@ -62,17 +61,13 @@ export function useGameActions(
     });
   }, [setState]);
 
-  // Group action handlers together for cleaner consumption
-  const actionHandlers = useMemo(() => ({
+  // Return flattened structure for easier consumption
+  return {
     handleExecuteAction,
     handleBuyBuilding,
     handleBuyUpgrade,
     handleResearchTechnology,
     handleDoPrestige,
     handleTogglePause,
-  }), [handleExecuteAction, handleBuyBuilding, handleBuyUpgrade, handleResearchTechnology, handleDoPrestige, handleTogglePause]);
-
-  return {
-    actionHandlers,
   };
 }

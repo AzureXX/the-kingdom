@@ -7,17 +7,16 @@ import type { GameState, Multipliers } from '../types';
 import type { BuildingKey, PrestigeUpgradeKey, ResourceKey, TechnologyKey, ResourceCost } from '../types';
 
 export function useGameCalculations(state: GameState | null): {
-  gameCalculations: {
-    perSec: Partial<Record<ResourceKey, number>>;
-    prestigePotential: number;
-    multipliers: Multipliers | null;
-    technologyCosts: Record<TechnologyKey, ResourceCost>;
-    upgradeCosts: Record<PrestigeUpgradeKey, number>;
-  };
-  utilityFunctions: {
-    memoizedCostFor: (key: BuildingKey) => ResourceCost;
-    memoizedCanAfford: (cost: ResourceCost) => boolean;
-  };
+  // Game calculations - flattened for easier access
+  perSec: Partial<Record<ResourceKey, number>>;
+  prestigePotential: number;
+  multipliers: Multipliers | null;
+  technologyCosts: Record<TechnologyKey, ResourceCost>;
+  upgradeCosts: Record<PrestigeUpgradeKey, number>;
+  
+  // Utility functions - flattened for easier access
+  memoizedCostFor: (key: BuildingKey) => ResourceCost;
+  memoizedCanAfford: (cost: ResourceCost) => boolean;
 } {
   // Memoized game calculations using utility functions
   const gameCalculationsData = useMemo(() => {
@@ -39,23 +38,17 @@ export function useGameCalculations(state: GameState | null): {
     return state ? canAfford(state, cost) : false;
   }, [state]);
 
-  // Group calculation results together for cleaner consumption
-  const gameCalculations = useMemo(() => ({
+  // Return flattened structure for easier consumption
+  return {
+    // Game calculations - direct access
     perSec: gameCalculationsData.perSec,
     prestigePotential: gameCalculationsData.prestigePotential,
     multipliers: gameCalculationsData.multipliers,
     technologyCosts: gameCalculationsData.technologyCosts,
     upgradeCosts: gameCalculationsData.upgradeCosts,
-  }), [gameCalculationsData]);
-
-  // Group utility functions together for cleaner consumption
-  const utilityFunctions = useMemo(() => ({
+    
+    // Utility functions - direct access
     memoizedCostFor,
     memoizedCanAfford,
-  }), [memoizedCostFor, memoizedCanAfford]);
-
-  return {
-    gameCalculations,
-    utilityFunctions,
   };
 }

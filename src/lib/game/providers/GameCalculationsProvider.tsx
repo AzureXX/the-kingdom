@@ -28,19 +28,19 @@ interface GameCalculationsProviderProps {
 export function GameCalculationsProvider({ children }: GameCalculationsProviderProps) {
   const { state, lastSavedAt } = useGameStateContext();
   
-  // Game calculations
-  const { gameCalculations, utilityFunctions } = useGameCalculations(state);
+  // Game calculations - now flattened for direct access
+  const gameCalculations = useGameCalculations(state);
   
   // Time calculations
   const { timeValues } = useGameTime(state, lastSavedAt);
 
   const contextValue: GameCalculationsContextType = {
-    // Utility functions
+    // Utility functions - direct access from flattened structure
     fmt,
-    costFor: utilityFunctions.memoizedCostFor,
-    canAfford: utilityFunctions.memoizedCanAfford,
+    costFor: gameCalculations.memoizedCostFor,
+    canAfford: gameCalculations.memoizedCanAfford,
     
-    // Game calculations
+    // Game calculations - direct access from flattened structure
     perSec: gameCalculations.perSec as Record<ResourceKey, number>,
     prestigePotential: gameCalculations.prestigePotential,
     multipliers: gameCalculations.multipliers,

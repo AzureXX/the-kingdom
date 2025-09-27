@@ -14,18 +14,18 @@ interface GameActionsProviderProps {
 export function GameActionsProvider({ children }: GameActionsProviderProps) {
   const { state, setState } = useGameStateContext();
   
-  // Action handlers
-  const { actionHandlers } = useGameActions(state, setState);
+  // Action handlers - now flattened for direct access
+  const gameActions = useGameActions(state, setState);
   const { handleToggleLoopAction } = useLoopActions(state, setState);
 
   const contextValue: GameActionHandlers = {
-    handleExecuteAction: actionHandlers.handleExecuteAction,
-    handleBuyBuilding: actionHandlers.handleBuyBuilding,
-    handleBuyUpgrade: actionHandlers.handleBuyUpgrade,
-    handleResearchTechnology: actionHandlers.handleResearchTechnology,
-    handleDoPrestige: actionHandlers.handleDoPrestige,
+    handleExecuteAction: gameActions.handleExecuteAction,
+    handleBuyBuilding: gameActions.handleBuyBuilding,
+    handleBuyUpgrade: gameActions.handleBuyUpgrade,
+    handleResearchTechnology: gameActions.handleResearchTechnology,
+    handleDoPrestige: gameActions.handleDoPrestige,
     handleToggleLoopAction,
-    handleTogglePause: actionHandlers.handleTogglePause,
+    handleTogglePause: gameActions.handleTogglePause,
   };
 
   return (
