@@ -348,7 +348,7 @@ function applyAchievementRewards(state: GameState, achievement: AchievementDef):
 function applyReward(state: GameState, reward: AchievementReward): GameState {
   try {
     // Skip reward application for now - just return state unchanged
-    stateErrorHandler('Achievement reward skipped', { reward });
+    console.log('Achievement reward skipped', reward);
     return state;
   } catch (error) {
     stateErrorHandler('Failed to apply reward', { 
