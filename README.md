@@ -57,6 +57,7 @@ src/
 ├── app/                    # Next.js App Router pages
 ├── components/             # React components
 │   ├── game/              # Game-specific UI components
+│   ├── scenes/            # Scene-specific components
 │   └── ui/                # Reusable UI components
 ├── lib/game/              # Core game logic
 │   ├── config/            # Game configuration
@@ -66,6 +67,11 @@ src/
 │   ├── types/             # TypeScript type definitions
 │   └── utils/             # Utility functions
 └── styles/                # SCSS stylesheets
+    ├── components/        # Component-specific styles
+    │   ├── game/         # Game component styles
+    │   ├── scenes/       # Scene component styles
+    │   └── ui/           # UI component styles
+    └── scenes/           # Scene layout styles
 ```
 
 ## 🎯 Core Game Systems
@@ -360,6 +366,43 @@ export const LOOP_ACTIONS: Record<LoopActionKey, LoopActionDef> = {
 - **SCSS**: Modular styling with CSS Modules
 - **React**: Functional components with hooks
 
+### SCSS File Organization
+All SCSS files are organized in the `src/styles/` directory with the following structure:
+
+```
+src/styles/
+├── components/              # Component-specific styles
+│   ├── game/               # Game component styles
+│   │   ├── AchievementCard.module.scss
+│   │   ├── AchievementList.module.scss
+│   │   ├── BuildingList.module.scss
+│   │   ├── LoopActionButton.module.scss
+│   │   ├── LoopActionList.module.scss
+│   │   └── ResourceDisplay.module.scss
+│   ├── scenes/             # Scene component styles
+│   │   └── AchievementScene.module.scss
+│   └── ui/                 # UI component styles
+│       ├── AchievementNotification.module.scss
+│       └── ErrorBoundary.module.scss
+├── scenes/                 # Scene layout styles
+│   ├── SceneLayout.module.scss
+│   └── SceneNavigation.module.scss
+├── globals.scss            # Global styles
+└── page.module.scss        # Page-specific styles
+```
+
+**Guidelines for adding new SCSS files:**
+- **Component styles**: Place in `src/styles/components/[category]/` matching the component's location
+- **Scene styles**: Place in `src/styles/scenes/` for scene-specific layouts
+- **Global styles**: Add to `src/styles/globals.scss` for app-wide styles
+- **Import paths**: Use `@/styles/` prefix for all style imports
+- **Naming**: Use `.module.scss` for component-specific styles, `.scss` for global styles
+
+**Example import:**
+```typescript
+import styles from '@/styles/components/game/NewComponent.module.scss';
+```
+
 ### Testing Strategy
 - **Component Testing**: React components with proper props
 - **Game Logic Testing**: Pure functions for game calculations
@@ -447,6 +490,7 @@ The game is designed to be easily extensible:
 - **Events**: Add new events in `src/lib/game/config/events.ts`
 - **Buildings**: Add new buildings in `src/lib/game/config/buildings.ts`
 - **Technologies**: Add new technologies in `src/lib/game/config/technologies.ts`
+- **Styles**: Add new SCSS files in `src/styles/` following the organized structure (see SCSS File Organization section)
 
 All new content automatically integrates with the existing systems and UI components.
 
