@@ -66,6 +66,10 @@ src/
 │   ├── hooks/             # Custom React hooks
 │   ├── types/             # TypeScript type definitions
 │   └── utils/             # Utility functions
+├── __tests__/             # Test files and utilities
+│   ├── game/              # Game logic tests
+│   ├── utils/             # Utility tests and test helpers
+│   └── setup.test.ts      # Test setup verification
 └── styles/                # SCSS stylesheets
     ├── components/        # Component-specific styles
     │   ├── game/         # Game component styles
@@ -478,12 +482,83 @@ The game includes built-in performance monitoring with real-time metrics:
 
 ## 🤝 Contributing
 
+## 🧪 Testing
+
+The project includes a comprehensive testing infrastructure built with Jest and React Testing Library.
+
+### Test Coverage
+
+**Current Status**: ✅ **82 passing tests** covering core game functionality
+
+#### **Test Categories**
+- **Core Utilities**: String utilities, number formatting, validation functions
+- **Error Handling**: Centralized error logging and handling systems
+- **Resource Management**: Resource calculations, updates, and validation
+- **Game Logic**: Core game calculations and state management
+
+#### **Running Tests**
+
+```bash
+# Run all tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run tests with coverage report
+npm run test:coverage
+
+# Run specific test file
+npm test -- --testPathPattern=stringUtils
+```
+
+#### **Test Structure**
+```
+src/__tests__/
+├── game/                    # Game logic tests
+│   ├── resourceCalculations.test.ts
+│   ├── resourceUpdates.test.ts
+│   └── resourceValidation.test.ts
+├── utils/                   # Utility function tests
+│   ├── stringUtils.test.ts
+│   ├── numberUtils.test.ts
+│   ├── errorLogger.test.ts
+│   └── validationUtils.test.ts
+├── utils/                   # Test utilities (not run as tests)
+│   ├── testHelpers.ts       # Game state creation helpers
+│   ├── mockData.ts          # Mock game data
+│   └── index.ts             # Test utility exports
+└── setup.test.ts            # Basic setup verification
+```
+
+#### **Writing Tests**
+
+The project provides comprehensive test utilities:
+
+```typescript
+import { 
+  createTestGameState, 
+  createGameStateWithResources,
+  expectGameStateResources 
+} from '../utils/testHelpers'
+
+describe('My Game Feature', () => {
+  it('should work correctly', () => {
+    const state = createGameStateWithResources({ gold: 100 })
+    const result = myGameFunction(state)
+    
+    expectGameStateResources(result, { gold: 150 })
+  })
+})
+```
+
 ### Development Setup
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+4. Add tests for new functionality
+5. Ensure all tests pass: `npm test`
+6. Submit a pull request
 
 ### Adding New Content
 The game is designed to be easily extensible:
@@ -519,25 +594,3 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 *Built with ❤️ using Next.js, React, and TypeScript*
 
-## 🆕 Recent Updates
-
-### Loop Actions System (v6.0)
-- **10 Automated Loop Actions**: Continuous resource generation with ongoing costs
-- **Categorized Actions**: Organized by type (Gathering, Crafting, Research, Military)
-- **Progressive Unlocking**: Actions unlock through building construction and resource thresholds
-- **Strategic Resource Management**: Balance loop action costs with production capabilities
-- **Visual Feedback**: Clear indicators for active loop actions and resource flows
-
-### Action System (v5.0)
-- **12 Configurable Actions**: From basic resource gathering to advanced technology-dependent actions
-- **Progressive Unlocking**: Actions unlock through building construction, technology research, and resource accumulation
-- **Mixed Icon System**: SVG icons for resources/buildings, emoji icons for actions and events
-- **One-time Unlocks**: Trading actions become permanently available after first unlock
-- **Strategic Gameplay**: Balance resource costs and gains for optimal progression
-
-### Enhanced User Experience
-- **Visual Feedback**: Hover tooltips with detailed action information
-- **Action Grouping**: Actions organized by category (Basic, Trading, Building, Technology)
-- **Loop Action Management**: Toggle controls for automated actions
-- **Responsive Design**: Action buttons adapt to different screen sizes
-- **Performance Optimized**: Efficient action validation and execution
