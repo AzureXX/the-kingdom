@@ -2,7 +2,8 @@ import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { doSave, exportSave, importSave, loadSave, processOfflineProgress } from '../saveSystem';
 import { initNewGame } from '../gameState';
 import { GAME_CONSTANTS } from '../constants';
-import { validateAllConfig } from '../config/validation';
+import { validateGameConfig } from '../utils/validation/crossReferenceValidation';
+import { CONFIG } from '../config';
 import { logConfigValidation } from '../utils/errorLogger';
 import type { GameState } from '../types';
 
@@ -15,7 +16,7 @@ export function useSaveSystem(
   // Load initial game state
   const loadInitialGame = useCallback((): GameState => {
     // Validate configuration at startup
-    const validation = validateAllConfig();
+    const validation = validateGameConfig(CONFIG);
     logConfigValidation(validation.isValid, validation.errors);
     
     const saved = loadSave();

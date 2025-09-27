@@ -3,6 +3,7 @@
  */
 
 import type { ErrorInfo } from 'react';
+import type { ValidationError } from './validation/resourceValidation';
 
 export interface ErrorLogOptions {
   level: 'warn' | 'error' | 'log';
@@ -124,7 +125,7 @@ export function logInvalidKey(key: string, expectedType: string, context: string
 /**
  * Log configuration validation results
  */
-export function logConfigValidation(isValid: boolean, errors?: string[]): void {
+export function logConfigValidation(isValid: boolean, errors?: ValidationError[]): void {
   if (isValid) {
     logMessage('Configuration validation passed', {
       level: 'log',
