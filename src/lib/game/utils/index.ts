@@ -15,31 +15,28 @@ export { clamp, formatNumber } from './numberUtils';
 // String processing and encoding
 export { safeJsonParse, encodeBase64, decodeBase64 } from './stringUtils';
 
-// Performance optimization utilities
-export { 
-  debounce, 
-  throttle, 
-  calculateMovingAverage, 
-  detectPerformanceAnomalies, 
-  formatPerformanceMetric, 
+// Performance utilities - consolidated from performance folder
+export {
+  // Monitoring
+  updatePerformanceMetrics,
+  updateHistoricalData,
+  calculateAverages,
+  checkMetricsChanged,
+  // Calculations
+  calculatePerformanceScore,
+  getPerformanceSuggestions,
+  // Optimization
+  debounce,
+  throttle,
+  calculateMovingAverage,
+  detectPerformanceAnomalies,
+  // Formatting
   formatBytes,
+  formatPerformanceMetric,
+  // Budget
   checkPerformanceBudget,
   type PerformanceBudget
-} from './performanceUtils';
-
-// Performance calculation utilities
-export { 
-  calculatePerformanceScore, 
-  getPerformanceSuggestions 
-} from './performanceCalculations';
-
-// Performance metrics utilities
-export { 
-  updatePerformanceMetrics, 
-  updateHistoricalData, 
-  calculateAverages, 
-  checkMetricsChanged 
-} from './performanceMetrics';
+} from './performance';
 
 // Game calculation utilities
 export { 

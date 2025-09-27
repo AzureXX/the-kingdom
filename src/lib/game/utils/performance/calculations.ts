@@ -1,22 +1,12 @@
 /**
- * Performance calculation utilities for the game
- * Extracted from usePerformanceMonitor.tsx to improve maintainability
+ * Performance calculation utilities
+ * Performance scoring and analysis functions
  */
 
-import type { PerformanceMetrics, PerformanceSuggestion, PerformanceThresholds } from '../hooks/usePerformanceMonitor';
+import type { PerformanceMetrics, PerformanceSuggestion, PerformanceThresholds } from '../../hooks/usePerformanceMonitor';
 
 /**
  * Calculate performance score (0-100, higher is better)
- * 
- * @param metrics - Current performance metrics
- * @param thresholds - Performance thresholds for warnings
- * @returns Performance score from 0-100
- * 
- * @example
- * ```typescript
- * const score = calculatePerformanceScore(metrics, thresholds);
- * console.log(`Performance score: ${score}/100`);
- * ```
  */
 export function calculatePerformanceScore(
   metrics: PerformanceMetrics,
@@ -49,18 +39,6 @@ export function calculatePerformanceScore(
 
 /**
  * Generate performance suggestions based on current metrics
- * 
- * @param metrics - Current performance metrics
- * @param thresholds - Performance thresholds for warnings
- * @returns Array of performance suggestions
- * 
- * @example
- * ```typescript
- * const suggestions = getPerformanceSuggestions(metrics, thresholds);
- * suggestions.forEach(suggestion => {
- *   console.log(`${suggestion.priority}: ${suggestion.message}`);
- * });
- * ```
  */
 export function getPerformanceSuggestions(
   metrics: PerformanceMetrics,

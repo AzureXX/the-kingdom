@@ -1,12 +1,13 @@
 import { useState, useRef, useMemo, useCallback } from 'react';
 import { GAME_CONSTANTS } from '../constants';
-import { calculatePerformanceScore, getPerformanceSuggestions } from '../utils/performanceCalculations';
 import { 
+  calculatePerformanceScore, 
+  getPerformanceSuggestions,
   updatePerformanceMetrics, 
   updateHistoricalData, 
   calculateAverages, 
   checkMetricsChanged 
-} from '../utils/performanceMetrics';
+} from '../utils/performance';
 
 export interface PerformanceMetrics {
   tickTime: number;

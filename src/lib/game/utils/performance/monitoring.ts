@@ -1,30 +1,12 @@
 /**
- * Performance metrics utilities for the game
- * Extracted from usePerformanceMonitor.tsx to improve maintainability
+ * Performance monitoring utilities
+ * Core performance tracking and metrics collection
  */
 
-import type { PerformanceMetrics } from '../hooks/usePerformanceMonitor';
+import type { PerformanceMetrics } from '../../hooks/usePerformanceMonitor';
 
 /**
  * Update performance metrics with new tick data
- * 
- * @param metricsRef - Reference to current performance metrics
- * @param tickDuration - Duration of the current tick in milliseconds
- * @param renderStartTimeRef - Reference to render start time
- * @param frameCountRef - Reference to current frame count
- * @param updateInterval - How often to update metrics (every N frames)
- * @returns Updated metrics object
- * 
- * @example
- * ```typescript
- * const updatedMetrics = updatePerformanceMetrics(
- *   metricsRef, 
- *   tickDuration, 
- *   renderStartTimeRef, 
- *   frameCountRef, 
- *   updateInterval
- * );
- * ```
  */
 export function updatePerformanceMetrics(
   metricsRef: React.MutableRefObject<PerformanceMetrics>,
@@ -64,27 +46,6 @@ export function updatePerformanceMetrics(
 
 /**
  * Update historical data arrays for performance metrics
- * 
- * @param tickTimeHistory - Array of historical tick times
- * @param renderTimeHistory - Array of historical render times
- * @param fpsHistory - Array of historical FPS values
- * @param tickDuration - Current tick duration
- * @param renderTime - Current render time
- * @param fps - Current FPS
- * @param historySize - Maximum size of historical data arrays
- * 
- * @example
- * ```typescript
- * updateHistoricalData(
- *   tickTimeHistoryRef.current,
- *   renderTimeHistoryRef.current,
- *   fpsHistoryRef.current,
- *   tickDuration,
- *   renderTime,
- *   fps,
- *   historySize
- * );
- * ```
  */
 export function updateHistoricalData(
   tickTimeHistory: number[],
@@ -109,17 +70,6 @@ export function updateHistoricalData(
 
 /**
  * Calculate average values from historical data
- * 
- * @param tickTimeHistory - Array of historical tick times
- * @param renderTimeHistory - Array of historical render times
- * @returns Object with average tick time and render time
- * 
- * @example
- * ```typescript
- * const averages = calculateAverages(tickTimeHistory, renderTimeHistory);
- * metricsRef.current.averageTickTime = averages.averageTickTime;
- * metricsRef.current.averageRenderTime = averages.averageRenderTime;
- * ```
  */
 export function calculateAverages(
   tickTimeHistory: number[],
@@ -133,18 +83,6 @@ export function calculateAverages(
 
 /**
  * Check if performance metrics have changed significantly
- * 
- * @param currentMetrics - Current metrics from ref
- * @param previousMetrics - Previous metrics from state
- * @returns True if metrics have changed significantly
- * 
- * @example
- * ```typescript
- * const hasChanged = checkMetricsChanged(currentMetrics, previousMetrics);
- * if (hasChanged) {
- *   setPerformanceMetrics(currentMetrics);
- * }
- * ```
  */
 export function checkMetricsChanged(
   currentMetrics: PerformanceMetrics,
