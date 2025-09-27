@@ -51,17 +51,8 @@ export function usePerformanceMonitor(updateInterval: number = GAME_CONSTANTS.PE
     performanceScore: 100
   });
   
-  // Performance monitoring state - triggers re-renders when metrics change
-  const [performanceMetrics, setPerformanceMetrics] = useState<PerformanceMetrics>({
-    tickTime: 0,
-    renderTime: 0,
-    memoryUsage: 0,
-    fps: 0,
-    frameCount: 0,
-    averageTickTime: 0,
-    averageRenderTime: 0,
-    performanceScore: 100
-  });
+  // Using a single state update mechanism to avoid duplicate state management
+  const [performanceMetrics, setPerformanceMetrics] = useState<PerformanceMetrics>(() => performanceMetricsRef.current);
   
   // Track render start time for performance measurement
   const renderStartTimeRef = useRef<number>(performance.now());
@@ -77,91 +68,95 @@ export function usePerformanceMonitor(updateInterval: number = GAME_CONSTANTS.PE
   // Performance thresholds
   const thresholds = GAME_CONSTANTS.PERFORMANCE_MONITORING.THRESHOLDS;
 
-  // Calculate performance score (0-100, higher is better)
-  const calculatePerformanceScore = useCallback((metrics: PerformanceMetrics): number => {
-    let score = 100;
-    
-    // Deduct points for slow tick time
-    if (metrics.averageTickTime > thresholds.TICK_TIME_WARNING) {
-      score -= Math.min(30, (metrics.averageTickTime - thresholds.TICK_TIME_WARNING) * 2);
-    }
-    
-    // Deduct points for slow render time
-    if (metrics.averageRenderTime > thresholds.RENDER_TIME_WARNING) {
-      score -= Math.min(20, (metrics.averageRenderTime - thresholds.RENDER_TIME_WARNING) * 3);
-    }
-    
-    // Deduct points for low FPS
-    if (metrics.fps < thresholds.FPS_WARNING) {
-      score -= Math.min(25, (thresholds.FPS_WARNING - metrics.fps) * 2);
-    }
-    
-    // Deduct points for high memory usage
-    if (metrics.memoryUsage > thresholds.MEMORY_WARNING) {
-      score -= Math.min(15, (metrics.memoryUsage - thresholds.MEMORY_WARNING) / (1024 * 1024));
-    }
-    
-    return Math.max(0, Math.round(score));
+  // Calculate performance score (0-100, higher is better) - memoized for performance
+  const calculatePerformanceScore = useMemo(() => {
+    return (metrics: PerformanceMetrics): number => {
+      let score = 100;
+      
+      // Deduct points for slow tick time
+      if (metrics.averageTickTime > thresholds.TICK_TIME_WARNING) {
+        score -= Math.min(30, (metrics.averageTickTime - thresholds.TICK_TIME_WARNING) * 2);
+      }
+      
+      // Deduct points for slow render time
+      if (metrics.averageRenderTime > thresholds.RENDER_TIME_WARNING) {
+        score -= Math.min(20, (metrics.averageRenderTime - thresholds.RENDER_TIME_WARNING) * 3);
+      }
+      
+      // Deduct points for low FPS
+      if (metrics.fps < thresholds.FPS_WARNING) {
+        score -= Math.min(25, (thresholds.FPS_WARNING - metrics.fps) * 2);
+      }
+      
+      // Deduct points for high memory usage
+      if (metrics.memoryUsage > thresholds.MEMORY_WARNING) {
+        score -= Math.min(15, (metrics.memoryUsage - thresholds.MEMORY_WARNING) / (1024 * 1024));
+      }
+      
+      return Math.max(0, Math.round(score));
+    };
   }, [thresholds]);
 
-  // Generate performance suggestions
-  const getPerformanceSuggestions = useCallback((): PerformanceSuggestion[] => {
-    const suggestions: PerformanceSuggestion[] = [];
-    const metrics = performanceMetricsRef.current;
-    
-    if (metrics.averageTickTime > thresholds.TICK_TIME_WARNING) {
-      suggestions.push({
-        type: 'warning',
-        message: `Tick time (${metrics.averageTickTime.toFixed(2)}ms) is above optimal threshold`,
-        priority: metrics.averageTickTime > thresholds.TICK_TIME_WARNING * 2 ? 'high' : 'medium'
-      });
-    }
-    
-    if (metrics.averageRenderTime > thresholds.RENDER_TIME_WARNING) {
-      suggestions.push({
-        type: 'warning',
-        message: `Render time (${metrics.averageRenderTime.toFixed(2)}ms) is above optimal threshold`,
-        priority: metrics.averageRenderTime > thresholds.RENDER_TIME_WARNING * 2 ? 'high' : 'medium'
-      });
-    }
-    
-    if (metrics.fps < thresholds.FPS_WARNING) {
-      suggestions.push({
-        type: 'warning',
-        message: `FPS (${metrics.fps.toFixed(1)}) is below optimal threshold`,
-        priority: metrics.fps < thresholds.FPS_WARNING * 0.5 ? 'high' : 'medium'
-      });
-    }
-    
-    if (metrics.memoryUsage > thresholds.MEMORY_WARNING) {
-      suggestions.push({
-        type: 'warning',
-        message: `Memory usage (${(metrics.memoryUsage / (1024 * 1024)).toFixed(1)}MB) is high`,
-        priority: metrics.memoryUsage > thresholds.MEMORY_WARNING * 1.5 ? 'high' : 'medium'
-      });
-    }
-    
-    if (metrics.performanceScore > 80) {
-      suggestions.push({
-        type: 'info',
-        message: 'Performance is optimal',
-        priority: 'low'
-      });
-    } else if (metrics.performanceScore > 60) {
-      suggestions.push({
-        type: 'optimization',
-        message: 'Consider reducing game complexity for better performance',
-        priority: 'medium'
-      });
-    } else {
-      suggestions.push({
-        type: 'optimization',
-        message: 'Performance issues detected - check browser console for details',
-        priority: 'high'
-      });
-    }
-    
-    return suggestions;
+  // Generate performance suggestions - memoized for performance
+  const getPerformanceSuggestions = useMemo(() => {
+    return (): PerformanceSuggestion[] => {
+      const suggestions: PerformanceSuggestion[] = [];
+      const metrics = performanceMetricsRef.current;
+      
+      if (metrics.averageTickTime > thresholds.TICK_TIME_WARNING) {
+        suggestions.push({
+          type: 'warning',
+          message: `Tick time (${metrics.averageTickTime.toFixed(2)}ms) is above optimal threshold`,
+          priority: metrics.averageTickTime > thresholds.TICK_TIME_WARNING * 2 ? 'high' : 'medium'
+        });
+      }
+      
+      if (metrics.averageRenderTime > thresholds.RENDER_TIME_WARNING) {
+        suggestions.push({
+          type: 'warning',
+          message: `Render time (${metrics.averageRenderTime.toFixed(2)}ms) is above optimal threshold`,
+          priority: metrics.averageRenderTime > thresholds.RENDER_TIME_WARNING * 2 ? 'high' : 'medium'
+        });
+      }
+      
+      if (metrics.fps < thresholds.FPS_WARNING) {
+        suggestions.push({
+          type: 'warning',
+          message: `FPS (${metrics.fps.toFixed(1)}) is below optimal threshold`,
+          priority: metrics.fps < thresholds.FPS_WARNING * 0.5 ? 'high' : 'medium'
+        });
+      }
+      
+      if (metrics.memoryUsage > thresholds.MEMORY_WARNING) {
+        suggestions.push({
+          type: 'warning',
+          message: `Memory usage (${(metrics.memoryUsage / (1024 * 1024)).toFixed(1)}MB) is high`,
+          priority: metrics.memoryUsage > thresholds.MEMORY_WARNING * 1.5 ? 'high' : 'medium'
+        });
+      }
+      
+      if (metrics.performanceScore > 80) {
+        suggestions.push({
+          type: 'info',
+          message: 'Performance is optimal',
+          priority: 'low'
+        });
+      } else if (metrics.performanceScore > 60) {
+        suggestions.push({
+          type: 'optimization',
+          message: 'Consider reducing game complexity for better performance',
+          priority: 'medium'
+        });
+      } else {
+        suggestions.push({
+          type: 'optimization',
+          message: 'Performance issues detected - check browser console for details',
+          priority: 'high'
+        });
+      }
+      
+      return suggestions;
+    };
   }, [thresholds]);
 
   // Update performance metrics in refs (no re-renders)
@@ -207,20 +202,25 @@ export function usePerformanceMonitor(updateInterval: number = GAME_CONSTANTS.PE
       // Calculate performance score
       performanceMetricsRef.current.performanceScore = calculatePerformanceScore(performanceMetricsRef.current);
       
-      // Trigger a re-render of performance display components
-      // Reuse the performanceMetricsRef.current object to reduce object creation
-      setPerformanceMetrics({
-        tickTime: performanceMetricsRef.current.tickTime,
-        renderTime: performanceMetricsRef.current.renderTime,
-        memoryUsage: performanceMetricsRef.current.memoryUsage,
-        fps: performanceMetricsRef.current.fps,
-        frameCount: performanceMetricsRef.current.frameCount,
-        averageTickTime: performanceMetricsRef.current.averageTickTime,
-        averageRenderTime: performanceMetricsRef.current.averageRenderTime,
-        performanceScore: performanceMetricsRef.current.performanceScore,
-      });
+      // Only trigger re-render if metrics have actually changed
+      const currentMetrics = performanceMetricsRef.current;
+      const hasChanged = 
+        currentMetrics.tickTime !== performanceMetrics.tickTime ||
+        currentMetrics.renderTime !== performanceMetrics.renderTime ||
+        currentMetrics.memoryUsage !== performanceMetrics.memoryUsage ||
+        currentMetrics.fps !== performanceMetrics.fps ||
+        currentMetrics.frameCount !== performanceMetrics.frameCount ||
+        currentMetrics.averageTickTime !== performanceMetrics.averageTickTime ||
+        currentMetrics.averageRenderTime !== performanceMetrics.averageRenderTime ||
+        currentMetrics.performanceScore !== performanceMetrics.performanceScore;
+      
+      if (hasChanged) {
+        // Trigger a re-render of performance display components
+        // Use direct reference to avoid object recreation
+        setPerformanceMetrics(currentMetrics);
+      }
     }
-  }, [updateInterval, calculatePerformanceScore]);
+  }, [updateInterval, calculatePerformanceScore, performanceMetrics]);
 
   // Reset render start time (called when game loop starts)
   const resetRenderTimer = useCallback(() => {
