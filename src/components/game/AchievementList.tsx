@@ -4,7 +4,7 @@ import React, { useState, useMemo } from 'react';
 import { AchievementCard } from './AchievementCard';
 import { useAchievements } from '@/lib/game/hooks';
 import type { AchievementFilter, AchievementSortOption } from '@/lib/game/types';
-import styles from './AchievementList.module.scss';
+import styles from '@/styles/components/game/AchievementList.module.scss';
 
 interface AchievementListProps {
   filter?: AchievementFilter;

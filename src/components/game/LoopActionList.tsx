@@ -4,7 +4,7 @@ import { LOOP_ACTIONS } from '../../lib/game/config/loopActions';
 import type { LoopActionKey, LoopActionState } from '../../lib/game/types/loopActions';
 import type { GameState } from '../../lib/game/types/game';
 import { canStartLoopAction } from '../../lib/game/loopActionEngine';
-import styles from './LoopActionList.module.scss';
+import styles from '@/styles/components/game/LoopActionList.module.scss';
 
 interface LoopActionListProps {
   gameState: GameState;

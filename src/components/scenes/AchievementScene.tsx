@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { AchievementList } from '../game/AchievementList';
 import { useAchievements } from '@/lib/game/hooks';
 import type { AchievementFilter, AchievementSortOption, GameState } from '@/lib/game/types';
-import styles from './AchievementScene.module.scss';
+import styles from '@/styles/components/scenes/AchievementScene.module.scss';
 
 interface AchievementSceneProps {
   state: GameState;

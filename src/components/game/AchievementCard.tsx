@@ -2,7 +2,7 @@
 
 import React from 'react';
 import type { AchievementDef, AchievementProgress } from '@/lib/game/types';
-import styles from './AchievementCard.module.scss';
+import styles from '@/styles/components/game/AchievementCard.module.scss';
 
 interface AchievementCardProps {
   achievement: AchievementDef & {

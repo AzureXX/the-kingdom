@@ -4,7 +4,7 @@ import React, { Component, ReactNode } from 'react';
 import { loadSave, hasSave } from '@/lib/game/saveSystem';
 import { SAVE_KEY } from '@/lib/game/config';
 import { logGameError, logErrorBoundaryOperation } from '@/lib/game/utils/errorLogger';
-import styles from './ErrorBoundary.module.scss';
+import styles from '@/styles/components/ui/ErrorBoundary.module.scss';
 
 interface Props {
   children: ReactNode;

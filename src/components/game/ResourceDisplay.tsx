@@ -3,7 +3,7 @@ import styles from '@/styles/page.module.scss';
 import { CONFIG } from '@/lib/game/config';
 import { formatNumber } from '@/lib/game/utils';
 import type { GameState, ResourceAmount, ResourceKey } from '@/lib/game/types';
-import resourceStyles from './ResourceDisplay.module.scss';
+import resourceStyles from '@/styles/components/game/ResourceDisplay.module.scss';
 
 interface ResourceDisplayProps {
   state: GameState;

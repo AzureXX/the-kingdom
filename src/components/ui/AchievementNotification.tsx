@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useAchievements } from '@/lib/game/hooks';
 import { ACHIEVEMENTS } from '@/lib/game/config/achievements';
-import styles from './AchievementNotification.module.scss';
+import styles from '@/styles/components/ui/AchievementNotification.module.scss';
 
 interface AchievementNotificationProps {
   onClose?: () => void;

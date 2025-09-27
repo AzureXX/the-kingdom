@@ -8,7 +8,7 @@ import { canBuyBuilding } from '@/lib/game/calculations';
 import type { GameState, BuildingKey, ResourceKey, TechnologyKey, ResourceCost } from '@/lib/game/types';
 
 import styles from '@/styles/page.module.scss';
-import buildingStyles from './BuildingList.module.scss';
+import buildingStyles from '@/styles/components/game/BuildingList.module.scss';
 
 interface BuildingListProps {
   state: GameState;
