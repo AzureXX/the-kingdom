@@ -53,7 +53,7 @@ export interface ValidationError {
   type: 'error';
   category: 'resource' | 'building' | 'technology' | 'action' | 'loopAction' | 'general';
   message: string;
-  details?: Record<string, unknown>;
+  details?: Record<string, string | number | boolean | null | string[] | number[] | object>;
 }
 
 /**
@@ -67,7 +67,7 @@ export interface ValidationWarning {
   type: 'warning';
   category: 'resource' | 'building' | 'technology' | 'action' | 'loopAction' | 'general';
   message: string;
-  details?: Record<string, unknown>;
+  details?: Record<string, string | number | boolean | null | string[] | number[] | object>;
 }
 
 /**

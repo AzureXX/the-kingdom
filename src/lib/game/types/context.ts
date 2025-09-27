@@ -1,4 +1,4 @@
-import type { ActionKey, BuildingKey, PrestigeUpgradeKey, TechnologyKey, ResourceCost, GameState, ActionStatus } from './index';
+import type { ActionKey, BuildingKey, PrestigeUpgradeKey, TechnologyKey, ResourceCost, GameState, ActionStatus, ResourceKey } from './index';
 import type { LoopActionKey } from './loopActions';
 
 /**
@@ -126,7 +126,7 @@ export interface LoopActionButtonProps {
  */
 export interface BaseSceneProps {
   state: GameState;
-  perSec: Partial<Record<string, number>>;
+  perSec: Partial<Record<ResourceKey, number>>;
   fmt: (n: number, decimals?: number) => string;
 }
 
@@ -156,8 +156,9 @@ export interface PrestigeSceneProps extends BaseSceneProps {
  * Interface for performance-related scene components
  */
 export interface PerformanceSceneProps extends BaseSceneProps {
-  performanceMetrics: PerformanceMetrics;
-  performanceFunctions: {
+  // Performance metrics and functions are optional since PerformanceMonitor handles them internally
+  performanceMetrics?: PerformanceMetrics;
+  performanceFunctions?: {
     getPerformanceSuggestions: () => PerformanceSuggestion[];
   };
 }

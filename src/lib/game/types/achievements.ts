@@ -1,5 +1,7 @@
 // Achievement system type definitions
 
+import type { GameState } from './game';
+
 
 /**
  * Unique identifier for an achievement
@@ -200,7 +202,7 @@ export type AchievementSortOption =
  */
 export type AchievementCheckContext = {
   /** Current game state */
-  state: unknown; // Will be GameState when imported
+  state: GameState;
   /** Time since last check (seconds) */
   deltaTime: number;
   /** Whether this is a full check or incremental */

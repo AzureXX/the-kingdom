@@ -5,10 +5,15 @@
 import type { ErrorInfo } from 'react';
 import type { ValidationError } from './validation/resourceValidation';
 
+/**
+ * Type for error log details - more specific than unknown but flexible enough for complex data
+ */
+export type ErrorLogDetails = Record<string, string | number | boolean | null | undefined | string[] | number[] | object>;
+
 export interface ErrorLogOptions {
   level: 'warn' | 'error' | 'log';
   context: string;
-  details?: Record<string, unknown>;
+  details?: ErrorLogDetails;
 }
 
 /**
@@ -24,7 +29,7 @@ export interface GameError {
   category: ErrorCategory;
   context: string;
   timestamp: string;
-  details?: Record<string, unknown>;
+  details?: ErrorLogDetails;
   stack?: string;
 }
 
@@ -35,7 +40,7 @@ export function handleGameError(
   error: Error | string,
   category: ErrorCategory,
   context: string,
-  details?: Record<string, unknown>
+  details?: ErrorLogDetails
 ): GameError {
   const gameError: GameError = {
     message: typeof error === 'string' ? error : error.message,
@@ -64,8 +69,8 @@ export function handleGameError(
 /**
  * Create a validation error handler for input validation
  */
-export function createValidationErrorHandler(context: string): (message: string, details?: Record<string, unknown>) => GameError {
-  return (message: string, details?: Record<string, unknown>) => {
+export function createValidationErrorHandler(context: string): (message: string, details?: ErrorLogDetails) => GameError {
+  return (message: string, details?: ErrorLogDetails) => {
     return handleGameError(message, 'validation', context, details);
   };
 }
@@ -73,8 +78,8 @@ export function createValidationErrorHandler(context: string): (message: string,
 /**
  * Create a calculation error handler for mathematical operations
  */
-export function createCalculationErrorHandler(context: string): (message: string, details?: Record<string, unknown>) => GameError {
-  return (message: string, details?: Record<string, unknown>) => {
+export function createCalculationErrorHandler(context: string): (message: string, details?: ErrorLogDetails) => GameError {
+  return (message: string, details?: ErrorLogDetails) => {
     return handleGameError(message, 'calculation', context, details);
   };
 }
@@ -82,8 +87,8 @@ export function createCalculationErrorHandler(context: string): (message: string
 /**
  * Create a state error handler for state management operations
  */
-export function createStateErrorHandler(context: string): (message: string, details?: Record<string, unknown>) => GameError {
-  return (message: string, details?: Record<string, unknown>) => {
+export function createStateErrorHandler(context: string): (message: string, details?: ErrorLogDetails) => GameError {
+  return (message: string, details?: ErrorLogDetails) => {
     return handleGameError(message, 'state', context, details);
   };
 }
@@ -143,7 +148,7 @@ export function logConfigValidation(isValid: boolean, errors?: ValidationError[]
 /**
  * Log save system operations
  */
-export function logSaveOperation(operation: string, success: boolean, details?: Record<string, unknown>): void {
+export function logSaveOperation(operation: string, success: boolean, details?: ErrorLogDetails): void {
   const message = success 
     ? `✅ ${operation} completed successfully`
     : `❌ ${operation} failed`;
@@ -158,7 +163,7 @@ export function logSaveOperation(operation: string, success: boolean, details?: 
 /**
  * Log error boundary operations for better error tracking and recovery
  */
-export function logErrorBoundaryOperation(operation: string, success: boolean, details?: Record<string, unknown>): void {
+export function logErrorBoundaryOperation(operation: string, success: boolean, details?: ErrorLogDetails): void {
   const message = success 
     ? `✅ ${operation} completed successfully`
     : `❌ ${operation} failed`;

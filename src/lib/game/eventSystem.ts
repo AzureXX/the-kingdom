@@ -1,7 +1,7 @@
 import { CONFIG } from './config';
 import type { EventKey, ResourceKey } from './types';
 import { EVENT_CONSTANTS, GAME_CONSTANTS } from './constants';
-import { addResources, getResource, setResource } from './gameState';
+import { addResources, getResource } from './gameState';
 import { isValidResourceKey } from './utils';
 import { logInvalidKey } from './utils/errorLogger';
 import { applyResourceChanges } from './utils/resourceUpdates';
