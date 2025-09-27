@@ -27,6 +27,29 @@ export {
   type PerformanceBudget
 } from './performanceUtils';
 
+// Performance calculation utilities
+export { 
+  calculatePerformanceScore, 
+  getPerformanceSuggestions 
+} from './performanceCalculations';
+
+// Performance metrics utilities
+export { 
+  updatePerformanceMetrics, 
+  updateHistoricalData, 
+  calculateAverages, 
+  checkMetricsChanged 
+} from './performanceMetrics';
+
+// Game calculation utilities
+export { 
+  calculateTechnologyCosts, 
+  calculateUpgradeCosts, 
+  calculateAllGameCalculations, 
+  createMemoizedCostFor, 
+  createMemoizedCanAfford 
+} from './gameCalculations';
+
 // ============================================================================
 // VALIDATION UTILITIES
 // ============================================================================
