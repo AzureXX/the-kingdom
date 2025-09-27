@@ -36,3 +36,26 @@ export {
   checkPerformanceBudget,
   type PerformanceBudget
 } from './budget';
+
+// Performance analysis utilities
+export {
+  measurePerformanceOverhead,
+  analyzePerformanceMonitoring,
+  logPerformanceAnalysis,
+  type PerformanceOverheadMetrics,
+  type PerformanceAnalysisResult
+} from './analysis';
+
+// Circular buffer utilities
+export {
+  CircularBuffer,
+  PerformanceCircularBuffer
+} from './circularBuffer';
+
+// Cached calculation utilities
+export {
+  calculatePerformanceScoreCached,
+  getPerformanceSuggestionsCached,
+  clearPerformanceCache,
+  getCacheStats
+} from './cachedCalculations';

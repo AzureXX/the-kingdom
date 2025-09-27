@@ -22,7 +22,10 @@ export const GAME_CONSTANTS = {
   // Performance monitoring configuration
   PERFORMANCE_MONITORING: {
     HISTORY_SIZE: 100, // Number of samples to keep for averages
-    UPDATE_INTERVAL: 10, // Update metrics every N frames
+    UPDATE_INTERVAL: 10, // Update basic metrics every N frames
+    MEMORY_UPDATE_INTERVAL: 60, // Update memory usage every 60 frames (3 seconds at 20 FPS)
+    SCORE_UPDATE_INTERVAL: 30, // Update performance score every 30 frames (1.5 seconds at 20 FPS)
+    ENABLED: true, // Enable/disable performance monitoring
     THRESHOLDS: {
       TICK_TIME_WARNING: 50, // 60 FPS = 16.67ms per frame
       RENDER_TIME_WARNING: 500, // Half of 60 FPS

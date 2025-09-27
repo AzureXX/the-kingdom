@@ -4,20 +4,25 @@
  */
 
 import type { PerformanceMetrics } from '../../hooks/usePerformanceMonitor';
+import { PerformanceCircularBuffer } from './circularBuffer';
 
 /**
- * Update performance metrics with new tick data
+ * Update performance metrics with new tick data using different update intervals
  */
 export function updatePerformanceMetrics(
   metricsRef: React.MutableRefObject<PerformanceMetrics>,
   tickDuration: number,
   renderStartTimeRef: React.MutableRefObject<number>,
   frameCountRef: React.MutableRefObject<number>,
-  updateInterval: number
+  updateInterval: number,
+  memoryUpdateInterval: number,
+  scoreUpdateInterval: number
 ): PerformanceMetrics | null {
   frameCountRef.current++;
   
-  // Only update performance metrics every N frames to reduce re-renders
+  let shouldUpdate = false;
+  
+  // Update basic metrics (tick time, render time, FPS) every N frames
   if (frameCountRef.current % updateInterval === 0) {
     // Update tick time with actual measurement
     metricsRef.current.tickTime = tickDuration;
@@ -32,52 +37,54 @@ export function updatePerformanceMetrics(
     metricsRef.current.fps = fps;
     metricsRef.current.frameCount = frameCountRef.current;
     
-    // Update memory usage if available
+    shouldUpdate = true;
+  }
+  
+  // Update memory usage less frequently (every 60 frames = 3 seconds at 20 FPS)
+  if (frameCountRef.current % memoryUpdateInterval === 0) {
     if ('memory' in performance) {
       const memoryInfo = (performance as Performance & { memory: { usedJSHeapSize: number } }).memory;
       metricsRef.current.memoryUsage = memoryInfo.usedJSHeapSize;
     }
-    
-    return metricsRef.current;
+    shouldUpdate = true;
   }
   
-  return null;
+  // Update performance score less frequently (every 30 frames = 1.5 seconds at 20 FPS)
+  if (frameCountRef.current % scoreUpdateInterval === 0) {
+    // Performance score will be calculated in the hook after this function returns
+    shouldUpdate = true;
+  }
+  
+  return shouldUpdate ? metricsRef.current : null;
 }
 
 /**
- * Update historical data arrays for performance metrics
+ * Update historical data using circular buffers for performance metrics
  */
 export function updateHistoricalData(
-  tickTimeHistory: number[],
-  renderTimeHistory: number[],
-  fpsHistory: number[],
+  tickTimeHistory: PerformanceCircularBuffer,
+  renderTimeHistory: PerformanceCircularBuffer,
+  fpsHistory: PerformanceCircularBuffer,
   tickDuration: number,
   renderTime: number,
-  fps: number,
-  historySize: number
+  fps: number
 ): void {
-  // Update historical data (keep last N samples)
+  // Update historical data using circular buffers (automatically handles size limits)
   tickTimeHistory.push(tickDuration);
   renderTimeHistory.push(renderTime);
   fpsHistory.push(fps);
-  
-  if (tickTimeHistory.length > historySize) {
-    tickTimeHistory.shift();
-    renderTimeHistory.shift();
-    fpsHistory.shift();
-  }
 }
 
 /**
- * Calculate average values from historical data
+ * Calculate average values from historical data using circular buffers
  */
 export function calculateAverages(
-  tickTimeHistory: number[],
-  renderTimeHistory: number[]
+  tickTimeHistory: PerformanceCircularBuffer,
+  renderTimeHistory: PerformanceCircularBuffer
 ): { averageTickTime: number; averageRenderTime: number } {
   return {
-    averageTickTime: tickTimeHistory.reduce((a, b) => a + b, 0) / tickTimeHistory.length,
-    averageRenderTime: renderTimeHistory.reduce((a, b) => a + b, 0) / renderTimeHistory.length
+    averageTickTime: tickTimeHistory.getAverage(),
+    averageRenderTime: renderTimeHistory.getAverage()
   };
 }
 

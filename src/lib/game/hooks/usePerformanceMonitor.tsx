@@ -1,13 +1,15 @@
 import { useState, useRef, useMemo, useCallback } from 'react';
 import { GAME_CONSTANTS } from '../constants';
 import { 
-  calculatePerformanceScore, 
-  getPerformanceSuggestions,
   updatePerformanceMetrics, 
   updateHistoricalData, 
   calculateAverages, 
-  checkMetricsChanged 
+  checkMetricsChanged,
+  calculatePerformanceScoreCached, 
+  getPerformanceSuggestionsCached,
+  PerformanceCircularBuffer
 } from '../utils/performance';
+
 
 export interface PerformanceMetrics {
   tickTime: number;
@@ -68,10 +70,16 @@ export function usePerformanceMonitor(updateInterval: number = GAME_CONSTANTS.PE
   // Track frame count for performance metrics updates
   const frameCountRef = useRef<number>(0);
 
-  // Historical data for averages
-  const tickTimeHistoryRef = useRef<number[]>([]);
-  const renderTimeHistoryRef = useRef<number[]>([]);
-  const fpsHistoryRef = useRef<number[]>([]);
+  // Historical data for averages using circular buffers
+  const tickTimeHistoryRef = useRef<PerformanceCircularBuffer>(
+    new PerformanceCircularBuffer(GAME_CONSTANTS.PERFORMANCE_MONITORING.HISTORY_SIZE)
+  );
+  const renderTimeHistoryRef = useRef<PerformanceCircularBuffer>(
+    new PerformanceCircularBuffer(GAME_CONSTANTS.PERFORMANCE_MONITORING.HISTORY_SIZE)
+  );
+  const fpsHistoryRef = useRef<PerformanceCircularBuffer>(
+    new PerformanceCircularBuffer(GAME_CONSTANTS.PERFORMANCE_MONITORING.HISTORY_SIZE)
+  );
 
   // Performance thresholds
   const thresholds = GAME_CONSTANTS.PERFORMANCE_MONITORING.THRESHOLDS;
@@ -84,34 +92,40 @@ export function usePerformanceMonitor(updateInterval: number = GAME_CONSTANTS.PE
     fpsWarning: thresholds.FPS_WARNING
   }), [thresholds]);
 
-  // Generate performance suggestions - memoized for performance
+  // Generate performance suggestions - memoized for performance with caching
   const getPerformanceSuggestionsMemo = useMemo(() => {
     return (): PerformanceSuggestion[] => {
-      return getPerformanceSuggestions(performanceMetricsRef.current, thresholdsObject);
+      return getPerformanceSuggestionsCached(performanceMetricsRef.current, thresholdsObject);
     };
   }, [thresholdsObject]);
 
   // Update performance metrics in refs (no re-renders)
   const updateMetrics = useCallback((tickDuration: number) => {
-    // Update performance metrics using utility function
+    // Skip performance monitoring if disabled
+    if (!GAME_CONSTANTS.PERFORMANCE_MONITORING.ENABLED) {
+      return;
+    }
+    
+    // Update performance metrics using utility function with different update intervals
     const updatedMetrics = updatePerformanceMetrics(
       performanceMetricsRef,
       tickDuration,
       renderStartTimeRef,
       frameCountRef,
-      updateInterval
+      updateInterval,
+      GAME_CONSTANTS.PERFORMANCE_MONITORING.MEMORY_UPDATE_INTERVAL,
+      GAME_CONSTANTS.PERFORMANCE_MONITORING.SCORE_UPDATE_INTERVAL
     );
     
     if (updatedMetrics) {
-      // Update historical data
+      // Update historical data using circular buffers
       updateHistoricalData(
         tickTimeHistoryRef.current,
         renderTimeHistoryRef.current,
         fpsHistoryRef.current,
         tickDuration,
         updatedMetrics.renderTime,
-        updatedMetrics.fps,
-        GAME_CONSTANTS.PERFORMANCE_MONITORING.HISTORY_SIZE
+        updatedMetrics.fps
       );
       
       // Calculate averages
@@ -119,11 +133,13 @@ export function usePerformanceMonitor(updateInterval: number = GAME_CONSTANTS.PE
       performanceMetricsRef.current.averageTickTime = averages.averageTickTime;
       performanceMetricsRef.current.averageRenderTime = averages.averageRenderTime;
       
-      // Calculate performance score
-      performanceMetricsRef.current.performanceScore = calculatePerformanceScore(
-        performanceMetricsRef.current, 
-        thresholdsObject
-      );
+      // Calculate performance score only when score update interval is reached
+      if (frameCountRef.current % GAME_CONSTANTS.PERFORMANCE_MONITORING.SCORE_UPDATE_INTERVAL === 0) {
+        performanceMetricsRef.current.performanceScore = calculatePerformanceScoreCached(
+          performanceMetricsRef.current, 
+          thresholdsObject
+        );
+      }
       
       // Only trigger re-render if metrics have actually changed
       if (checkMetricsChanged(performanceMetricsRef.current, performanceMetrics)) {
