@@ -130,7 +130,7 @@ export function processResourceChanges(
   try {
     return applyResourceChanges(state, changes);
   } catch (error) {
-    createStateErrorHandler(context)(`Failed to process resource changes in ${context}`, { error: error instanceof Error ? error.message : String(error) });
+    stateErrorHandler(`Failed to process resource changes in ${context}`, { error: error instanceof Error ? error.message : String(error) });
     return state; // Return original state on error
   }
 }
