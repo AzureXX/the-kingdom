@@ -57,7 +57,7 @@ export interface ValidationResult {
  */
 export interface ValidationError {
   type: 'error';
-  category: 'resource' | 'building' | 'technology' | 'action' | 'general';
+  category: 'resource' | 'building' | 'technology' | 'action' | 'loopAction' | 'general';
   message: string;
   details?: Record<string, unknown>;
 }
@@ -71,7 +71,7 @@ export interface ValidationError {
  */
 export interface ValidationWarning {
   type: 'warning';
-  category: 'resource' | 'building' | 'technology' | 'action' | 'general';
+  category: 'resource' | 'building' | 'technology' | 'action' | 'loopAction' | 'general';
   message: string;
   details?: Record<string, unknown>;
 }

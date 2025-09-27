@@ -30,6 +30,7 @@ export const CONFIG = Object.freeze({
   prestige: PRESTIGE_CONFIG,
   events: EVENTS,
   actions: ACTIONS,
+  loopActions: LOOP_ACTIONS,
   achievements: ACHIEVEMENTS,
 });
 
@@ -48,6 +49,7 @@ export function validateConfiguration(): void {
       buildings: BUILDINGS,
       technologies: TECHNOLOGIES,
       actions: ACTIONS,
+      loopActions: LOOP_ACTIONS,
     });
 
     if (validationResult.isValid) {
@@ -86,6 +88,7 @@ export function getConfigurationStatus() {
       buildings: BUILDINGS,
       technologies: TECHNOLOGIES,
       actions: ACTIONS,
+      loopActions: LOOP_ACTIONS,
     });
   } catch (error) {
     return {

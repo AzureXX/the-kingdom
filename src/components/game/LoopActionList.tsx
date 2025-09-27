@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { LoopActionButton } from './LoopActionButton';
-import { LOOP_ACTIONS } from '../../lib/game/config/loopActions';
+import { LOOP_ACTIONS } from '../../lib/game/config';
 import type { LoopActionKey, LoopActionState } from '../../lib/game/types/loopActions';
 import type { GameState } from '../../lib/game/types/game';
 import { canStartLoopAction } from '../../lib/game/loopActionEngine';
