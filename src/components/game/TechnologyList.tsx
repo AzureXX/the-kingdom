@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import styles from '@/styles/page.module.scss';
 import { CONFIG } from '@/lib/game/config';
 import type { TechnologyKey, ResourceKey, GameState } from '@/lib/game/types';
@@ -15,6 +15,7 @@ export const TechnologyList = memo(function TechnologyList({ state, onResearchTe
   const researchProgress = getResearchProgress(state);
   const timeRemaining = getResearchTimeRemaining(state);
   const activeResearch = state.research.activeResearch;
+  const [hoveredTech, setHoveredTech] = useState<TechnologyKey | null>(null);
 
   const formatPrerequisites = (requiredTechs: TechnologyKey | TechnologyKey[] | undefined): string => {
     if (!requiredTechs) return '';
@@ -62,8 +63,16 @@ export const TechnologyList = memo(function TechnologyList({ state, onResearchTe
         const isCurrentlyResearching = activeResearch === techKey;
         const prerequisites = formatPrerequisites(tech.requiresTech);
         
+        const tooltipText = `${tech.name}\n${tech.desc}\n\nCost: ${cost}\nTime: ${tech.researchTime}s${prerequisites ? `\nRequires: ${prerequisites}` : ''}${tech.unlocksBuildings ? `\nUnlocks: ${tech.unlocksBuildings.map(b => CONFIG.buildings[b].name).join(', ')}` : ''}`;
+        
         return (
-          <div key={techKey} className={styles.build}>
+          <div 
+            key={techKey} 
+            className={styles.build}
+            onMouseEnter={() => setHoveredTech(techKey)}
+            onMouseLeave={() => setHoveredTech(null)}
+            title={tooltipText}
+          >
             <span className={styles.icon} style={{ color: canResearch ? '#4CAF50' : '#FF9800' }}>
               <svg className={styles.icon}>
                 <use href={`#${tech.icon}`}></use>
@@ -73,23 +82,14 @@ export const TechnologyList = memo(function TechnologyList({ state, onResearchTe
               <div className={styles.name}>
                 {tech.name}
                 {prerequisites && (
-                  <span className={styles.pill}>Requires: {prerequisites}</span>
+                  <span className={styles.pill}>🔗</span>
                 )}
                 {!canResearch && !isCurrentlyResearching && (
                   <span className={styles.pill} style={{ backgroundColor: '#FF9800', color: '#000' }}>
-                    Insufficient Resources
+                    ⚠
                   </span>
                 )}
               </div>
-              <div className={`${styles.tiny} ${styles.dim}`}>{tech.desc}</div>
-              <div className={styles.tiny}>
-                Cost: {cost} • Time: {tech.researchTime}s
-              </div>
-              {tech.unlocksBuildings && (
-                <div className={styles.tiny}>
-                  Unlocks: {tech.unlocksBuildings.map(b => CONFIG.buildings[b].name).join(', ')}
-                </div>
-              )}
             </div>
             <div>
               <button 

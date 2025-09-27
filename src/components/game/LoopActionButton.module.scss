@@ -5,10 +5,10 @@
 
 .button {
   position: relative;
-  width: 80px;
-  height: 80px;
-  border: 2px solid #4a5568;
-  border-radius: 12px;
+  width: 50px;
+  height: 50px;
+  border: 1px solid #4a5568;
+  border-radius: 8px;
   background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
   color: white;
   cursor: pointer;
@@ -18,7 +18,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
+  font-size: 16px;
   
   &:hover {
     transform: translateY(-2px);
@@ -74,7 +74,7 @@
 .icon {
   z-index: 2;
   position: relative;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .progressBar {
@@ -82,9 +82,9 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 6px;
+  height: 4px;
   background: rgba(0, 0, 0, 0.3);
-  border-radius: 0 0 10px 10px;
+  border-radius: 0 0 6px 6px;
   overflow: hidden;
 }
 
@@ -92,18 +92,18 @@
   height: 100%;
   background: linear-gradient(90deg, #48bb78 0%, #68d391 100%);
   transition: width 0.3s ease;
-  border-radius: 0 0 10px 10px;
+  border-radius: 0 0 6px 6px;
 }
 
 .loopCount {
   position: absolute;
-  top: 4px;
-  right: 4px;
+  top: 2px;
+  right: 2px;
   background: rgba(0, 0, 0, 0.7);
   color: white;
-  font-size: 10px;
-  padding: 2px 4px;
-  border-radius: 8px;
+  font-size: 8px;
+  padding: 1px 3px;
+  border-radius: 6px;
   z-index: 3;
 }
 

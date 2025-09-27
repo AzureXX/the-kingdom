@@ -34,49 +34,55 @@ export const ActionsScene = memo(function ActionsScene({
       </header>
 
       <main className={styles.sceneContent}>
-        <section style={{ marginBottom: '2rem' }}>
-          <h2 style={{ margin: '0 0 1rem 0', color: '#ffffff', fontSize: '1.25rem' }}>
-            Resources
-          </h2>
-          <ResourceDisplay state={state} perSec={perSec} />
-        </section>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+          <div>
+            <section style={{ marginBottom: '1.5rem' }}>
+              <h2 style={{ margin: '0 0 1rem 0', color: '#ffffff', fontSize: '1.25rem' }}>
+                Resources
+              </h2>
+              <ResourceDisplay state={state} perSec={perSec} />
+            </section>
 
-        <section style={{ marginBottom: '2rem' }}>
-          <h2 style={{ margin: '0 0 1rem 0', color: '#ffffff', fontSize: '1.25rem' }}>
-            Manual Actions
-          </h2>
-          <ActionList 
-            state={state} 
-            onExecuteAction={onExecuteAction} 
-            fmt={fmt} 
-          />
-          <p style={{ 
-            margin: '0.5rem 0 0 0', 
-            color: '#888', 
-            fontSize: '0.9rem', 
-            fontStyle: 'italic' 
-          }}>
-            Actions unlock through progression and building construction.
-          </p>
-        </section>
+            <section>
+              <h2 style={{ margin: '0 0 1rem 0', color: '#ffffff', fontSize: '1.25rem' }}>
+                Manual Actions
+              </h2>
+              <ActionList 
+                state={state} 
+                onExecuteAction={onExecuteAction} 
+                fmt={fmt} 
+              />
+              <p style={{ 
+                margin: '0.5rem 0 0 0', 
+                color: '#888', 
+                fontSize: '0.9rem', 
+                fontStyle: 'italic' 
+              }}>
+                Actions unlock through progression and building construction.
+              </p>
+            </section>
+          </div>
 
-        <section>
-          <h2 style={{ margin: '0 0 1rem 0', color: '#ffffff', fontSize: '1.25rem' }}>
-            Automated Loop Actions
-          </h2>
-          <LoopActionList 
-            gameState={state} 
-            onToggleLoopAction={onToggleLoopAction} 
-          />
-          <p style={{ 
-            margin: '0.5rem 0 0 0', 
-            color: '#888', 
-            fontSize: '0.9rem', 
-            fontStyle: 'italic' 
-          }}>
-            Loop actions run continuously and provide passive resource generation.
-          </p>
-        </section>
+          <div>
+            <section>
+              <h2 style={{ margin: '0 0 1rem 0', color: '#ffffff', fontSize: '1.25rem' }}>
+                Automated Loop Actions
+              </h2>
+              <LoopActionList 
+                gameState={state} 
+                onToggleLoopAction={onToggleLoopAction} 
+              />
+              <p style={{ 
+                margin: '0.5rem 0 0 0', 
+                color: '#888', 
+                fontSize: '0.9rem', 
+                fontStyle: 'italic' 
+              }}>
+                Loop actions run continuously and provide passive resource generation.
+              </p>
+            </section>
+          </div>
+        </div>
       </main>
 
       <footer className={styles.sceneFooter}>

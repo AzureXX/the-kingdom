@@ -90,11 +90,6 @@ export const ActionButton = memo(function ActionButton({ actionKey, status, onEx
     >
       <span className={styles.actionIcon}>{action.icon}</span>
       <span className={styles.actionName}>{getButtonText()}</span>
-      {Object.keys(status.cost).length > 0 && (
-        <span className={styles.actionCost}>
-          {formatCost(status.cost)}
-        </span>
-      )}
     </button>
   );
 });

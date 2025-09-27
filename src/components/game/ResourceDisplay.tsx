@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import styles from '@/styles/page.module.scss';
 import { CONFIG } from '@/lib/game/config';
 import { formatNumber } from '@/lib/game/utils';
@@ -11,6 +11,8 @@ interface ResourceDisplayProps {
 }
 
 export const ResourceDisplay = memo(function ResourceDisplay({ state, perSec }: ResourceDisplayProps): React.JSX.Element {
+  const [hoveredResource, setHoveredResource] = useState<ResourceKey | null>(null);
+
   return (
     <div className={styles.resources}>
       {Object.keys(CONFIG.resources).map((resourceKey) => {
@@ -24,8 +26,18 @@ export const ResourceDisplay = memo(function ResourceDisplay({ state, perSec }: 
           return null;
         }
         
+        const tooltipText = `${resource.name}: ${formatNumber(value, resource.decimals)}\n${
+          state.isPaused ? 'PAUSED' : `${perSecond >= 0 ? '+' : ''}${formatNumber(perSecond, resource.decimals)}/s`
+        }`;
+        
         return (
-          <div key={resourceKey} className={styles.res}>
+          <div 
+            key={resourceKey} 
+            className={styles.res}
+            onMouseEnter={() => setHoveredResource(resourceKey as ResourceKey)}
+            onMouseLeave={() => setHoveredResource(null)}
+            title={tooltipText}
+          >
             <span className={`${styles.icon} ${resourceStyles.resourceIcon} ${
               resourceKey === 'prestige' ? resourceStyles.prestige : 
               resourceKey === 'researchPoints' ? resourceStyles.researchPoints : 
@@ -37,10 +49,10 @@ export const ResourceDisplay = memo(function ResourceDisplay({ state, perSec }: 
             </span>
             <div className={styles.meta}>
               <div className={styles.amt}>
-                {resource.name}: {formatNumber(value, resource.decimals)}
+                {formatNumber(value, resource.decimals)}
               </div>
               <small className={`${styles.tiny} ${cls}`}>
-                {state.isPaused ? 'PAUSED' : `${perSecond >= 0 ? '+' : ''}${formatNumber(perSecond, resource.decimals)}/s`}
+                {state.isPaused ? '⏸' : `${perSecond >= 0 ? '+' : ''}${formatNumber(perSecond, resource.decimals)}/s`}
               </small>
             </div>
           </div>

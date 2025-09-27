@@ -37,158 +37,164 @@ export const ResearchScene = memo(function ResearchScene({
       </header>
 
       <main className={styles.sceneContent}>
-        <section style={{ marginBottom: '2rem' }}>
-          <h2 style={{ margin: '0 0 1rem 0', color: '#ffffff', fontSize: '1.25rem' }}>
-            Resources
-          </h2>
-          <ResourceDisplay state={state} perSec={perSec} />
-        </section>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+          <div>
+            <section style={{ marginBottom: '1.5rem' }}>
+              <h2 style={{ margin: '0 0 1rem 0', color: '#ffffff', fontSize: '1.25rem' }}>
+                Resources
+              </h2>
+              <ResourceDisplay state={state} perSec={perSec} />
+            </section>
 
-        {activeResearch && (
-          <section style={{ 
-            marginBottom: '2rem',
-            background: 'rgba(255, 152, 0, 0.1)',
-            border: '1px solid rgba(255, 152, 0, 0.3)',
-            borderRadius: '8px',
-            padding: '1rem'
-          }}>
-            <h3 style={{ margin: '0 0 1rem 0', color: '#FF9800', fontSize: '1.1rem' }}>
-              🔬 Currently Researching
-            </h3>
-            <div style={{ 
-              display: 'flex', 
-              justifyContent: 'space-between', 
-              alignItems: 'center',
-              marginBottom: '0.5rem',
-              flexWrap: 'wrap',
-              gap: '0.5rem'
-            }}>
-              <span style={{ color: '#ffffff', fontWeight: 'bold' }}>
-                {state.research.activeResearch}
-              </span>
-              <span style={{ color: '#FF9800', fontSize: '0.9rem' }}>
-                {researchProgress.toFixed(1)}% complete
-              </span>
-            </div>
-            <div style={{ 
-              background: 'rgba(0, 0, 0, 0.3)',
-              borderRadius: '4px',
-              height: '8px',
-              overflow: 'hidden',
-              marginBottom: '0.5rem'
-            }}>
+            {activeResearch && (
+              <section style={{ 
+                marginBottom: '1.5rem',
+                background: 'rgba(255, 152, 0, 0.1)',
+                border: '1px solid rgba(255, 152, 0, 0.3)',
+                borderRadius: '8px',
+                padding: '1rem'
+              }}>
+                <h3 style={{ margin: '0 0 1rem 0', color: '#FF9800', fontSize: '1.1rem' }}>
+                  🔬 Currently Researching
+                </h3>
+                <div style={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  alignItems: 'center',
+                  marginBottom: '0.5rem',
+                  flexWrap: 'wrap',
+                  gap: '0.5rem'
+                }}>
+                  <span style={{ color: '#ffffff', fontWeight: 'bold' }}>
+                    {state.research.activeResearch}
+                  </span>
+                  <span style={{ color: '#FF9800', fontSize: '0.9rem' }}>
+                    {researchProgress.toFixed(1)}% complete
+                  </span>
+                </div>
+                <div style={{ 
+                  background: 'rgba(0, 0, 0, 0.3)',
+                  borderRadius: '4px',
+                  height: '8px',
+                  overflow: 'hidden',
+                  marginBottom: '0.5rem'
+                }}>
+                  <div style={{ 
+                    background: 'linear-gradient(90deg, #FF9800, #FFC107)',
+                    height: '100%',
+                    width: `${researchProgress}%`,
+                    transition: 'width 0.3s ease'
+                  }} />
+                </div>
+                <div style={{ color: '#b0b0b0', fontSize: '0.9rem' }}>
+                  Time remaining: {timeRemaining}s
+                </div>
+              </section>
+            )}
+
+            <section>
               <div style={{ 
-                background: 'linear-gradient(90deg, #FF9800, #FFC107)',
-                height: '100%',
-                width: `${researchProgress}%`,
-                transition: 'width 0.3s ease'
-              }} />
-            </div>
-            <div style={{ color: '#b0b0b0', fontSize: '0.9rem' }}>
-              Time remaining: {timeRemaining}s
-            </div>
-          </section>
-        )}
-
-        <section style={{ marginBottom: '2rem' }}>
-          <div style={{ 
-            display: 'flex', 
-            justifyContent: 'space-between', 
-            alignItems: 'center', 
-            marginBottom: '1rem',
-            flexWrap: 'wrap',
-            gap: '1rem'
-          }}>
-            <h2 style={{ margin: 0, color: '#ffffff', fontSize: '1.25rem' }}>
-              Technologies
-            </h2>
-            <div style={{ 
-              display: 'flex', 
-              gap: '1rem', 
-              fontSize: '0.9rem',
-              color: '#b0b0b0'
-            }}>
-              <span>Researched: <strong style={{ color: '#FF9800' }}>{researchedCount}/{totalTechnologies}</strong></span>
-              {activeResearch && (
-                <span>Progress: <strong style={{ color: '#FF9800' }}>{researchProgress.toFixed(1)}%</strong></span>
-              )}
-            </div>
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'center', 
+                marginBottom: '1rem',
+                flexWrap: 'wrap',
+                gap: '1rem'
+              }}>
+                <h2 style={{ margin: 0, color: '#ffffff', fontSize: '1.25rem' }}>
+                  Technologies
+                </h2>
+                <div style={{ 
+                  display: 'flex', 
+                  gap: '1rem', 
+                  fontSize: '0.9rem',
+                  color: '#b0b0b0'
+                }}>
+                  <span>Researched: <strong style={{ color: '#FF9800' }}>{researchedCount}/{totalTechnologies}</strong></span>
+                  {activeResearch && (
+                    <span>Progress: <strong style={{ color: '#FF9800' }}>{researchProgress.toFixed(1)}%</strong></span>
+                  )}
+                </div>
+              </div>
+              
+              <TechnologyList 
+                state={state} 
+                onResearchTechnology={onResearchTechnology} 
+              />
+              
+              <p style={{ 
+                margin: '0.5rem 0 0 0', 
+                color: '#888', 
+                fontSize: '0.9rem', 
+                fontStyle: 'italic' 
+              }}>
+                Research technologies to unlock advanced buildings and new capabilities.
+              </p>
+            </section>
           </div>
-          
-          <TechnologyList 
-            state={state} 
-            onResearchTechnology={onResearchTechnology} 
-          />
-          
-          <p style={{ 
-            margin: '0.5rem 0 0 0', 
-            color: '#888', 
-            fontSize: '0.9rem', 
-            fontStyle: 'italic' 
-          }}>
-            Research technologies to unlock advanced buildings and new capabilities.
-          </p>
-        </section>
 
-        <section>
-          <h3 style={{ margin: '0 0 1rem 0', color: '#ffffff', fontSize: '1.1rem' }}>
-            Research Benefits
-          </h3>
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
-            gap: '1rem',
-            marginTop: '1rem'
-          }}>
-            <div style={{ 
-              background: 'rgba(255, 152, 0, 0.1)', 
-              border: '1px solid rgba(255, 152, 0, 0.3)',
-              borderRadius: '8px',
-              padding: '1rem',
-              textAlign: 'center'
-            }}>
-              <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>🏗️</div>
-              <div style={{ fontWeight: 'bold', color: '#FF9800', marginBottom: '0.25rem' }}>
-                Unlock Buildings
+          <div>
+            <section>
+              <h3 style={{ margin: '0 0 1rem 0', color: '#ffffff', fontSize: '1.1rem' }}>
+                Research Benefits
+              </h3>
+              <div style={{ 
+                display: 'grid', 
+                gridTemplateColumns: '1fr', 
+                gap: '1rem',
+                marginTop: '1rem'
+              }}>
+                <div style={{ 
+                  background: 'rgba(255, 152, 0, 0.1)', 
+                  border: '1px solid rgba(255, 152, 0, 0.3)',
+                  borderRadius: '8px',
+                  padding: '1rem',
+                  textAlign: 'center'
+                }}>
+                  <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>🏗️</div>
+                  <div style={{ fontWeight: 'bold', color: '#FF9800', marginBottom: '0.25rem' }}>
+                    Unlock Buildings
+                  </div>
+                  <div style={{ fontSize: '0.9rem', color: '#b0b0b0' }}>
+                    Advanced buildings require research
+                  </div>
+                </div>
+                
+                <div style={{ 
+                  background: 'rgba(255, 152, 0, 0.1)', 
+                  border: '1px solid rgba(255, 152, 0, 0.3)',
+                  borderRadius: '8px',
+                  padding: '1rem',
+                  textAlign: 'center'
+                }}>
+                  <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>⚡</div>
+                  <div style={{ fontWeight: 'bold', color: '#FF9800', marginBottom: '0.25rem' }}>
+                    New Actions
+                  </div>
+                  <div style={{ fontSize: '0.9rem', color: '#b0b0b0' }}>
+                    Research unlocks powerful actions
+                  </div>
+                </div>
+                
+                <div style={{ 
+                  background: 'rgba(255, 152, 0, 0.1)', 
+                  border: '1px solid rgba(255, 152, 0, 0.3)',
+                  borderRadius: '8px',
+                  padding: '1rem',
+                  textAlign: 'center'
+                }}>
+                  <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>🔬</div>
+                  <div style={{ fontWeight: 'bold', color: '#FF9800', marginBottom: '0.25rem' }}>
+                    Research Points
+                  </div>
+                  <div style={{ fontSize: '0.9rem', color: '#b0b0b0' }}>
+                    Earn research points for discoveries
+                  </div>
+                </div>
               </div>
-              <div style={{ fontSize: '0.9rem', color: '#b0b0b0' }}>
-                Advanced buildings require research
-              </div>
-            </div>
-            
-            <div style={{ 
-              background: 'rgba(255, 152, 0, 0.1)', 
-              border: '1px solid rgba(255, 152, 0, 0.3)',
-              borderRadius: '8px',
-              padding: '1rem',
-              textAlign: 'center'
-            }}>
-              <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>⚡</div>
-              <div style={{ fontWeight: 'bold', color: '#FF9800', marginBottom: '0.25rem' }}>
-                New Actions
-              </div>
-              <div style={{ fontSize: '0.9rem', color: '#b0b0b0' }}>
-                Research unlocks powerful actions
-              </div>
-            </div>
-            
-            <div style={{ 
-              background: 'rgba(255, 152, 0, 0.1)', 
-              border: '1px solid rgba(255, 152, 0, 0.3)',
-              borderRadius: '8px',
-              padding: '1rem',
-              textAlign: 'center'
-            }}>
-              <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>🔬</div>
-              <div style={{ fontWeight: 'bold', color: '#FF9800', marginBottom: '0.25rem' }}>
-                Research Points
-              </div>
-              <div style={{ fontSize: '0.9rem', color: '#b0b0b0' }}>
-                Earn research points for discoveries
-              </div>
-            </div>
+            </section>
           </div>
-        </section>
+        </div>
       </main>
 
       <footer className={styles.sceneFooter}>
