@@ -24,11 +24,21 @@ export function getMultipliers(state: GameState): Multipliers {
       throw new Error('Invalid state parameter');
     }
 
+    const prodMul: Partial<Record<ResourceKey, number>> = {};
+    const useMul: Partial<Record<ResourceKey, number>> = {};
+    
+    // Initialize all resource multipliers with default value of 1
+    const resourceKeys: ResourceKey[] = ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'];
+    for (const key of resourceKeys) {
+      prodMul[key] = 1;
+      useMul[key] = 1;
+    }
+    
     const ctx: Multipliers = {
       clickGain: GAME_CONSTANTS.GAME.DEFAULT_MULTIPLIER,
       cost: GAME_CONSTANTS.GAME.DEFAULT_MULTIPLIER,
-      prodMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 },
-      useMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 },
+      prodMul,
+      useMul,
     };
     
     for (const key in PRESTIGE_CONFIG.upgrades) {

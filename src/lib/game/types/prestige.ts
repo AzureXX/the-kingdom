@@ -19,8 +19,8 @@ export type PrestigeUpgradeDef = {
     level: number,
     ctx: {
       muls: { clickGain: number; cost: number };
-      prodMul: Record<ResourceKey, number>;
-      useMul: Record<ResourceKey, number>;
+      prodMul: Partial<Record<ResourceKey, number>>;
+      useMul: Partial<Record<ResourceKey, number>>;
     }
   ) => void;
 };

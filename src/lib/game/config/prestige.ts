@@ -11,8 +11,8 @@ export const PRESTIGE_CONFIG = {
       max: 20,
       effect: (lvl: number, ctx: {
         muls: { clickGain: number; cost: number };
-        prodMul: Record<ResourceKey, number>;
-        useMul: Record<ResourceKey, number>;
+        prodMul: Partial<Record<ResourceKey, number>>;
+        useMul: Partial<Record<ResourceKey, number>>;
       }) => {
         ctx.muls.clickGain *= 1 + 0.25 * lvl;
       },
@@ -25,8 +25,8 @@ export const PRESTIGE_CONFIG = {
       max: 25,
       effect: (lvl: number, ctx: {
         muls: { clickGain: number; cost: number };
-        prodMul: Record<ResourceKey, number>;
-        useMul: Record<ResourceKey, number>;
+        prodMul: Partial<Record<ResourceKey, number>>;
+        useMul: Partial<Record<ResourceKey, number>>;
       }) => {
         ctx.muls.cost *= Math.pow(0.97, lvl);
       },
@@ -39,10 +39,10 @@ export const PRESTIGE_CONFIG = {
       max: 25,
       effect: (lvl: number, ctx: {
         muls: { clickGain: number; cost: number };
-        prodMul: Record<ResourceKey, number>;
-        useMul: Record<ResourceKey, number>;
+        prodMul: Partial<Record<ResourceKey, number>>;
+        useMul: Partial<Record<ResourceKey, number>>;
       }) => {
-        ctx.prodMul.food *= Math.pow(1.2, lvl);
+        ctx.prodMul.food = (ctx.prodMul.food || 1) * Math.pow(1.2, lvl);
       },
     },
     militaryMight: {
@@ -53,10 +53,10 @@ export const PRESTIGE_CONFIG = {
       max: 20,
       effect: (lvl: number, ctx: {
         muls: { clickGain: number; cost: number };
-        prodMul: Record<ResourceKey, number>;
-        useMul: Record<ResourceKey, number>;
+        prodMul: Partial<Record<ResourceKey, number>>;
+        useMul: Partial<Record<ResourceKey, number>>;
       }) => {
-        ctx.prodMul.prestige *= Math.pow(1.2, lvl);
+        ctx.prodMul.prestige = (ctx.prodMul.prestige || 1) * Math.pow(1.2, lvl);
       },
     },
   } as Record<PrestigeUpgradeKey, PrestigeUpgradeDef>,

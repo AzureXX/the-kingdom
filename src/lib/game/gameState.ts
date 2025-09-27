@@ -1,13 +1,13 @@
-import { CONFIG } from './config';
 import type { ResourceKey, TechnologyKey, BuildingKey, PrestigeUpgradeKey, ResourceCost, ResourceProduction } from './types';
-import { GAME_CONSTANTS, EVENT_CONSTANTS } from './constants';
+import { GAME_CONSTANTS } from './constants';
 import type { GameState } from './types';
 import { isValidBuildingKey } from './utils';
 import { logInvalidKey, createValidationErrorHandler, createStateErrorHandler } from './utils/errorLogger';
-import { DEFAULT_LOOP_SETTINGS } from './config/loopActions';
-import { initAchievementState, checkAchievements } from './achievementSystem';
+import { checkAchievements } from './achievementSystem';
+import { createNewGameState } from './initializers/gameStateFactory';
+import { CONFIG } from './config';
 
-const { resources: RESOURCES, buildings: BUILDINGS, technologies: TECHNOLOGIES, prestige: PRESTIGE_CONFIG, version: CONFIG_VERSION } = CONFIG;
+const { buildings: BUILDINGS } = CONFIG;
 
 // Create specialized error handlers for game state
 const validationHandler = createValidationErrorHandler('gameState');
@@ -15,67 +15,15 @@ const stateErrorHandler = createStateErrorHandler('gameState');
 
 /**
  * Initialize a new game state with default values
+ * 
+ * @remarks
+ * This function now uses the game state factory to create a new game state.
+ * The factory composes all individual state initializers for better organization
+ * and maintainability.
  */
 export function initNewGame(): GameState {
   try {
-    const state: GameState = {
-      t: Date.now(),
-      resources: {},
-      lifetime: {},
-      buildings: {} as Record<BuildingKey, number>,
-      technologies: {} as Record<TechnologyKey, number>,
-      upgrades: {} as Record<PrestigeUpgradeKey, number>,
-      clicks: 0,
-      version: CONFIG_VERSION,
-      isPaused: false,
-      events: {
-        activeEvent: null,
-        activeEventStartTime: 0,
-        nextEventTime: Date.now() + (Math.random() * (EVENT_CONSTANTS.INITIAL_MAX_INTERVAL_SECONDS - EVENT_CONSTANTS.INITIAL_MIN_INTERVAL_SECONDS) + EVENT_CONSTANTS.INITIAL_MIN_INTERVAL_SECONDS) * GAME_CONSTANTS.TIME_CONSTANTS.MILLISECONDS_PER_SECOND,
-        eventHistory: [],
-      },
-      research: {
-        activeResearch: null,
-        researchStartTime: 0,
-        researchEndTime: 0,
-      },
-      actions: {
-        unlocks: {},
-        cooldowns: {},
-      },
-      loopActions: [],
-      loopSettings: DEFAULT_LOOP_SETTINGS,
-      achievements: initAchievementState(),
-      achievementMultipliers: {
-        clickGain: 1,
-        cost: 1,
-        prodMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 },
-        useMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 },
-      },
-    };
-    
-    // Initialize resources with starting values
-    for (const k in RESOURCES) {
-      const key = k as ResourceKey;
-      state.resources[key] = RESOURCES[key].start || 0;
-    }
-    
-    // Initialize buildings dynamically from CONFIG
-    for (const buildingKey of Object.keys(BUILDINGS)) {
-      state.buildings[buildingKey as BuildingKey] = 0;
-    }
-    
-    // Initialize technologies dynamically from CONFIG
-    for (const techKey of Object.keys(TECHNOLOGIES)) {
-      state.technologies[techKey as TechnologyKey] = 0;
-    }
-    
-    // Initialize upgrades dynamically from CONFIG
-    for (const upgradeKey of Object.keys(PRESTIGE_CONFIG.upgrades)) {
-      state.upgrades[upgradeKey as PrestigeUpgradeKey] = 0;
-    }
-    
-    return state;
+    return createNewGameState();
   } catch (error) {
     stateErrorHandler('Failed to initialize new game state', { error: error instanceof Error ? error.message : String(error) });
     throw error; // Re-throw for critical initialization errors
