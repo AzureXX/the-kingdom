@@ -10,15 +10,28 @@ export { debounce } from './performanceUtils';
 // Validation utilities
 export { 
   isValidResourceKey, 
-  isValidBuildingKey, 
-  isValidTechnologyKey,
-  validateGameConfig,
   validateResources,
-  validateBuildings,
-  validateTechnologies,
-  validateActions,
-  formatValidationResults,
+  validateResourceOperation,
   type ValidationResult,
   type ValidationError,
   type ValidationWarning
-} from './validationUtils';
+} from './validation/resourceValidation';
+
+export { 
+  isValidBuildingKey, 
+  validateBuildings
+} from './validation/buildingValidation';
+
+export { 
+  isValidTechnologyKey,
+  validateTechnologies
+} from './validation/technologyValidation';
+
+export { 
+  validateActions
+} from './validation/actionValidation';
+
+export { 
+  validateGameConfig,
+  formatValidationResults
+} from './validation/crossReferenceValidation';

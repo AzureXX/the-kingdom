@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo } from 'react';
 
 import { CONFIG } from '@/lib/game/config';
 import { formatNumber } from '@/lib/game/utils';
@@ -18,7 +18,6 @@ interface BuildingListProps {
 
 export const BuildingList = memo(function BuildingList({ state, costFor, onBuyBuilding }: BuildingListProps): React.JSX.Element {
   const unlockedBuildings = getUnlockedBuildings(state);
-  const [hoveredBuilding, setHoveredBuilding] = useState<BuildingKey | null>(null);
 
   const formatTechnologyRequirements = (requiredTechs: TechnologyKey | TechnologyKey[] | undefined): string => {
     if (!requiredTechs) return '';
@@ -47,8 +46,6 @@ export const BuildingList = memo(function BuildingList({ state, costFor, onBuyBu
           <div 
             key={buildingKey} 
             className={styles.build}
-            onMouseEnter={() => setHoveredBuilding(buildingKey)}
-            onMouseLeave={() => setHoveredBuilding(null)}
             title={tooltipText}
           >
             <span className={styles.icon} style={{ color: '#bfc9ff' }}>

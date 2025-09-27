@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo } from 'react';
 import styles from '@/styles/page.module.scss';
 import { CONFIG } from '@/lib/game/config';
 import type { TechnologyKey, ResourceKey, GameState } from '@/lib/game/types';
@@ -15,7 +15,6 @@ export const TechnologyList = memo(function TechnologyList({ state, onResearchTe
   const researchProgress = getResearchProgress(state);
   const timeRemaining = getResearchTimeRemaining(state);
   const activeResearch = state.research.activeResearch;
-  const [hoveredTech, setHoveredTech] = useState<TechnologyKey | null>(null);
 
   const formatPrerequisites = (requiredTechs: TechnologyKey | TechnologyKey[] | undefined): string => {
     if (!requiredTechs) return '';
@@ -69,8 +68,6 @@ export const TechnologyList = memo(function TechnologyList({ state, onResearchTe
           <div 
             key={techKey} 
             className={styles.build}
-            onMouseEnter={() => setHoveredTech(techKey)}
-            onMouseLeave={() => setHoveredTech(null)}
             title={tooltipText}
           >
             <span className={styles.icon} style={{ color: canResearch ? '#4CAF50' : '#FF9800' }}>

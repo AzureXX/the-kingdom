@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo } from 'react';
 import styles from '@/styles/page.module.scss';
 import { CONFIG } from '@/lib/game/config';
 import { formatNumber } from '@/lib/game/utils';
@@ -11,8 +11,6 @@ interface ResourceDisplayProps {
 }
 
 export const ResourceDisplay = memo(function ResourceDisplay({ state, perSec }: ResourceDisplayProps): React.JSX.Element {
-  const [hoveredResource, setHoveredResource] = useState<ResourceKey | null>(null);
-
   return (
     <div className={styles.resources}>
       {Object.keys(CONFIG.resources).map((resourceKey) => {
@@ -34,8 +32,6 @@ export const ResourceDisplay = memo(function ResourceDisplay({ state, perSec }: 
           <div 
             key={resourceKey} 
             className={styles.res}
-            onMouseEnter={() => setHoveredResource(resourceKey as ResourceKey)}
-            onMouseLeave={() => setHoveredResource(null)}
             title={tooltipText}
           >
             <span className={`${styles.icon} ${resourceStyles.resourceIcon} ${

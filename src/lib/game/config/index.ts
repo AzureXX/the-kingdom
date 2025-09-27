@@ -6,7 +6,7 @@ import { EVENTS } from './events';
 import { ACTIONS } from './actions';
 import { LOOP_ACTIONS } from './loopActions';
 import { ACHIEVEMENTS } from './achievements';
-import { validateGameConfig, formatValidationResults } from '../utils/validationUtils';
+import { validateGameConfig, formatValidationResults } from '../utils/validation/crossReferenceValidation';
 import { logMessage } from '../utils/errorLogger';
 
 // Re-export all config objects
