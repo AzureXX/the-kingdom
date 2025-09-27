@@ -2,16 +2,11 @@ import React, { memo } from 'react';
 import { LoopActionButton } from './LoopActionButton';
 import { LOOP_ACTIONS } from '../../lib/game/config';
 import type { LoopActionKey, LoopActionState } from '../../lib/game/types/loopActions';
-import type { GameState } from '../../lib/game/types/game';
+import type { LoopActionComponentProps } from '../../lib/game/types/context';
 import { canStartLoopAction } from '../../lib/game/loopActionEngine';
 import styles from '@/styles/components/game/LoopActionList.module.scss';
 
-interface LoopActionListProps {
-  gameState: GameState;
-  onToggleLoopAction: (actionKey: LoopActionKey) => void;
-}
-
-export const LoopActionList = memo(function LoopActionList({ gameState, onToggleLoopAction }: LoopActionListProps) {
+export const LoopActionList = memo(function LoopActionList({ gameState, onToggleLoopAction }: LoopActionComponentProps) {
   const getLoopActionState = (actionKey: LoopActionKey): LoopActionState => {
     const existingState = gameState.loopActions.find(la => la.actionKey === actionKey);
     if (existingState) {

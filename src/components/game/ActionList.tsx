@@ -1,19 +1,14 @@
 // ActionList component to display all available actions
 
 import React, { useMemo, memo } from 'react';
-import type { GameState, ActionKey, ActionUnlockCondition } from '@/lib/game/types';
+import type { ActionKey, ActionUnlockCondition } from '@/lib/game/types';
+import type { ActionComponentProps } from '@/lib/game/types/context';
 import { getAllActions } from '@/lib/game/config/actions';
 import { ActionValidator } from '@/lib/game/utils/actionValidation';
 import { ActionButton } from './ActionButton';
 import styles from '@/styles/page.module.scss';
 
-interface ActionListProps {
-  state: GameState;
-  onExecuteAction: (actionKey: ActionKey) => void;
-  fmt: (n: number, decimals?: number) => string;
-}
-
-export const ActionList = memo(function ActionList({ state, onExecuteAction, fmt }: ActionListProps) {
+export const ActionList = memo(function ActionList({ state, onExecuteAction, fmt }: ActionComponentProps) {
   const allActions = useMemo(() => getAllActions(), []);
   const actionKeys = useMemo(() => Object.keys(allActions) as ActionKey[], [allActions]);
   

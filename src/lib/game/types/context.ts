@@ -1,4 +1,4 @@
-import type { ActionKey, BuildingKey, PrestigeUpgradeKey, TechnologyKey, ResourceCost } from './index';
+import type { ActionKey, BuildingKey, PrestigeUpgradeKey, TechnologyKey, ResourceCost, GameState, ActionStatus } from './index';
 import type { LoopActionKey } from './loopActions';
 
 /**
@@ -70,4 +70,53 @@ export interface GameOperationResult {
   success: boolean;
   validation: ValidationResult;
   message?: string;
+}
+
+/**
+ * Common prop interfaces for standardized component patterns
+ */
+
+/**
+ * Base interface for components that need game state and formatting
+ */
+export interface BaseGameComponentProps {
+  state: GameState;
+  fmt: (n: number, decimals?: number) => string;
+}
+
+/**
+ * Interface for action-related components
+ */
+export interface ActionComponentProps extends BaseGameComponentProps {
+  onExecuteAction: (actionKey: ActionKey) => void;
+}
+
+/**
+ * Interface for loop action-related components
+ */
+export interface LoopActionComponentProps {
+  gameState: GameState;
+  onToggleLoopAction: (actionKey: LoopActionKey) => void;
+}
+
+/**
+ * Interface for individual action button components
+ */
+export interface ActionButtonProps {
+  actionKey: ActionKey;
+  status: ActionStatus;
+  onExecute: (actionKey: ActionKey) => void;
+  fmt: (n: number, decimals?: number) => string;
+}
+
+/**
+ * Interface for individual loop action button components
+ */
+export interface LoopActionButtonProps {
+  actionKey: LoopActionKey;
+  isActive: boolean;
+  currentPoints: number;
+  totalLoopsCompleted: number;
+  onToggle: (actionKey: LoopActionKey) => void;
+  canStart: boolean;
 }

@@ -4,16 +4,9 @@ import React, { memo } from 'react';
 
 import { getAction } from '@/lib/game/config/actions';
 
-import type { ActionKey, ActionStatus } from '@/lib/game/types';
+import type { ActionButtonProps } from '@/lib/game/types/context';
 
 import styles from '@/styles/page.module.scss';
-
-interface ActionButtonProps {
-  actionKey: ActionKey;
-  status: ActionStatus;
-  onExecute: (actionKey: ActionKey) => void;
-  fmt: (n: number, decimals?: number) => string;
-}
 
 export const ActionButton = memo(function ActionButton({ actionKey, status, onExecute, fmt }: ActionButtonProps) {
   const action = getAction(actionKey);

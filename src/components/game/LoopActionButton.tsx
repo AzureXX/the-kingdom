@@ -1,17 +1,8 @@
 import React, { useState, memo } from 'react';
-import type { LoopActionKey } from '../../lib/game/types/loopActions';
+import type { LoopActionButtonProps } from '../../lib/game/types/context';
 import { LOOP_ACTIONS } from '../../lib/game/config';
 import { getLoopActionProgress } from '../../lib/game/loopActionEngine';
 import styles from '@/styles/components/game/LoopActionButton.module.scss';
-
-interface LoopActionButtonProps {
-  actionKey: LoopActionKey;
-  isActive: boolean;
-  currentPoints: number;
-  totalLoopsCompleted: number;
-  onToggle: (actionKey: LoopActionKey) => void;
-  canStart: boolean;
-}
 
 export const LoopActionButton = memo(function LoopActionButton({
   actionKey,
