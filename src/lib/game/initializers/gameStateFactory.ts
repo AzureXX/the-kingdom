@@ -50,8 +50,6 @@ const stateErrorHandler = createStateErrorHandler('gameStateFactory');
  * @example
  * ```typescript
  * const gameState = createNewGameState();
- * console.log(gameState.resources.gold); // Starting gold amount
- * console.log(gameState.buildings.woodcutter); // 0
  * ```
  */
 export function createNewGameState(): GameState {

@@ -19,7 +19,6 @@ import type { BuildingKey, PrestigeUpgradeKey, ResourceKey, TechnologyKey, Resou
  * @example
  * ```typescript
  * const techCosts = calculateTechnologyCosts(state);
- * console.log('Writing cost:', techCosts.writing);
  * ```
  */
 export function calculateTechnologyCosts(state: GameState): Record<TechnologyKey, ResourceCost> {
@@ -42,7 +41,6 @@ export function calculateTechnologyCosts(state: GameState): Record<TechnologyKey
  * @example
  * ```typescript
  * const upgradeCosts = calculateUpgradeCosts(state);
- * console.log('Royal Decrees cost:', upgradeCosts.royalDecrees);
  * ```
  */
 export function calculateUpgradeCosts(state: GameState): Record<PrestigeUpgradeKey, number> {
@@ -66,8 +64,6 @@ export function calculateUpgradeCosts(state: GameState): Record<PrestigeUpgradeK
  * @example
  * ```typescript
  * const calculations = calculateAllGameCalculations(state);
- * console.log('Per second:', calculations.perSec);
- * console.log('Prestige potential:', calculations.prestigePotential);
  * ```
  */
 export function calculateAllGameCalculations(state: GameState): {

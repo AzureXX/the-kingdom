@@ -40,7 +40,6 @@ const stateErrorHandler = createStateErrorHandler('resourceInitializer');
  * @example
  * ```typescript
  * const resourceState = initResourceState();
- * console.log(resourceState.resources.gold); // Starting gold amount
  * ```
  */
 export function initResourceState(): {

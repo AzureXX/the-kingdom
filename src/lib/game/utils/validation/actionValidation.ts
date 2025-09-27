@@ -15,7 +15,6 @@
  * // Validate action definitions
  * const result = validateActions(ACTIONS, actionKeys, resourceKeys, buildingKeys, techKeys);
  * if (!result.isValid) {
- *   console.error('Action validation failed:', result.errors);
  * }
  * ```
  */
@@ -52,9 +51,6 @@ import { validateResourceOperation } from './resourceValidation';
  * @example
  * ```typescript
  * const result = validateActions(ACTIONS, actionKeys, resourceKeys, buildingKeys, techKeys);
- * if (!result.isValid) {
- *   console.error('Action validation failed:', result.errors);
- * }
  * ```
  */
 export function validateActions(

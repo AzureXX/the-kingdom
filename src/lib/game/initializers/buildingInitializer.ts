@@ -40,7 +40,6 @@ const stateErrorHandler = createStateErrorHandler('buildingInitializer');
  * @example
  * ```typescript
  * const buildingState = initBuildingState();
- * console.log(buildingState.buildings.woodcutter); // 0
  * ```
  */
 export function initBuildingState(): {

@@ -21,13 +21,6 @@
  *   actions: ACTIONS
  * });
  * 
- * if (validationResult.isValid) {
- *   console.log('✅ Game configuration is valid');
- * } else {
- *   console.error('❌ Configuration validation failed:');
- *   validationResult.errors.forEach(error => {
- *     console.error(`  ${error.category}: ${error.message}`);
- *   });
  * }
  * ```
  */
@@ -194,14 +187,6 @@ function validateLoopActions(
  *   actions: ACTIONS
  * });
  * 
- * if (validationResult.isValid) {
- *   console.log('✅ Game configuration is valid');
- * } else {
- *   console.error('❌ Configuration validation failed:');
- *   validationResult.errors.forEach(error => {
- *     console.error(`  ${error.category}: ${error.message}`);
- *   });
- * }
  * ```
  * 
  * @remarks
@@ -268,13 +253,6 @@ export function validateGameConfig(config: {
  * ```typescript
  * const results = validateGameConfig(config);
  * const formatted = formatValidationResults(results);
- * console.log(formatted);
- * // Output:
- * // ❌ Configuration Errors (2):
- * //   • RESOURCE: Resource gold has invalid start value
- * //   • BUILDING: Building woodcutter requires unknown technology: invalid
- * // 
- * // ❌ Configuration has errors and cannot be used.
  * ```
  * 
  * @remarks

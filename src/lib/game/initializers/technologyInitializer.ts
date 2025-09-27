@@ -40,7 +40,6 @@ const stateErrorHandler = createStateErrorHandler('technologyInitializer');
  * @example
  * ```typescript
  * const technologyState = initTechnologyState();
- * console.log(technologyState.technologies.writing); // 0
  * ```
  */
 export function initTechnologyState(): {

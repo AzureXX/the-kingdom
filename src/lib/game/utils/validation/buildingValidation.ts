@@ -14,15 +14,9 @@
  * import { isValidBuildingKey, validateBuildings } from './buildingValidation';
  * 
  * // Validate a building key
- * if (isValidBuildingKey('woodcutter')) {
- *   console.log('Valid building key');
- * }
  * 
  * // Validate building definitions
  * const result = validateBuildings(BUILDINGS, buildingKeys, resourceKeys, techKeys);
- * if (!result.isValid) {
- *   console.error('Building validation failed:', result.errors);
- * }
  * ```
  */
 
@@ -73,9 +67,6 @@ export function isValidBuildingKey(key: string): key is BuildingKey {
  * @example
  * ```typescript
  * const result = validateBuildings(BUILDINGS, buildingKeys, resourceKeys, techKeys);
- * if (!result.isValid) {
- *   console.error('Building validation failed:', result.errors);
- * }
  * ```
  */
 export function validateBuildings(

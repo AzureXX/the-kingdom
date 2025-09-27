@@ -36,7 +36,6 @@ const stateErrorHandler = createStateErrorHandler('researchInitializer');
  * @example
  * ```typescript
  * const researchState = initResearchState();
- * console.log(researchState.research.activeResearch); // null
  * ```
  */
 export function initResearchState(): {

@@ -7,7 +7,9 @@ import { getResource, updateMultipleResources, addResources } from '../gameState
 import { isValidResourceKey } from '../utils';
 import { logInvalidKey } from '../utils/errorLogger';
 import type { GameState, ResourceKey, ResourceCost, ResourceProduction } from '../types';
+import { createStateErrorHandler } from '../utils/errorLogger';
 
+const stateErrorHandler = createStateErrorHandler('resourceUpdates');
 /**
  * Pay resources (subtract from state) - Unified implementation
  * 
@@ -128,7 +130,7 @@ export function processResourceChanges(
   try {
     return applyResourceChanges(state, changes);
   } catch (error) {
-    console.error(`Failed to process resource changes in ${context}:`, error);
+    createStateErrorHandler(context)(`Failed to process resource changes in ${context}`, { error: error instanceof Error ? error.message : String(error) });
     return state; // Return original state on error
   }
 }

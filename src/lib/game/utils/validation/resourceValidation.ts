@@ -13,15 +13,9 @@
  * import { isValidResourceKey, validateResources } from './resourceValidation';
  * 
  * // Validate a resource key
- * if (isValidResourceKey('gold')) {
- *   console.log('Valid resource key');
- * }
- * 
+ 
  * // Validate resource definitions
  * const result = validateResources(RESOURCES, ['gold', 'wood', 'stone']);
- * if (!result.isValid) {
- *   console.error('Resource validation failed:', result.errors);
- * }
  * ```
  */
 
@@ -109,9 +103,8 @@ export function isValidResourceKey(key: string): key is ResourceKey {
  * @example
  * ```typescript
  * const result = validateResources(RESOURCES, ['gold', 'wood', 'stone']);
- * if (!result.isValid) {
- *   console.error('Resource validation failed:', result.errors);
- * }
+ * 
+ * 
  * ```
  */
 export function validateResources(

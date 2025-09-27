@@ -15,15 +15,11 @@
  * import { isValidTechnologyKey, validateTechnologies } from './technologyValidation';
  * 
  * // Validate a technology key
- * if (isValidTechnologyKey('writing')) {
- *   console.log('Valid technology key');
- * }
+ 
  * 
  * // Validate technology definitions
  * const result = validateTechnologies(TECHNOLOGIES, techKeys, resourceKeys, buildingKeys);
- * if (!result.isValid) {
- *   console.error('Technology validation failed:', result.errors);
- * }
+ * 
  * ```
  */
 
@@ -74,9 +70,7 @@ export function isValidTechnologyKey(key: string): key is TechnologyKey {
  * @example
  * ```typescript
  * const result = validateTechnologies(TECHNOLOGIES, techKeys, resourceKeys, buildingKeys);
- * if (!result.isValid) {
- *   console.error('Technology validation failed:', result.errors);
- * }
+ * 
  * ```
  */
 export function validateTechnologies(

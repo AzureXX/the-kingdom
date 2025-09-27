@@ -38,7 +38,6 @@ const stateErrorHandler = createStateErrorHandler('eventInitializer');
  * @example
  * ```typescript
  * const eventState = initEventState();
- * console.log(eventState.activeEvent); // null
  * ```
  */
 export function initEventState(): {

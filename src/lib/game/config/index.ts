@@ -40,9 +40,7 @@ export const SAVE_KEY = 'medieval-kingdom-v1';
  * Validate the game configuration on startup
  * This runs validation checks and logs any issues found
  */
-export function validateConfiguration(): void {
-  console.group('🔍 Game Configuration Validation');
-  
+export function validateConfiguration(): void {  
   try {
     const validationResult = validateGameConfig({
       resources: RESOURCES,
@@ -73,8 +71,6 @@ export function validateConfiguration(): void {
   } catch (error) {
     logMessage('Configuration validation crashed', { level: 'error', context: 'config', details: { error: error instanceof Error ? error.message : String(error) } });
   }
-  
-  console.groupEnd();
 }
 
 /**
