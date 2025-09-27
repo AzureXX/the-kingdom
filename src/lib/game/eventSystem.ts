@@ -4,6 +4,7 @@ import { EVENT_CONSTANTS, GAME_CONSTANTS } from './constants';
 import { addResources, getResource, setResource } from './gameState';
 import { isValidResourceKey } from './utils';
 import { logInvalidKey } from './utils/errorLogger';
+import { applyResourceChanges } from './utils/resourceUpdates';
 import type { GameState } from './types';
 
 const { events: EVENTS } = CONFIG;
@@ -62,23 +63,8 @@ export function makeEventChoice(state: GameState, eventKey: EventKey, choiceInde
   // Add resources that the choice gives
   newState = addResources(newState, choice.gives);
   
-  // Remove resources that the choice takes
-  for (const resource in choice.takes) {
-    if (!isValidResourceKey(resource)) {
-      logInvalidKey(resource, 'resource', 'event');
-      continue;
-    }
-    const resourceKey = resource as ResourceKey;
-    const amount = choice.takes[resourceKey] || 0;
-    if (amount > 0) {
-      // For positive amounts, reduce resources (but not below 0)
-      const current = getResource(newState, resourceKey);
-      newState = setResource(newState, resourceKey, current - amount);
-    } else if (amount < 0) {
-      // For negative amounts, add resources (this is for prestige loss)
-      newState = setResource(newState, resourceKey, getResource(newState, resourceKey) + amount);
-    }
-  }
+  // Apply resource changes from choice.takes using unified utility
+  newState = applyResourceChanges(newState, choice.takes);
   
   // Record the choice in history - optimized to avoid array recreation
   const newEventHistory = [...newState.events.eventHistory, {

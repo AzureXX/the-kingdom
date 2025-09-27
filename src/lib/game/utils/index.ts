@@ -50,6 +50,15 @@ export {
   createMemoizedCanAfford 
 } from './gameCalculations';
 
+// Resource update utilities
+export { 
+  payResources, 
+  applyResourceChanges, 
+  addResourcesToState, 
+  processResourceChanges, 
+  calculateTimeBasedChanges 
+} from './resourceUpdates';
+
 // ============================================================================
 // VALIDATION UTILITIES
 // ============================================================================

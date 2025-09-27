@@ -6,11 +6,11 @@ import {
   getBuildingCount, 
   getUpgradeLevel, 
   addResources, 
-  updateMultipleResources,
   updateBuildingCount,
   updateUpgradeLevel,
   updateResource
 } from './gameState';
+import { payResources, calculateTimeBasedChanges, applyResourceChanges } from './utils/resourceUpdates';
 import { checkAchievements } from './achievementSystem';
 import { costFor, canAfford, getUpgradeCost, canBuyUpgrade, getPerSec } from './calculations';
 import { checkAndTriggerEvents } from './eventSystem';
@@ -22,28 +22,11 @@ import { ActionValidator } from './utils/actionValidation';
 const stateErrorHandler = createStateErrorHandler('actions');
 
 /**
- * Pay resources (subtract from state) - Optimized pure function with error handling
+ * Pay resources (subtract from state) - Uses unified utility
  */
 export function pay(state: GameState, cost: ResourceCost): GameState {
   try {
-    if (Object.keys(cost).length === 0) return state;
-    
-    const resourceUpdates: Partial<Record<ResourceKey, number>> = {};
-    let hasChanges = false;
-    
-    for (const r in cost) {
-      const rk = r as ResourceKey;
-      const current = getResource(state, rk);
-      const newValue = current - (cost[rk] || 0);
-      
-      if (newValue !== current) {
-        resourceUpdates[rk] = newValue;
-        hasChanges = true;
-      }
-    }
-    
-    if (!hasChanges) return state;
-    return updateMultipleResources(state, resourceUpdates);
+    return payResources(state, cost);
   } catch (error) {
     stateErrorHandler('Failed to pay resources', { cost, error: error instanceof Error ? error.message : String(error) });
     return state; // Return original state on error
@@ -216,35 +199,11 @@ export function tick(state: GameState, dtSeconds: number): GameState {
     
     const perSec = getPerSec(state);
     
-    // Calculate all resource changes first
-    const resourceUpdates: Partial<Record<ResourceKey, number>> = {};
-    let hasResourceChanges = false;
-    
-    for (const r in perSec) {
-      const rk = r as ResourceKey;
-      const delta = (perSec[rk] || 0) * dtSeconds;
-      if (delta === 0) continue;
-      
-      const currentValue = state.resources[rk] || 0;
-      let newValue: number;
-      
-      if (delta < 0) {
-        // Resource consumption - don't go below 0
-        newValue = Math.max(0, currentValue + delta);
-      } else {
-        // Resource production
-        newValue = currentValue + delta;
-      }
-      
-      if (newValue !== currentValue) {
-        resourceUpdates[rk] = newValue;
-        hasResourceChanges = true;
-      }
-      
-    }
+    // Calculate resource changes using unified utility
+    const resourceChanges = calculateTimeBasedChanges(state, perSec, dtSeconds);
     
     // Early return if no changes occurred
-    if (!hasResourceChanges) {
+    if (Object.keys(resourceChanges).length === 0) {
       // Still need to check events, research progress, and achievements
       let newState = checkAndTriggerEvents(state);
       newState = checkResearchProgress(newState);
@@ -253,8 +212,8 @@ export function tick(state: GameState, dtSeconds: number): GameState {
       return newState;
     }
     
-    // Apply resource updates
-    let newState = hasResourceChanges ? updateMultipleResources(state, resourceUpdates) : state;
+    // Apply resource updates using unified utility
+    let newState = applyResourceChanges(state, resourceChanges);
     
     // Track lifetime resources for statistics and prestige calculations
     const lifetimeUpdates: Partial<Record<ResourceKey, number>> = {};
