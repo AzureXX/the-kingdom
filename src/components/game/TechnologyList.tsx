@@ -1,16 +1,12 @@
 import React, { memo } from 'react';
 import styles from '@/styles/page.module.scss';
 import { CONFIG } from '@/lib/game/config';
-import type { TechnologyKey, ResourceKey, GameState } from '@/lib/game/types';
+import type { TechnologyKey, ResourceKey } from '@/lib/game/types';
+import type { ResearchSceneProps } from '@/lib/game/types/context';
 import { formatNumber } from '@/lib/game/utils';
 import { canResearchTechnology, getResearchProgress, getResearchTimeRemaining, getTechnologiesWithPrerequisitesMet } from '@/lib/game/technologySystem';
 
-interface TechnologyListProps {
-  state: GameState;
-  onResearchTechnology: (key: TechnologyKey) => void;
-}
-
-export const TechnologyList = memo(function TechnologyList({ state, onResearchTechnology }: TechnologyListProps): React.JSX.Element {
+export const TechnologyList = memo(function TechnologyList({ state, onResearchTechnology }: Pick<ResearchSceneProps, 'state' | 'onResearchTechnology'>): React.JSX.Element {
   const technologiesWithPrerequisitesMet = getTechnologiesWithPrerequisitesMet(state);
   const researchProgress = getResearchProgress(state);
   const timeRemaining = getResearchTimeRemaining(state);

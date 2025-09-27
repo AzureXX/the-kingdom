@@ -120,3 +120,44 @@ export interface LoopActionButtonProps {
   onToggle: (actionKey: LoopActionKey) => void;
   canStart: boolean;
 }
+
+/**
+ * Base interface for all scene components
+ */
+export interface BaseSceneProps {
+  state: GameState;
+  perSec: Partial<Record<string, number>>;
+  fmt: (n: number, decimals?: number) => string;
+}
+
+/**
+ * Interface for building-related scene components
+ */
+export interface BuildingSceneProps extends BaseSceneProps {
+  costFor: (key: BuildingKey) => ResourceCost;
+  onBuyBuilding: (key: BuildingKey) => void;
+}
+
+/**
+ * Interface for research-related scene components
+ */
+export interface ResearchSceneProps extends BaseSceneProps {
+  onResearchTechnology: (key: TechnologyKey) => void;
+}
+
+/**
+ * Interface for prestige-related scene components
+ */
+export interface PrestigeSceneProps extends BaseSceneProps {
+  onDoPrestige: () => void;
+}
+
+/**
+ * Interface for performance-related scene components
+ */
+export interface PerformanceSceneProps extends BaseSceneProps {
+  performanceMetrics: PerformanceMetrics;
+  performanceFunctions: {
+    getPerformanceSuggestions: () => PerformanceSuggestion[];
+  };
+}

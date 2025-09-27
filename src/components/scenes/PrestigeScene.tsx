@@ -4,16 +4,13 @@ import { UpgradeList } from '@/components/game/UpgradeList';
 import { Modal } from '@/components/ui/Modal';
 import { SCENE_CONFIGS } from '@/lib/game/types/scenes';
 import { getPrestigeFormula } from '@/lib/game/prestigeSystem';
-import type { GameState, ResourceAmount, PrestigeUpgradeKey } from '@/lib/game/types';
+import type { PrestigeUpgradeKey } from '@/lib/game/types';
+import type { PrestigeSceneProps as BasePrestigeSceneProps } from '@/lib/game/types/context';
 import styles from '@/styles/scenes/SceneLayout.module.scss';
 
-interface PrestigeSceneProps {
-  state: GameState;
-  perSec: ResourceAmount;
+interface PrestigeSceneProps extends BasePrestigeSceneProps {
   prestigePotential: number;
-  fmt: (n: number, decimals?: number) => string;
   onBuyUpgrade: (key: PrestigeUpgradeKey) => void;
-  onDoPrestige: () => void;
 }
 
 export const PrestigeScene = memo(function PrestigeScene({

@@ -3,13 +3,11 @@ import { ResourceDisplay } from '@/components/game/ResourceDisplay';
 import { ActionList } from '@/components/game/ActionList';
 import { LoopActionList } from '@/components/game/LoopActionList';
 import { SCENE_CONFIGS } from '@/lib/game/types/scenes';
-import type { GameState, ResourceAmount, ActionKey, LoopActionKey } from '@/lib/game/types';
+import type { ActionKey, LoopActionKey } from '@/lib/game/types';
+import type { BaseSceneProps } from '@/lib/game/types/context';
 import styles from '@/styles/scenes/SceneLayout.module.scss';
 
-interface ActionsSceneProps {
-  state: GameState;
-  perSec: ResourceAmount;
-  fmt: (n: number, decimals?: number) => string;
+interface ActionsSceneProps extends BaseSceneProps {
   onExecuteAction: (actionKey: ActionKey) => void;
   onToggleLoopAction: (actionKey: LoopActionKey) => void;
 }

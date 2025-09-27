@@ -7,7 +7,7 @@ import resourceStyles from '@/styles/components/game/ResourceDisplay.module.scss
 
 interface ResourceDisplayProps {
   state: GameState;
-  perSec: ResourceAmount;
+  perSec: Partial<ResourceAmount>;
 }
 
 export const ResourceDisplay = memo(function ResourceDisplay({ state, perSec }: ResourceDisplayProps): React.JSX.Element {

@@ -2,22 +2,15 @@ import React, { memo } from 'react';
 import { ResourceDisplay } from '@/components/game/ResourceDisplay';
 import { BuildingList } from '@/components/game/BuildingList';
 import { SCENE_CONFIGS } from '@/lib/game/types/scenes';
-import type { GameState, ResourceAmount, BuildingKey, ResourceCost } from '@/lib/game/types';
+import type { BuildingSceneProps } from '@/lib/game/types/context';
 import styles from '@/styles/scenes/SceneLayout.module.scss';
-
-interface BuildingsSceneProps {
-  state: GameState;
-  perSec: ResourceAmount;
-  costFor: (key: BuildingKey) => ResourceCost;
-  onBuyBuilding: (key: BuildingKey) => void;
-}
 
 export const BuildingsScene = memo(function BuildingsScene({
   state,
   perSec,
   costFor,
   onBuyBuilding
-}: BuildingsSceneProps) {
+}: BuildingSceneProps) {
   const config = SCENE_CONFIGS.buildings;
 
   // Calculate building statistics

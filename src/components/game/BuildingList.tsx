@@ -5,18 +5,13 @@ import { formatNumber } from '@/lib/game/utils';
 import { getUnlockedBuildings } from '@/lib/game/gameState';
 import { canBuyBuilding } from '@/lib/game/calculations';
 
-import type { GameState, BuildingKey, ResourceKey, TechnologyKey, ResourceCost } from '@/lib/game/types';
+import type { ResourceKey, TechnologyKey } from '@/lib/game/types';
+import type { BuildingSceneProps } from '@/lib/game/types/context';
 
 import styles from '@/styles/page.module.scss';
 import buildingStyles from '@/styles/components/game/BuildingList.module.scss';
 
-interface BuildingListProps {
-  state: GameState;
-  costFor: (key: BuildingKey) => ResourceCost;
-  onBuyBuilding: (key: BuildingKey) => void;
-}
-
-export const BuildingList = memo(function BuildingList({ state, costFor, onBuyBuilding }: BuildingListProps): React.JSX.Element {
+export const BuildingList = memo(function BuildingList({ state, costFor, onBuyBuilding }: Pick<BuildingSceneProps, 'state' | 'costFor' | 'onBuyBuilding'>): React.JSX.Element {
   const unlockedBuildings = getUnlockedBuildings(state);
 
   const formatTechnologyRequirements = (requiredTechs: TechnologyKey | TechnologyKey[] | undefined): string => {

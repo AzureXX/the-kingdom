@@ -3,14 +3,8 @@ import { ResourceDisplay } from '@/components/game/ResourceDisplay';
 import { TechnologyList } from '@/components/game/TechnologyList';
 import { SCENE_CONFIGS } from '@/lib/game/types/scenes';
 import { getResearchProgress, getResearchTimeRemaining } from '@/lib/game/technologySystem';
-import type { GameState, ResourceAmount, TechnologyKey } from '@/lib/game/types';
+import type { ResearchSceneProps } from '@/lib/game/types/context';
 import styles from '@/styles/scenes/SceneLayout.module.scss';
-
-interface ResearchSceneProps {
-  state: GameState;
-  perSec: ResourceAmount;
-  onResearchTechnology: (key: TechnologyKey) => void;
-}
 
 export const ResearchScene = memo(function ResearchScene({
   state,

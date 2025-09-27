@@ -3,13 +3,8 @@ import { ResourceDisplay } from '@/components/game/ResourceDisplay';
 import { PerformanceMonitor } from '@/components/ui/PerformanceMonitor';
 import { ConfigurationValidator } from '@/components/ui/ConfigurationValidator';
 import { SCENE_CONFIGS } from '@/lib/game/types/scenes';
-import type { GameState, ResourceAmount } from '@/lib/game/types';
+import type { PerformanceSceneProps } from '@/lib/game/types/context';
 import styles from '@/styles/scenes/SceneLayout.module.scss';
-
-interface PerformanceSceneProps {
-  state: GameState;
-  perSec: ResourceAmount;
-}
 
 export const PerformanceScene = memo(function PerformanceScene({
   state,

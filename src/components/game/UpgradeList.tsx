@@ -1,15 +1,11 @@
 import React, { memo } from 'react';
 import styles from '@/styles/page.module.scss';
 import { CONFIG } from '@/lib/game/config';
-import type { PrestigeUpgradeKey, GameState } from '@/lib/game/types';
+import type { PrestigeUpgradeKey } from '@/lib/game/types';
+import type { PrestigeSceneProps } from '@/lib/game/types/context';
 import { formatNumber } from '@/lib/game/utils';
 
-interface UpgradeListProps {
-  state: GameState;
-  onBuyUpgrade: (key: PrestigeUpgradeKey) => void;
-}
-
-export const UpgradeList = memo(function UpgradeList({ state, onBuyUpgrade }: UpgradeListProps): React.JSX.Element {
+export const UpgradeList = memo(function UpgradeList({ state, onBuyUpgrade }: Pick<PrestigeSceneProps, 'state'> & { onBuyUpgrade: (key: PrestigeUpgradeKey) => void }): React.JSX.Element {
   return (
     <div className={`${styles.section} ${styles.grid2}`}>
       {(Object.keys(CONFIG.prestige.upgrades) as PrestigeUpgradeKey[]).map((key) => {
