@@ -3,7 +3,7 @@
  * Consolidates common resource update patterns from across the codebase
  */
 
-import { getResource, updateMultipleResources, addResources } from '@/lib/game/gameState';
+import { getResource, updateMultipleResources, addResources } from '@/lib/game/utils/gameState';
 import { isValidResourceKey } from '@/lib/game/utils';
 import { logInvalidKey } from '@/lib/game/utils/errorLogger';
 import type { GameState, ResourceKey, ResourceCost, ResourceProduction } from '@/lib/game/types';

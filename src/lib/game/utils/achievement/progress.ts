@@ -11,7 +11,7 @@ import type {
   ActionKey,
 } from '@/lib/game/types';
 import { ACHIEVEMENTS } from '@/lib/game/config/achievements';
-import { getResource, getBuildingCount, getTechnologyLevel } from '@/lib/game/gameState';
+import { getResource, getBuildingCount, getTechnologyLevel } from '@/lib/game/utils/gameState';
 import { createValidationErrorHandler, createStateErrorHandler } from '@/lib/game/utils/errorLogger';
 
 // Create specialized error handlers

@@ -3,7 +3,7 @@
 import type { GameState } from '@/lib/game/types/game';
 import { LOOP_ACTIONS } from '@/lib/game/config/loopActions';
 import { pay } from '@/lib/game/utils/actions';
-import { addResources } from '@/lib/game/gameState';
+import { addResources } from '@/lib/game/utils/gameState';
 import { canAfford } from '@/lib/game/utils/calculations';
 import { logMessage } from '@/lib/game/utils/errorLogger';
 

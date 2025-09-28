@@ -1,4 +1,4 @@
-import { addResources, getResource, setResource, updateMultipleResources } from '@/lib/game/gameState'
+import { addResources, getResource, setResource, updateMultipleResources } from '@/lib/game/utils/gameState'
 import { createTestGameState, createGameStateWithResources } from '@/__tests__/utils/testHelpers'
 import type { ResourceKey } from '@/lib/game/types'
 

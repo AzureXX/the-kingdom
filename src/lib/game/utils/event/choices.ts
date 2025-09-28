@@ -3,7 +3,7 @@
 import { CONFIG } from '@/lib/game/config';
 import type { EventKey, ResourceKey, GameState } from '@/lib/game/types';
 import { EVENT_CONSTANTS, GAME_CONSTANTS } from '@/lib/game/constants';
-import { getResource, addResources } from '@/lib/game/gameState';
+import { getResource, addResources } from '@/lib/game/utils/gameState';
 import { isValidResourceKey } from '@/lib/game/utils';
 import { logInvalidKey } from '@/lib/game/utils/errorLogger';
 import { applyResourceChanges } from '@/lib/game/utils/resourceUpdates';

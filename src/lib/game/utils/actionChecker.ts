@@ -1,6 +1,6 @@
 import type { GameState, ActionKey, ActionStatus, ActionUnlockCondition } from '@/lib/game/types';
 import { getAction, getAllActions } from '@/lib/game/config/actions';
-import { getResource, getBuildingCount, getUpgradeLevel, getTechnologyLevel } from '@/lib/game/gameState';
+import { getResource, getBuildingCount, getUpgradeLevel, getTechnologyLevel } from '@/lib/game/utils/gameState';
 import { canAfford } from '@/lib/game/utils/calculations';
 
 /**

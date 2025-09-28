@@ -10,7 +10,7 @@ import {
   getUpgradeLevel, 
   updateUpgradeLevel,
   updateResource
-} from '@/lib/game/gameState';
+} from '@/lib/game/utils/gameState';
 import { getUpgradeCost, canBuyUpgrade } from '@/lib/game/utils/calculations';
 import { createStateErrorHandler } from '@/lib/game/utils/errorLogger';
 

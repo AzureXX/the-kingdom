@@ -2,7 +2,7 @@
 
 import { CONFIG } from '@/lib/game/config';
 import type { TechnologyKey, GameState } from '@/lib/game/types';
-import { getResource } from '@/lib/game/gameState';
+import { getResource } from '@/lib/game/utils/gameState';
 import { isValidResourceKey, isValidTechnologyKey } from '@/lib/game/utils';
 import { logInvalidKey } from '@/lib/game/utils/errorLogger';
 

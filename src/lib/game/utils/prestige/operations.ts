@@ -1,6 +1,6 @@
 // Prestige operations logic
 
-import { initNewGame } from '@/lib/game/gameState';
+import { initNewGame } from '@/lib/game/utils/gameState';
 import type { GameState } from '@/lib/game/types';
 import { prestigeGain } from './calculations';
 

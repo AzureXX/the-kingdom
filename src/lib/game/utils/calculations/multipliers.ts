@@ -3,7 +3,7 @@
 import type { GameState, Multipliers, ResourceKey } from '@/lib/game/types';
 import { CONFIG } from '@/lib/game/config';
 import { GAME_CONSTANTS } from '@/lib/game/constants';
-import { getUpgradeLevel } from '@/lib/game/gameState';
+import { getUpgradeLevel } from '@/lib/game/utils/gameState';
 import { createValidationErrorHandler, createCalculationErrorHandler } from '@/lib/game/utils/errorLogger';
 
 const { prestige: PRESTIGE_CONFIG } = CONFIG;
