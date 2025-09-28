@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import { ResourceDisplay } from '@/components/game/ResourceDisplay';
 import { TechnologyList } from '@/components/game/TechnologyList';
 import { SCENE_CONFIGS } from '@/lib/game/types/scenes';
-import { getResearchProgress, getResearchTimeRemaining } from '@/lib/game/technologySystem';
+import { getResearchProgress, getResearchTimeRemaining } from '@/lib/game/utils/technology';
 import type { ResearchSceneProps } from '@/lib/game/types/context';
 import styles from '@/styles/scenes/SceneLayout.module.scss';
 
