@@ -14,7 +14,7 @@
 
 import type { EventKey } from '@/lib/game/types';
 import { GAME_CONSTANTS, EVENT_CONSTANTS } from '@/lib/game/constants';
-import { createStateErrorHandler } from '@/lib/game/utils/errorLogger';
+import { createStateErrorHandler } from '@/lib/game/utils/error';
 
 // Create specialized error handler for event initialization
 const stateErrorHandler = createStateErrorHandler('eventInitializer');

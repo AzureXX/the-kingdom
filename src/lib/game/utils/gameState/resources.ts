@@ -2,7 +2,7 @@
 
 import type { ResourceKey, ResourceCost, ResourceProduction } from '@/lib/game/types';
 import { GAME_CONSTANTS } from '@/lib/game/constants';
-import { createValidationErrorHandler, createStateErrorHandler } from '@/lib/game/utils/errorLogger';
+import { createValidationErrorHandler, createStateErrorHandler } from '@/lib/game/utils/error';
 import { checkAchievements } from '@/lib/game/utils/achievement';
 import type { GameState } from '@/lib/game/types';
 

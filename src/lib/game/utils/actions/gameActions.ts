@@ -8,7 +8,7 @@ import type { ActionKey, GameState } from '@/lib/game/types';
 import { addResources } from '@/lib/game/utils/gameState';
 import { getAction } from '@/lib/game/config/actions';
 import { ActionChecker } from '@/lib/game/utils/actionChecker';
-import { createStateErrorHandler } from '@/lib/game/utils/errorLogger';
+import { createStateErrorHandler } from '@/lib/game/utils/error';
 import { pay } from './resourceActions';
 
 const stateErrorHandler = createStateErrorHandler('gameActions');

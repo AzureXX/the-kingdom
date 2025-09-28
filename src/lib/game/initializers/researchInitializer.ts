@@ -12,7 +12,7 @@
  * ```
  */
 
-import { createStateErrorHandler } from '@/lib/game/utils/errorLogger';
+import { createStateErrorHandler } from '@/lib/game/utils/error';
 
 // Create specialized error handler for research initialization
 const stateErrorHandler = createStateErrorHandler('researchInitializer');

@@ -16,7 +16,7 @@ import type { GameState, PrestigeUpgradeKey } from '@/lib/game/types';
 import { CONFIG } from '@/lib/game/config';
 import { DEFAULT_LOOP_SETTINGS } from '@/lib/game/config/loopActions';
 import { initAchievementState } from '@/lib/game/utils/achievement';
-import { createStateErrorHandler } from '@/lib/game/utils/errorLogger';
+import { createStateErrorHandler } from '@/lib/game/utils/error';
 
 // Import all individual initializers
 import { initResourceState } from '@/lib/game/initializers/resourceInitializer';

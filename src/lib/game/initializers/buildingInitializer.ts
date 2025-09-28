@@ -12,7 +12,7 @@
 import type { BuildingKey } from '@/lib/game/types';
 import { CONFIG } from '@/lib/game/config';
 import { isValidBuildingKey } from '@/lib/game/utils/validation/buildingValidation';
-import { logInvalidKey, createStateErrorHandler } from '@/lib/game/utils/errorLogger';
+import { logInvalidKey, createStateErrorHandler } from '@/lib/game/utils/error';
 
 const { buildings: BUILDINGS } = CONFIG;
 

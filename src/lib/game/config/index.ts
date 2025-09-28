@@ -7,7 +7,7 @@ import { ACTIONS } from '@/lib/game/config/actions';
 import { LOOP_ACTIONS } from '@/lib/game/config/loopActions';
 import { ACHIEVEMENTS } from '@/lib/game/config/achievements';
 import { validateGameConfig, formatValidationResults } from '@/lib/game/utils/validation/crossReferenceValidation';
-import { logMessage } from '@/lib/game/utils/errorLogger';
+import { logMessage } from '@/lib/game/utils/error';
 
 // Re-export all config objects
 export {

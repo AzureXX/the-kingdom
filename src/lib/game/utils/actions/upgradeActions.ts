@@ -12,7 +12,7 @@ import {
   updateResource
 } from '@/lib/game/utils/gameState';
 import { getUpgradeCost, canBuyUpgrade } from '@/lib/game/utils/calculations';
-import { createStateErrorHandler } from '@/lib/game/utils/errorLogger';
+import { createStateErrorHandler } from '@/lib/game/utils/error';
 
 const stateErrorHandler = createStateErrorHandler('upgradeActions');
 

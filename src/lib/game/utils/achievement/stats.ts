@@ -2,7 +2,7 @@
 
 import type { GameState } from '@/lib/game/types';
 import { ACHIEVEMENTS } from '@/lib/game/config/achievements';
-import { createStateErrorHandler } from '@/lib/game/utils/errorLogger';
+import { createStateErrorHandler } from '@/lib/game/utils/error';
 
 // Create specialized error handler
 const stateErrorHandler = createStateErrorHandler('achievementSystem');

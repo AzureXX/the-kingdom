@@ -131,4 +131,4 @@ export {
   type ErrorLogOptions,
   type ErrorCategory,
   type GameError
-} from '@/lib/game/utils/errorLogger';
+} from '@/lib/game/utils/error';

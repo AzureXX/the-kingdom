@@ -3,7 +3,7 @@
 import { CONFIG } from '@/lib/game/config';
 import type { TechnologyKey, GameState } from '@/lib/game/types';
 import { isValidTechnologyKey } from '@/lib/game/utils';
-import { logInvalidKey } from '@/lib/game/utils/errorLogger';
+import { logInvalidKey } from '@/lib/game/utils/error';
 import { hasPrerequisitesMet, canResearchTechnology } from './validation';
 
 /**

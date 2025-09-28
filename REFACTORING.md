@@ -100,7 +100,7 @@
 
 **Step-by-Step Breakdown:**
 1. **Create error handling utilities** (1 change)
-   - Add `withErrorHandling` and `withValidation` to `src/lib/game/utils/errorLogger.ts`
+   - Add `withErrorHandling` and `withValidation` to `src/lib/game/utils/error.ts`
 2. **Refactor one file at a time** (1-2 changes)
    - Start with `src/lib/game/actions.ts`
    - Apply new error handling pattern to 2-3 functions

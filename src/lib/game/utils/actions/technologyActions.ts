@@ -6,7 +6,7 @@
 import type { TechnologyKey, GameState } from '@/lib/game/types';
 
 import { startResearch } from '@/lib/game/utils/technology';
-import { createStateErrorHandler } from '@/lib/game/utils/errorLogger';
+import { createStateErrorHandler } from '@/lib/game/utils/error';
 
 const stateErrorHandler = createStateErrorHandler('technologyActions');
 

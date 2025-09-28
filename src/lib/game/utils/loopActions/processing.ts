@@ -5,7 +5,7 @@ import { LOOP_ACTIONS } from '@/lib/game/config/loopActions';
 import { pay } from '@/lib/game/utils/actions';
 import { addResources } from '@/lib/game/utils/gameState';
 import { canAfford } from '@/lib/game/utils/calculations';
-import { logMessage } from '@/lib/game/utils/errorLogger';
+import { logMessage } from '@/lib/game/utils/error';
 
 export function processLoopActionTick(state: GameState): GameState {
   let newState = { ...state };

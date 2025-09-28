@@ -1,7 +1,7 @@
 // Achievement notification management logic
 
 import type { GameState, AchievementKey } from '@/lib/game/types';
-import { createStateErrorHandler } from '@/lib/game/utils/errorLogger';
+import { createStateErrorHandler } from '@/lib/game/utils/error';
 
 // Create specialized error handler
 const stateErrorHandler = createStateErrorHandler('achievementSystem');

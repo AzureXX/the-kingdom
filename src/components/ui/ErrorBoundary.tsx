@@ -3,7 +3,7 @@
 import React, { Component, ReactNode } from 'react';
 import { loadSave, hasSave } from '@/lib/game/utils/save';
 import { SAVE_KEY } from '@/lib/game/config';
-import { logGameError, logErrorBoundaryOperation } from '@/lib/game/utils/errorLogger';
+import { logGameError, logErrorBoundaryOperation } from '@/lib/game/utils/error';
 import styles from '@/styles/components/ui/ErrorBoundary.module.scss';
 
 interface Props {

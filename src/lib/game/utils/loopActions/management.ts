@@ -5,7 +5,7 @@ import type { LoopActionKey, LoopActionState } from '@/lib/game/types/loopAction
 import { LOOP_ACTIONS } from '@/lib/game/config/loopActions';
 import { pay } from '@/lib/game/utils/actions';
 import { canAfford } from '@/lib/game/utils/calculations';
-import { logMessage } from '@/lib/game/utils/errorLogger';
+import { logMessage } from '@/lib/game/utils/error';
 import { canStartLoopAction } from './validation';
 
 export function startLoopAction(state: GameState, actionKey: LoopActionKey): GameState {

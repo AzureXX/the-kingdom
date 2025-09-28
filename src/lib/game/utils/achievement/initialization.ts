@@ -1,7 +1,7 @@
 // Achievement system initialization logic
 
 import type { AchievementState } from '@/lib/game/types';
-import { createStateErrorHandler } from '@/lib/game/utils/errorLogger';
+import { createStateErrorHandler } from '@/lib/game/utils/error';
 
 // Create specialized error handler
 const stateErrorHandler = createStateErrorHandler('achievementSystem');

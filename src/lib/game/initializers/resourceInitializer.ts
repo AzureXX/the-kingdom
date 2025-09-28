@@ -12,7 +12,7 @@
 
 import type { ResourceKey } from '@/lib/game/types';
 import { CONFIG } from '@/lib/game/config';
-import { createStateErrorHandler } from '@/lib/game/utils/errorLogger';
+import { createStateErrorHandler } from '@/lib/game/utils/error';
 
 const { resources: RESOURCES } = CONFIG;
 

@@ -2,7 +2,7 @@
 
 import type { GameState } from '@/lib/game/types';
 import { initAchievementState } from '@/lib/game/utils/achievement';
-import { createStateErrorHandler } from '@/lib/game/utils/errorLogger';
+import { createStateErrorHandler } from '@/lib/game/utils/error';
 
 /**
  * Migrate game state to include achievement data if missing

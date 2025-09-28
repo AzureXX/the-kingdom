@@ -1,7 +1,7 @@
 // Game state initialization logic
 
 import { createNewGameState } from '@/lib/game/initializers/gameStateFactory';
-import { createStateErrorHandler } from '@/lib/game/utils/errorLogger';
+import { createStateErrorHandler } from '@/lib/game/utils/error';
 import type { GameState } from '@/lib/game/types';
 
 // Create specialized error handler for game state initialization

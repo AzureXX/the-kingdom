@@ -1,7 +1,7 @@
 // Resource processing utilities
 
 import { applyResourceChanges } from './changes';
-import { createStateErrorHandler } from '@/lib/game/utils/errorLogger';
+import { createStateErrorHandler } from '@/lib/game/utils/error';
 import type { GameState, ResourceKey, ResourceCost } from '@/lib/game/types';
 
 const stateErrorHandler = createStateErrorHandler('resourceUpdates');

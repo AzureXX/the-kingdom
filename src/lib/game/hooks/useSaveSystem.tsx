@@ -4,7 +4,7 @@ import { initNewGame } from '@/lib/game/utils/gameState';
 import { GAME_CONSTANTS } from '@/lib/game/constants';
 import { validateGameConfig } from '@/lib/game/utils/validation/crossReferenceValidation';
 import { CONFIG } from '@/lib/game/config';
-import { logConfigValidation } from '@/lib/game/utils/errorLogger';
+import { logConfigValidation } from '@/lib/game/utils/error';
 import type { GameState } from '@/lib/game/types';
 
 export function useSaveSystem(

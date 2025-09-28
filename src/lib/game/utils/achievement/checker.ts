@@ -8,7 +8,7 @@ import type {
 import { ACHIEVEMENTS } from '@/lib/game/config/achievements';
 import { calculateAchievementProgress } from './progress';
 import { applyAchievementRewards } from './rewards';
-import { createValidationErrorHandler, createStateErrorHandler } from '@/lib/game/utils/errorLogger';
+import { createValidationErrorHandler, createStateErrorHandler } from '@/lib/game/utils/error';
 
 // Create specialized error handlers
 const validationHandler = createValidationErrorHandler('achievementSystem');

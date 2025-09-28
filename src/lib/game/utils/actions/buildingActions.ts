@@ -12,7 +12,7 @@ import {
 import { payResources } from '@/lib/game/utils/resource';
 import { checkAchievements } from '@/lib/game/utils/achievement';
 import { costFor, canAfford } from '@/lib/game/utils/calculations';
-import { createStateErrorHandler } from '@/lib/game/utils/errorLogger';
+import { createStateErrorHandler } from '@/lib/game/utils/error';
 
 const stateErrorHandler = createStateErrorHandler('buildingActions');
 

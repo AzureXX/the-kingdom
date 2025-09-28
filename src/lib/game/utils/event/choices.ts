@@ -5,7 +5,7 @@ import type { EventKey, ResourceKey, GameState } from '@/lib/game/types';
 import { EVENT_CONSTANTS, GAME_CONSTANTS } from '@/lib/game/constants';
 import { getResource, addResources } from '@/lib/game/utils/gameState';
 import { isValidResourceKey } from '@/lib/game/utils';
-import { logInvalidKey } from '@/lib/game/utils/errorLogger';
+import { logInvalidKey } from '@/lib/game/utils/error';
 import { applyResourceChanges } from '@/lib/game/utils/resource';
 
 const { events: EVENTS } = CONFIG;

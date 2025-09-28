@@ -2,7 +2,7 @@
 
 import { getResource, updateMultipleResources, addResources } from '@/lib/game/utils/gameState';
 import { isValidResourceKey } from '@/lib/game/utils';
-import { logInvalidKey } from '@/lib/game/utils/errorLogger';
+import { logInvalidKey } from '@/lib/game/utils/error';
 import type { GameState, ResourceKey, ResourceCost, ResourceProduction } from '@/lib/game/types';
 
 /**
