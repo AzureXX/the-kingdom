@@ -1,7 +1,7 @@
 // Event timing and scheduling logic
 
 import { CONFIG } from '@/lib/game/config';
-import type { EventKey, GameState } from '@/lib/game/types';
+import type { GameState } from '@/lib/game/types';
 import { EVENT_CONSTANTS, GAME_CONSTANTS } from '@/lib/game/constants';
 import { triggerRandomEvent } from './triggering';
 import { makeEventChoice } from './choices';

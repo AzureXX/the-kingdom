@@ -2,7 +2,7 @@
 
 import { CONFIG } from '@/lib/game/config';
 import { safeJsonParse, encodeBase64, decodeBase64 } from '@/lib/game/utils';
-import { migrateGameState } from '@/lib/game/utils/migrationUtils';
+import { migrateGameState } from '@/lib/game/utils/migration';
 import type { GameState } from '@/lib/game/types';
 
 /**

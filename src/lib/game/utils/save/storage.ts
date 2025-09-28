@@ -3,7 +3,7 @@
 import { CONFIG, SAVE_KEY } from '@/lib/game/config';
 import { safeJsonParse } from '@/lib/game/utils';
 import { updateTimestamp } from '@/lib/game/utils/gameState';
-import { migrateGameState } from '@/lib/game/utils/migrationUtils';
+import { migrateGameState } from '@/lib/game/utils/migration';
 import type { GameState } from '@/lib/game/types';
 
 /**

@@ -10,10 +10,10 @@
 // ============================================================================
 
 // Number manipulation and formatting
-export { clamp, formatNumber } from '@/lib/game/utils/numberUtils';
+export { clamp, formatNumber } from '@/lib/game/utils/number';
 
 // String processing and encoding
-export { safeJsonParse, encodeBase64, decodeBase64 } from '@/lib/game/utils/stringUtils';
+export { safeJsonParse, encodeBase64, decodeBase64 } from '@/lib/game/utils/string';
 
 // Performance utilities - consolidated from performance folder
 export {
@@ -109,7 +109,7 @@ export {
 export { 
   migrateGameState,
   needsMigration
-} from '@/lib/game/utils/migrationUtils';
+} from '@/lib/game/utils/migration';
 
 // ============================================================================
 // ERROR HANDLING AND LOGGING

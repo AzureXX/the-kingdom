@@ -1,4 +1,4 @@
-import { formatNumber, clamp } from '@/lib/game/utils/numberUtils'
+import { formatNumber, clamp } from '@/lib/game/utils/number'
 
 describe('numberUtils', () => {
   describe('formatNumber', () => {

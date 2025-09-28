@@ -1,4 +1,4 @@
-import { safeJsonParse, encodeBase64, decodeBase64 } from '@/lib/game/utils/stringUtils'
+import { safeJsonParse, encodeBase64, decodeBase64 } from '@/lib/game/utils/string'
 
 describe('stringUtils', () => {
   describe('safeJsonParse', () => {
