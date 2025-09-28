@@ -131,18 +131,18 @@ if (!result.withinBudget) {
 ### Action Validation (`actionValidation.ts`)
 Comprehensive action validation system using a class-based approach.
 
-#### `ActionValidator.canExecuteAction(state, actionKey)`
+#### `ActionChecker.canExecuteAction(state, actionKey)`
 Checks if an action can be executed based on current game state.
 
 ```typescript
-const canExecute = ActionValidator.canExecuteAction(gameState, 'gatherWood');
+const canExecute = ActionChecker.canExecuteAction(gameState, 'gatherWood');
 ```
 
-#### `ActionValidator.isActionUnlocked(state, actionKey)`
+#### `ActionChecker.isActionUnlocked(state, actionKey)`
 Checks if an action is unlocked based on unlock conditions.
 
 ```typescript
-const isUnlocked = ActionValidator.isActionUnlocked(gameState, 'sellWood');
+const isUnlocked = ActionChecker.isActionUnlocked(gameState, 'sellWood');
 ```
 
 ### Loop Action Calculations (`loopActionCalculations.ts`)

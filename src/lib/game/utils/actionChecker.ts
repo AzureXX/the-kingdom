@@ -7,7 +7,7 @@ import { canAfford } from '@/lib/game/calculations';
  * Consolidated action validator class
  * Provides all action validation functionality in a single, organized interface
  */
-export class ActionValidator {
+export class ActionChecker {
   /**
    * Check if an action can be executed
    */

@@ -6,7 +6,7 @@ import { pay } from '@/lib/game/utils/actions';
 import { addResources } from '@/lib/game/gameState';
 import { canAfford } from '@/lib/game/calculations';
 import { logMessage } from '@/lib/game/utils/errorLogger';
-import { ActionValidator } from '@/lib/game/utils/actionValidation';
+import { ActionChecker } from '@/lib/game/utils/actionChecker';
 
 export function startLoopAction(state: GameState, actionKey: LoopActionKey): GameState {
   if (!canStartLoopAction(state, actionKey)) {
@@ -246,7 +246,7 @@ export function canStartLoopAction(state: GameState, actionKey: LoopActionKey): 
   if (!actionDef) return false;
   
   // Check unlock conditions
-  if (!ActionValidator.checkUnlockConditions(state, actionDef.unlockConditions)) {
+  if (!ActionChecker.checkUnlockConditions(state, actionDef.unlockConditions)) {
     return false;
   }
   

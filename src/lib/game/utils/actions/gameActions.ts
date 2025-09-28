@@ -7,7 +7,7 @@ import type { ActionKey, GameState } from '@/lib/game/types';
 
 import { addResources } from '@/lib/game/gameState';
 import { getAction } from '@/lib/game/config/actions';
-import { ActionValidator } from '@/lib/game/utils/actionValidation';
+import { ActionChecker } from '@/lib/game/utils/actionChecker';
 import { createStateErrorHandler } from '@/lib/game/utils/errorLogger';
 import { pay } from './resourceActions';
 
@@ -77,7 +77,7 @@ export function executeAction(state: GameState, actionKey: ActionKey): GameState
     }
 
     // Check if action can be executed
-    if (!ActionValidator.canExecuteAction(state, actionKey)) {
+    if (!ActionChecker.canExecuteAction(state, actionKey)) {
       return state;
     }
 

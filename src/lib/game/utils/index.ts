@@ -95,7 +95,7 @@ export {
 // ============================================================================
 
 // Action validation and checking
-export { ActionValidator } from '@/lib/game/utils/actionValidation';
+export { ActionChecker } from '@/lib/game/utils/actionChecker';
 
 // Loop action calculations and progress tracking
 export { 
