@@ -6,7 +6,7 @@ import { GAME_CONSTANTS } from '@/lib/game/constants';
 import { getResource, setResource, setTechnologyLevel } from '@/lib/game/utils/gameState';
 import { isValidResourceKey } from '@/lib/game/utils';
 import { logInvalidKey } from '@/lib/game/utils/error';
-import { canResearchTechnology } from './validation';
+import { canResearchTechnology } from '@/lib/game/utils/technology/validation';
 
 const { technologies: TECHNOLOGIES } = CONFIG;
 

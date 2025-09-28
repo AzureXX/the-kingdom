@@ -4,7 +4,7 @@ import type { ResourceKey, BuildingKey, PrestigeUpgradeKey, TechnologyKey, Resou
 import { CONFIG } from '@/lib/game/config';
 import { getBuildingCount } from '@/lib/game/utils/gameState';
 import { createValidationErrorHandler, createCalculationErrorHandler } from '@/lib/game/utils/error';
-import { getMultipliers } from './multipliers';
+import { getMultipliers } from '@/lib/game/utils/calculations/multipliers';
 
 const { buildings: BUILDINGS, technologies: TECHNOLOGIES, prestige: PRESTIGE_CONFIG } = CONFIG;
 

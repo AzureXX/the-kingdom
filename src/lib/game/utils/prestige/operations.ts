@@ -2,7 +2,7 @@
 
 import { initNewGame } from '@/lib/game/utils/gameState';
 import type { GameState } from '@/lib/game/types';
-import { prestigeGain } from './calculations';
+import { prestigeGain } from '@/lib/game/utils/prestige/calculations';
 
 /**
  * Perform prestige operation - reset game state but keep prestige and upgrades

@@ -3,8 +3,8 @@
 import { CONFIG } from '@/lib/game/config';
 import type { GameState } from '@/lib/game/types';
 import { EVENT_CONSTANTS, GAME_CONSTANTS } from '@/lib/game/constants';
-import { triggerRandomEvent } from './triggering';
-import { makeEventChoice } from './choices';
+import { triggerRandomEvent } from '@/lib/game/utils/event/triggering';
+import { makeEventChoice } from '@/lib/game/utils/event/choices';
 
 const { events: EVENTS } = CONFIG;
 

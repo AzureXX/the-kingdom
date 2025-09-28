@@ -1,6 +1,6 @@
 // Error logging utilities
 
-import type { ErrorLogOptions, ErrorLogDetails } from './types';
+import type { ErrorLogOptions, ErrorLogDetails } from '@/lib/game/utils/error/types';
 import type { ErrorInfo } from 'react';
 import type { ValidationError } from '@/lib/game/utils/validation/resourceValidation';
 

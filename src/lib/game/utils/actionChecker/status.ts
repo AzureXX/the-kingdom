@@ -3,7 +3,7 @@
 import type { GameState, ActionKey, ActionStatus } from '@/lib/game/types';
 import { getAction } from '@/lib/game/config/actions';
 import { canAfford } from '@/lib/game/utils/calculations';
-import { isActionUnlocked, isActionOnCooldown } from './validation';
+import { isActionUnlocked, isActionOnCooldown } from '@/lib/game/utils/actionChecker/validation';
 
 /**
  * Get action status including availability and costs - simplified using consolidated validation

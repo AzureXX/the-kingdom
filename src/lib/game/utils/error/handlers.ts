@@ -1,7 +1,7 @@
 // Error handler creation utilities
 
-import type { ErrorCategory, GameError, ErrorLogDetails } from './types';
-import { logMessage } from './logging';
+import type { ErrorCategory, GameError, ErrorLogDetails } from '@/lib/game/utils/error/types';
+import { logMessage } from '@/lib/game/utils/error/logging';
 
 /**
  * Centralized error handling function for consistent error handling across all game systems

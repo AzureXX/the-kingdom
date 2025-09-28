@@ -6,13 +6,13 @@ export {
   isActionUnlocked,
   isActionOnCooldown,
   checkUnlockConditions
-} from './validation';
+} from '@/lib/game/utils/actionChecker/validation';
 
 // Status
-export { getActionStatus } from './status';
+export { getActionStatus } from '@/lib/game/utils/actionChecker/status';
 
 // Queries
 export { 
   getAvailableActions,
   getUnlockedButUnavailableActions
-} from './queries';
+} from '@/lib/game/utils/actionChecker/queries';

@@ -10,7 +10,7 @@ import { checkAndTriggerEvents } from '@/lib/game/utils/event';
 import { checkResearchProgress } from '@/lib/game/utils/technology';
 import { createStateErrorHandler } from '@/lib/game/utils/error';
 import { GAME_CONSTANTS } from '@/lib/game/constants';
-import { updateResourcesFromProduction } from './resourceActions';
+import { updateResourcesFromProduction } from '@/lib/game/utils/actions/resourceActions';
 
 const stateErrorHandler = createStateErrorHandler('gameLoopActions');
 

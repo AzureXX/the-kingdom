@@ -4,7 +4,7 @@ import type { ResourceKey, BuildingKey, PrestigeUpgradeKey, ResourceCost, GameSt
 import { CONFIG } from '@/lib/game/config';
 import { getResource, getUpgradeLevel, isBuildingUnlocked } from '@/lib/game/utils/gameState';
 import { createValidationErrorHandler, createCalculationErrorHandler } from '@/lib/game/utils/error';
-import { costFor, getUpgradeCost } from './costs';
+import { costFor, getUpgradeCost } from '@/lib/game/utils/calculations/costs';
 
 const { prestige: PRESTIGE_CONFIG } = CONFIG;
 

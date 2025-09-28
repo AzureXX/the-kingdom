@@ -2,8 +2,8 @@
 
 import type { LoopActionState, LoopActionProgress } from '@/lib/game/types/loopActions';
 import { LOOP_ACTIONS } from '@/lib/game/config/loopActions';
-import { calculateProgress } from './progress';
-import { calculateLoopActionEfficiency } from './efficiency';
+import { calculateProgress } from '@/lib/game/utils/loopCalculations/progress';
+import { calculateLoopActionEfficiency } from '@/lib/game/utils/loopCalculations/efficiency';
 
 /**
  * Generates comprehensive statistics for a loop action.

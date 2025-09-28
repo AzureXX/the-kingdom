@@ -9,7 +9,7 @@ import { addResources } from '@/lib/game/utils/gameState';
 import { getAction } from '@/lib/game/config/actions';
 import { canExecuteAction } from '@/lib/game/utils/actionChecker';
 import { createStateErrorHandler } from '@/lib/game/utils/error';
-import { pay } from './resourceActions';
+import { pay } from '@/lib/game/utils/actions/resourceActions';
 
 const stateErrorHandler = createStateErrorHandler('gameActions');
 

@@ -2,7 +2,7 @@
 
 import { getPerSec, getMultipliers } from '@/lib/game/utils/calculations';
 import { prestigeGain } from '@/lib/game/utils/prestige';
-import { calculateTechnologyCosts, calculateUpgradeCosts } from './costs';
+import { calculateTechnologyCosts, calculateUpgradeCosts } from '@/lib/game/utils/gameCalculations/costs';
 import type { GameState, Multipliers, TechnologyKey, PrestigeUpgradeKey, ResourceKey, ResourceCost } from '@/lib/game/types';
 
 /**

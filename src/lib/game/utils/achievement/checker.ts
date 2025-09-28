@@ -6,8 +6,8 @@ import type {
   AchievementNotification,
 } from '@/lib/game/types';
 import { ACHIEVEMENTS } from '@/lib/game/config/achievements';
-import { calculateAchievementProgress } from './progress';
-import { applyAchievementRewards } from './rewards';
+import { calculateAchievementProgress } from '@/lib/game/utils/achievement/progress';
+import { applyAchievementRewards } from '@/lib/game/utils/achievement/rewards';
 import { createValidationErrorHandler, createStateErrorHandler } from '@/lib/game/utils/error';
 
 // Create specialized error handlers

@@ -1,6 +1,6 @@
 // Resource processing utilities
 
-import { applyResourceChanges } from './changes';
+import { applyResourceChanges } from '@/lib/game/utils/resource/changes';
 import { createStateErrorHandler } from '@/lib/game/utils/error';
 import type { GameState, ResourceKey, ResourceCost } from '@/lib/game/types';
 

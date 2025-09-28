@@ -6,7 +6,7 @@ import { LOOP_ACTIONS } from '@/lib/game/config/loopActions';
 import { pay } from '@/lib/game/utils/actions';
 import { canAfford } from '@/lib/game/utils/calculations';
 import { logMessage } from '@/lib/game/utils/error';
-import { canStartLoopAction } from './validation';
+import { canStartLoopAction } from '@/lib/game/utils/loopActions/validation';
 
 export function startLoopAction(state: GameState, actionKey: LoopActionKey): GameState {
   if (!canStartLoopAction(state, actionKey)) {

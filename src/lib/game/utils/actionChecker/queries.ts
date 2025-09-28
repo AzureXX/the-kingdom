@@ -2,7 +2,7 @@
 
 import type { GameState, ActionKey } from '@/lib/game/types';
 import { getAllActions } from '@/lib/game/config/actions';
-import { canExecuteAction, isActionUnlocked } from './validation';
+import { canExecuteAction, isActionUnlocked } from '@/lib/game/utils/actionChecker/validation';
 
 /**
  * Get all available actions for the current game state

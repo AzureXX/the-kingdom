@@ -1,19 +1,19 @@
 // Achievement system exports
 
 // Initialization
-export { initAchievementState } from './initialization';
+export { initAchievementState } from '@/lib/game/utils/achievement/initialization';
 
 // Progress calculation
-export { calculateAchievementProgress, getAchievementProgress } from './progress';
+export { calculateAchievementProgress, getAchievementProgress } from '@/lib/game/utils/achievement/progress';
 
 // Reward application
-export { applyAchievementRewards } from './rewards';
+export { applyAchievementRewards } from '@/lib/game/utils/achievement/rewards';
 
 // Achievement checking
-export { checkAchievements } from './checker';
+export { checkAchievements } from '@/lib/game/utils/achievement/checker';
 
 // Notification management
-export { markNotificationShown } from './notifications';
+export { markNotificationShown } from '@/lib/game/utils/achievement/notifications';
 
 // Statistics
-export { getAchievementStats } from './stats';
+export { getAchievementStats } from '@/lib/game/utils/achievement/stats';
