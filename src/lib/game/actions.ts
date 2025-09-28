@@ -191,9 +191,18 @@ export function researchTechnology(state: GameState, key: TechnologyKey): GameSt
 }
 
 /**
- * Process game tick (time-based updates) - Optimized pure function with error handling and frame skipping
+ * Update resources from production and track lifetime statistics
+ * 
+ * @param state - Current game state
+ * @param dtSeconds - Time delta in seconds
+ * @returns Updated game state with resource changes and lifetime tracking
+ * 
+ * @example
+ * ```typescript
+ * const updatedState = updateResourcesFromProduction(state, 0.05);
+ * ```
  */
-export function tick(state: GameState, dtSeconds: number, tickCounter: number = 0): GameState {
+export function updateResourcesFromProduction(state: GameState, dtSeconds: number): GameState {
   try {
     // Early return if no time has passed
     if (dtSeconds <= 0) return state;
@@ -205,23 +214,7 @@ export function tick(state: GameState, dtSeconds: number, tickCounter: number = 
     
     // Early return if no changes occurred
     if (Object.keys(resourceChanges).length === 0) {
-      // Still need to check events, research progress, and achievements with frame skipping
-      let newState = state;
-      
-      // Check events with frame skipping (every 3 ticks)
-      if (tickCounter % GAME_CONSTANTS.FRAME_SKIP.EVENTS === 0) {
-        newState = checkAndTriggerEvents(newState);
-      }
-      
-      // Always check research progress (time-sensitive)
-      newState = checkResearchProgress(newState);
-      
-      // Check achievements with frame skipping (every 5 ticks)
-      if (tickCounter % GAME_CONSTANTS.FRAME_SKIP.ACHIEVEMENTS === 0) {
-        newState = checkAchievements(newState);
-      }
-      
-      return newState;
+      return state;
     }
     
     // Apply resource updates using unified utility
@@ -249,19 +242,78 @@ export function tick(state: GameState, dtSeconds: number, tickCounter: number = 
       };
     }
     
-    // Check for events and research progress with frame skipping
-    // This ensures events trigger even when buildings aren't producing resources
+    return newState;
+  } catch (error) {
+    stateErrorHandler('Failed to update resources from production', { dtSeconds, error: error instanceof Error ? error.message : String(error) });
+    return state; // Return original state on error
+  }
+}
+
+/**
+ * Check and process events with frame skipping optimization
+ * 
+ * @param state - Current game state
+ * @param tickCounter - Current tick counter for frame skipping
+ * @returns Updated game state with any triggered events
+ * 
+ * @example
+ * ```typescript
+ * const updatedState = checkAndProcessEvents(state, 15);
+ * ```
+ */
+export function checkAndProcessEvents(state: GameState, tickCounter: number): GameState {
+  try {
+    // Check events with frame skipping (every 3 ticks)
     if (tickCounter % GAME_CONSTANTS.FRAME_SKIP.EVENTS === 0) {
-      newState = checkAndTriggerEvents(newState);
+      return checkAndTriggerEvents(state);
     }
+    return state;
+  } catch (error) {
+    stateErrorHandler('Failed to check and process events', { tickCounter, error: error instanceof Error ? error.message : String(error) });
+    return state; // Return original state on error
+  }
+}
+
+/**
+ * Check and process achievements with frame skipping optimization
+ * 
+ * @param state - Current game state
+ * @param tickCounter - Current tick counter for frame skipping
+ * @returns Updated game state with any triggered achievements
+ * 
+ * @example
+ * ```typescript
+ * const updatedState = checkAndProcessAchievements(state, 25);
+ * ```
+ */
+export function checkAndProcessAchievements(state: GameState, tickCounter: number): GameState {
+  try {
+    // Check achievements with frame skipping (every 5 ticks)
+    if (tickCounter % GAME_CONSTANTS.FRAME_SKIP.ACHIEVEMENTS === 0) {
+      return checkAchievements(state);
+    }
+    return state;
+  } catch (error) {
+    stateErrorHandler('Failed to check and process achievements', { tickCounter, error: error instanceof Error ? error.message : String(error) });
+    return state; // Return original state on error
+  }
+}
+
+/**
+ * Process game tick (time-based updates) - Optimized pure function with error handling and frame skipping
+ */
+export function tick(state: GameState, dtSeconds: number, tickCounter: number = 0): GameState {
+  try {
+    // Early return if no time has passed
+    if (dtSeconds <= 0) return state;
     
-    // Always check research progress (time-sensitive)
+    let newState = updateResourcesFromProduction(state, dtSeconds);
+    
+    newState = checkAndProcessEvents(newState, tickCounter);
+    
     newState = checkResearchProgress(newState);
     
-    // Check achievements with frame skipping
-    if (tickCounter % GAME_CONSTANTS.FRAME_SKIP.ACHIEVEMENTS === 0) {
-      newState = checkAchievements(newState);
-    }
+    newState = checkAndProcessAchievements(newState, tickCounter);
     
     return newState;
   } catch (error) {
