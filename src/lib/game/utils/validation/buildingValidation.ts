@@ -9,7 +9,6 @@
  * - Building cost, production, and consumption validation
  * - Building technology requirements validation
  * 
- * @example
  * ```typescript
  * 
  * // Validate a building key
@@ -36,11 +35,6 @@ import { validateResourceOperation } from '@/lib/game/utils/validation/resourceV
  * @param key - The string to validate
  * @returns True if the key is a valid building key, false otherwise
  * 
- * @example
- * ```typescript
- * isValidBuildingKey('woodcutter');  // Returns: true
- * isValidBuildingKey('invalid');     // Returns: false
- * ```
  */
 export function isValidBuildingKey(key: string): key is BuildingKey {
   return ['woodcutter', 'quarry', 'farm', 'blacksmith', 'castle', 'library', 'university', 'laboratory'].includes(key as BuildingKey);
@@ -63,10 +57,6 @@ export function isValidBuildingKey(key: string): key is BuildingKey {
  * - Technology requirements are valid
  * - Cost scaling values are valid
  * 
- * @example
- * ```typescript
- * const result = validateBuildings(BUILDINGS, buildingKeys, resourceKeys, techKeys);
- * ```
  */
 export function validateBuildings(
   buildings: Record<BuildingKey, BuildingDef>,

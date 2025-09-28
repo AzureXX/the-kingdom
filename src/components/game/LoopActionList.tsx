@@ -1,9 +1,9 @@
 import React, { memo } from 'react';
-import { LoopActionButton } from './LoopActionButton';
-import { LOOP_ACTIONS } from '../../lib/game/config';
-import type { LoopActionKey, LoopActionState } from '../../lib/game/types/loopActions';
-import type { LoopActionComponentProps } from '../../lib/game/types/context';
-import { canStartLoopAction } from '../../lib/game/loopActionEngine';
+import { LoopActionButton } from '@/components/game/LoopActionButton';
+import { LOOP_ACTIONS } from '@/lib/game/config';
+import type { LoopActionKey, LoopActionState } from '@/lib/game/types/loopActions';
+import type { LoopActionComponentProps } from '@/lib/game/types/context';
+import { canStartLoopAction } from '@/lib/game/loopActionEngine';
 import styles from '@/styles/components/game/LoopActionList.module.scss';
 
 export const LoopActionList = memo(function LoopActionList({ gameState, onToggleLoopAction }: LoopActionComponentProps) {

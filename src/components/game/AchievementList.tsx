@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from 'react';
-import { AchievementCard } from './AchievementCard';
+import { AchievementCard } from '@/components/game/AchievementCard';
 import { useAchievements } from '@/lib/game/hooks';
 import type { AchievementFilter, AchievementSortOption } from '@/lib/game/types';
 import styles from '@/styles/components/game/AchievementList.module.scss';

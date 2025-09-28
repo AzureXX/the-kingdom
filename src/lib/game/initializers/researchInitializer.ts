@@ -8,10 +8,6 @@
  * - Research timing and progress tracking
  * - Action unlocks and cooldowns
  * 
- * @example
- * ```typescript
- * 
- * const researchState = initResearchState();
  * // Returns: { research: {...}, actions: {...} }
  * ```
  */
@@ -32,10 +28,6 @@ const stateErrorHandler = createStateErrorHandler('researchInitializer');
  * - Sets up action unlocks and cooldowns
  * - Initializes empty research timing
  * 
- * @example
- * ```typescript
- * const researchState = initResearchState();
- * ```
  */
 export function initResearchState(): {
   research: {

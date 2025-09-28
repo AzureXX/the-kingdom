@@ -1,12 +1,12 @@
 // Event system configuration - grouped by category
 
-import type { EventKey, EventDef } from '../../types';
+import type { EventKey, EventDef } from '@/lib/game/types';
 
 // Import all event categories
-import { TRADING_EVENTS } from './tradingEvents';
-import { CONFLICT_EVENTS } from './conflictEvents';
-import { NATURAL_EVENTS } from './naturalEvents';
-import { SOCIAL_EVENTS } from './socialEvents';
+import { TRADING_EVENTS } from '@/lib/game/config/events/tradingEvents';
+import { CONFLICT_EVENTS } from '@/lib/game/config/events/conflictEvents';
+import { NATURAL_EVENTS } from '@/lib/game/config/events/naturalEvents';
+import { SOCIAL_EVENTS } from '@/lib/game/config/events/socialEvents';
 
 /**
  * Combined event definitions organized by category

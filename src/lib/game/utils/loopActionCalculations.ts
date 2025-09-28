@@ -24,7 +24,6 @@ export function calculatePointsPerTick(): number {
  * @param action - The current state of the loop action
  * @returns Progress information including percentage and time estimates
  * 
- * @example
  * ```typescript
  * const progress = calculateProgress(loopActionState);
  * // Returns: {
@@ -69,7 +68,6 @@ export function calculateProgress(action: LoopActionState): LoopActionProgress {
  * @param action - The current state of the loop action
  * @returns Efficiency score (points per millisecond)
  * 
- * @example
  * ```typescript
  * const efficiency = calculateLoopActionEfficiency(loopActionState);
  * // Returns: 0.5 (500 points generated in 1000ms)
@@ -100,7 +98,6 @@ export function calculateLoopActionEfficiency(action: LoopActionState): number {
  * @param action - The current state of the loop action
  * @returns Complete statistics object with all relevant information
  * 
- * @example
  * ```typescript
  * const stats = getLoopActionStats(loopActionState);
  * // Returns: {

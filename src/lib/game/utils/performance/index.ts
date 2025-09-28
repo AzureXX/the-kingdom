@@ -9,7 +9,7 @@ export {
   updateHistoricalData,
   calculateAverages,
   checkMetricsChanged
-} from './monitoring';
+} from '@/lib/game/utils/performance/monitoring';
 
 // Performance optimization tools
 export {
@@ -17,19 +17,19 @@ export {
   throttle,
   calculateMovingAverage,
   detectPerformanceAnomalies
-} from './optimization';
+} from '@/lib/game/utils/performance/optimization';
 
 // Performance formatting utilities
 export {
   formatBytes,
   formatPerformanceMetric
-} from './formatting';
+} from '@/lib/game/utils/performance/formatting';
 
 // Performance budget utilities
 export {
   checkPerformanceBudget,
   type PerformanceBudget
-} from './budget';
+} from '@/lib/game/utils/performance/budget';
 
 // Performance analysis utilities
 export {
@@ -38,13 +38,13 @@ export {
   logPerformanceAnalysis,
   type PerformanceOverheadMetrics,
   type PerformanceAnalysisResult
-} from './analysis';
+} from '@/lib/game/utils/performance/analysis';
 
 // Circular buffer utilities
 export {
   CircularBuffer,
   PerformanceCircularBuffer
-} from './circularBuffer';
+} from '@/lib/game/utils/performance/circularBuffer';
 
 // Cached calculation utilities
 export {
@@ -52,4 +52,4 @@ export {
   getPerformanceSuggestionsCached,
   clearPerformanceCache,
   getCacheStats
-} from './calculations';
+} from '@/lib/game/utils/performance/calculations';

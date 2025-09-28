@@ -1,6 +1,6 @@
 // Event-related achievement definitions
 
-import type { AchievementDef } from '../../types/achievements';
+import type { AchievementDef } from '@/lib/game/types/achievements';
 
 /**
  * Event achievements - focused on random events and interactions

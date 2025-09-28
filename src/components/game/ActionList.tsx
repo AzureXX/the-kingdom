@@ -5,7 +5,7 @@ import type { ActionKey, ActionUnlockCondition } from '@/lib/game/types';
 import type { ActionComponentProps } from '@/lib/game/types/context';
 import { getAllActions } from '@/lib/game/config/actions';
 import { ActionValidator } from '@/lib/game/utils/actionValidation';
-import { ActionButton } from './ActionButton';
+import { ActionButton } from '@/components/game/ActionButton';
 import styles from '@/styles/page.module.scss';
 
 export const ActionList = memo(function ActionList({ state, onExecuteAction, fmt }: ActionComponentProps) {

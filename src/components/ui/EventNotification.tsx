@@ -1,9 +1,9 @@
 "use client";
 
 import React from 'react';
-import { useGameStateContext } from '../../lib/game/providers';
-import { CONFIG } from '../../lib/game/config';
-import styles from '../../styles/page.module.scss';
+import { useGameStateContext } from '@/lib/game/providers';
+import { CONFIG } from '@/lib/game/config';
+import styles from '@/styles/page.module.scss';
 
 export function EventNotification() {
   const { state } = useGameStateContext();

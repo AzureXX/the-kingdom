@@ -1,6 +1,6 @@
 // Trading action definitions - resource trading actions
 
-import type { ActionDef } from '../../types/actions';
+import type { ActionDef } from '@/lib/game/types/actions';
 
 /**
  * Trading actions - resource trading actions that unlock with thresholds

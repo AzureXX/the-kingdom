@@ -1,6 +1,6 @@
 // Time-related achievement definitions
 
-import type { AchievementDef } from '../../types/achievements';
+import type { AchievementDef } from '@/lib/game/types/achievements';
 
 /**
  * Time achievements - focused on playtime and speed challenges

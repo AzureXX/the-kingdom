@@ -17,7 +17,6 @@ const stateErrorHandler = createStateErrorHandler('resourceUpdates');
  * @param cost - Resources to pay
  * @returns Updated game state
  * 
- * @example
  * ```typescript
  * const newState = payResources(state, { gold: 100, wood: 50 });
  * ```
@@ -50,7 +49,6 @@ export function payResources(state: GameState, cost: ResourceCost): GameState {
  * @param changes - Resource changes to apply
  * @returns Updated game state
  * 
- * @example
  * ```typescript
  * const newState = applyResourceChanges(state, { gold: 100, wood: -50 });
  * ```
@@ -100,7 +98,6 @@ export function applyResourceChanges(state: GameState, changes: ResourceCost): G
  * @param resources - Resources to add
  * @returns Updated game state
  * 
- * @example
  * ```typescript
  * const newState = addResourcesToState(state, { gold: 100, wood: 50 });
  * ```
@@ -117,7 +114,6 @@ export function addResourcesToState(state: GameState, resources: ResourceProduct
  * @param context - Context for error logging
  * @returns Updated game state
  * 
- * @example
  * ```typescript
  * const newState = processResourceChanges(state, changes, 'eventSystem');
  * ```
@@ -143,7 +139,6 @@ export function processResourceChanges(
  * @param dtSeconds - Time delta in seconds
  * @returns Resource changes to apply
  * 
- * @example
  * ```typescript
  * const changes = calculateTimeBasedChanges(state, perSec, 0.05);
  * const newState = applyResourceChanges(state, changes);

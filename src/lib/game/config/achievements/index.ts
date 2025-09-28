@@ -1,17 +1,17 @@
 // Achievement configuration and definitions - grouped by category
 
-import type { AchievementDef, AchievementKey } from '../../types/achievements';
+import type { AchievementDef, AchievementKey } from '@/lib/game/types/achievements';
 
 // Import all achievement categories
-import { RESOURCE_ACHIEVEMENTS } from './resourceAchievements';
-import { BUILDING_ACHIEVEMENTS } from './buildingAchievements';
-import { TECHNOLOGY_ACHIEVEMENTS } from './technologyAchievements';
-import { ACTION_ACHIEVEMENTS } from './actionAchievements';
-import { PRESTIGE_ACHIEVEMENTS } from './prestigeAchievements';
-import { EVENT_ACHIEVEMENTS } from './eventAchievements';
-import { TIME_ACHIEVEMENTS } from './timeAchievements';
-import { COMBO_ACHIEVEMENTS } from './comboAchievements';
-import { HIDDEN_ACHIEVEMENTS } from './hiddenAchievements';
+import { RESOURCE_ACHIEVEMENTS } from '@/lib/game/config/achievements/resourceAchievements';
+import { BUILDING_ACHIEVEMENTS } from '@/lib/game/config/achievements/buildingAchievements';
+import { TECHNOLOGY_ACHIEVEMENTS } from '@/lib/game/config/achievements/technologyAchievements';
+import { ACTION_ACHIEVEMENTS } from '@/lib/game/config/achievements/actionAchievements';
+import { PRESTIGE_ACHIEVEMENTS } from '@/lib/game/config/achievements/prestigeAchievements';
+import { EVENT_ACHIEVEMENTS } from '@/lib/game/config/achievements/eventAchievements';
+import { TIME_ACHIEVEMENTS } from '@/lib/game/config/achievements/timeAchievements';
+import { COMBO_ACHIEVEMENTS } from '@/lib/game/config/achievements/comboAchievements';
+import { HIDDEN_ACHIEVEMENTS } from '@/lib/game/config/achievements/hiddenAchievements';
 
 /**
  * Combined achievement definitions organized by category

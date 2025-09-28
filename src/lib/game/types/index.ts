@@ -9,32 +9,32 @@ export type {
   ResourceConsumption,
   ResourceAmount,
   ResourceOperation,
-} from './resources';
+} from '@/lib/game/types/resources';
 
 // Building types
 export type {
   BuildingKey,
   BuildingDef,
-} from './buildings';
+} from '@/lib/game/types/buildings';
 
 // Technology types
 export type {
   TechnologyKey,
   TechnologyDef,
-} from './technologies';
+} from '@/lib/game/types/technologies';
 
 // Prestige types
 export type {
   PrestigeUpgradeKey,
   PrestigeUpgradeDef,
-} from './prestige';
+} from '@/lib/game/types/prestige';
 
 // Event types
 export type {
   EventKey,
   EventChoice,
   EventDef,
-} from './events';
+} from '@/lib/game/types/events';
 
 // Action types
 export type {
@@ -44,7 +44,7 @@ export type {
   ActionUnlocks,
   ActionCooldowns,
   ActionUnlockCondition,
-} from './actions';
+} from '@/lib/game/types/actions';
 
 // Loop Action types
 export type {
@@ -54,7 +54,7 @@ export type {
   LoopActionProgress,
   LoopActionSettings,
   LoopActionCategory,
-} from './loopActions';
+} from '@/lib/game/types/loopActions';
 
 // Achievement types
 export type {
@@ -75,10 +75,10 @@ export type {
   AchievementCheckContext,
   AchievementValidationResult,
   AchievementStats,
-} from './achievements';
+} from '@/lib/game/types/achievements';
 
 // Game state types
 export type {
   GameState,
   Multipliers,
-} from './game';
+} from '@/lib/game/types/game';

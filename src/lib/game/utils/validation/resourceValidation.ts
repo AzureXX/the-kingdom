@@ -8,14 +8,6 @@
  * - Resource definition validation
  * - Resource operation validation (cost, production, consumption)
  * 
- * @example
- * ```typescript
- * 
- * // Validate a resource key
- 
- * // Validate resource definitions
- * const result = validateResources(RESOURCES, ['gold', 'wood', 'stone']);
- * ```
  */
 
 import type { 
@@ -24,7 +16,7 @@ import type {
   ResourceCost,
   ResourceProduction,
   ResourceConsumption
-} from '../../types';
+} from '@/lib/game/types';
 
 // Validation result types
 /**
@@ -75,11 +67,6 @@ export interface ValidationWarning {
  * @param key - The string to validate
  * @returns True if the key is a valid resource key, false otherwise
  * 
- * @example
- * ```typescript
- * isValidResourceKey('gold');     // Returns: true
- * isValidResourceKey('invalid');  // Returns: false
- * ```
  */
 export function isValidResourceKey(key: string): key is ResourceKey {
   return ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'].includes(key as ResourceKey);
@@ -99,12 +86,6 @@ export function isValidResourceKey(key: string): key is ResourceKey {
  * - Data types are correct
  * - Values are within acceptable ranges
  * 
- * @example
- * ```typescript
- * const result = validateResources(RESOURCES, ['gold', 'wood', 'stone']);
- * 
- * 
- * ```
  */
 export function validateResources(
   resources: Record<ResourceKey, ResourceDef>,

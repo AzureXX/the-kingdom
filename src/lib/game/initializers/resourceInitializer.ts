@@ -8,12 +8,6 @@
  * - Lifetime resource tracking
  * - Achievement multipliers for resources
  * 
- * @example
- * ```typescript
- * 
- * const resourceState = initResourceState();
- * // Returns: { resources: {...}, lifetime: {...}, achievementMultipliers: {...} }
- * ```
  */
 
 import type { ResourceKey } from '@/lib/game/types';
@@ -36,10 +30,6 @@ const stateErrorHandler = createStateErrorHandler('resourceInitializer');
  * - Sets up lifetime tracking for all resources
  * - Initializes achievement multipliers for all resources
  * 
- * @example
- * ```typescript
- * const resourceState = initResourceState();
- * ```
  */
 export function initResourceState(): {
   resources: Partial<Record<ResourceKey, number>>;

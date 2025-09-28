@@ -1,7 +1,7 @@
 // Social event definitions
 
-import type { EventDef } from '../../types';
-import { EVENT_CONSTANTS } from '../../constants/events';
+import type { EventDef } from '@/lib/game/types';
+import { EVENT_CONSTANTS } from '@/lib/game/constants/events';
 
 /**
  * Social events - events related to celebrations, festivals, and social activities

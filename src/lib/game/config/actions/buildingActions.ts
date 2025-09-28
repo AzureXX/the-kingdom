@@ -1,6 +1,6 @@
 // Building-dependent action definitions
 
-import type { ActionDef } from '../../types/actions';
+import type { ActionDef } from '@/lib/game/types/actions';
 
 /**
  * Building-dependent actions - actions that require specific buildings

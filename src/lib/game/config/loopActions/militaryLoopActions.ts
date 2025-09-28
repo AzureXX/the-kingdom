@@ -1,6 +1,6 @@
 // Military loop action definitions
 
-import type { LoopActionDef } from '../../types/loopActions';
+import type { LoopActionDef } from '@/lib/game/types/loopActions';
 
 /**
  * Military loop actions - military and defensive operations

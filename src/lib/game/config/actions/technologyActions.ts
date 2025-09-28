@@ -1,6 +1,6 @@
 // Technology-dependent action definitions
 
-import type { ActionDef } from '../../types/actions';
+import type { ActionDef } from '@/lib/game/types/actions';
 
 /**
  * Technology-dependent actions - actions that require specific technologies

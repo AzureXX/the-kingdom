@@ -8,7 +8,6 @@ import { GAME_CONSTANTS } from '@/lib/game/constants';
  * @param max - The maximum allowed value (inclusive)
  * @returns The clamped value within the [min, max] range
  * 
- * @example
  * ```typescript
  * clamp(15, 0, 10);    // Returns 10
  * clamp(-5, 0, 10);    // Returns 0
@@ -27,7 +26,6 @@ export function clamp(value: number, min: number, max: number): number {
  * @param dec - Number of decimal places to show (default: 0)
  * @returns Formatted string representation of the number
  * 
- * @example
  * ```typescript
  * formatNumber(1234);           // Returns "1.23K"
  * formatNumber(1234567);        // Returns "1.23M"

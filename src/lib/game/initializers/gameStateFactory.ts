@@ -8,10 +8,6 @@
  * - Creates a complete GameState object
  * - Handles error propagation from individual initializers
  * 
- * @example
- * ```typescript
- * 
- * const gameState = createNewGameState();
  * // Returns: Complete GameState object ready for use
  * ```
  */
@@ -46,10 +42,6 @@ const stateErrorHandler = createStateErrorHandler('gameStateFactory');
  * - Handles any errors from individual initializers
  * - Sets up core game state properties (timestamp, version, etc.)
  * 
- * @example
- * ```typescript
- * const gameState = createNewGameState();
- * ```
  */
 export function createNewGameState(): GameState {
   try {

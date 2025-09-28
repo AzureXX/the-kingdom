@@ -30,10 +30,6 @@ const stateErrorHandler = createStateErrorHandler('buildingInitializer');
  * - Validates building keys against CONFIG
  * - Logs any invalid building keys found
  * 
- * @example
- * ```typescript
- * const buildingState = initBuildingState();
- * ```
  */
 export function initBuildingState(): {
   buildings: Record<BuildingKey, number>;

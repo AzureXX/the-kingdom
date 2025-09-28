@@ -1,6 +1,6 @@
 // Prestige-related achievement definitions
 
-import type { AchievementDef } from '../../types/achievements';
+import type { AchievementDef } from '@/lib/game/types/achievements';
 
 /**
  * Prestige achievements - focused on reset mechanics and progression

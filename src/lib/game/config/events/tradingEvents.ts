@@ -1,7 +1,7 @@
 // Trading-related event definitions
 
-import type { EventDef } from '../../types';
-import { EVENT_CONSTANTS } from '../../constants/events';
+import type { EventDef } from '@/lib/game/types';
+import { EVENT_CONSTANTS } from '@/lib/game/constants/events';
 
 /**
  * Trading events - events related to commerce and trade

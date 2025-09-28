@@ -1,6 +1,6 @@
 // Gathering loop action definitions
 
-import type { LoopActionDef } from '../../types/loopActions';
+import type { LoopActionDef } from '@/lib/game/types/loopActions';
 
 /**
  * Gathering loop actions - resource gathering operations

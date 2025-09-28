@@ -7,10 +7,6 @@
  * - Technology levels (all set to 0 initially)
  * - Technology validation and error handling
  * 
- * @example
- * ```typescript
- * 
- * const technologyState = initTechnologyState();
  * // Returns: { technologies: {...} }
  * ```
  */
@@ -36,10 +32,6 @@ const stateErrorHandler = createStateErrorHandler('technologyInitializer');
  * - Validates technology keys against CONFIG
  * - Logs any invalid technology keys found
  * 
- * @example
- * ```typescript
- * const technologyState = initTechnologyState();
- * ```
  */
 export function initTechnologyState(): {
   technologies: Record<TechnologyKey, number>;

@@ -1,16 +1,16 @@
-export { usePerformanceMonitor } from './usePerformanceMonitor';
-export type { PerformanceMetrics } from './usePerformanceMonitor';
+export { usePerformanceMonitor } from '@/lib/game/hooks/usePerformanceMonitor';
+export type { PerformanceMetrics } from '@/lib/game/hooks/usePerformanceMonitor';
 
-export { useSaveSystem } from './useSaveSystem';
+export { useSaveSystem } from '@/lib/game/hooks/useSaveSystem';
 
-export { useGameLoop } from './useGameLoop';
+export { useGameLoop } from '@/lib/game/hooks/useGameLoop';
 
-export { useGameTime } from './useGameTime';
+export { useGameTime } from '@/lib/game/hooks/useGameTime';
 
-export { useGameActions } from './useGameActions';
+export { useGameActions } from '@/lib/game/hooks/useGameActions';
 
-export { useGameCalculations } from './useGameCalculations';
+export { useGameCalculations } from '@/lib/game/hooks/useGameCalculations';
 
-export { useLoopActions } from './useLoopActions';
+export { useLoopActions } from '@/lib/game/hooks/useLoopActions';
 
-export { useAchievements } from './useAchievements';
+export { useAchievements } from '@/lib/game/hooks/useAchievements';

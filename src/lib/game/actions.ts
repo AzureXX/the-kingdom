@@ -8,7 +8,7 @@ import {
   updateBuildingCount,
   updateUpgradeLevel,
   updateResource
-} from './gameState';
+} from '@/lib/game/gameState';
 import { payResources, calculateTimeBasedChanges, applyResourceChanges } from '@/lib/game/utils/resourceUpdates';
 import { checkAchievements } from '@/lib/game/achievementSystem';
 import { costFor, canAfford, getUpgradeCost, canBuyUpgrade, getPerSec } from '@/lib/game/calculations';
@@ -195,11 +195,7 @@ export function researchTechnology(state: GameState, key: TechnologyKey): GameSt
  * @param state - Current game state
  * @param dtSeconds - Time delta in seconds
  * @returns Updated game state with resource changes and lifetime tracking
- * 
- * @example
- * ```typescript
- * const updatedState = updateResourcesFromProduction(state, 0.05);
- * ```
+ *
  */
 export function updateResourcesFromProduction(state: GameState, dtSeconds: number): GameState {
   try {
@@ -255,10 +251,6 @@ export function updateResourcesFromProduction(state: GameState, dtSeconds: numbe
  * @param tickCounter - Current tick counter for frame skipping
  * @returns Updated game state with any triggered events
  * 
- * @example
- * ```typescript
- * const updatedState = checkAndProcessEvents(state, 15);
- * ```
  */
 export function checkAndProcessEvents(state: GameState, tickCounter: number): GameState {
   try {
@@ -280,10 +272,6 @@ export function checkAndProcessEvents(state: GameState, tickCounter: number): Ga
  * @param tickCounter - Current tick counter for frame skipping
  * @returns Updated game state with any triggered achievements
  * 
- * @example
- * ```typescript
- * const updatedState = checkAndProcessAchievements(state, 25);
- * ```
  */
 export function checkAndProcessAchievements(state: GameState, tickCounter: number): GameState {
   try {

@@ -1,6 +1,6 @@
 // Crafting loop action definitions
 
-import type { LoopActionDef } from '../../types/loopActions';
+import type { LoopActionDef } from '@/lib/game/types/loopActions';
 
 /**
  * Crafting loop actions - manufacturing and production operations

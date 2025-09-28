@@ -10,16 +10,6 @@
  * - Technology requirements validation
  * - Technology building unlocks validation
  * 
- * @example
- * ```typescript
- * 
- * // Validate a technology key
- 
- * 
- * // Validate technology definitions
- * const result = validateTechnologies(TECHNOLOGIES, techKeys, resourceKeys, buildingKeys);
- * 
- * ```
  */
 
 import type { 
@@ -39,11 +29,6 @@ import { validateResourceOperation } from '@/lib/game/utils/validation/resourceV
  * @param key - The string to validate
  * @returns True if the key is a valid technology key, false otherwise
  * 
- * @example
- * ```typescript
- * isValidTechnologyKey('writing');   // Returns: true
- * isValidTechnologyKey('invalid');   // Returns: false
- * ```
  */
 export function isValidTechnologyKey(key: string): key is TechnologyKey {
   return ['writing', 'mathematics', 'engineering', 'chemistry', 'physics', 'biology'].includes(key as TechnologyKey);
@@ -66,11 +51,6 @@ export function isValidTechnologyKey(key: string): key is TechnologyKey {
  * - Technology requirements are valid
  * - Building unlocks are valid
  * 
- * @example
- * ```typescript
- * const result = validateTechnologies(TECHNOLOGIES, techKeys, resourceKeys, buildingKeys);
- * 
- * ```
  */
 export function validateTechnologies(
   technologies: Record<TechnologyKey, TechnologyDef>,

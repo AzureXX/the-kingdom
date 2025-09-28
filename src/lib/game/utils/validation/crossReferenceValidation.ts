@@ -9,19 +9,6 @@
  * - Data integrity and consistency
  * - Validation result formatting
  * 
- * @example
- * ```typescript
- * 
- * // Validate complete game configuration
- * const validationResult = validateGameConfig({
- *   resources: RESOURCES,
- *   buildings: BUILDINGS,
- *   technologies: TECHNOLOGIES,
- *   actions: ACTIONS
- * });
- * 
- * }
- * ```
  */
 
 import type { 
@@ -35,7 +22,7 @@ import type {
   ActionDef,
   LoopActionKey,
   LoopActionDef
-} from '../../types';
+} from '@/lib/game/types';
 
 // Import validation types and individual validation functions
 import type { ValidationResult } from '@/lib/game/utils/validation/resourceValidation';
@@ -175,17 +162,6 @@ function validateLoopActions(
  * @param config - Complete game configuration object to validate
  * @returns Validation result with all errors and warnings found
  * 
- * @example
- * ```typescript
- * 
- * const validationResult = validateGameConfig({
- *   resources: RESOURCES,
- *   buildings: BUILDINGS,
- *   technologies: TECHNOLOGIES,
- *   actions: ACTIONS
- * });
- * 
- * ```
  * 
  * @remarks
  * This function validates:
@@ -247,11 +223,6 @@ export function validateGameConfig(config: {
  * @param results - Validation results to format
  * @returns Formatted string representation of validation results
  * 
- * @example
- * ```typescript
- * const results = validateGameConfig(config);
- * const formatted = formatValidationResults(results);
- * ```
  * 
  * @remarks
  * The formatted output includes:

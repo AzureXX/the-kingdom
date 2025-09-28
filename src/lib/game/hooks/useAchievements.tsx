@@ -15,7 +15,7 @@ import type {
   AchievementFilter, 
   AchievementSortOption,
   AchievementStats 
-} from '../types';
+} from '@/lib/game/types';
 
 /**
  * Hook for managing achievement-related functionality

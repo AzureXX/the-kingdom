@@ -1,6 +1,6 @@
 // Hidden achievement definitions
 
-import type { AchievementDef } from '../../types/achievements';
+import type { AchievementDef } from '@/lib/game/types/achievements';
 
 /**
  * Hidden achievements - special achievements that are not visible until unlocked

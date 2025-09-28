@@ -16,7 +16,6 @@ import type { BuildingKey, PrestigeUpgradeKey, ResourceKey, TechnologyKey, Resou
  * @param state - Current game state
  * @returns Object with technology costs
  * 
- * @example
  * ```typescript
  * const techCosts = calculateTechnologyCosts(state);
  * ```
@@ -38,7 +37,6 @@ export function calculateTechnologyCosts(state: GameState): Record<TechnologyKey
  * @param state - Current game state
  * @returns Object with upgrade costs
  * 
- * @example
  * ```typescript
  * const upgradeCosts = calculateUpgradeCosts(state);
  * ```
@@ -61,7 +59,6 @@ export function calculateUpgradeCosts(state: GameState): Record<PrestigeUpgradeK
  * @param state - Current game state
  * @returns Object with all game calculations
  * 
- * @example
  * ```typescript
  * const calculations = calculateAllGameCalculations(state);
  * ```
@@ -88,7 +85,6 @@ export function calculateAllGameCalculations(state: GameState): {
  * @param state - Current game state
  * @returns Function to calculate building costs
  * 
- * @example
  * ```typescript
  * const costFor = createMemoizedCostFor(state);
  * const woodcutterCost = costFor('woodcutter');
@@ -106,7 +102,6 @@ export function createMemoizedCostFor(state: GameState | null) {
  * @param state - Current game state
  * @returns Function to check if costs can be afforded
  * 
- * @example
  * ```typescript
  * const canAfford = createMemoizedCanAfford(state);
  * const affordable = canAfford({ gold: 100, wood: 50 });

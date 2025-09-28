@@ -8,14 +8,6 @@
  * - Action cost and gains validation
  * - Action unlock conditions validation
  * 
- * @example
- * ```typescript
- * 
- * // Validate action definitions
- * const result = validateActions(ACTIONS, actionKeys, resourceKeys, buildingKeys, techKeys);
- * if (!result.isValid) {
- * }
- * ```
  */
 
 import type { 
@@ -47,10 +39,6 @@ import { validateResourceOperation } from '@/lib/game/utils/validation/resourceV
  * - Cost and gains structures are valid
  * - Unlock conditions are valid
  * 
- * @example
- * ```typescript
- * const result = validateActions(ACTIONS, actionKeys, resourceKeys, buildingKeys, techKeys);
- * ```
  */
 export function validateActions(
   actions: Record<ActionKey, ActionDef>,

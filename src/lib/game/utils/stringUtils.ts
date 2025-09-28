@@ -6,7 +6,6 @@
  * @param fallback - The value to return if parsing fails
  * @returns The parsed object or the fallback value
  * 
- * @example
  * ```typescript
  * const data = safeJsonParse('{"name": "John"}', { name: 'Default' });
  * // Returns: { name: 'John' }
@@ -35,7 +34,6 @@ export function safeJsonParse<T>(json: string, fallback: T): T {
  * @param str - The string to encode
  * @returns Base64 encoded string
  * 
- * @example
  * ```typescript
  * const encoded = encodeBase64('Hello World');
  * // Returns: "SGVsbG8gV29ybGQ="
@@ -60,7 +58,6 @@ export function encodeBase64(str: string): string {
  * @param str - The Base64 string to decode
  * @returns Decoded string
  * 
- * @example
  * ```typescript
  * const decoded = decodeBase64('SGVsbG8gV29ybGQ=');
  * // Returns: "Hello World"

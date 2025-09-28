@@ -1,6 +1,6 @@
 // Basic action definitions - always available actions
 
-import type { ActionDef } from '../../types/actions';
+import type { ActionDef } from '@/lib/game/types/actions';
 
 /**
  * Basic actions - always available resource gathering actions

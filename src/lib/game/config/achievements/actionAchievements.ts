@@ -1,6 +1,6 @@
 // Action-related achievement definitions
 
-import type { AchievementDef } from '../../types/achievements';
+import type { AchievementDef } from '@/lib/game/types/achievements';
 
 /**
  * Action achievements - focused on player interactions and clicking

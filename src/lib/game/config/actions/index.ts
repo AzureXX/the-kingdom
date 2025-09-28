@@ -1,13 +1,13 @@
 // Action system configuration - grouped by category
 
-import type { ActionKey, ActionDef } from '../../types/actions';
-import type { BuildingKey, TechnologyKey } from '../../types';
+import type { ActionKey, ActionDef } from '@/lib/game/types/actions';
+import type { BuildingKey, TechnologyKey } from '@/lib/game/types';
 
 // Import all action categories
-import { BASIC_ACTIONS } from './basicActions';
-import { TRADING_ACTIONS } from './tradingActions';
-import { BUILDING_ACTIONS } from './buildingActions';
-import { TECHNOLOGY_ACTIONS } from './technologyActions';
+import { BASIC_ACTIONS } from '@/lib/game/config/actions/basicActions';
+import { TRADING_ACTIONS } from '@/lib/game/config/actions/tradingActions';
+import { BUILDING_ACTIONS } from '@/lib/game/config/actions/buildingActions';
+import { TECHNOLOGY_ACTIONS } from '@/lib/game/config/actions/technologyActions';
 
 /**
  * Combined action definitions organized by category

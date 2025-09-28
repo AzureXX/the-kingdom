@@ -8,10 +8,6 @@
  * - Event timing and scheduling
  * - Event history tracking
  * 
- * @example
- * ```typescript
- * 
- * const eventState = initEventState();
  * // Returns: Event state object
  * ```
  */
@@ -34,10 +30,6 @@ const stateErrorHandler = createStateErrorHandler('eventInitializer');
  * - Sets up initial event timing with random interval
  * - Initializes empty event history
  * 
- * @example
- * ```typescript
- * const eventState = initEventState();
- * ```
  */
 export function initEventState(): {
   activeEvent: EventKey | null;

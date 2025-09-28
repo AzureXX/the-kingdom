@@ -10,10 +10,10 @@
 // ============================================================================
 
 // Number manipulation and formatting
-export { clamp, formatNumber } from './numberUtils';
+export { clamp, formatNumber } from '@/lib/game/utils/numberUtils';
 
 // String processing and encoding
-export { safeJsonParse, encodeBase64, decodeBase64 } from './stringUtils';
+export { safeJsonParse, encodeBase64, decodeBase64 } from '@/lib/game/utils/stringUtils';
 
 // Performance utilities - consolidated from performance folder
 export {
@@ -33,7 +33,7 @@ export {
   // Budget
   checkPerformanceBudget,
   type PerformanceBudget
-} from './performance';
+} from '@/lib/game/utils/performance';
 
 // Game calculation utilities
 export { 
@@ -42,7 +42,7 @@ export {
   calculateAllGameCalculations, 
   createMemoizedCostFor, 
   createMemoizedCanAfford 
-} from './gameCalculations';
+} from '@/lib/game/utils/gameCalculations';
 
 // Resource update utilities
 export { 
@@ -51,7 +51,7 @@ export {
   addResourcesToState, 
   processResourceChanges, 
   calculateTimeBasedChanges 
-} from './resourceUpdates';
+} from '@/lib/game/utils/resourceUpdates';
 
 // ============================================================================
 // VALIDATION UTILITIES
@@ -65,37 +65,37 @@ export {
   type ValidationResult,
   type ValidationError,
   type ValidationWarning
-} from './validation/resourceValidation';
+} from '@/lib/game/utils/validation/resourceValidation';
 
 // Building validation
 export { 
   isValidBuildingKey, 
   validateBuildings
-} from './validation/buildingValidation';
+} from '@/lib/game/utils/validation/buildingValidation';
 
 // Technology validation
 export { 
   isValidTechnologyKey,
   validateTechnologies
-} from './validation/technologyValidation';
+} from '@/lib/game/utils/validation/technologyValidation';
 
 // Action validation
 export { 
   validateActions
-} from './validation/actionValidation';
+} from '@/lib/game/utils/validation/actionValidation';
 
 // Cross-reference and comprehensive validation
 export { 
   validateGameConfig,
   formatValidationResults
-} from './validation/crossReferenceValidation';
+} from '@/lib/game/utils/validation/crossReferenceValidation';
 
 // ============================================================================
 // GAME-SPECIFIC UTILITIES
 // ============================================================================
 
 // Action validation and checking
-export { ActionValidator } from './actionValidation';
+export { ActionValidator } from '@/lib/game/utils/actionValidation';
 
 // Loop action calculations and progress tracking
 export { 
@@ -103,13 +103,13 @@ export {
   calculateProgress,
   calculateLoopActionEfficiency,
   getLoopActionStats
-} from './loopActionCalculations';
+} from '@/lib/game/utils/loopActionCalculations';
 
 // Game state migration utilities
 export { 
   migrateGameState,
   needsMigration
-} from './migrationUtils';
+} from '@/lib/game/utils/migrationUtils';
 
 // ============================================================================
 // ERROR HANDLING AND LOGGING
@@ -131,4 +131,4 @@ export {
   type ErrorLogOptions,
   type ErrorCategory,
   type GameError
-} from './errorLogger';
+} from '@/lib/game/utils/errorLogger';

@@ -1,6 +1,6 @@
 // Research loop action definitions
 
-import type { LoopActionDef } from '../../types/loopActions';
+import type { LoopActionDef } from '@/lib/game/types/loopActions';
 
 /**
  * Research loop actions - scientific and educational operations

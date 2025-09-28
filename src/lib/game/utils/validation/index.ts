@@ -9,15 +9,6 @@
  * - Technology validation
  * - Action validation
  * - Cross-reference validation
- * 
- * @example
- * ```typescript
- * import { 
- *   isValidResourceKey, 
- *   validateBuildings, 
- *   validateGameConfig 
- * } from './validation';
- * ```
  */
 
 // Re-export all validation functions and types

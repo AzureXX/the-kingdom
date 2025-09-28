@@ -1,6 +1,6 @@
 // Combo and miscellaneous achievement definitions
 
-import type { AchievementDef } from '../../types/achievements';
+import type { AchievementDef } from '@/lib/game/types/achievements';
 
 /**
  * Combo achievements - focused on complex multi-requirement challenges

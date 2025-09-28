@@ -1,12 +1,12 @@
 // Loop action system configuration - grouped by category
 
-import type { LoopActionKey, LoopActionDef } from '../../types/loopActions';
+import type { LoopActionKey, LoopActionDef } from '@/lib/game/types/loopActions';
 
 // Import all loop action categories
-import { GATHERING_LOOP_ACTIONS } from './gatheringLoopActions';
-import { CRAFTING_LOOP_ACTIONS } from './craftingLoopActions';
-import { RESEARCH_LOOP_ACTIONS } from './researchLoopActions';
-import { MILITARY_LOOP_ACTIONS } from './militaryLoopActions';
+import { GATHERING_LOOP_ACTIONS } from '@/lib/game/config/loopActions/gatheringLoopActions';
+import { CRAFTING_LOOP_ACTIONS } from '@/lib/game/config/loopActions/craftingLoopActions';
+import { RESEARCH_LOOP_ACTIONS } from '@/lib/game/config/loopActions/researchLoopActions';
+import { MILITARY_LOOP_ACTIONS } from '@/lib/game/config/loopActions/militaryLoopActions';
 
 /**
  * Combined loop action definitions organized by category

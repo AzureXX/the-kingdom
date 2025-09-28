@@ -1,6 +1,6 @@
 // Building-related achievement definitions
 
-import type { AchievementDef } from '../../types/achievements';
+import type { AchievementDef } from '@/lib/game/types/achievements';
 
 /**
  * Building achievements - focused on construction and development
