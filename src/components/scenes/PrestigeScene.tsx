@@ -3,7 +3,7 @@ import { ResourceDisplay } from '@/components/game/ResourceDisplay';
 import { UpgradeList } from '@/components/game/UpgradeList';
 import { Modal } from '@/components/ui/Modal';
 import { SCENE_CONFIGS } from '@/lib/game/types/scenes';
-import { getPrestigeFormula } from '@/lib/game/prestigeSystem';
+import { getPrestigeFormula } from '@/lib/game/utils/prestige';
 import type { PrestigeUpgradeKey } from '@/lib/game/types';
 import type { PrestigeSceneProps as BasePrestigeSceneProps } from '@/lib/game/types/context';
 import styles from '@/styles/scenes/SceneLayout.module.scss';

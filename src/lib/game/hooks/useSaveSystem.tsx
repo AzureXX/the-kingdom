@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
-import { doSave, exportSave, importSave, loadSave, processOfflineProgress } from '@/lib/game/saveSystem';
+import { doSave, exportSave, importSave, loadSave, processOfflineProgress } from '@/lib/game/utils/save';
 import { initNewGame } from '@/lib/game/gameState';
 import { GAME_CONSTANTS } from '@/lib/game/constants';
 import { validateGameConfig } from '@/lib/game/utils/validation/crossReferenceValidation';

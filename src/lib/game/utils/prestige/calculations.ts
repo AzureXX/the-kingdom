@@ -1,5 +1,6 @@
+// Prestige calculation logic
+
 import { PRESTIGE_CONSTANTS, GAME_CONSTANTS } from '@/lib/game/constants';
-import { initNewGame } from '@/lib/game/gameState';
 import type { GameState } from '@/lib/game/types';
 
 /**
@@ -9,26 +10,6 @@ export function prestigeGain(state: GameState): number {
   const div = PRESTIGE_CONSTANTS.PRESTIGE_DIVISOR;
   const x = state.lifetime.food || 0;
   return Math.floor(Math.sqrt(x / div));
-}
-
-/**
- * Perform prestige operation - reset game state but keep prestige and upgrades
- */
-export function doPrestige(state: GameState): GameState {
-  const gain = prestigeGain(state);
-  const keepPrestige = (state.resources.prestige || 0) + gain;
-  const keepUp = { ...state.upgrades };
-  
-  const fresh = initNewGame();
-  
-  return {
-    ...fresh,
-    resources: {
-      ...fresh.resources,
-      prestige: keepPrestige
-    },
-    upgrades: keepUp
-  };
 }
 
 /**

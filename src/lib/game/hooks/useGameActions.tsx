@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 import { buyBuilding, buyUpgrade, executeAction, researchTechnology } from '@/lib/game/utils/actions';
-import { doPrestige } from '@/lib/game/prestigeSystem';
+import { doPrestige } from '@/lib/game/utils/prestige';
 
 import type { GameState } from '@/lib/game/types';
 import type { BuildingKey, PrestigeUpgradeKey, TechnologyKey, ActionKey } from '@/lib/game/types';

@@ -4,7 +4,7 @@
  */
 
 import { getPerSec, costFor, canAfford, getMultipliers, technologyCostFor, getUpgradeCost } from '@/lib/game/utils/calculations';
-import { prestigeGain } from '@/lib/game/prestigeSystem';
+import { prestigeGain } from '@/lib/game/utils/prestige';
 import { getUpgradeLevel } from '@/lib/game/gameState';
 import { CONFIG } from '@/lib/game/config';
 import type { GameState, Multipliers } from '@/lib/game/types';

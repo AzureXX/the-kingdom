@@ -19,7 +19,7 @@ import { EventNotification } from '@/components/ui/EventNotification';
 import { AchievementNotification } from '@/components/ui/AchievementNotification';
 import { SvgSprites } from '@/components/ui/SvgSprites';
 import { UI_CONSTANTS } from '@/lib/game/constants';
-import { clearSave } from '@/lib/game/saveSystem';
+import { clearSave } from '@/lib/game/utils/save';
 
 import styles from '@/styles/page.module.scss';
 

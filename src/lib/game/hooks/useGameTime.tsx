@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { getFormattedTimeUntilNextEvent, getTimeUntilNextEvent } from '@/lib/game/utils/event';
-import { getFormattedTimeUntilNextSave, getTimeUntilNextSave } from '@/lib/game/saveSystem';
+import { getFormattedTimeUntilNextSave, getTimeUntilNextSave } from '@/lib/game/utils/save';
 import type { GameState } from '@/lib/game/types';
 import { GAME_CONSTANTS } from '@/lib/game/constants';
 
