@@ -1,8 +1,5 @@
 // Error utilities exports
 
-// Types
-export type { ErrorLogDetails, ErrorLogOptions, ErrorCategory, GameError } from '@/lib/game/utils/error/types';
-
 // Handlers
 export { 
   handleGameError,

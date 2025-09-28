@@ -1,6 +1,3 @@
-// Error logging types and interfaces
-
-
 /**
  * Type for error log details - more specific than unknown but flexible enough for complex data
  */

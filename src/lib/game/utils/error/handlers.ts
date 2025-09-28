@@ -1,6 +1,6 @@
 // Error handler creation utilities
 
-import type { ErrorCategory, GameError, ErrorLogDetails } from '@/lib/game/utils/error/types';
+import type { ErrorCategory, GameError, ErrorLogDetails } from '@/lib/game/types/error';
 import { logMessage } from '@/lib/game/utils/error/logging';
 
 /**

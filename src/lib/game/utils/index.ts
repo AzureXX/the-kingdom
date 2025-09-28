@@ -135,8 +135,5 @@ export {
   logConfigValidation,
   logSaveOperation,
   logErrorBoundaryOperation,
-  logGameError,
-  type ErrorLogOptions,
-  type ErrorCategory,
-  type GameError
+  logGameError
 } from '@/lib/game/utils/error';
