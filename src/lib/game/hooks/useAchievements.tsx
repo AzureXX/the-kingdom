@@ -7,7 +7,7 @@ import {
   getAchievementProgress, 
   markNotificationShown, 
   getAchievementStats 
-} from '@/lib/game/achievementSystem';
+} from '@/lib/game/utils/achievement';
 import { ACHIEVEMENTS } from '@/lib/game/config/achievements';
 import type { 
   AchievementKey, 

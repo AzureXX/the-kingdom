@@ -5,7 +5,7 @@
 
 import type { GameState } from '@/lib/game/types';
 
-import { checkAchievements } from '@/lib/game/achievementSystem';
+import { checkAchievements } from '@/lib/game/utils/achievement';
 import { checkAndTriggerEvents } from '@/lib/game/eventSystem';
 import { checkResearchProgress } from '@/lib/game/technologySystem';
 import { createStateErrorHandler } from '@/lib/game/utils/errorLogger';

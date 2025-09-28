@@ -3,7 +3,7 @@ import { GAME_CONSTANTS } from '@/lib/game/constants';
 import type { GameState } from '@/lib/game/types';
 import { isValidBuildingKey } from '@/lib/game/utils';
 import { logInvalidKey, createValidationErrorHandler, createStateErrorHandler } from '@/lib/game/utils/errorLogger';
-import { checkAchievements } from '@/lib/game/achievementSystem';
+import { checkAchievements } from '@/lib/game/utils/achievement';
 import { createNewGameState } from '@/lib/game/initializers/gameStateFactory';
 import { CONFIG } from '@/lib/game/config';
 

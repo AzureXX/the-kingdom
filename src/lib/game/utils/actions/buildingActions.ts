@@ -10,7 +10,7 @@ import {
   updateBuildingCount
 } from '@/lib/game/gameState';
 import { payResources } from '@/lib/game/utils/resourceUpdates';
-import { checkAchievements } from '@/lib/game/achievementSystem';
+import { checkAchievements } from '@/lib/game/utils/achievement';
 import { costFor, canAfford } from '@/lib/game/calculations';
 import { createStateErrorHandler } from '@/lib/game/utils/errorLogger';
 
