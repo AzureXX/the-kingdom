@@ -250,10 +250,10 @@ When adding new utility functions:
 ### Import Errors
 ```typescript
 // ❌ Wrong - direct import
-import { formatNumber } from './utils/numberUtils';
+import { formatNumber } from '@/lib/game/utils/numberUtils';
 
 // ✅ Correct - from index
-import { formatNumber } from './utils';
+import { formatNumber } from '@/lib/game/utils';
 ```
 
 ### Type Safety
