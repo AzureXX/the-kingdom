@@ -15,7 +15,7 @@ export const GAME_CONSTANTS = {
   },
   
   // Performance constants
-  PERFORMANCE_METRICS_UPDATE_INTERVAL: 60, // Update performance metrics every 60 frames
+  PERFORMANCE_METRICS_UPDATE_INTERVAL: 120, // Update performance metrics every 120 frames
   NUMBER_FORMAT_THRESHOLD: 1000,
   NUMBER_FORMAT_DECIMALS: 2,
   
@@ -23,7 +23,7 @@ export const GAME_CONSTANTS = {
   PERFORMANCE_MONITORING: {
     HISTORY_SIZE: 100, // Number of samples to keep for averages
     UPDATE_INTERVAL: 10, // Update basic metrics every N frames
-    MEMORY_UPDATE_INTERVAL: 60, // Update memory usage every 60 frames (3 seconds at 20 FPS)
+    MEMORY_UPDATE_INTERVAL: 180, // Update memory usage every 180 frames (optimized from 60)
     SCORE_UPDATE_INTERVAL: 30, // Update performance score every 30 frames (1.5 seconds at 20 FPS)
     ENABLED: true, // Enable/disable performance monitoring
     THRESHOLDS: {
@@ -37,6 +37,13 @@ export const GAME_CONSTANTS = {
       MAX_RENDER_TIME: 500, // Half of 30 FPS
       MIN_FPS: 1, // Minimum acceptable FPS
       MAX_MEMORY_USAGE: 200 * 1024 * 1024 // 200MB
+    },
+    // Optimized monitoring configuration
+    OPTIMIZED_MONITORING: {
+      ENABLED: true,
+      REDUCED_FREQUENCY: true, // Use reduced monitoring frequency
+      CIRCULAR_BUFFERS: true, // Use circular buffers for historical data
+      CACHED_CALCULATIONS: true // Use cached performance calculations
     }
   },
   

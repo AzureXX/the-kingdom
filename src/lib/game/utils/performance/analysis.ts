@@ -3,6 +3,8 @@
  * Used to measure the overhead of performance monitoring itself
  */
 
+import { CircularBuffer } from './circularBuffer';
+
 export interface PerformanceOverheadMetrics {
   monitoringOverhead: number;
   historicalDataOverhead: number;
@@ -21,7 +23,7 @@ export interface PerformanceAnalysisResult {
  * Measure the overhead of performance monitoring operations
  */
 export function measurePerformanceOverhead(): PerformanceOverheadMetrics {
-  const iterations = 1000;
+  const iterations = 500;
   
   // Measure monitoring overhead
   const monitoringStart = performance.now();
@@ -29,40 +31,35 @@ export function measurePerformanceOverhead(): PerformanceOverheadMetrics {
     // Simulate monitoring operations
     const tickDuration = Math.random() * 10;
     const renderTime = Math.random() * 5;
-    const fps = 1000 / (tickDuration + renderTime);
-    const memoryUsage = Math.random() * 100000000;
+    // Simulate FPS and memory calculations (results not used, just measuring overhead)
+    void (1000 / (tickDuration + renderTime));
+    void (Math.random() * 100000000);
   }
   const monitoringEnd = performance.now();
   const monitoringOverhead = (monitoringEnd - monitoringStart) / iterations;
   
-  // Measure historical data operations overhead
+  // Measure historical data operations overhead with circular buffers
   const historyStart = performance.now();
-  const tickTimeHistory: number[] = [];
-  const renderTimeHistory: number[] = [];
-  const fpsHistory: number[] = [];
+  const tickTimeHistory = new CircularBuffer<number>(100);
+  const renderTimeHistory = new CircularBuffer<number>(100);
+  const fpsHistory = new CircularBuffer<number>(100);
   
   for (let i = 0; i < iterations; i++) {
-    // Simulate historical data operations
+    // Simulate historical data operations with circular buffers
     tickTimeHistory.push(Math.random() * 10);
     renderTimeHistory.push(Math.random() * 5);
     fpsHistory.push(Math.random() * 60);
-    
-    if (tickTimeHistory.length > 100) {
-      tickTimeHistory.shift();
-      renderTimeHistory.shift();
-      fpsHistory.shift();
-    }
   }
   const historyEnd = performance.now();
   const historicalDataOverhead = (historyEnd - historyStart) / iterations;
   
-  // Measure calculation overhead
+  // Measure calculation overhead with circular buffer averages
   const calculationStart = performance.now();
   for (let i = 0; i < iterations; i++) {
-    // Simulate performance calculations
-    const averageTickTime = tickTimeHistory.reduce((a, b) => a + b, 0) / tickTimeHistory.length;
-    const averageRenderTime = renderTimeHistory.reduce((a, b) => a + b, 0) / renderTimeHistory.length;
-    const performanceScore = Math.min(100, Math.max(0, 100 - (averageTickTime * 2) - (averageRenderTime * 0.1)));
+    // Simulate performance calculations using circular buffer averages
+    const averageTickTime = tickTimeHistory.getAverage();
+    const averageRenderTime = renderTimeHistory.getAverage();
+    void Math.min(100, Math.max(0, 100 - (averageTickTime * 2) - (averageRenderTime * 0.1)));
   }
   const calculationEnd = performance.now();
   const calculationOverhead = (calculationEnd - calculationStart) / iterations;

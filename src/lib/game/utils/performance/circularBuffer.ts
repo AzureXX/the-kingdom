@@ -1,6 +1,6 @@
 /**
- * Circular buffer implementation for efficient historical data storage
- * Replaces growing arrays with fixed-size circular buffers to prevent memory growth
+ * Circular buffer implementation for performance monitoring
+ * Optimized for efficient historical data operations
  */
 
 export class CircularBuffer<T> {
@@ -16,8 +16,28 @@ export class CircularBuffer<T> {
   }
 
   /**
+   * Get the number of items in the buffer (property accessor)
+   */
+  get length(): number {
+    return this.count;
+  }
+
+  /**
+   * Check if the buffer is empty (property accessor)
+   */
+  get isEmpty(): boolean {
+    return this.count === 0;
+  }
+
+  /**
+   * Check if the buffer is full (property accessor)
+   */
+  get isFull(): boolean {
+    return this.count === this.capacity;
+  }
+
+  /**
    * Add an item to the buffer
-   * If buffer is full, overwrites the oldest item
    */
   push(item: T): void {
     this.buffer[this.tail] = item;
@@ -26,39 +46,20 @@ export class CircularBuffer<T> {
     if (this.count < this.capacity) {
       this.count++;
     } else {
-      // Buffer is full, move head to next position
+      // Buffer is full, move head forward
       this.head = (this.head + 1) % this.capacity;
     }
   }
 
-  /**
-   * Get the number of items in the buffer
-   */
-  get length(): number {
-    return this.count;
-  }
-
-  /**
-   * Check if buffer is empty
-   */
-  get isEmpty(): boolean {
-    return this.count === 0;
-  }
-
-  /**
-   * Check if buffer is full
-   */
-  get isFull(): boolean {
-    return this.count === this.capacity;
-  }
 
   /**
    * Get all items in the buffer as an array
-   * Returns items in chronological order (oldest first)
    */
   toArray(): T[] {
-    if (this.isEmpty) return [];
-    
+    if (this.isEmpty) {
+      return [];
+    }
+
     const result: T[] = [];
     for (let i = 0; i < this.count; i++) {
       const index = (this.head + i) % this.capacity;
@@ -68,11 +69,13 @@ export class CircularBuffer<T> {
   }
 
   /**
-   * Get the average of all numeric values in the buffer
+   * Get the average of numeric values in the buffer
    */
   getAverage(): number {
-    if (this.isEmpty) return 0;
-    
+    if (this.isEmpty) {
+      return 0;
+    }
+
     let sum = 0;
     for (let i = 0; i < this.count; i++) {
       const index = (this.head + i) % this.capacity;
@@ -85,13 +88,15 @@ export class CircularBuffer<T> {
    * Get the latest item in the buffer
    */
   getLatest(): T | undefined {
-    if (this.isEmpty) return undefined;
+    if (this.isEmpty) {
+      return undefined;
+    }
     const index = (this.tail - 1 + this.capacity) % this.capacity;
     return this.buffer[index];
   }
 
   /**
-   * Clear all items from the buffer
+   * Clear the buffer
    */
   clear(): void {
     this.head = 0;
@@ -100,15 +105,30 @@ export class CircularBuffer<T> {
   }
 
   /**
-   * Get the capacity of the buffer
+   * Get buffer statistics for debugging
    */
-  getCapacity(): number {
-    return this.capacity;
+  getStats(): {
+    capacity: number;
+    count: number;
+    head: number;
+    tail: number;
+    isFull: boolean;
+    isEmpty: boolean;
+  } {
+    return {
+      capacity: this.capacity,
+      count: this.count,
+      head: this.head,
+      tail: this.tail,
+      isFull: this.isFull,
+      isEmpty: this.isEmpty
+    };
   }
 }
 
 /**
- * Specialized circular buffer for performance metrics
+ * Specialized circular buffer for performance monitoring
+ * Pre-configured for common performance metrics
  */
 export class PerformanceCircularBuffer extends CircularBuffer<number> {
   constructor(capacity: number = 100) {
@@ -116,22 +136,42 @@ export class PerformanceCircularBuffer extends CircularBuffer<number> {
   }
 
   /**
-   * Get the average of all values in the buffer
+   * Get the standard deviation of values in the buffer
    */
-  getAverage(): number {
-    return super.getAverage();
+  getStandardDeviation(): number {
+    if (this.isEmpty || this.count === 1) {
+      return 0;
+    }
+
+    const mean = this.getAverage();
+    let sumSquaredDiffs = 0;
+    
+    for (let i = 0; i < this.count; i++) {
+      const index = (this.head + i) % this.capacity;
+      const value = this.buffer[index] as unknown as number;
+      const diff = value - mean;
+      sumSquaredDiffs += diff * diff;
+    }
+    
+    // Use sample standard deviation (n-1) for consistency with test expectations
+    return Math.sqrt(sumSquaredDiffs / (this.count - 1));
   }
 
   /**
    * Get the minimum value in the buffer
    */
   getMin(): number {
-    if (this.isEmpty) return 0;
-    
-    let min = this.buffer[this.head];
+    if (this.isEmpty) {
+      return 0;
+    }
+
+    let min = this.buffer[this.head] as unknown as number;
     for (let i = 1; i < this.count; i++) {
       const index = (this.head + i) % this.capacity;
-      min = Math.min(min, this.buffer[index]);
+      const value = this.buffer[index] as unknown as number;
+      if (value < min) {
+        min = value;
+      }
     }
     return min;
   }
@@ -140,31 +180,18 @@ export class PerformanceCircularBuffer extends CircularBuffer<number> {
    * Get the maximum value in the buffer
    */
   getMax(): number {
-    if (this.isEmpty) return 0;
-    
-    let max = this.buffer[this.head];
+    if (this.isEmpty) {
+      return 0;
+    }
+
+    let max = this.buffer[this.head] as unknown as number;
     for (let i = 1; i < this.count; i++) {
       const index = (this.head + i) % this.capacity;
-      max = Math.max(max, this.buffer[index]);
+      const value = this.buffer[index] as unknown as number;
+      if (value > max) {
+        max = value;
+      }
     }
     return max;
-  }
-
-  /**
-   * Get the standard deviation of values in the buffer
-   */
-  getStandardDeviation(): number {
-    if (this.count < 2) return 0;
-    
-    const average = this.getAverage();
-    let sumSquaredDiffs = 0;
-    
-    for (let i = 0; i < this.count; i++) {
-      const index = (this.head + i) % this.capacity;
-      const diff = this.buffer[index] - average;
-      sumSquaredDiffs += diff * diff;
-    }
-    
-    return Math.sqrt(sumSquaredDiffs / (this.count - 1));
   }
 }
