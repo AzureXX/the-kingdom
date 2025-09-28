@@ -4,14 +4,14 @@ import type { GameState } from '@/lib/game/types/game';
 import type { LoopActionKey } from '@/lib/game/types/loopActions';
 import { LOOP_ACTIONS } from '@/lib/game/config/loopActions';
 import { canAfford } from '@/lib/game/utils/calculations';
-import { ActionChecker } from '@/lib/game/utils/actionChecker';
+import { checkUnlockConditions } from '@/lib/game/utils/actionChecker';
 
 export function canStartLoopAction(state: GameState, actionKey: LoopActionKey): boolean {
   const actionDef = LOOP_ACTIONS[actionKey];
   if (!actionDef) return false;
   
   // Check unlock conditions
-  if (!ActionChecker.checkUnlockConditions(state, actionDef.unlockConditions)) {
+  if (!checkUnlockConditions(state, actionDef.unlockConditions)) {
     return false;
   }
   

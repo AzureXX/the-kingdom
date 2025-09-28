@@ -95,7 +95,15 @@ export {
 // ============================================================================
 
 // Action validation and checking
-export { ActionChecker } from '@/lib/game/utils/actionChecker';
+export { 
+  canExecuteAction,
+  isActionUnlocked,
+  isActionOnCooldown,
+  checkUnlockConditions,
+  getActionStatus,
+  getAvailableActions,
+  getUnlockedButUnavailableActions
+} from '@/lib/game/utils/actionChecker';
 
 // Loop action calculations and progress tracking
 export { 

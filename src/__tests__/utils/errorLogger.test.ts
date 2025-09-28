@@ -8,7 +8,7 @@ import {
   logInvalidKey,
   logSaveOperation,
   logErrorBoundaryOperation
-} from '@/lib/game/utils/errorLogger'
+} from '@/lib/game/utils/error'
 
 // Mock console methods to avoid noise in tests
 const mockConsoleError = jest.spyOn(console, 'error').mockImplementation()
