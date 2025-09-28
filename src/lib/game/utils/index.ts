@@ -121,6 +121,7 @@ export {
 // Centralized error handling and logging
 export { 
   handleGameError,
+  createErrorHandler,
   createValidationErrorHandler,
   createCalculationErrorHandler,
   createStateErrorHandler,

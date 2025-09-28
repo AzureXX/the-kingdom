@@ -67,30 +67,34 @@ export function handleGameError(
 }
 
 /**
+ * Create a generic error handler for any error category
+ * This is the base factory that all specific error handlers use
+ */
+export function createErrorHandler(category: ErrorCategory, context: string): (message: string, details?: ErrorLogDetails) => GameError {
+  return (message: string, details?: ErrorLogDetails) => {
+    return handleGameError(message, category, context, details);
+  };
+}
+
+/**
  * Create a validation error handler for input validation
  */
 export function createValidationErrorHandler(context: string): (message: string, details?: ErrorLogDetails) => GameError {
-  return (message: string, details?: ErrorLogDetails) => {
-    return handleGameError(message, 'validation', context, details);
-  };
+  return createErrorHandler('validation', context);
 }
 
 /**
  * Create a calculation error handler for mathematical operations
  */
 export function createCalculationErrorHandler(context: string): (message: string, details?: ErrorLogDetails) => GameError {
-  return (message: string, details?: ErrorLogDetails) => {
-    return handleGameError(message, 'calculation', context, details);
-  };
+  return createErrorHandler('calculation', context);
 }
 
 /**
  * Create a state error handler for state management operations
  */
 export function createStateErrorHandler(context: string): (message: string, details?: ErrorLogDetails) => GameError {
-  return (message: string, details?: ErrorLogDetails) => {
-    return handleGameError(message, 'state', context, details);
-  };
+  return createErrorHandler('state', context);
 }
 
 /**

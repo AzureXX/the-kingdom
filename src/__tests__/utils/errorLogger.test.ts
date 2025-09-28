@@ -1,5 +1,6 @@
 import { 
   handleGameError, 
+  createErrorHandler,
   createValidationErrorHandler, 
   createCalculationErrorHandler, 
   createStateErrorHandler,
@@ -60,6 +61,46 @@ describe('errorLogger', () => {
       expect(result.category).toBe('state')
       expect(result.context).toBe('testContext')
       expect(result.details).toBeUndefined()
+    })
+  })
+
+  describe('createErrorHandler', () => {
+    it('should create a generic error handler with any category', () => {
+      const handler = createErrorHandler('config', 'testConfig')
+      const message = 'Config error'
+      const details = { key: 'test' }
+      
+      const result = handler(message, details)
+      
+      expect(result.message).toBe('Config error')
+      expect(result.category).toBe('config')
+      expect(result.context).toBe('testConfig')
+      expect(result.details).toEqual(details)
+    })
+
+    it('should create a system error handler', () => {
+      const handler = createErrorHandler('system', 'testSystem')
+      const message = 'System error'
+      
+      const result = handler(message)
+      
+      expect(result.message).toBe('System error')
+      expect(result.category).toBe('system')
+      expect(result.context).toBe('testSystem')
+      expect(result.details).toBeUndefined()
+    })
+
+    it('should create a user error handler', () => {
+      const handler = createErrorHandler('user', 'testUser')
+      const message = 'User error'
+      const details = { action: 'click' }
+      
+      const result = handler(message, details)
+      
+      expect(result.message).toBe('User error')
+      expect(result.category).toBe('user')
+      expect(result.context).toBe('testUser')
+      expect(result.details).toEqual(details)
     })
   })
 
