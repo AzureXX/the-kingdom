@@ -1,13 +1,13 @@
-import { RESOURCES } from './resources';
-import { BUILDINGS } from './buildings';
-import { TECHNOLOGIES } from './technologies';
-import { PRESTIGE_CONFIG } from './prestige';
-import { EVENTS } from './events';
-import { ACTIONS } from './actions';
-import { LOOP_ACTIONS } from './loopActions';
-import { ACHIEVEMENTS } from './achievements';
-import { validateGameConfig, formatValidationResults } from '../utils/validation/crossReferenceValidation';
-import { logMessage } from '../utils/errorLogger';
+import { RESOURCES } from '@/lib/game/config/resources';
+import { BUILDINGS } from '@/lib/game/config/buildings';
+import { TECHNOLOGIES } from '@/lib/game/config/technologies';
+import { PRESTIGE_CONFIG } from '@/lib/game/config/prestige';
+import { EVENTS } from '@/lib/game/config/events';
+import { ACTIONS } from '@/lib/game/config/actions';
+import { LOOP_ACTIONS } from '@/lib/game/config/loopActions';
+import { ACHIEVEMENTS } from '@/lib/game/config/achievements';
+import { validateGameConfig, formatValidationResults } from '@/lib/game/utils/validation/crossReferenceValidation';
+import { logMessage } from '@/lib/game/utils/errorLogger';
 
 // Re-export all config objects
 export {

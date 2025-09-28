@@ -10,16 +10,15 @@
  * 
  * @example
  * ```typescript
- * import { initResourceState } from './resourceInitializer';
  * 
  * const resourceState = initResourceState();
  * // Returns: { resources: {...}, lifetime: {...}, achievementMultipliers: {...} }
  * ```
  */
 
-import type { ResourceKey } from '../types';
-import { CONFIG } from '../config';
-import { createStateErrorHandler } from '../utils/errorLogger';
+import type { ResourceKey } from '@/lib/game/types';
+import { CONFIG } from '@/lib/game/config';
+import { createStateErrorHandler } from '@/lib/game/utils/errorLogger';
 
 const { resources: RESOURCES } = CONFIG;
 

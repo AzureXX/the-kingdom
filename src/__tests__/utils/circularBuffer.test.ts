@@ -1,4 +1,4 @@
-import { CircularBuffer, PerformanceCircularBuffer } from '../../lib/game/utils/performance/circularBuffer';
+import { CircularBuffer, PerformanceCircularBuffer } from '@/lib/game/utils/performance/circularBuffer';
 
 describe('CircularBuffer', () => {
   let buffer: CircularBuffer<number>;

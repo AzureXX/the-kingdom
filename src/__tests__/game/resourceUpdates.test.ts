@@ -1,5 +1,5 @@
 import { addResources, getResource, setResource, updateMultipleResources } from '@/lib/game/gameState'
-import { createTestGameState, createGameStateWithResources } from '../utils/testHelpers'
+import { createTestGameState, createGameStateWithResources } from '@/__tests__/utils/testHelpers'
 import type { ResourceKey } from '@/lib/game/types'
 
 describe('resourceUpdates', () => {

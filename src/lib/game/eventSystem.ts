@@ -1,11 +1,11 @@
-import { CONFIG } from './config';
-import type { EventKey, ResourceKey } from './types';
-import { EVENT_CONSTANTS, GAME_CONSTANTS } from './constants';
-import { addResources, getResource } from './gameState';
-import { isValidResourceKey } from './utils';
-import { logInvalidKey } from './utils/errorLogger';
-import { applyResourceChanges } from './utils/resourceUpdates';
-import type { GameState } from './types';
+import { CONFIG } from '@/lib/game/config';
+import type { EventKey, ResourceKey } from '@/lib/game/types';
+import { EVENT_CONSTANTS, GAME_CONSTANTS } from '@/lib/game/constants';
+import { addResources, getResource } from '@/lib/game/gameState';
+import { isValidResourceKey } from '@/lib/game/utils';
+import { logInvalidKey } from '@/lib/game/utils/errorLogger';
+import { applyResourceChanges } from '@/lib/game/utils/resourceUpdates';
+import type { GameState } from '@/lib/game/types';
 
 const { events: EVENTS } = CONFIG;
 

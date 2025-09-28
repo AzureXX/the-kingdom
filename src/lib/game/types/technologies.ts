@@ -1,7 +1,7 @@
 // Technology-related type definitions
 
-import type { ResourceCost } from './resources';
-import type { BuildingKey } from './buildings';
+import type { ResourceCost } from '@/lib/game/types/resources';
+import type { BuildingKey } from '@/lib/game/types/buildings';
 
 export type TechnologyKey = 'writing' | 'mathematics' | 'engineering' | 'chemistry' | 'physics' | 'biology';
 

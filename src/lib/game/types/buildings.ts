@@ -1,7 +1,7 @@
 // Building-related type definitions
 
-import type { ResourceCost, ResourceProduction, ResourceConsumption } from './resources';
-import type { TechnologyKey } from './technologies';
+import type { ResourceCost, ResourceProduction, ResourceConsumption } from '@/lib/game/types/resources';
+import type { TechnologyKey } from '@/lib/game/types/technologies';
 
 export type BuildingKey = 'woodcutter' | 'quarry' | 'farm' | 'blacksmith' | 'castle' | 'library' | 'university' | 'laboratory';
 

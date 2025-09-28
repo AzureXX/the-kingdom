@@ -1,6 +1,6 @@
-import type { LoopActionState, LoopActionProgress } from '../types/loopActions';
-import { LOOP_ACTIONS } from '../config/loopActions';
-import { GAME_CONSTANTS } from '../constants';
+import type { LoopActionState, LoopActionProgress } from '@/lib/game/types/loopActions';
+import { LOOP_ACTIONS } from '@/lib/game/config/loopActions';
+import { GAME_CONSTANTS } from '@/lib/game/constants';
 
 /**
  * Calculates the base points generated per game tick for loop actions.
@@ -8,11 +8,6 @@ import { GAME_CONSTANTS } from '../constants';
  * 
  * @returns The number of points generated per tick
  * 
- * @example
- * ```typescript
- * const pointsPerTick = calculatePointsPerTick();
- * // Returns: 100 (from GAME_CONSTANTS.PERFORMANCE.POINTS_PER_TICK)
- * ```
  * 
  * @remarks
  * - Value is configured in GAME_CONSTANTS.PERFORMANCE.POINTS_PER_TICK

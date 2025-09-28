@@ -1,6 +1,6 @@
 // Action system type definitions
 
-import type { ResourceKey, BuildingKey, TechnologyKey, PrestigeUpgradeKey, ResourceCost, ResourceProduction } from './index';
+import type { ResourceKey, BuildingKey, TechnologyKey, PrestigeUpgradeKey, ResourceCost, ResourceProduction } from '@/lib/game/types';
 
 /**
  * Unique identifier for each action

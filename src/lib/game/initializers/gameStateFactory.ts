@@ -10,25 +10,24 @@
  * 
  * @example
  * ```typescript
- * import { createNewGameState } from './gameStateFactory';
  * 
  * const gameState = createNewGameState();
  * // Returns: Complete GameState object ready for use
  * ```
  */
 
-import type { GameState, PrestigeUpgradeKey } from '../types';
-import { CONFIG } from '../config';
-import { DEFAULT_LOOP_SETTINGS } from '../config/loopActions';
-import { initAchievementState } from '../achievementSystem';
-import { createStateErrorHandler } from '../utils/errorLogger';
+import type { GameState, PrestigeUpgradeKey } from '@/lib/game/types';
+import { CONFIG } from '@/lib/game/config';
+import { DEFAULT_LOOP_SETTINGS } from '@/lib/game/config/loopActions';
+import { initAchievementState } from '@/lib/game/achievementSystem';
+import { createStateErrorHandler } from '@/lib/game/utils/errorLogger';
 
 // Import all individual initializers
-import { initResourceState } from './resourceInitializer';
-import { initBuildingState } from './buildingInitializer';
-import { initTechnologyState } from './technologyInitializer';
-import { initEventState } from './eventInitializer';
-import { initResearchState } from './researchInitializer';
+import { initResourceState } from '@/lib/game/initializers/resourceInitializer';
+import { initBuildingState } from '@/lib/game/initializers/buildingInitializer';
+import { initTechnologyState } from '@/lib/game/initializers/technologyInitializer';
+import { initEventState } from '@/lib/game/initializers/eventInitializer';
+import { initResearchState } from '@/lib/game/initializers/researchInitializer';
 
 const { prestige: PRESTIGE_CONFIG, version: CONFIG_VERSION } = CONFIG;
 

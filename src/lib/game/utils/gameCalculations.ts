@@ -3,12 +3,12 @@
  * Extracted from useGameCalculations.tsx to improve maintainability
  */
 
-import { getPerSec, costFor, canAfford, getMultipliers, technologyCostFor, getUpgradeCost } from '../calculations';
-import { prestigeGain } from '../prestigeSystem';
-import { getUpgradeLevel } from '../gameState';
-import { CONFIG } from '../config';
-import type { GameState, Multipliers } from '../types';
-import type { BuildingKey, PrestigeUpgradeKey, ResourceKey, TechnologyKey, ResourceCost } from '../types';
+import { getPerSec, costFor, canAfford, getMultipliers, technologyCostFor, getUpgradeCost } from '@/lib/game/calculations';
+import { prestigeGain } from '@/lib/game/prestigeSystem';
+import { getUpgradeLevel } from '@/lib/game/gameState';
+import { CONFIG } from '@/lib/game/config';
+import type { GameState, Multipliers } from '@/lib/game/types';
+import type { BuildingKey, PrestigeUpgradeKey, ResourceKey, TechnologyKey, ResourceCost } from '@/lib/game/types';
 
 /**
  * Calculate all technology costs for a given game state

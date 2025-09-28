@@ -1,11 +1,11 @@
 "use client";
 
 import React, { createContext, useContext, ReactNode } from 'react';
-import { useGameCalculations, useGameTime } from '../hooks';
-import { formatNumber as fmt } from '../utils';
-import type { GameUtilityFunctions } from '../types/context';
-import type { Multipliers, ResourceKey, TechnologyKey, PrestigeUpgradeKey, ResourceCost } from '../types';
-import { useGameStateContext } from './GameStateProvider';
+import { useGameCalculations, useGameTime } from '@/lib/game/hooks';
+import { formatNumber as fmt } from '@/lib/game/utils';
+import type { GameUtilityFunctions } from '@/lib/game/types/context';
+import type { Multipliers, ResourceKey, TechnologyKey, PrestigeUpgradeKey, ResourceCost } from '@/lib/game/types';
+import { useGameStateContext } from '@/lib/game/providers/GameStateProvider';
 
 interface GameCalculationsContextType extends GameUtilityFunctions {
   perSec: Record<ResourceKey, number>;

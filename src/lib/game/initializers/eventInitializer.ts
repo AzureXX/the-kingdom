@@ -10,16 +10,15 @@
  * 
  * @example
  * ```typescript
- * import { initEventState } from './eventInitializer';
  * 
  * const eventState = initEventState();
  * // Returns: Event state object
  * ```
  */
 
-import type { EventKey } from '../types';
-import { GAME_CONSTANTS, EVENT_CONSTANTS } from '../constants';
-import { createStateErrorHandler } from '../utils/errorLogger';
+import type { EventKey } from '@/lib/game/types';
+import { GAME_CONSTANTS, EVENT_CONSTANTS } from '@/lib/game/constants';
+import { createStateErrorHandler } from '@/lib/game/utils/errorLogger';
 
 // Create specialized error handler for event initialization
 const stateErrorHandler = createStateErrorHandler('eventInitializer');

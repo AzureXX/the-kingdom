@@ -1,4 +1,4 @@
-import type { ResourceKey, ResourceDef } from '../types';
+import type { ResourceKey, ResourceDef } from '@/lib/game/types';
 
 export const RESOURCES: Record<ResourceKey, ResourceDef> = {
   gold: { name: 'Gold', icon: 'ic-gold', decimals: 0, start: 10 },

@@ -1,14 +1,14 @@
 "use client";
 
 import { useCallback, useMemo } from 'react';
-import { useGameStateContext } from '../providers';
+import { useGameStateContext } from '@/lib/game/providers';
 import { 
   checkAchievements, 
   getAchievementProgress, 
   markNotificationShown, 
   getAchievementStats 
-} from '../achievementSystem';
-import { ACHIEVEMENTS } from '../config/achievements';
+} from '@/lib/game/achievementSystem';
+import { ACHIEVEMENTS } from '@/lib/game/config/achievements';
 import type { 
   AchievementKey, 
   AchievementDef, 

@@ -21,8 +21,8 @@
  */
 
 // Re-export all validation functions and types
-export * from './resourceValidation';
-export * from './buildingValidation';
-export * from './technologyValidation';
-export * from './actionValidation';
-export * from './crossReferenceValidation';
+export * from '@/lib/game/utils/validation/resourceValidation';
+export * from '@/lib/game/utils/validation/buildingValidation';
+export * from '@/lib/game/utils/validation/technologyValidation';
+export * from '@/lib/game/utils/validation/actionValidation';
+export * from '@/lib/game/utils/validation/crossReferenceValidation';

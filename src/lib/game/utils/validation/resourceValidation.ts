@@ -10,7 +10,6 @@
  * 
  * @example
  * ```typescript
- * import { isValidResourceKey, validateResources } from './resourceValidation';
  * 
  * // Validate a resource key
  

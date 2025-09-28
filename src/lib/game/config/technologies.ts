@@ -1,4 +1,4 @@
-import type { TechnologyKey, TechnologyDef } from '../types';
+import type { TechnologyKey, TechnologyDef } from '@/lib/game/types';
 
 export const TECHNOLOGIES: Record<TechnologyKey, TechnologyDef> = {
   writing: {

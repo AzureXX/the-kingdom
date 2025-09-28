@@ -3,7 +3,7 @@
  */
 
 import type { ErrorInfo } from 'react';
-import type { ValidationError } from './validation/resourceValidation';
+import type { ValidationError } from '@/lib/game/utils/validation/resourceValidation';
 
 /**
  * Type for error log details - more specific than unknown but flexible enough for complex data

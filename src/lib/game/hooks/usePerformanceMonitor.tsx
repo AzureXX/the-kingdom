@@ -1,5 +1,5 @@
 import { useState, useRef, useMemo, useCallback } from 'react';
-import { GAME_CONSTANTS } from '../constants';
+import { GAME_CONSTANTS } from '@/lib/game/constants';
 import { 
   updatePerformanceMetrics, 
   updateHistoricalData, 
@@ -8,7 +8,7 @@ import {
   calculatePerformanceScoreCached, 
   getPerformanceSuggestionsCached,
   PerformanceCircularBuffer
-} from '../utils/performance';
+} from '@/lib/game/utils/performance';
 
 
 export interface PerformanceMetrics {

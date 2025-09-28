@@ -1,13 +1,13 @@
 // Game state related type definitions
 
-import type { ResourceKey } from './resources';
-import type { BuildingKey } from './buildings';
-import type { TechnologyKey } from './technologies';
-import type { PrestigeUpgradeKey } from  './prestige';
-import type { EventKey } from './events';
-import type { ActionUnlocks, ActionCooldowns } from './actions';
-import type { LoopActionState, LoopActionSettings } from './loopActions';
-import type { AchievementState } from './achievements';
+import type { ResourceKey } from '@/lib/game/types/resources';
+import type { BuildingKey } from '@/lib/game/types/buildings';
+import type { TechnologyKey } from '@/lib/game/types/technologies';
+import type { PrestigeUpgradeKey } from  '@/lib/game/types/prestige';
+import type { EventKey } from '@/lib/game/types/events';
+import type { ActionUnlocks, ActionCooldowns } from '@/lib/game/types/actions';
+import type { LoopActionState, LoopActionSettings } from '@/lib/game/types/loopActions';
+import type { AchievementState } from '@/lib/game/types/achievements';
 
 /**
  * Represents the complete state of the game at any given moment.

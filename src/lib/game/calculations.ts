@@ -1,11 +1,11 @@
-import type { ResourceKey, BuildingKey, PrestigeUpgradeKey, TechnologyKey, ResourceCost } from './types';
-import type { GameState, Multipliers } from './types';
+import type { ResourceKey, BuildingKey, PrestigeUpgradeKey, TechnologyKey, ResourceCost } from '@/lib/game/types';
+import type { GameState, Multipliers } from '@/lib/game/types';
 
-import { CONFIG } from './config';
-import { GAME_CONSTANTS } from './constants';
-import { getResource, getBuildingCount, getUpgradeLevel, isBuildingUnlocked } from './gameState';
-import { isValidBuildingKey } from './utils';
-import { logInvalidKey, createValidationErrorHandler, createCalculationErrorHandler } from './utils/errorLogger';
+import { CONFIG } from '@/lib/game/config';
+import { GAME_CONSTANTS } from '@/lib/game/constants';
+import { getResource, getBuildingCount, getUpgradeLevel, isBuildingUnlocked } from '@/lib/game/gameState';
+import { isValidBuildingKey } from '@/lib/game/utils';
+import { logInvalidKey, createValidationErrorHandler, createCalculationErrorHandler } from '@/lib/game/utils/errorLogger';
 
 const { buildings: BUILDINGS, technologies: TECHNOLOGIES, prestige: PRESTIGE_CONFIG } = CONFIG;
 

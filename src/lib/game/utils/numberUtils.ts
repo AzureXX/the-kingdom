@@ -1,4 +1,4 @@
-import { GAME_CONSTANTS } from '../constants';
+import { GAME_CONSTANTS } from '@/lib/game/constants';
 
 /**
  * Clamps a numeric value between a minimum and maximum range.

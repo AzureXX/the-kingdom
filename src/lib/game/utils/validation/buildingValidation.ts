@@ -11,7 +11,6 @@
  * 
  * @example
  * ```typescript
- * import { isValidBuildingKey, validateBuildings } from './buildingValidation';
  * 
  * // Validate a building key
  * 
@@ -25,11 +24,11 @@ import type {
   BuildingDef,
   ResourceKey,
   TechnologyKey
-} from '../../types';
+} from '@/lib/game/types';
 
 // Import validation types and resource operation validation
-import type { ValidationResult } from './resourceValidation';
-import { validateResourceOperation } from './resourceValidation';
+import type { ValidationResult } from '@/lib/game/utils/validation/resourceValidation';
+import { validateResourceOperation } from '@/lib/game/utils/validation/resourceValidation';
 
 /**
  * Validates if a string is a valid building key.

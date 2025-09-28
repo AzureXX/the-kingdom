@@ -1,10 +1,10 @@
 "use client";
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { useSaveSystem, useGameLoop, usePerformanceMonitor } from '../hooks';
-import { validateConfiguration } from '../config';
-import type { GameState } from '../types';
-import type { PerformanceMetrics, PerformanceSuggestion } from '../types/context';
+import { useSaveSystem, useGameLoop, usePerformanceMonitor } from '@/lib/game/hooks';
+import { validateConfiguration } from '@/lib/game/config';
+import type { GameState } from '@/lib/game/types';
+import type { PerformanceMetrics, PerformanceSuggestion } from '@/lib/game/types/context';
 
 interface GameStateContextType {
   state: GameState | null;

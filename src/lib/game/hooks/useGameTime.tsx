@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { getFormattedTimeUntilNextEvent, getTimeUntilNextEvent } from '../eventSystem';
-import { getFormattedTimeUntilNextSave, getTimeUntilNextSave } from '../saveSystem';
-import type { GameState } from '../types';
-import { GAME_CONSTANTS } from '../constants';
+import { getFormattedTimeUntilNextEvent, getTimeUntilNextEvent } from '@/lib/game/eventSystem';
+import { getFormattedTimeUntilNextSave, getTimeUntilNextSave } from '@/lib/game/saveSystem';
+import type { GameState } from '@/lib/game/types';
+import { GAME_CONSTANTS } from '@/lib/game/constants';
 
 export function useGameTime(
   state: GameState | null,

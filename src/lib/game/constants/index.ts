@@ -1,14 +1,14 @@
 // Main constants index - re-exports all constants organized by system
-export * from './game';
-export * from './prestige';
-export * from './events';
-export * from './ui';
+export * from '@/lib/game/constants/game';
+export * from '@/lib/game/constants/prestige';
+export * from '@/lib/game/constants/events';
+export * from '@/lib/game/constants/ui';
 
 // Import constants for validation
-import { GAME_CONSTANTS } from './game';
-import { PRESTIGE_CONSTANTS } from './prestige';
-import { EVENT_CONSTANTS } from './events';
-import { UI_CONSTANTS } from './ui';
+import { GAME_CONSTANTS } from '@/lib/game/constants/game';
+import { PRESTIGE_CONSTANTS } from '@/lib/game/constants/prestige';
+import { EVENT_CONSTANTS } from '@/lib/game/constants/events';
+import { UI_CONSTANTS } from '@/lib/game/constants/ui';
 
 // Basic validation that all constants are properly defined
 if (typeof GAME_CONSTANTS === 'undefined') {

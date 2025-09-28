@@ -1,3 +1,3 @@
 // Export all test utilities
-export * from './testHelpers'
-export * from './mockData'
+export * from '@/__tests__/utils/testHelpers'
+export * from '@/__tests__/utils/mockData'

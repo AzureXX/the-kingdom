@@ -1,5 +1,5 @@
-import { ResourceCost, ResourceProduction } from './resources';
-import { ActionUnlockCondition } from './actions';
+import { ResourceCost, ResourceProduction } from '@/lib/game/types/resources';
+import { ActionUnlockCondition } from '@/lib/game/types/actions';
 
 export type LoopActionCategory = 'gathering' | 'crafting' | 'research' | 'military';
 

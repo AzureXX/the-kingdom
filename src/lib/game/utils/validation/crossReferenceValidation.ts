@@ -11,7 +11,6 @@
  * 
  * @example
  * ```typescript
- * import { validateGameConfig, formatValidationResults } from './crossReferenceValidation';
  * 
  * // Validate complete game configuration
  * const validationResult = validateGameConfig({
@@ -39,12 +38,12 @@ import type {
 } from '../../types';
 
 // Import validation types and individual validation functions
-import type { ValidationResult } from './resourceValidation';
-import { validateResources } from './resourceValidation';
-import { validateBuildings } from './buildingValidation';
-import { validateTechnologies } from './technologyValidation';
-import { validateActions } from './actionValidation';
-import { validateResourceOperation } from './resourceValidation';
+import type { ValidationResult } from '@/lib/game/utils/validation/resourceValidation';
+import { validateResources } from '@/lib/game/utils/validation/resourceValidation';
+import { validateBuildings } from '@/lib/game/utils/validation/buildingValidation';
+import { validateTechnologies } from '@/lib/game/utils/validation/technologyValidation';
+import { validateActions } from '@/lib/game/utils/validation/actionValidation';
+import { validateResourceOperation } from '@/lib/game/utils/validation/resourceValidation';
 
 /**
  * Validates loop action definitions for completeness and correctness.
@@ -178,7 +177,6 @@ function validateLoopActions(
  * 
  * @example
  * ```typescript
- * import { validateGameConfig } from './crossReferenceValidation';
  * 
  * const validationResult = validateGameConfig({
  *   resources: RESOURCES,

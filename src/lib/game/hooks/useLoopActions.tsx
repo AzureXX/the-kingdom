@@ -1,12 +1,12 @@
 import { useCallback } from 'react';
-import type { LoopActionKey } from '../types/loopActions';
-import type { GameState } from '../types/game';
+import type { LoopActionKey } from '@/lib/game/types/loopActions';
+import type { GameState } from '@/lib/game/types/game';
 import { 
   startLoopAction, 
   pauseLoopAction, 
   canStartLoopAction,
   canHaveMoreLoopActions 
-} from '../loopActionEngine';
+} from '@/lib/game/loopActionEngine';
 
 export function useLoopActions(
   gameState: GameState | null,

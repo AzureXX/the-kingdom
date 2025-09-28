@@ -10,14 +10,13 @@
  * 
  * @example
  * ```typescript
- * import { initResearchState } from './researchInitializer';
  * 
  * const researchState = initResearchState();
  * // Returns: { research: {...}, actions: {...} }
  * ```
  */
 
-import { createStateErrorHandler } from '../utils/errorLogger';
+import { createStateErrorHandler } from '@/lib/game/utils/errorLogger';
 
 // Create specialized error handler for research initialization
 const stateErrorHandler = createStateErrorHandler('researchInitializer');

@@ -9,17 +9,16 @@
  * 
  * @example
  * ```typescript
- * import { initTechnologyState } from './technologyInitializer';
  * 
  * const technologyState = initTechnologyState();
  * // Returns: { technologies: {...} }
  * ```
  */
 
-import type { TechnologyKey } from '../types';
-import { CONFIG } from '../config';
-import { isValidTechnologyKey } from '../utils/validation/technologyValidation';
-import { logInvalidKey, createStateErrorHandler } from '../utils/errorLogger';
+import type { TechnologyKey } from '@/lib/game/types';
+import { CONFIG } from '@/lib/game/config';
+import { isValidTechnologyKey } from '@/lib/game/utils/validation/technologyValidation';
+import { logInvalidKey, createStateErrorHandler } from '@/lib/game/utils/errorLogger';
 
 const { technologies: TECHNOLOGIES } = CONFIG;
 

@@ -3,7 +3,7 @@
  * Used to measure the overhead of performance monitoring itself
  */
 
-import { CircularBuffer } from './circularBuffer';
+import { CircularBuffer } from '@/lib/game/utils/performance/circularBuffer';
 
 export interface PerformanceOverheadMetrics {
   monitoringOverhead: number;

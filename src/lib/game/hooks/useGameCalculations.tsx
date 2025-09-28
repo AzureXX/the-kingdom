@@ -1,10 +1,10 @@
 import { useMemo, useCallback } from 'react';
 import { 
   calculateAllGameCalculations
-} from '../utils/gameCalculations';
-import { costFor, canAfford } from '../calculations';
-import type { GameState, Multipliers } from '../types';
-import type { BuildingKey, PrestigeUpgradeKey, ResourceKey, TechnologyKey, ResourceCost } from '../types';
+} from '@/lib/game/utils/gameCalculations';
+import { costFor, canAfford } from '@/lib/game/calculations';
+import type { GameState, Multipliers } from '@/lib/game/types';
+import type { BuildingKey, PrestigeUpgradeKey, ResourceKey, TechnologyKey, ResourceCost } from '@/lib/game/types';
 
 export function useGameCalculations(state: GameState | null): {
   // Game calculations - flattened for easier access

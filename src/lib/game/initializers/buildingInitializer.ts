@@ -7,19 +7,12 @@
  * - Building counts (all set to 0 initially)
  * - Building validation and error handling
  * 
- * @example
- * ```typescript
- * import { initBuildingState } from './buildingInitializer';
- * 
- * const buildingState = initBuildingState();
- * // Returns: { buildings: {...} }
- * ```
  */
 
-import type { BuildingKey } from '../types';
-import { CONFIG } from '../config';
-import { isValidBuildingKey } from '../utils/validation/buildingValidation';
-import { logInvalidKey, createStateErrorHandler } from '../utils/errorLogger';
+import type { BuildingKey } from '@/lib/game/types';
+import { CONFIG } from '@/lib/game/config';
+import { isValidBuildingKey } from '@/lib/game/utils/validation/buildingValidation';
+import { logInvalidKey, createStateErrorHandler } from '@/lib/game/utils/errorLogger';
 
 const { buildings: BUILDINGS } = CONFIG;
 

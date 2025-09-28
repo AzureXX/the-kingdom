@@ -1,10 +1,10 @@
 import { useEffect, useRef, useCallback } from 'react';
 
-import { GAME_CONSTANTS } from '../constants';
-import { tick } from '../actions';
-import { processLoopActionTick } from '../loopActionEngine';
+import { GAME_CONSTANTS } from '@/lib/game/constants';
+import { tick } from '@/lib/game/actions';
+import { processLoopActionTick } from '@/lib/game/loopActionEngine';
 
-import type { GameState } from '../types';
+import type { GameState } from '@/lib/game/types';
 
 export function useGameLoop(
   state: GameState | null,

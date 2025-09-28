@@ -3,11 +3,11 @@
  * Consolidates common resource update patterns from across the codebase
  */
 
-import { getResource, updateMultipleResources, addResources } from '../gameState';
-import { isValidResourceKey } from '../utils';
-import { logInvalidKey } from '../utils/errorLogger';
-import type { GameState, ResourceKey, ResourceCost, ResourceProduction } from '../types';
-import { createStateErrorHandler } from '../utils/errorLogger';
+import { getResource, updateMultipleResources, addResources } from '@/lib/game/gameState';
+import { isValidResourceKey } from '@/lib/game/utils';
+import { logInvalidKey } from '@/lib/game/utils/errorLogger';
+import type { GameState, ResourceKey, ResourceCost, ResourceProduction } from '@/lib/game/types';
+import { createStateErrorHandler } from '@/lib/game/utils/errorLogger';
 
 const stateErrorHandler = createStateErrorHandler('resourceUpdates');
 /**

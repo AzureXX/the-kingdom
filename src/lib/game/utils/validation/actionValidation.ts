@@ -10,7 +10,6 @@
  * 
  * @example
  * ```typescript
- * import { validateActions } from './actionValidation';
  * 
  * // Validate action definitions
  * const result = validateActions(ACTIONS, actionKeys, resourceKeys, buildingKeys, techKeys);
@@ -25,11 +24,11 @@ import type {
   ResourceKey,
   BuildingKey,
   TechnologyKey
-} from '../../types';
+} from '@/lib/game/types';
 
 // Import validation types and resource operation validation
-import type { ValidationResult } from './resourceValidation';
-import { validateResourceOperation } from './resourceValidation';
+import type { ValidationResult } from '@/lib/game/utils/validation/resourceValidation';
+import { validateResourceOperation } from '@/lib/game/utils/validation/resourceValidation';
 
 /**
  * Validates action definitions for completeness and correctness.

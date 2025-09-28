@@ -1,4 +1,4 @@
-import type { ResourceKey, PrestigeUpgradeKey, PrestigeUpgradeDef } from '../types';
+import type { ResourceKey, PrestigeUpgradeKey, PrestigeUpgradeDef } from '@/lib/game/types';
 
 export const PRESTIGE_CONFIG = {
   gainFrom: 'food' as ResourceKey,

@@ -1,6 +1,6 @@
 // Event-related type definitions
 
-import type { ResourceProduction, ResourceConsumption, ResourceCost } from './resources';
+import type { ResourceProduction, ResourceConsumption, ResourceCost } from '@/lib/game/types/resources';
 
 export type EventKey = 
   | 'merchantVisit'

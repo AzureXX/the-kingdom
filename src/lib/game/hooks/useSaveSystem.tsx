@@ -1,11 +1,11 @@
 import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
-import { doSave, exportSave, importSave, loadSave, processOfflineProgress } from '../saveSystem';
-import { initNewGame } from '../gameState';
-import { GAME_CONSTANTS } from '../constants';
-import { validateGameConfig } from '../utils/validation/crossReferenceValidation';
-import { CONFIG } from '../config';
-import { logConfigValidation } from '../utils/errorLogger';
-import type { GameState } from '../types';
+import { doSave, exportSave, importSave, loadSave, processOfflineProgress } from '@/lib/game/saveSystem';
+import { initNewGame } from '@/lib/game/gameState';
+import { GAME_CONSTANTS } from '@/lib/game/constants';
+import { validateGameConfig } from '@/lib/game/utils/validation/crossReferenceValidation';
+import { CONFIG } from '@/lib/game/config';
+import { logConfigValidation } from '@/lib/game/utils/errorLogger';
+import type { GameState } from '@/lib/game/types';
 
 export function useSaveSystem(
   state: GameState | null,

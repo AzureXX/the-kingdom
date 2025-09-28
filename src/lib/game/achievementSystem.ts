@@ -13,10 +13,10 @@ import type {
   BuildingKey,
   TechnologyKey,
   ActionKey,
-} from './types';
-import { ACHIEVEMENTS } from './config/achievements';
-import { getResource, getBuildingCount, getTechnologyLevel } from './gameState';
-import { createValidationErrorHandler, createStateErrorHandler } from './utils/errorLogger';
+} from '@/lib/game/types';
+import { ACHIEVEMENTS } from '@/lib/game/config/achievements';
+import { getResource, getBuildingCount, getTechnologyLevel } from '@/lib/game/gameState';
+import { createValidationErrorHandler, createStateErrorHandler } from '@/lib/game/utils/errorLogger';
 
 // Create specialized error handlers
 const validationHandler = createValidationErrorHandler('achievementSystem');

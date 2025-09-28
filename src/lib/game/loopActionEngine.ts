@@ -1,12 +1,12 @@
-import type { GameState } from './types/game';
-import type { LoopActionKey, LoopActionState, LoopActionProgress } from './types/loopActions';
-import { LOOP_ACTIONS } from './config/loopActions';
-import { GAME_CONSTANTS } from './constants';
-import { pay } from './actions';
-import { addResources } from './gameState';
-import { canAfford } from './calculations';
-import { logMessage } from './utils/errorLogger';
-import { ActionValidator } from './utils/actionValidation';
+import type { GameState } from '@/lib/game/types/game';
+import type { LoopActionKey, LoopActionState, LoopActionProgress } from '@/lib/game/types/loopActions';
+import { LOOP_ACTIONS } from '@/lib/game/config/loopActions';
+import { GAME_CONSTANTS } from '@/lib/game/constants';
+import { pay } from '@/lib/game/actions';
+import { addResources } from '@/lib/game/gameState';
+import { canAfford } from '@/lib/game/calculations';
+import { logMessage } from '@/lib/game/utils/errorLogger';
+import { ActionValidator } from '@/lib/game/utils/actionValidation';
 
 export function startLoopAction(state: GameState, actionKey: LoopActionKey): GameState {
   if (!canStartLoopAction(state, actionKey)) {

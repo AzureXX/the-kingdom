@@ -1,6 +1,6 @@
 // Prestige-related type definitions
 
-import type { ResourceKey } from './resources';
+import type { ResourceKey } from '@/lib/game/types/resources';
 
 export type PrestigeUpgradeKey =
   | 'royalDecrees'

@@ -1,10 +1,10 @@
-import { CONFIG } from './config';
-import type { TechnologyKey } from './types';
-import { GAME_CONSTANTS } from './constants';
-import { getResource, setResource, setTechnologyLevel } from './gameState';
-import { isValidResourceKey, isValidTechnologyKey } from './utils';
-import { logInvalidKey } from './utils/errorLogger';
-import type { GameState } from './types';
+import { CONFIG } from '@/lib/game/config';
+import type { TechnologyKey } from '@/lib/game/types';
+import { GAME_CONSTANTS } from '@/lib/game/constants';
+import { getResource, setResource, setTechnologyLevel } from '@/lib/game/gameState';
+import { isValidResourceKey, isValidTechnologyKey } from '@/lib/game/utils';
+import { logInvalidKey } from '@/lib/game/utils/errorLogger';
+import type { GameState } from '@/lib/game/types';
 
 const { technologies: TECHNOLOGIES } = CONFIG;
 

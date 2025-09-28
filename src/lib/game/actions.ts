@@ -1,5 +1,4 @@
-import type { ResourceKey, BuildingKey, PrestigeUpgradeKey, TechnologyKey, ActionKey, ResourceCost } from './types';
-import type { GameState } from './types';
+import type { ResourceKey, BuildingKey, PrestigeUpgradeKey, TechnologyKey, ActionKey, ResourceCost, GameState } from '@/lib/game/types';
 
 import { 
   getResource, 
@@ -10,15 +9,15 @@ import {
   updateUpgradeLevel,
   updateResource
 } from './gameState';
-import { payResources, calculateTimeBasedChanges, applyResourceChanges } from './utils/resourceUpdates';
-import { checkAchievements } from './achievementSystem';
-import { costFor, canAfford, getUpgradeCost, canBuyUpgrade, getPerSec } from './calculations';
-import { checkAndTriggerEvents } from './eventSystem';
-import { startResearch, checkResearchProgress } from './technologySystem';
-import { createStateErrorHandler } from './utils/errorLogger';
-import { getAction } from './config/actions';
-import { ActionValidator } from './utils/actionValidation';
-import { GAME_CONSTANTS } from './constants';
+import { payResources, calculateTimeBasedChanges, applyResourceChanges } from '@/lib/game/utils/resourceUpdates';
+import { checkAchievements } from '@/lib/game/achievementSystem';
+import { costFor, canAfford, getUpgradeCost, canBuyUpgrade, getPerSec } from '@/lib/game/calculations';
+import { checkAndTriggerEvents } from '@/lib/game/eventSystem';
+import { startResearch, checkResearchProgress } from '@/lib/game/technologySystem';
+import { createStateErrorHandler } from '@/lib/game/utils/errorLogger';
+import { getAction } from '@/lib/game/config/actions';
+import { ActionValidator } from '@/lib/game/utils/actionValidation';
+import { GAME_CONSTANTS } from '@/lib/game/constants';
 
 const stateErrorHandler = createStateErrorHandler('actions');
 

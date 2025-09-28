@@ -1,8 +1,8 @@
 // Migration utilities for handling save file compatibility
 
-import type { GameState } from '../types';
-import { initAchievementState } from '../achievementSystem';
-import { createStateErrorHandler } from './errorLogger';
+import type { GameState } from '@/lib/game/types';
+import { initAchievementState } from '@/lib/game/achievementSystem';
+import { createStateErrorHandler } from '@/lib/game/utils/errorLogger';
 
 /**
  * Migrate game state to include achievement data if missing

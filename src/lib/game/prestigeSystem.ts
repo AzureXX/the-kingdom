@@ -1,6 +1,6 @@
-import { PRESTIGE_CONSTANTS, GAME_CONSTANTS } from './constants';
-import { initNewGame } from './gameState';
-import type { GameState } from './types';
+import { PRESTIGE_CONSTANTS, GAME_CONSTANTS } from '@/lib/game/constants';
+import { initNewGame } from '@/lib/game/gameState';
+import type { GameState } from '@/lib/game/types';
 
 /**
  * Calculate prestige gain based on lifetime food production

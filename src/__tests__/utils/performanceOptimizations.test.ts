@@ -4,8 +4,8 @@ import {
   clearPerformanceCache,
   getCacheStats
 } from '../../lib/game/utils/performance/calculations';
-import { PerformanceCircularBuffer } from '../../lib/game/utils/performance/circularBuffer';
-import type { PerformanceMetrics, PerformanceThresholds } from '../../lib/game/hooks/usePerformanceMonitor';
+import { PerformanceCircularBuffer } from '@/lib/game/utils/performance/circularBuffer';
+import type { PerformanceMetrics, PerformanceThresholds } from '@/lib/game/hooks/usePerformanceMonitor';
 
 describe('Performance Optimizations', () => {
   const mockMetrics: PerformanceMetrics = {

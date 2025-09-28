@@ -372,6 +372,41 @@ export const LOOP_ACTIONS: Record<LoopActionKey, LoopActionDef> = {
 - **SCSS**: Modular styling with CSS Modules
 - **React**: Functional components with hooks
 
+### Import Guidelines
+- **Use `@/` alias**: Always use the `@/` alias for imports instead of relative paths
+- **No relative paths**: Avoid `./` and `../` in import statements
+- **No example comments**: Do not include example import statements in documentation comments
+
+**Correct import patterns:**
+```typescript
+// ✅ Good - Using @/ alias
+import { GameState } from '@/lib/game/types';
+import { calculateResources } from '@/lib/game/calculations';
+import styles from '@/styles/components/game/Component.module.scss';
+
+// ❌ Bad - Using relative paths
+import { GameState } from '../types';
+import { calculateResources } from '../../calculations';
+import styles from '../../../styles/components/game/Component.module.scss';
+```
+
+**Documentation guidelines:**
+```typescript
+// ✅ Good - Clean documentation without example imports
+/**
+ * Calculates resource production for a given building
+ * @param buildingKey - The building to calculate for
+ * @returns Resource production values
+ */
+
+// ❌ Bad - Confusing example imports in comments
+/**
+ * Calculates resource production for a given building
+ * @example
+ * import { calculateProduction } from './calculations';
+ */
+```
+
 ### SCSS File Organization
 All SCSS files are organized in the `src/styles/` directory with the following structure:
 

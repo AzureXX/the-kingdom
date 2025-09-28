@@ -3,7 +3,7 @@
  * Performance budget checking and validation
  */
 
-import { formatBytes } from './formatting';
+import { formatBytes } from '@/lib/game/utils/performance/formatting';
 
 /**
  * Performance budget configuration interface

@@ -1,6 +1,6 @@
 // Achievement system type definitions
 
-import type { GameState } from './game';
+import type { GameState } from '@/lib/game/types/game';
 
 
 /**

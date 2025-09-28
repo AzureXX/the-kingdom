@@ -1,10 +1,10 @@
-import { CONFIG, SAVE_KEY } from './config';
-import { GAME_CONSTANTS } from './constants';
-import { safeJsonParse, encodeBase64, decodeBase64 } from './utils';
-import { updateTimestamp } from './gameState';
-import { tick } from './actions';
-import { migrateGameState } from './utils/migrationUtils';
-import type { GameState } from './types';
+import { CONFIG, SAVE_KEY } from '@/lib/game/config';
+import { GAME_CONSTANTS } from '@/lib/game/constants';
+import { safeJsonParse, encodeBase64, decodeBase64 } from '@/lib/game/utils';
+import { updateTimestamp } from '@/lib/game/gameState';
+import { tick } from '@/lib/game/actions';
+import { migrateGameState } from '@/lib/game/utils/migrationUtils';
+import type { GameState } from '@/lib/game/types';
 
 /**
  * Load game state from localStorage

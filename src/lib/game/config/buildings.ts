@@ -1,4 +1,4 @@
-import type { BuildingKey, BuildingDef } from '../types';
+import type { BuildingKey, BuildingDef } from '@/lib/game/types';
 
 export const BUILDINGS: Record<BuildingKey, BuildingDef> = {
   woodcutter: {

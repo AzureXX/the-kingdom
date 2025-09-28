@@ -6,7 +6,7 @@ import {
   GameStateProvider, 
   GameActionsProvider, 
   GameCalculationsProvider
-} from './providers';
+} from '@/lib/game/providers';
 
 interface GameProviderProps {
   children: ReactNode;
@@ -33,7 +33,7 @@ import {
   useGameStateContext,
   useGameActionsContext,
   useGameCalculationsContext
-} from './providers';
+} from '@/lib/game/providers';
 
 // Legacy compatibility - create a combined hook that returns all contexts
 export function useGameContext() {

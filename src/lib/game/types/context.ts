@@ -1,5 +1,5 @@
-import type { ActionKey, BuildingKey, PrestigeUpgradeKey, TechnologyKey, ResourceCost, GameState, ActionStatus, ResourceKey } from './index';
-import type { LoopActionKey } from './loopActions';
+import type { ActionKey, BuildingKey, PrestigeUpgradeKey, TechnologyKey, ResourceCost, GameState, ActionStatus, ResourceKey } from '@/lib/game/types';
+import type { LoopActionKey } from '@/lib/game/types/loopActions';
 
 /**
  * Interface for all game action handlers

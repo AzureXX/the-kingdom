@@ -1,10 +1,10 @@
 import { useCallback } from 'react';
 
-import { buyBuilding, buyUpgrade, executeAction, researchTechnology } from '../actions';
-import { doPrestige } from '../prestigeSystem';
+import { buyBuilding, buyUpgrade, executeAction, researchTechnology } from '@/lib/game/actions';
+import { doPrestige } from '@/lib/game/prestigeSystem';
 
-import type { GameState } from '../types';
-import type { BuildingKey, PrestigeUpgradeKey, TechnologyKey, ActionKey } from '../types';
+import type { GameState } from '@/lib/game/types';
+import type { BuildingKey, PrestigeUpgradeKey, TechnologyKey, ActionKey } from '@/lib/game/types';
 
 export function useGameActions(
   state: GameState | null,

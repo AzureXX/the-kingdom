@@ -1,7 +1,7 @@
-import type { GameState, ActionKey, ActionStatus, ActionUnlockCondition } from '../types';
-import { getAction, getAllActions } from '../config/actions';
-import { getResource, getBuildingCount, getUpgradeLevel, getTechnologyLevel } from '../gameState';
-import { canAfford } from '../calculations';
+import type { GameState, ActionKey, ActionStatus, ActionUnlockCondition } from '@/lib/game/types';
+import { getAction, getAllActions } from '@/lib/game/config/actions';
+import { getResource, getBuildingCount, getUpgradeLevel, getTechnologyLevel } from '@/lib/game/gameState';
+import { canAfford } from '@/lib/game/calculations';
 
 /**
  * Consolidated action validator class
