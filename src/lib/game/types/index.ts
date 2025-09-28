@@ -81,4 +81,15 @@ export type {
 export type {
   GameState,
   Multipliers,
+  // Focused state interfaces for better maintainability
+  CoreGameState,
+  ResourceState,
+  BuildingState,
+  TechnologyState,
+  PrestigeState,
+  EventState,
+  ResearchState,
+  ActionState,
+  LoopActionSystemState,
+  AchievementSystemState,
 } from '@/lib/game/types/game';
