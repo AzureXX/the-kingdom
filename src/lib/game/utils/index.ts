@@ -22,9 +22,6 @@ export {
   updateHistoricalData,
   calculateAverages,
   checkMetricsChanged,
-  // Calculations
-  calculatePerformanceScore,
-  getPerformanceSuggestions,
   // Optimization
   debounce,
   throttle,

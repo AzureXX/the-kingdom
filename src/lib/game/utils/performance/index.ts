@@ -11,12 +11,6 @@ export {
   checkMetricsChanged
 } from './monitoring';
 
-// Performance calculations and analysis
-export {
-  calculatePerformanceScore,
-  getPerformanceSuggestions
-} from './calculations';
-
 // Performance optimization tools
 export {
   debounce,
@@ -58,4 +52,4 @@ export {
   getPerformanceSuggestionsCached,
   clearPerformanceCache,
   getCacheStats
-} from './cachedCalculations';
+} from './calculations';

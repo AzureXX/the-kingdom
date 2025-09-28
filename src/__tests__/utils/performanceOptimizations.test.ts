@@ -3,7 +3,7 @@ import {
   getPerformanceSuggestionsCached,
   clearPerformanceCache,
   getCacheStats
-} from '../../lib/game/utils/performance/cachedCalculations';
+} from '../../lib/game/utils/performance/calculations';
 import { PerformanceCircularBuffer } from '../../lib/game/utils/performance/circularBuffer';
 import type { PerformanceMetrics, PerformanceThresholds } from '../../lib/game/hooks/usePerformanceMonitor';
 
