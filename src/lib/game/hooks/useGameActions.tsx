@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 
-import { buyBuilding, buyUpgrade, executeAction, researchTechnology } from '@/lib/game/actions';
+import { buyBuilding, buyUpgrade, executeAction, researchTechnology } from '@/lib/game/utils/actions';
 import { doPrestige } from '@/lib/game/prestigeSystem';
 
 import type { GameState } from '@/lib/game/types';

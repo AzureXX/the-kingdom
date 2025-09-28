@@ -1,7 +1,7 @@
 import { useEffect, useRef, useCallback } from 'react';
 
 import { GAME_CONSTANTS } from '@/lib/game/constants';
-import { tick } from '@/lib/game/actions';
+import { tick } from '@/lib/game/utils/actions';
 import { processLoopActionTick } from '@/lib/game/loopActionEngine';
 
 import type { GameState } from '@/lib/game/types';
