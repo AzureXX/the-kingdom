@@ -52,24 +52,7 @@ npm start
 - **Build Tool**: Turbopack (development)
 
 ### Project Structure
-```
-src/
-├── app/                    # Next.js App Router pages
-├── components/             # React components (game, scenes, ui)
-├── hooks/                  # Custom React hooks
-├── lib/game/              # Core game logic
-│   ├── config/            # Game configuration (modular)
-│   ├── constants/         # Game constants
-│   ├── hooks/             # Game-specific React hooks
-│   ├── initializers/      # Game state initializers
-│   ├── providers/         # React context providers
-│   ├── types/             # TypeScript type definitions
-│   └── utils/             # Comprehensive utility functions
-├── __tests__/             # Test files and utilities
-└── styles/                # SCSS stylesheets
-```
-
-📚 **For detailed module information, see [docs/MODULES.md](docs/MODULES.md)**
+📁 **For complete project structure, see [STRUCTURE.md](STRUCTURE.md)**
 
 ## 🎯 Core Game Systems
 
@@ -509,6 +492,7 @@ export const TRADING_EVENTS: Record<EventKey, EventDef> = {
 
 ## 📚 Documentation
 
+- **[STRUCTURE.md](docs/STRUCTURE.md)** - Complete project structure and file organization
 - **[docs/MODULES.md](docs/MODULES.md)** - Complete module reference and architecture overview
 - **[docs/REFACTORING.md](docs/REFACTORING.md)** - Refactoring analysis and recommendations
 
