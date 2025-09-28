@@ -51,7 +51,7 @@ describe('Performance Optimizations', () => {
     });
 
     it('should invalidate cache when metrics change significantly', () => {
-      const score1 = calculatePerformanceScoreCached(mockMetrics, mockThresholds);
+      calculatePerformanceScoreCached(mockMetrics, mockThresholds);
       
       // Change metrics significantly
       const newMetrics = {

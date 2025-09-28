@@ -9,7 +9,7 @@ export type TechnologyKey = 'writing' | 'mathematics' | 'engineering' | 'chemist
  * Definition of a technology that can be researched by the player.
  * Technologies unlock advanced buildings and provide strategic depth to the game.
  */
-export type TechnologyDef = {
+export interface TechnologyDef {
   /** Human-readable name of the technology */
   name: string;
   
@@ -40,4 +40,4 @@ export type TechnologyDef = {
     buildings: Record<BuildingKey, number>; 
     technologies: Record<TechnologyKey, number> 
   }) => void;
-};
+}

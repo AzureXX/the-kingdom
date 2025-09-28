@@ -5,7 +5,7 @@ import type { TechnologyKey } from './technologies';
 
 export type BuildingKey = 'woodcutter' | 'quarry' | 'farm' | 'blacksmith' | 'castle' | 'library' | 'university' | 'laboratory';
 
-export type BuildingDef = {
+export interface BuildingDef {
   name: string;
   icon: string;
   desc: string;
@@ -14,4 +14,4 @@ export type BuildingDef = {
   baseProd: ResourceProduction;
   baseUse: ResourceConsumption;
   requiresTech?: TechnologyKey[];
-};
+}

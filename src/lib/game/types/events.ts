@@ -12,14 +12,14 @@ export type EventKey =
   | 'plague'
   | 'festival';
 
-export type EventChoice = {
+export interface EventChoice {
   text: string;
   gives: ResourceProduction;
   takes: ResourceConsumption;
   requires: ResourceCost;
-};
+}
 
-export type EventDef = {
+export interface EventDef {
   name: string;
   icon: string;
   desc: string;
@@ -28,7 +28,7 @@ export type EventDef = {
   minInterval: number; // seconds
   maxInterval: number; // seconds
   weight: number; // relative chance of this event occurring
-};
+}
 
 // Validation type for event intervals
 export type ValidEventDef = EventDef & {

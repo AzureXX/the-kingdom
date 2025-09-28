@@ -5,6 +5,7 @@ import type { GameState } from './game';
 
 /**
  * Unique identifier for an achievement
+ * Using string type for compatibility with dynamic key access patterns
  */
 export type AchievementKey = string;
 
@@ -62,7 +63,7 @@ export type AchievementRewardType =
 /**
  * Individual requirement for an achievement
  */
-export type AchievementRequirement = {
+export interface AchievementRequirement {
   /** Type of requirement */
   type: AchievementRequirementType;
   /** Target resource/building/technology/etc. */
@@ -73,12 +74,12 @@ export type AchievementRequirement = {
   operator?: AchievementOperator;
   /** Timeframe for time-based achievements (seconds) */
   timeframe?: number;
-};
+}
 
 /**
  * Reward given for completing an achievement
  */
-export type AchievementReward = {
+export interface AchievementReward {
   /** Type of reward */
   type: AchievementRewardType;
   /** Target resource/multiplier/etc. */
@@ -87,12 +88,12 @@ export type AchievementReward = {
   value: number;
   /** Whether reward persists through prestige */
   permanent: boolean;
-};
+}
 
 /**
  * Complete achievement definition
  */
-export type AchievementDef = {
+export interface AchievementDef {
   /** Unique identifier */
   key: AchievementKey;
   /** Display name */
@@ -117,12 +118,12 @@ export type AchievementDef = {
   repeatable: boolean;
   /** Maximum level for tiered achievements */
   maxLevel?: number;
-};
+}
 
 /**
  * Achievement notification for UI display
  */
-export type AchievementNotification = {
+export interface AchievementNotification {
   /** Achievement that was unlocked */
   achievementKey: AchievementKey;
   /** When it was unlocked (timestamp) */
@@ -131,12 +132,12 @@ export type AchievementNotification = {
   level?: number;
   /** Whether notification has been shown */
   shown: boolean;
-};
+}
 
 /**
  * Achievement progress tracking
  */
-export type AchievementProgress = {
+export interface AchievementProgress {
   /** Current progress (0.0 to 1.0) */
   progress: number;
   /** Current value for the primary requirement */
@@ -145,7 +146,7 @@ export type AchievementProgress = {
   targetValue: number;
   /** Whether all requirements are met */
   isComplete: boolean;
-};
+}
 
 /**
  * Achievement state in game save

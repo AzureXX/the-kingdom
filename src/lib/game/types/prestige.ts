@@ -8,7 +8,7 @@ export type PrestigeUpgradeKey =
   | 'fertileLands'
   | 'militaryMight';
 
-export type PrestigeUpgradeDef = {
+export interface PrestigeUpgradeDef {
   name: string;
   icon: string;
   desc: string;
@@ -23,4 +23,4 @@ export type PrestigeUpgradeDef = {
       useMul: Partial<Record<ResourceKey, number>>;
     }
   ) => void;
-};
+}

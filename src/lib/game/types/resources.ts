@@ -2,13 +2,13 @@
 
 export type ResourceKey = 'gold' | 'wood' | 'stone' | 'food' | 'prestige' | 'researchPoints';
 
-export type ResourceDef = {
+export interface ResourceDef {
   name: string;
   icon: string;
   decimals: number;
   start: number;
   hidden?: boolean; // Whether to hide this resource until first earned
-};
+}
 
 // More specific types for resource-related operations
 export type ResourceCost = Partial<Record<ResourceKey, number>>;
