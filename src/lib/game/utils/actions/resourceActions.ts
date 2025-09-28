@@ -6,7 +6,7 @@
 import type { ResourceKey, GameState, ResourceCost } from '@/lib/game/types';
 
 import { payResources, calculateTimeBasedChanges, applyResourceChanges } from '@/lib/game/utils/resourceUpdates';
-import { getPerSec } from '@/lib/game/calculations';
+import { getPerSec } from '@/lib/game/utils/calculations';
 import { createStateErrorHandler } from '@/lib/game/utils/errorLogger';
 
 const stateErrorHandler = createStateErrorHandler('resourceActions');

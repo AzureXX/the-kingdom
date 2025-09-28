@@ -3,7 +3,7 @@
  * Extracted from useGameCalculations.tsx to improve maintainability
  */
 
-import { getPerSec, costFor, canAfford, getMultipliers, technologyCostFor, getUpgradeCost } from '@/lib/game/calculations';
+import { getPerSec, costFor, canAfford, getMultipliers, technologyCostFor, getUpgradeCost } from '@/lib/game/utils/calculations';
 import { prestigeGain } from '@/lib/game/prestigeSystem';
 import { getUpgradeLevel } from '@/lib/game/gameState';
 import { CONFIG } from '@/lib/game/config';

@@ -3,7 +3,7 @@ import React, { memo } from 'react';
 import { CONFIG } from '@/lib/game/config';
 import { formatNumber } from '@/lib/game/utils';
 import { getUnlockedBuildings } from '@/lib/game/gameState';
-import { canBuyBuilding } from '@/lib/game/calculations';
+import { canBuyBuilding } from '@/lib/game/utils/calculations';
 
 import type { ResourceKey, TechnologyKey } from '@/lib/game/types';
 import type { BuildingSceneProps } from '@/lib/game/types/context';

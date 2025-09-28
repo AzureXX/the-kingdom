@@ -2,7 +2,7 @@ import { useMemo, useCallback } from 'react';
 import { 
   calculateAllGameCalculations
 } from '@/lib/game/utils/gameCalculations';
-import { costFor, canAfford } from '@/lib/game/calculations';
+import { costFor, canAfford } from '@/lib/game/utils/calculations';
 import type { GameState, Multipliers } from '@/lib/game/types';
 import type { BuildingKey, PrestigeUpgradeKey, ResourceKey, TechnologyKey, ResourceCost } from '@/lib/game/types';
 

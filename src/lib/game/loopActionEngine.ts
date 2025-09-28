@@ -4,7 +4,7 @@ import { LOOP_ACTIONS } from '@/lib/game/config/loopActions';
 import { GAME_CONSTANTS } from '@/lib/game/constants';
 import { pay } from '@/lib/game/utils/actions';
 import { addResources } from '@/lib/game/gameState';
-import { canAfford } from '@/lib/game/calculations';
+import { canAfford } from '@/lib/game/utils/calculations';
 import { logMessage } from '@/lib/game/utils/errorLogger';
 import { ActionChecker } from '@/lib/game/utils/actionChecker';
 

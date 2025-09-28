@@ -11,7 +11,7 @@ import {
   updateUpgradeLevel,
   updateResource
 } from '@/lib/game/gameState';
-import { getUpgradeCost, canBuyUpgrade } from '@/lib/game/calculations';
+import { getUpgradeCost, canBuyUpgrade } from '@/lib/game/utils/calculations';
 import { createStateErrorHandler } from '@/lib/game/utils/errorLogger';
 
 const stateErrorHandler = createStateErrorHandler('upgradeActions');
