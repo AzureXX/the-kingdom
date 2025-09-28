@@ -3,7 +3,7 @@ import styles from '@/styles/page.module.scss';
 import { CONFIG } from '@/lib/game/config';
 import type { TechnologyKey, ResourceKey } from '@/lib/game/types';
 import type { ResearchSceneProps } from '@/lib/game/types/context';
-import { formatNumber } from '@/lib/game/utils';
+import { formatNumber } from '@/lib/game/utils/number';
 import { canResearchTechnology, getResearchProgress, getResearchTimeRemaining, getTechnologiesWithPrerequisitesMet } from '@/lib/game/utils/technology';
 
 export const TechnologyList = memo(function TechnologyList({ state, onResearchTechnology }: Pick<ResearchSceneProps, 'state' | 'onResearchTechnology'>): React.JSX.Element {

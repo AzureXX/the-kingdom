@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import styles from '@/styles/page.module.scss';
 import { CONFIG } from '@/lib/game/config';
-import { formatNumber } from '@/lib/game/utils';
+import { formatNumber } from '@/lib/game/utils/number';
 import type { GameState, ResourceAmount, ResourceKey } from '@/lib/game/types';
 import resourceStyles from '@/styles/components/game/ResourceDisplay.module.scss';
 

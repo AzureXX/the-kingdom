@@ -1,4 +1,4 @@
-import { isValidResourceKey, isValidBuildingKey, isValidTechnologyKey } from '@/lib/game/utils'
+import { isValidResourceKey, isValidBuildingKey, isValidTechnologyKey } from '@/lib/game/utils/validation'
 
 describe('validationUtils', () => {
   describe('isValidResourceKey', () => {

@@ -2,7 +2,7 @@
 
 import type { BuildingKey } from '@/lib/game/types';
 import { createValidationErrorHandler, createStateErrorHandler, logInvalidKey } from '@/lib/game/utils/error';
-import { isValidBuildingKey } from '@/lib/game/utils';
+import { isValidBuildingKey } from '@/lib/game/utils/validation';
 import { CONFIG } from '@/lib/game/config';
 import type { GameState } from '@/lib/game/types';
 import type { TechnologyKey } from '@/lib/game/types';

@@ -27,16 +27,16 @@ const customJestConfig = {
     },
   },
   testMatch: [
-    '<rootDir>/src/**/__tests__/**/*.{test,spec}.{js,jsx,ts,tsx}',
+    '<rootDir>/__tests__/**/*.{test,spec}.{js,jsx,ts,tsx}',
     '<rootDir>/src/**/*.{test,spec}.{js,jsx,ts,tsx}',
   ],
   testPathIgnorePatterns: [
     '<rootDir>/.next/', 
     '<rootDir>/node_modules/',
-    '/src/.*/__tests__/.*/utils/',
-    '/src/.*/__tests__/.*/mockData\\.ts$',
-    '/src/.*/__tests__/.*/testHelpers\\.ts$',
-    '/src/.*/__tests__/.*/index\\.ts$',
+    '/__tests__/.*/utils/',
+    '/__tests__/.*/mockData\\.ts$',
+    '/__tests__/.*/testHelpers\\.ts$',
+    '/__tests__/.*/index\\.ts$',
   ],
 }
 

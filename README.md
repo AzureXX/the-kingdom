@@ -55,166 +55,21 @@ npm start
 ```
 src/
 ├── app/                    # Next.js App Router pages
-│   ├── layout.tsx         # Root layout component
-│   ├── page.tsx           # Main game page
-│   └── favicon.ico        # App favicon
-├── components/             # React components
-│   ├── game/              # Game-specific UI components
-│   │   ├── AchievementCard.tsx
-│   │   ├── AchievementList.tsx
-│   │   ├── ActionButton.tsx
-│   │   ├── ActionList.tsx
-│   │   ├── BuildingList.tsx
-│   │   ├── LoopActionButton.tsx
-│   │   ├── LoopActionList.tsx
-│   │   ├── ResourceDisplay.tsx
-│   │   ├── TechnologyList.tsx
-│   │   └── UpgradeList.tsx
-│   ├── scenes/            # Scene-specific components
-│   │   ├── AchievementScene.tsx
-│   │   ├── ActionsScene.tsx
-│   │   ├── BuildingsScene.tsx
-│   │   ├── PerformanceScene.tsx
-│   │   ├── PrestigeScene.tsx
-│   │   ├── ResearchScene.tsx
-│   │   ├── SceneNavigation.tsx
-│   │   └── index.ts
-│   └── ui/                # Reusable UI components
-│       ├── AchievementNotification.tsx
-│       ├── ConfigurationValidator.tsx
-│       ├── ErrorBoundary.tsx
-│       ├── EventModal.tsx
-│       ├── EventNotification.tsx
-│       ├── Modal.tsx
-│       ├── PerformanceMonitor.tsx
-│       └── SvgSprites.tsx
+├── components/             # React components (game, scenes, ui)
 ├── hooks/                  # Custom React hooks
-│   └── useSceneNavigation.tsx
 ├── lib/game/              # Core game logic
 │   ├── config/            # Game configuration (modular)
-│   │   ├── achievements/  # Achievement definitions
-│   │   │   ├── actionAchievements.ts
-│   │   │   ├── buildingAchievements.ts
-│   │   │   ├── comboAchievements.ts
-│   │   │   ├── eventAchievements.ts
-│   │   │   ├── hiddenAchievements.ts
-│   │   │   ├── prestigeAchievements.ts
-│   │   │   ├── resourceAchievements.ts
-│   │   │   ├── technologyAchievements.ts
-│   │   │   ├── timeAchievements.ts
-│   │   │   └── index.ts
-│   │   ├── actions/       # Action definitions
-│   │   │   ├── basicActions.ts
-│   │   │   ├── buildingActions.ts
-│   │   │   ├── technologyActions.ts
-│   │   │   ├── tradingActions.ts
-│   │   │   └── index.ts
-│   │   ├── events/        # Event definitions
-│   │   │   ├── conflictEvents.ts
-│   │   │   ├── naturalEvents.ts
-│   │   │   ├── socialEvents.ts
-│   │   │   ├── tradingEvents.ts
-│   │   │   └── index.ts
-│   │   ├── loopActions/   # Loop action definitions
-│   │   │   ├── craftingLoopActions.ts
-│   │   │   ├── gatheringLoopActions.ts
-│   │   │   ├── militaryLoopActions.ts
-│   │   │   ├── researchLoopActions.ts
-│   │   │   └── index.ts
-│   │   ├── buildings.ts   # Building definitions
-│   │   ├── prestige.ts    # Prestige system config
-│   │   ├── resources.ts   # Resource definitions
-│   │   ├── technologies.ts # Technology definitions
-│   │   └── index.ts
 │   ├── constants/         # Game constants
-│   │   ├── events.ts
-│   │   ├── game.ts
-│   │   ├── prestige.ts
-│   │   ├── ui.ts
-│   │   └── index.ts
-│   ├── GameContext.tsx    # Main game context
-│   ├── hooks/             # Custom React hooks
-│   │   ├── useAchievements.tsx
-│   │   ├── useGameActions.tsx
-│   │   ├── useGameCalculations.tsx
-│   │   ├── useGameLoop.tsx
-│   │   ├── useGameTime.tsx
-│   │   ├── useLoopActions.tsx
-│   │   ├── usePerformanceMonitor.tsx
-│   │   ├── useSaveSystem.tsx
-│   │   └── index.ts
+│   ├── hooks/             # Game-specific React hooks
 │   ├── initializers/      # Game state initializers
-│   │   ├── buildingInitializer.ts
-│   │   ├── eventInitializer.ts
-│   │   ├── gameStateFactory.ts
-│   │   ├── researchInitializer.ts
-│   │   ├── resourceInitializer.ts
-│   │   └── technologyInitializer.ts
 │   ├── providers/         # React context providers
-│   │   ├── GameActionsProvider.tsx
-│   │   ├── GameCalculationsProvider.tsx
-│   │   ├── GameStateProvider.tsx
-│   │   └── index.ts
 │   ├── types/             # TypeScript type definitions
-│   │   ├── achievements.ts
-│   │   ├── actions.ts
-│   │   ├── buildings.ts
-│   │   ├── context.ts
-│   │   ├── error.ts
-│   │   ├── events.ts
-│   │   ├── game.ts
-│   │   ├── loopActions.ts
-│   │   ├── prestige.ts
-│   │   ├── resources.ts
-│   │   ├── scenes.ts
-│   │   ├── technologies.ts
-│   │   └── index.ts
 │   └── utils/             # Comprehensive utility functions
-│       ├── achievement/   # Achievement utilities
-│       ├── actionChecker/ # Action validation utilities
-│       ├── actions/       # Action processing utilities
-│       ├── calculations/  # Mathematical calculations
-│       ├── error/         # Error handling utilities
-│       ├── event/         # Event system utilities
-│       ├── gameCalculations/ # Game calculation utilities
-│       ├── gameState/     # Game state management
-│       ├── loopActions/   # Loop action utilities
-│       ├── loopCalculations/ # Loop calculation utilities
-│       ├── migration/     # Save migration utilities
-│       ├── number/        # Number formatting utilities
-│       ├── performance/   # Performance monitoring utilities
-│       ├── prestige/      # Prestige system utilities
-│       ├── resource/      # Resource management utilities
-│       ├── save/          # Save system utilities
-│       ├── string/        # String processing utilities
-│       ├── technology/    # Technology system utilities
-│       ├── validation/    # Validation utilities
-│       └── index.ts
 ├── __tests__/             # Test files and utilities
-│   ├── game/              # Game logic tests
-│   │   ├── resourceCalculations.test.ts
-│   │   ├── resourceUpdates.test.ts
-│   │   └── resourceValidation.test.ts
-│   ├── utils/             # Utility tests and test helpers
-│   │   ├── circularBuffer.test.ts
-│   │   ├── errorLogger.test.ts
-│   │   ├── numberUtils.test.ts
-│   │   ├── performanceOptimizations.test.ts
-│   │   ├── stringUtils.test.ts
-│   │   ├── validationUtils.test.ts
-│   │   ├── testHelpers.ts
-│   │   ├── mockData.ts
-│   │   └── index.ts
-│   └── setup.test.ts      # Test setup verification
 └── styles/                # SCSS stylesheets
-    ├── components/        # Component-specific styles
-    │   ├── game/         # Game component styles
-    │   ├── scenes/       # Scene component styles
-    │   └── ui/           # UI component styles
-    ├── scenes/           # Scene layout styles
-    ├── globals.scss      # Global styles
-    └── page.module.scss  # Page-specific styles
 ```
+
+📚 **For detailed module information, see [docs/MODULES.md](docs/MODULES.md)**
 
 ## 🎯 Core Game Systems
 
@@ -652,6 +507,11 @@ export const TRADING_EVENTS: Record<EventKey, EventDef> = {
 };
 ```
 
+## 📚 Documentation
+
+- **[docs/MODULES.md](docs/MODULES.md)** - Complete module reference and architecture overview
+- **[docs/REFACTORING.md](docs/REFACTORING.md)** - Refactoring analysis and recommendations
+
 ## 🧪 Development Guidelines
 
 ### Code Style
@@ -866,28 +726,6 @@ The game is designed to be easily extensible with a modular architecture:
 - **Technologies**: Add new technologies in `src/lib/game/config/technologies.ts`
 - **Resources**: Add new resources in `src/lib/game/config/resources.ts`
 
-#### Utility Functions
-The comprehensive utility system provides specialized functions for each game system:
-
-- **`utils/achievement/`**: Achievement checking, progress tracking, and notifications
-- **`utils/actionChecker/`**: Action validation, status checking, and unlock conditions
-- **`utils/actions/`**: Action processing, building actions, and game loop actions
-- **`utils/calculations/`**: Mathematical calculations, costs, and multipliers
-- **`utils/error/`**: Centralized error handling and logging
-- **`utils/event/`**: Event triggering, choices, and state management
-- **`utils/gameCalculations/`**: Game-specific calculations and memoization
-- **`utils/gameState/`**: Game state management and initialization
-- **`utils/loopActions/`**: Loop action management and processing
-- **`utils/loopCalculations/`**: Loop action efficiency and progress calculations
-- **`utils/migration/`**: Save file migration and validation
-- **`utils/number/`**: Number formatting and mathematical operations
-- **`utils/performance/`**: Performance monitoring and optimization
-- **`utils/prestige/`**: Prestige calculations and operations
-- **`utils/resource/`**: Resource management and processing
-- **`utils/save/`**: Save system, import/export, and offline progress
-- **`utils/string/`**: String encoding and parsing utilities
-- **`utils/technology/`**: Technology research and validation
-- **`utils/validation/`**: Cross-reference validation and input validation
 
 #### Styling
 - **Styles**: Add new SCSS files in `src/styles/` following the organized structure (see SCSS File Organization section)

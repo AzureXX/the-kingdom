@@ -3,7 +3,7 @@
 import type { ResourceKey, GameState } from '@/lib/game/types';
 import { CONFIG } from '@/lib/game/config';
 import { getBuildingCount } from '@/lib/game/utils/gameState';
-import { isValidBuildingKey } from '@/lib/game/utils';
+import { isValidBuildingKey } from '@/lib/game/utils/validation';
 import { logInvalidKey, createValidationErrorHandler, createCalculationErrorHandler } from '@/lib/game/utils/error';
 import { getMultipliers } from '@/lib/game/utils/calculations/multipliers';
 

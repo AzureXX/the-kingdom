@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, ReactNode } from 'react';
 import { useGameCalculations, useGameTime } from '@/lib/game/hooks';
-import { formatNumber as fmt } from '@/lib/game/utils';
+import { formatNumber as fmt } from '@/lib/game/utils/number';
 import type { GameUtilityFunctions } from '@/lib/game/types/context';
 import type { Multipliers, ResourceKey, TechnologyKey, PrestigeUpgradeKey, ResourceCost } from '@/lib/game/types';
 import { useGameStateContext } from '@/lib/game/providers/GameStateProvider';

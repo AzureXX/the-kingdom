@@ -1,5 +1,5 @@
 import { calculateAllGameCalculations, createMemoizedCostFor, createMemoizedCanAfford } from '@/lib/game/utils/gameCalculations'
-import { createTestGameState, createGameStateWithResources, createGameStateWithBuildings } from '@/__tests__/utils/testHelpers'
+import { createTestGameState, createGameStateWithResources, createGameStateWithBuildings } from '../utils/testHelpers'
 
 describe('resourceCalculations', () => {
   describe('calculateAllGameCalculations', () => {

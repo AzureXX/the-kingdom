@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 
 import { CONFIG } from '@/lib/game/config';
-import { formatNumber } from '@/lib/game/utils';
+import { formatNumber } from '@/lib/game/utils/number';
 import { getUnlockedBuildings } from '@/lib/game/utils/gameState';
 import { canBuyBuilding } from '@/lib/game/utils/calculations';
 

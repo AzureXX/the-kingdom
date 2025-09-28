@@ -3,7 +3,7 @@ import styles from '@/styles/page.module.scss';
 import { CONFIG } from '@/lib/game/config';
 import type { PrestigeUpgradeKey } from '@/lib/game/types';
 import type { PrestigeSceneProps } from '@/lib/game/types/context';
-import { formatNumber } from '@/lib/game/utils';
+import { formatNumber } from '@/lib/game/utils/number';
 
 export const UpgradeList = memo(function UpgradeList({ state, onBuyUpgrade }: Pick<PrestigeSceneProps, 'state'> & { onBuyUpgrade: (key: PrestigeUpgradeKey) => void }): React.JSX.Element {
   return (
