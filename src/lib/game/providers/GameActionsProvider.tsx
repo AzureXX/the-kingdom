@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, ReactNode } from 'react';
-import { useGameActions, useLoopActions } from '@/lib/game/hooks';
+import { useGameActions, useLoopActions } from '@/hooks';
 import type { GameActionHandlers } from '@/lib/game/types/context';
 import { useGameStateContext } from '@/lib/game/providers/GameStateProvider';
 

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { AchievementList } from '@/components/game/AchievementList';
-import { useAchievements } from '@/lib/game/hooks';
+import { useAchievements } from '@/hooks';
 import type { AchievementFilter, AchievementSortOption, GameState } from '@/lib/game/types';
 import styles from '@/styles/components/scenes/AchievementScene.module.scss';
 

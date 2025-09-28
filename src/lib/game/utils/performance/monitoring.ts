@@ -3,7 +3,7 @@
  * Core performance tracking and metrics collection
  */
 
-import type { PerformanceMetrics } from '@/lib/game/hooks/usePerformanceMonitor';
+import type { PerformanceMetrics } from '@/hooks/usePerformanceMonitor';
 import { PerformanceCircularBuffer } from '@/lib/game/utils/performance/circularBuffer';
 
 /**

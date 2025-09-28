@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { AchievementCard } from '@/components/game/AchievementCard';
-import { useAchievements } from '@/lib/game/hooks';
+import { useAchievements } from '@/hooks';
 import type { AchievementFilter, AchievementSortOption } from '@/lib/game/types';
 import styles from '@/styles/components/game/AchievementList.module.scss';
 

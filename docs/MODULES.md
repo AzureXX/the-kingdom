@@ -57,18 +57,16 @@ This document provides a comprehensive list of all modules in the Medieval Kingd
 ## 🎣 **React Hooks**
 
 ### **Core Game Hooks**
-- `src/lib/game/hooks/useGameLoop.tsx` - Main game loop (20 FPS)
-- `src/lib/game/hooks/useGameActions.tsx` - Player action handling
-- `src/lib/game/hooks/useGameCalculations.tsx` - Game state calculations
-- `src/lib/game/hooks/useSaveSystem.tsx` - Save/load functionality
-- `src/lib/game/hooks/useGameTime.tsx` - Time-based events and research
-- `src/lib/game/hooks/usePerformanceMonitor.tsx` - Performance monitoring
-- `src/lib/game/hooks/useLoopActions.tsx` - Automated loop actions
-- `src/lib/game/hooks/useAchievements.tsx` - Achievement system
-- `src/lib/game/hooks/index.ts` - Hook exports
-
-### **UI Hooks**
+- `src/hooks/useGameLoop.tsx` - Main game loop (20 FPS)
+- `src/hooks/useGameActions.tsx` - Player action handling
+- `src/hooks/useGameCalculations.tsx` - Game state calculations
+- `src/hooks/useSaveSystem.tsx` - Save/load functionality
+- `src/hooks/useGameTime.tsx` - Time-based events and research
+- `src/hooks/usePerformanceMonitor.tsx` - Performance monitoring
+- `src/hooks/useLoopActions.tsx` - Automated loop actions
+- `src/hooks/useAchievements.tsx` - Achievement system
 - `src/hooks/useSceneNavigation.tsx` - Scene navigation logic
+- `src/hooks/index.ts` - Hook exports
 
 ---
 

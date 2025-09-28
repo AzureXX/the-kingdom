@@ -3,7 +3,7 @@
  * Optimized performance calculations with caching to avoid redundant computations
  */
 
-import type { PerformanceMetrics, PerformanceSuggestion, PerformanceThresholds } from '@/lib/game/hooks/usePerformanceMonitor';
+import type { PerformanceMetrics, PerformanceSuggestion, PerformanceThresholds } from '@/hooks/usePerformanceMonitor';
 
 // Cache for performance calculations
 interface PerformanceCache {

@@ -136,6 +136,15 @@ src/components/
 
 ```
 src/hooks/
+├── index.ts                      # Hooks barrel export
+├── useAchievements.tsx           # Achievement system hook
+├── useGameActions.tsx            # Game actions hook
+├── useGameCalculations.tsx       # Game calculations hook
+├── useGameLoop.tsx               # Main game loop hook
+├── useGameTime.tsx               # Game time management hook
+├── useLoopActions.tsx            # Loop actions hook
+├── usePerformanceMonitor.tsx     # Performance monitoring hook
+├── useSaveSystem.tsx             # Save system hook
 └── useSceneNavigation.tsx        # Scene navigation hook
 ```
 
@@ -148,7 +157,6 @@ src/lib/game/
 ├── config/                       # Game configuration (modular)
 ├── constants/                    # Game constants
 ├── GameContext.tsx               # Main game context
-├── hooks/                        # Game-specific React hooks
 ├── initializers/                 # Game state initializers
 ├── providers/                    # React context providers
 ├── types/                        # TypeScript type definitions
@@ -212,22 +220,6 @@ src/lib/game/constants/
 
 ---
 
-## 🎣 **Game Hooks (`src/lib/game/hooks/`)**
-
-```
-src/lib/game/hooks/
-├── index.ts                      # Hooks barrel export
-├── useAchievements.tsx           # Achievement system hook
-├── useGameActions.tsx            # Game actions hook
-├── useGameCalculations.tsx       # Game calculations hook
-├── useGameLoop.tsx               # Main game loop hook
-├── useGameTime.tsx               # Game time management hook
-├── useLoopActions.tsx            # Loop actions hook
-├── usePerformanceMonitor.tsx     # Performance monitoring hook
-└── useSaveSystem.tsx             # Save system hook
-```
-
----
 
 ## 🏗️ **Game Initializers (`src/lib/game/initializers/`)**
 
