@@ -1,7 +1,7 @@
 import React, { useState, memo } from 'react';
 import type { LoopActionButtonProps } from '@/lib/game/types/context';
 import { LOOP_ACTIONS } from '@/lib/game/config';
-import { getLoopActionProgress } from '@/lib/game/loopActionEngine';
+import { getLoopActionProgress } from '@/lib/game/utils/loopActions';
 import styles from '@/styles/components/game/LoopActionButton.module.scss';
 
 export const LoopActionButton = memo(function LoopActionButton({

@@ -1,12 +1,12 @@
+// Loop action management logic (start, stop, pause, resume)
+
 import type { GameState } from '@/lib/game/types/game';
-import type { LoopActionKey, LoopActionState, LoopActionProgress } from '@/lib/game/types/loopActions';
+import type { LoopActionKey, LoopActionState } from '@/lib/game/types/loopActions';
 import { LOOP_ACTIONS } from '@/lib/game/config/loopActions';
-import { GAME_CONSTANTS } from '@/lib/game/constants';
 import { pay } from '@/lib/game/utils/actions';
-import { addResources } from '@/lib/game/gameState';
 import { canAfford } from '@/lib/game/utils/calculations';
 import { logMessage } from '@/lib/game/utils/errorLogger';
-import { ActionChecker } from '@/lib/game/utils/actionChecker';
+import { canStartLoopAction } from './validation';
 
 export function startLoopAction(state: GameState, actionKey: LoopActionKey): GameState {
   if (!canStartLoopAction(state, actionKey)) {
@@ -96,67 +96,6 @@ export function resumeLoopAction(state: GameState, actionKey: LoopActionKey): Ga
   };
 }
 
-export function processLoopActionTick(state: GameState): GameState {
-  let newState = { ...state };
-  
-  // Process each action and collect completed loops
-  const updatedActions = newState.loopActions.map(action => {
-    if (!action.isActive || action.isPaused) return action;
-    
-    // 100 points per tick, not per second
-    const pointsPerTick = newState.loopSettings.basePointsPerTick;
-    const newPoints = action.currentPoints + pointsPerTick;
-    const pointsRequired = LOOP_ACTIONS[action.actionKey].loopPointsRequired;
-    
-    // Check if loop is complete
-    if (newPoints >= pointsRequired) {
-      const actionDef = LOOP_ACTIONS[action.actionKey];
-      
-      newState = addResources(newState, actionDef.gains);
-      
-      if (actionDef.cost && Object.keys(actionDef.cost).length > 0) {
-        if (!canAfford(newState, actionDef.cost)) {
-          logMessage(`Loop action ${actionDef.name} paused after completing loop - insufficient resources for next loop`, {
-            level: 'warn',
-            context: 'loopAction',
-            details: { actionKey: action.actionKey, cost: actionDef.cost }
-          });
-          
-          return {
-            ...action,
-            currentPoints: 0,
-            totalLoopsCompleted: action.totalLoopsCompleted + 1,
-            isActive: false,
-            isPaused: true,
-            lastTickAt: newState.t,
-          };
-        }
-        
-        newState = pay(newState, actionDef.cost);
-      }
-      
-      return {
-        ...action,
-        currentPoints: 0,
-        totalLoopsCompleted: action.totalLoopsCompleted + 1,
-        lastTickAt: newState.t,
-      };
-    }
-    
-    // Update progress
-    return {
-      ...action,
-      currentPoints: newPoints,
-      lastTickAt: newState.t,
-    };
-  });
-  
-  // Update the state with the new actions
-  newState.loopActions = updatedActions;
-  
-  return newState;
-}
-
 function addLoopAction(state: GameState, actionKey: LoopActionKey): GameState {
   const actionDef = LOOP_ACTIONS[actionKey];
   let newState = state;
@@ -239,60 +178,4 @@ function getOldestLoopAction(state: GameState): LoopActionState | null {
   return activeActions.reduce((oldest, current) => 
     current.startedAt < oldest.startedAt ? current : oldest
   );
-}
-
-export function canStartLoopAction(state: GameState, actionKey: LoopActionKey): boolean {
-  const actionDef = LOOP_ACTIONS[actionKey];
-  if (!actionDef) return false;
-  
-  // Check unlock conditions
-  if (!ActionChecker.checkUnlockConditions(state, actionDef.unlockConditions)) {
-    return false;
-  }
-  
-  // Check if already active - only prevent starting if it's currently active
-  if (state.loopActions.some(la => la.actionKey === actionKey && la.isActive)) {
-    return false;
-  }
-  
-  // Check if we can afford the cost (only for new actions, not resuming paused ones)
-  const existingAction = state.loopActions.find(la => la.actionKey === actionKey);
-  if (!existingAction) {
-    // This is a new action, check if we can afford the cost
-    if (actionDef.cost && Object.keys(actionDef.cost).length > 0) {
-      if (!canAfford(state, actionDef.cost)) {
-        return false;
-      }
-    }
-  } else {
-    // This is an existing action (paused), allow resuming without cost check
-    return true;
-  }
-  
-  return true;
-}
-
-export function canHaveMoreLoopActions(state: GameState): boolean {
-  const activeCount = state.loopActions.filter(la => la.isActive).length;
-  return activeCount < state.loopSettings.maxConcurrentActions;
-}
-
-export function getLoopActionProgress(action: LoopActionState): LoopActionProgress {
-  const actionDef = LOOP_ACTIONS[action.actionKey];
-  const pointsRequired = actionDef.loopPointsRequired;
-  const progressPercentage = (action.currentPoints / pointsRequired) * 100;
-  
-  // Calculate time remaining (rough estimate)
-  const pointsPerSecond = GAME_CONSTANTS.PERFORMANCE.POINTS_PER_SECOND;
-  const pointsRemaining = pointsRequired - action.currentPoints;
-  const timeRemaining = pointsRemaining / pointsPerSecond;
-  
-  return {
-    actionKey: action.actionKey,
-    currentPoints: action.currentPoints,
-    pointsRequired,
-    progressPercentage,
-    timeRemaining,
-    loopsCompleted: action.totalLoopsCompleted,
-  };
 }

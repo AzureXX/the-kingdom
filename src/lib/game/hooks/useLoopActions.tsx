@@ -6,7 +6,7 @@ import {
   pauseLoopAction, 
   canStartLoopAction,
   canHaveMoreLoopActions 
-} from '@/lib/game/loopActionEngine';
+} from '@/lib/game/utils/loopActions';
 
 export function useLoopActions(
   gameState: GameState | null,
