@@ -33,19 +33,15 @@ import { validateActions } from '@/lib/game/utils/validation/actionValidation';
 import { validateResourceOperation } from '@/lib/game/utils/validation/resourceValidation';
 
 /**
- * Validates loop action definitions for completeness and correctness.
+ * Validates loop action key presence and usage.
  * 
  * @param loopActions - Object containing loop action definitions
  * @param allKeys - Array of all valid loop action keys
- * @param availableResources - Array of available resource keys
- * @param availableBuildings - Array of available building keys
- * @param availableTechnologies - Array of available technology keys
- * @returns Validation result with errors and warnings
+ * @returns Validation result with key-related errors and warnings
  */
-function validateLoopActions(
+function validateLoopActionKeys(
   loopActions: Record<LoopActionKey, LoopActionDef>,
   allKeys: LoopActionKey[],
-  availableResources: ResourceKey[],
 ): ValidationResult {
   const result: ValidationResult = { isValid: true, errors: [], warnings: [] };
 
@@ -62,8 +58,8 @@ function validateLoopActions(
     }
   }
 
-  // Validate each loop action definition
-  for (const [key, loopAction] of Object.entries(loopActions)) {
+  // Check for unused loop action keys
+  for (const [key] of Object.entries(loopActions)) {
     if (!allKeys.includes(key as LoopActionKey)) {
       result.warnings.push({
         type: 'warning',
@@ -72,82 +68,159 @@ function validateLoopActions(
         details: { unusedKey: key }
       });
     }
+  }
 
-    // Validate required fields
-    if (!loopAction.name || typeof loopAction.name !== 'string') {
-      result.errors.push({
-        type: 'error',
-        category: 'loopAction',
-        message: `Loop action ${key} has invalid or missing name`,
-        details: { loopActionKey: key, name: loopAction.name }
-      });
-      result.isValid = false;
-    }
+  return result;
+}
 
-    if (!loopAction.icon || typeof loopAction.icon !== 'string') {
-      result.errors.push({
-        type: 'error',
-        category: 'loopAction',
-        message: `Loop action ${key} has invalid or missing icon`,
-        details: { loopActionKey: key, icon: loopAction.icon }
-      });
-      result.isValid = false;
-    }
+/**
+ * Validates required fields of a loop action definition.
+ * 
+ * @param key - The loop action key
+ * @param loopAction - The loop action definition
+ * @returns Validation result with field-related errors
+ */
+function validateLoopActionFields(
+  key: string,
+  loopAction: LoopActionDef,
+): ValidationResult {
+  const result: ValidationResult = { isValid: true, errors: [], warnings: [] };
 
-    if (!loopAction.description || typeof loopAction.description !== 'string') {
-      result.errors.push({
-        type: 'error',
-        category: 'loopAction',
-        message: `Loop action ${key} has invalid or missing description`,
-        details: { loopActionKey: key, description: loopAction.description }
-      });
-      result.isValid = false;
-    }
+  // Validate required fields
+  if (!loopAction.name || typeof loopAction.name !== 'string') {
+    result.errors.push({
+      type: 'error',
+      category: 'loopAction',
+      message: `Loop action ${key} has invalid or missing name`,
+      details: { loopActionKey: key, name: loopAction.name }
+    });
+    result.isValid = false;
+  }
 
-    // Validate cost structure (cost is optional for loop actions)
-    if (loopAction.cost) {
-      const costValidation = validateResourceOperation(loopAction.cost, 'cost', availableResources);
-      if (!costValidation.isValid) {
-        result.errors.push(...costValidation.errors.map(err => ({
-          ...err,
-          message: `Loop action ${key} has invalid cost: ${err.message}`,
-          details: { ...err.details, loopActionKey: key }
-        })));
-        result.isValid = false;
-      }
-    }
+  if (!loopAction.icon || typeof loopAction.icon !== 'string') {
+    result.errors.push({
+      type: 'error',
+      category: 'loopAction',
+      message: `Loop action ${key} has invalid or missing icon`,
+      details: { loopActionKey: key, icon: loopAction.icon }
+    });
+    result.isValid = false;
+  }
 
-    // Validate gains structure
-    const gainsValidation = validateResourceOperation(loopAction.gains, 'production', availableResources);
-    if (!gainsValidation.isValid) {
-      result.errors.push(...gainsValidation.errors.map(err => ({
+  if (!loopAction.description || typeof loopAction.description !== 'string') {
+    result.errors.push({
+      type: 'error',
+      category: 'loopAction',
+      message: `Loop action ${key} has invalid or missing description`,
+      details: { loopActionKey: key, description: loopAction.description }
+    });
+    result.isValid = false;
+  }
+
+  return result;
+}
+
+/**
+ * Validates the structure and values of a loop action definition.
+ * 
+ * @param key - The loop action key
+ * @param loopAction - The loop action definition
+ * @param availableResources - Array of available resource keys
+ * @returns Validation result with structure-related errors
+ */
+function validateLoopActionStructure(
+  key: string,
+  loopAction: LoopActionDef,
+  availableResources: ResourceKey[],
+): ValidationResult {
+  const result: ValidationResult = { isValid: true, errors: [], warnings: [] };
+
+  // Validate cost structure (cost is optional for loop actions)
+  if (loopAction.cost) {
+    const costValidation = validateResourceOperation(loopAction.cost, 'cost', availableResources);
+    if (!costValidation.isValid) {
+      result.errors.push(...costValidation.errors.map(err => ({
         ...err,
-        message: `Loop action ${key} has invalid gains: ${err.message}`,
+        message: `Loop action ${key} has invalid cost: ${err.message}`,
         details: { ...err.details, loopActionKey: key }
       })));
       result.isValid = false;
     }
+  }
 
-    // Validate loopPointsRequired
-    if (typeof loopAction.loopPointsRequired !== 'number' || loopAction.loopPointsRequired < 0) {
-      result.errors.push({
-        type: 'error',
-        category: 'loopAction',
-        message: `Loop action ${key} has invalid loopPointsRequired: ${loopAction.loopPointsRequired}`,
-        details: { loopActionKey: key, loopPointsRequired: loopAction.loopPointsRequired }
-      });
+  // Validate gains structure
+  const gainsValidation = validateResourceOperation(loopAction.gains, 'production', availableResources);
+  if (!gainsValidation.isValid) {
+    result.errors.push(...gainsValidation.errors.map(err => ({
+      ...err,
+      message: `Loop action ${key} has invalid gains: ${err.message}`,
+      details: { ...err.details, loopActionKey: key }
+    })));
+    result.isValid = false;
+  }
+
+  // Validate loopPointsRequired
+  if (typeof loopAction.loopPointsRequired !== 'number' || loopAction.loopPointsRequired < 0) {
+    result.errors.push({
+      type: 'error',
+      category: 'loopAction',
+      message: `Loop action ${key} has invalid loopPointsRequired: ${loopAction.loopPointsRequired}`,
+      details: { loopActionKey: key, loopPointsRequired: loopAction.loopPointsRequired }
+    });
+    result.isValid = false;
+  }
+
+  // Validate loopCategory
+  const validCategories = ['gathering', 'crafting', 'research', 'military'];
+  if (!validCategories.includes(loopAction.loopCategory)) {
+    result.errors.push({
+      type: 'error',
+      category: 'loopAction',
+      message: `Loop action ${key} has invalid loopCategory: ${loopAction.loopCategory}`,
+      details: { loopActionKey: key, loopCategory: loopAction.loopCategory, validCategories }
+    });
+    result.isValid = false;
+  }
+
+  return result;
+}
+
+/**
+ * Validates loop action definitions for completeness and correctness.
+ * 
+ * @param loopActions - Object containing loop action definitions
+ * @param allKeys - Array of all valid loop action keys
+ * @param availableResources - Array of available resource keys
+ * @returns Validation result with errors and warnings
+ */
+function validateLoopActions(
+  loopActions: Record<LoopActionKey, LoopActionDef>,
+  allKeys: LoopActionKey[],
+  availableResources: ResourceKey[],
+): ValidationResult {
+  const result: ValidationResult = { isValid: true, errors: [], warnings: [] };
+
+  // Validate keys (missing/unused)
+  const keyValidation = validateLoopActionKeys(loopActions, allKeys);
+  result.errors.push(...keyValidation.errors);
+  result.warnings.push(...keyValidation.warnings);
+  if (!keyValidation.isValid) {
+    result.isValid = false;
+  }
+
+  // Validate each loop action definition
+  for (const [key, loopAction] of Object.entries(loopActions)) {
+    // Validate required fields
+    const fieldValidation = validateLoopActionFields(key, loopAction);
+    result.errors.push(...fieldValidation.errors);
+    if (!fieldValidation.isValid) {
       result.isValid = false;
     }
 
-    // Validate loopCategory
-    const validCategories = ['gathering', 'crafting', 'research', 'military'];
-    if (!validCategories.includes(loopAction.loopCategory)) {
-      result.errors.push({
-        type: 'error',
-        category: 'loopAction',
-        message: `Loop action ${key} has invalid loopCategory: ${loopAction.loopCategory}`,
-        details: { loopActionKey: key, loopCategory: loopAction.loopCategory, validCategories }
-      });
+    // Validate structure and values
+    const structureValidation = validateLoopActionStructure(key, loopAction, availableResources);
+    result.errors.push(...structureValidation.errors);
+    if (!structureValidation.isValid) {
       result.isValid = false;
     }
   }

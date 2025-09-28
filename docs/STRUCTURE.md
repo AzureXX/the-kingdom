@@ -281,29 +281,29 @@ src/lib/game/types/
 ```
 src/lib/game/utils/
 ├── achievement/                  # Achievement utilities
-│   ├── calculations.ts           # Achievement calculations
-│   ├── checking.ts               # Achievement checking
+│   ├── checker.ts                # Achievement checking logic
 │   ├── index.ts                  # Achievement utilities export
+│   ├── initialization.ts         # Achievement initialization
 │   ├── notifications.ts          # Achievement notifications
-│   ├── processing.ts             # Achievement processing
 │   ├── progress.ts               # Achievement progress tracking
-│   └── validation.ts             # Achievement validation
+│   ├── rewards.ts                # Achievement reward processing
+│   └── stats.ts                  # Achievement statistics
 ├── actionChecker/                # Action validation utilities
 │   ├── index.ts                  # Action checker utilities export
 │   ├── queries.ts                # Action queries
 │   ├── status.ts                 # Action status checking
 │   └── validation.ts             # Action validation checking
 ├── actions/                      # Action processing utilities
-│   ├── basicActions.ts           # Basic action processing
 │   ├── buildingActions.ts        # Building action processing
-│   ├── eventActions.ts           # Event action processing
+│   ├── gameActions.ts            # Core game action processing
+│   ├── gameLoopActions.ts        # Game loop action processing
 │   ├── index.ts                  # Action utilities export
+│   ├── resourceActions.ts        # Resource action processing
 │   ├── technologyActions.ts      # Technology action processing
-│   ├── tradingActions.ts         # Trading action processing
-│   └── validation.ts             # Action validation
+│   └── upgradeActions.ts         # Upgrade action processing
 ├── calculations/                 # Mathematical calculations
+│   ├── affordability.ts          # Affordability calculations
 │   ├── costs.ts                  # Cost calculations
-│   ├── efficiency.ts             # Efficiency calculations
 │   ├── index.ts                  # Calculation utilities export
 │   ├── multipliers.ts            # Multiplier calculations
 │   └── production.ts             # Production calculations
@@ -312,30 +312,30 @@ src/lib/game/utils/
 │   ├── index.ts                  # Error utilities export
 │   └── logging.ts                # Error logging
 ├── event/                        # Event system utilities
-│   ├── calculations.ts           # Event calculations
 │   ├── choices.ts                # Event choice processing
+│   ├── history.ts                # Event history tracking
 │   ├── index.ts                  # Event utilities export
-│   ├── processing.ts             # Event processing
-│   ├── triggering.ts             # Event triggering
-│   └── validation.ts             # Event validation
+│   ├── state.ts                  # Event state management
+│   ├── timing.ts                 # Event timing logic
+│   └── triggering.ts             # Event triggering
 ├── gameCalculations/             # Game-specific calculations
-│   ├── buildings.ts              # Building calculations
+│   ├── aggregation.ts            # Calculation aggregation
+│   ├── costs.ts                  # Cost calculations
 │   ├── index.ts                  # Game calculation utilities export
-│   ├── prestige.ts               # Prestige calculations
-│   └── technology.ts             # Technology calculations
+│   └── memoization.ts            # Memoization utilities
 ├── gameState/                    # Game state management
-│   ├── achievements.ts           # Achievement state management
 │   ├── buildings.ts              # Building state management
-│   ├── events.ts                 # Event state management
 │   ├── index.ts                  # Game state utilities export
+│   ├── initialization.ts         # State initialization
 │   ├── resources.ts              # Resource state management
-│   └── technologies.ts           # Technology state management
+│   ├── technologies.ts           # Technology state management
+│   └── upgrades.ts               # Upgrade state management
 ├── loopActions/                  # Loop action utilities
-│   ├── crafting.ts               # Crafting loop actions
-│   ├── gathering.ts              # Gathering loop actions
 │   ├── index.ts                  # Loop action utilities export
-│   ├── military.ts               # Military loop actions
-│   └── research.ts               # Research loop actions
+│   ├── management.ts             # Loop action management
+│   ├── processing.ts             # Loop action processing
+│   ├── progress.ts               # Loop progress tracking
+│   └── validation.ts             # Loop action validation
 ├── loopCalculations/             # Loop calculation utilities
 │   ├── efficiency.ts             # Loop efficiency calculations
 │   ├── index.ts                  # Loop calculation utilities export
@@ -350,10 +350,10 @@ src/lib/game/utils/
 │   ├── index.ts                  # Number utilities export
 │   └── math.ts                   # Mathematical utilities
 ├── performance/                  # Performance monitoring utilities
-│   ├── anomaly.ts                # Performance anomaly detection
+│   ├── analysis.ts               # Performance analysis
 │   ├── budget.ts                 # Performance budget checking
-│   ├── caching.ts                # Performance caching
 │   ├── calculations.ts           # Performance calculations
+│   ├── circularBuffer.ts         # Circular buffer implementation
 │   ├── formatting.ts             # Performance formatting
 │   ├── index.ts                  # Performance utilities export
 │   ├── monitoring.ts             # Performance monitoring
@@ -361,12 +361,12 @@ src/lib/game/utils/
 ├── prestige/                     # Prestige system utilities
 │   ├── calculations.ts           # Prestige calculations
 │   ├── index.ts                  # Prestige utilities export
-│   └── validation.ts             # Prestige validation
+│   └── operations.ts             # Prestige operations
 ├── resource/                     # Resource management utilities
-│   ├── calculations.ts           # Resource calculations
 │   ├── changes.ts                # Resource change processing
 │   ├── index.ts                  # Resource utilities export
-│   └── validation.ts             # Resource validation
+│   ├── payments.ts               # Resource payment logic
+│   └── processing.ts             # Resource processing
 ├── save/                         # Save system utilities
 │   ├── importExport.ts           # Save import/export
 │   ├── index.ts                  # Save utilities export
@@ -378,8 +378,8 @@ src/lib/game/utils/
 │   ├── index.ts                  # String utilities export
 │   └── parsing.ts                # String parsing
 ├── technology/                   # Technology system utilities
-│   ├── calculations.ts           # Technology calculations
 │   ├── index.ts                  # Technology utilities export
+│   ├── progress.ts               # Technology progress tracking
 │   ├── queries.ts                # Technology queries
 │   ├── research.ts               # Technology research processing
 │   └── validation.ts             # Technology validation
@@ -424,14 +424,14 @@ src/styles/
 
 ### **File Count by Category:**
 - **Configuration Files**: 8
-- **Test Files**: 12
+- **Test Files**: 13
 - **Documentation Files**: 3
 - **App Router Files**: 3
-- **Component Files**: 21
-- **Hook Files**: 10
-- **Game Logic Files**: 161
-- **Style Files**: 12
-- **Total Files**: ~230
+- **Component Files**: 25
+- **Hook Files**: 8
+- **Game Logic Files**: 159
+- **Style Files**: 13
+- **Total Files**: ~232
 
 ### **Directory Count by Category:**
 - **Root Directories**: 4

@@ -6,7 +6,7 @@
 
 ## 📊 **Analysis Summary**
 
-This document analyzes each of the 161 modules in the Medieval Kingdom idle game to determine which ones need refactoring and which are well-structured.
+This document analyzes each of the 193 modules in the Medieval Kingdom idle game to determine which ones need refactoring and which are well-structured.
 
 ---
 
@@ -16,16 +16,16 @@ This document analyzes each of the 161 modules in the Medieval Kingdom idle game
 ### **Type Definitions (12 modules)**
 ### **Constants (5 modules)**
 ### **App Router Components (2 modules)**
-### **UI Components (19 modules)**
-### **Styling Modules (12 modules)**
-### **Test Modules (12 modules)**
+### **UI Components (25 modules)**
+### **Styling Modules (13 modules)**
+### **Test Modules (13 modules)**
 ### **Simple Utility Modules (15 modules)**
 
 ---
 
 ## ⚠️ **Modules That MIGHT Need Refactoring (Low Priority)**
 
-### **Complex Utility Modules (50 modules)**
+### **Complex Utility Modules (91 modules)**
 These modules are well-structured but could potentially benefit from further decomposition if they grow in complexity:
 - Performance monitoring utilities
 - Game calculation utilities
@@ -41,7 +41,7 @@ These modules are well-structured but could potentially benefit from further dec
 - Prestige system utilities
 - Migration utilities
 
-### **Game Hooks (9 modules)**
+### **Game Hooks (8 modules)**
 These hooks are functional but could be optimized for better performance:
 - useGameLoop
 - useGameActions
@@ -63,15 +63,8 @@ These providers work well but could be simplified:
 
 ## 🔴 **Modules That NEED Refactoring (High Priority)**
 
-### **1. Cross-Reference Validation - Function Too Long**
-**File**: `src/lib/game/utils/validation/crossReferenceValidation.ts`
-**Issue**: `validateLoopActions` function is too long (111 lines)
-**Specific Problem**:
-- Lines 45-156: Single function handles all loop action validation
-- Multiple responsibilities: key validation, field validation, structure validation
-**Refactoring Needed**: Split into smaller, focused functions
 
-### **2. Game Loop Hook - Multiple useEffect Dependencies**
+### **1. Game Loop Hook - Multiple useEffect Dependencies**
 **File**: `src/lib/game/hooks/useGameLoop.tsx`
 **Issue**: Multiple useEffect hooks with overlapping dependencies
 **Specific Problem**:
@@ -84,23 +77,22 @@ These providers work well but could be simplified:
 
 ## 📊 **Summary Statistics**
 
-- **Total Modules Analyzed**: 161
-- **Modules That DON'T Need Refactoring**: 151 (94%)
+- **Total Modules Analyzed**: 193
+- **Modules That DON'T Need Refactoring**: 184 (95%)
 - **Modules That MIGHT Need Refactoring**: 5 (3%)
-- **Modules That NEED Refactoring**: 2 (1%)
+- **Modules That NEED Refactoring**: 1 (1%)
 
 ---
 
 ## 🎯 **Recommendations**
 
-### **Immediate Action Required**: 2 modules need refactoring
+### **Immediate Action Required**: 1 module needs refactoring
 
 ### **Priority 1 (Medium Effort)**:
-1. **Cross-Reference Validation** - Split validateLoopActions function (30 minutes)
-2. **Game Loop Hook** - Consolidate useEffect hooks (20 minutes)
+1. **Game Loop Hook** - Consolidate useEffect hooks (20 minutes)
 
 ### **Overall Assessment**:
-The codebase is well-structured with only 2 specific refactoring needs identified. These are minor issues that can be addressed incrementally without major disruption.
+The codebase is well-structured with only 1 specific refactoring need identified. This is a minor issue that can be addressed incrementally without major disruption.
 
 ---
 

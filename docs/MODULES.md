@@ -321,13 +321,13 @@ This document provides a comprehensive list of all modules in the Medieval Kingd
 
 ### **By Functionality:**
 - **Configuration**: 25 modules (game content definitions)
-- **Utilities**: 65 modules (game logic and calculations)
-- **Components**: 21 modules (UI components + App Router)
-- **Hooks**: 9 modules (React hooks)
-- **Styles**: 12 modules (SCSS stylesheets)
+- **Utilities**: 91 modules (game logic and calculations)
+- **Components**: 25 modules (UI components + App Router)
+- **Hooks**: 8 modules (React hooks)
+- **Styles**: 13 modules (SCSS stylesheets)
 - **Types**: 12 modules (TypeScript definitions)
 - **Constants**: 5 modules (game constants)
-- **Tests**: 12 modules (test files and utilities)
+- **Tests**: 13 modules (test files and utilities)
 
 ### **By Complexity:**
 - **High Complexity**: Performance monitoring, game loop, save system
