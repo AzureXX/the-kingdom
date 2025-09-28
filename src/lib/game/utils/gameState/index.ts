@@ -1,7 +1,7 @@
 // Game state system exports
 
 // Initialization
-export { initNewGame, updateTimestamp } from './initialization';
+export { initNewGame, updateTimestamp } from '@/lib/game/utils/gameState/initialization';
 
 // Resources
 export { 
@@ -10,7 +10,7 @@ export {
   updateResource, 
   updateMultipleResources, 
   addResources 
-} from './resources';
+} from '@/lib/game/utils/gameState/resources';
 
 // Buildings
 export { 
@@ -20,7 +20,7 @@ export {
   hasAllRequiredTechnologiesForBuilding, 
   isBuildingUnlocked, 
   getUnlockedBuildings 
-} from './buildings';
+} from '@/lib/game/utils/gameState/buildings';
 
 // Technologies
 export { 
@@ -28,11 +28,11 @@ export {
   getTechnologyLevel, 
   setTechnologyLevel, 
   isTechnologyResearched 
-} from './technologies';
+} from '@/lib/game/utils/gameState/technologies';
 
 // Upgrades
 export { 
   updateUpgradeLevel, 
   getUpgradeLevel, 
   setUpgradeLevel 
-} from './upgrades';
+} from '@/lib/game/utils/gameState/upgrades';

@@ -1,7 +1,7 @@
 // String utilities exports
 
 // Parsing utilities
-export { safeJsonParse } from './parsing';
+export { safeJsonParse } from '@/lib/game/utils/string/parsing';
 
 // Encoding utilities
-export { encodeBase64, decodeBase64 } from './encoding';
+export { encodeBase64, decodeBase64 } from '@/lib/game/utils/string/encoding';

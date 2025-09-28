@@ -1,7 +1,7 @@
 // Error utilities exports
 
 // Types
-export type { ErrorLogDetails, ErrorLogOptions, ErrorCategory, GameError } from './types';
+export type { ErrorLogDetails, ErrorLogOptions, ErrorCategory, GameError } from '@/lib/game/utils/error/types';
 
 // Handlers
 export { 
@@ -10,7 +10,7 @@ export {
   createValidationErrorHandler,
   createCalculationErrorHandler,
   createStateErrorHandler
-} from './handlers';
+} from '@/lib/game/utils/error/handlers';
 
 // Logging
 export { 
@@ -20,4 +20,4 @@ export {
   logSaveOperation,
   logErrorBoundaryOperation,
   logGameError
-} from './logging';
+} from '@/lib/game/utils/error/logging';
