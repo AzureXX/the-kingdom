@@ -5,7 +5,7 @@
 
 import type { ResourceKey, GameState, ResourceCost } from '@/lib/game/types';
 
-import { payResources, calculateTimeBasedChanges, applyResourceChanges } from '@/lib/game/utils/resourceUpdates';
+import { payResources, calculateTimeBasedChanges, applyResourceChanges } from '@/lib/game/utils/resource';
 import { getPerSec } from '@/lib/game/utils/calculations';
 import { createStateErrorHandler } from '@/lib/game/utils/errorLogger';
 

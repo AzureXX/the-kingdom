@@ -51,7 +51,7 @@ export {
   addResourcesToState, 
   processResourceChanges, 
   calculateTimeBasedChanges 
-} from '@/lib/game/utils/resourceUpdates';
+} from '@/lib/game/utils/resource';
 
 // ============================================================================
 // VALIDATION UTILITIES
@@ -103,7 +103,7 @@ export {
   calculateProgress,
   calculateLoopActionEfficiency,
   getLoopActionStats
-} from '@/lib/game/utils/loopActionCalculations';
+} from '@/lib/game/utils/loopCalculations';
 
 // Game state migration utilities
 export { 

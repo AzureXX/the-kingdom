@@ -6,7 +6,7 @@ import { EVENT_CONSTANTS, GAME_CONSTANTS } from '@/lib/game/constants';
 import { getResource, addResources } from '@/lib/game/utils/gameState';
 import { isValidResourceKey } from '@/lib/game/utils';
 import { logInvalidKey } from '@/lib/game/utils/errorLogger';
-import { applyResourceChanges } from '@/lib/game/utils/resourceUpdates';
+import { applyResourceChanges } from '@/lib/game/utils/resource';
 
 const { events: EVENTS } = CONFIG;
 
