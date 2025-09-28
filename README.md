@@ -375,7 +375,7 @@ export const LOOP_ACTIONS: Record<LoopActionKey, LoopActionDef> = {
 ### Import Guidelines
 - **Use `@/` alias**: Always use the `@/` alias for imports instead of relative paths
 - **No relative paths**: Avoid `./` and `../` in import statements
-- **No example comments**: Do not include example import statements in documentation comments
+- **No example comments**: Do not include example statements in documentation comments
 
 **Correct import patterns:**
 ```typescript
@@ -402,9 +402,6 @@ import styles from '../../../styles/components/game/Component.module.scss';
 // ❌ Bad - Confusing example imports in comments
 /**
  * Calculates resource production for a given building
- * @example
- * import { calculateProduction } from './calculations';
- */
 ```
 
 ### SCSS File Organization
@@ -575,7 +572,7 @@ import {
   createTestGameState, 
   createGameStateWithResources,
   expectGameStateResources 
-} from '../utils/testHelpers'
+} from '@/__tests__/utils/testHelpers'
 
 describe('My Game Feature', () => {
   it('should work correctly', () => {
