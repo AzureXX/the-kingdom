@@ -32,6 +32,7 @@ export function applyAchievementRewards(state: GameState, achievement: Achieveme
  */
 function applyReward(state: GameState, reward: AchievementReward): GameState {
   try {
+    console.log('applyReward', reward);
     switch (reward.type) {
       case 'resource':
         return applyResourceReward(state, reward);
@@ -40,7 +41,6 @@ function applyReward(state: GameState, reward: AchievementReward): GameState {
       case 'unlock':
         return applyUnlockReward(state, reward);
       case 'cosmetic':
-        // Cosmetic rewards don't affect game state
         return state;
       default:
         stateErrorHandler('Unknown reward type', { 
