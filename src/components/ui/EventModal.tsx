@@ -3,7 +3,7 @@
 import React from 'react';
 import { useGameStateContext } from '@/lib/game/providers';
 import { CONFIG } from '@/lib/game/config';
-import { canMakeEventChoice, makeEventChoice } from '@/lib/game/eventSystem';
+import { canMakeEventChoice, makeEventChoice } from '@/lib/game/utils/event';
 import { formatNumber as fmt } from '@/lib/game/utils';
 import styles from '@/styles/page.module.scss';
 
