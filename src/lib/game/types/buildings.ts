@@ -1,9 +1,9 @@
 // Building-related type definitions
 
 import type { ResourceCost, ResourceProduction, ResourceConsumption } from '@/lib/game/types/resources';
-import type { TechnologyKey } from '@/lib/game/types/technologies';
+import type { ActionUnlockCondition } from '@/lib/game/types/actions';
 
-export type BuildingKey = 'woodcutter' | 'quarry' | 'farm' | 'blacksmith' | 'castle' | 'library' | 'university' | 'laboratory';
+export type BuildingKey = 'woodcutter' | 'quarry' | 'farm' | 'blacksmith' | 'castle' | 'library' | 'university' | 'laboratory' | 'taxOffice';
 
 export interface BuildingDef {
   name: string;
@@ -13,5 +13,5 @@ export interface BuildingDef {
   costScale: number;
   baseProd: ResourceProduction;
   baseUse: ResourceConsumption;
-  requiresTech?: TechnologyKey[];
+  unlockConditions?: ActionUnlockCondition[];
 }

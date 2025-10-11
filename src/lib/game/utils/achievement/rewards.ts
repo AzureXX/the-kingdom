@@ -604,12 +604,25 @@ function createDefaultAchievementBonuses(): AchievementBonuses {
  */
 function applyUnlockReward(state: GameState, reward: AchievementReward): GameState {
   try {
-    // Unlock rewards could unlock buildings, technologies, actions, etc.
-    // For now, we'll handle this as a placeholder since the unlock system
-    // might need to be integrated with the existing unlock mechanisms
+    const target = reward.target;
     
-    stateErrorHandler('Unlock rewards not yet implemented', { 
-      reward: reward
+    // Handle different types of unlocks
+    if (target === 'taxOffice') {
+      // The unlock is handled by the building system checking unlockConditions
+      // The achievement being unlocked is what makes the building available
+      // No additional state changes needed here
+      return state;
+    }
+    
+    // Add more unlock types here as needed
+    // - technologies
+    // - actions
+    // - other buildings
+    // - etc.
+    
+    stateErrorHandler('Unknown unlock target', { 
+      reward: reward,
+      target: target
     });
     return state;
   } catch (error) {

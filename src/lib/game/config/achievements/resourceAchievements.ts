@@ -60,6 +60,24 @@ export const RESOURCE_ACHIEVEMENTS: Record<string, AchievementDef> = {
     repeatable: false
   },
 
+  foodMaster: {
+    key: 'foodMaster',
+    name: 'Food Master',
+    description: 'Reach 1000 food to unlock the Tax Office building.',
+    icon: '🌾',
+    category: 'resource',
+    rarity: 'rare',
+    points: 50,
+    requirements: [
+      { type: 'resource', target: 'food', value: 1000 }
+    ],
+    rewards: [
+      { type: 'unlock', target: 'taxOffice', value: 1, permanent: true }
+    ],
+    hidden: false,
+    repeatable: false
+  },
+
   foodStockpile: {
     key: 'foodStockpile',
     name: 'Food Stockpile',

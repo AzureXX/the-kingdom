@@ -5,7 +5,6 @@ import { createValidationErrorHandler, createStateErrorHandler, logInvalidKey } 
 import { isValidBuildingKey } from '@/lib/game/utils/validation';
 import { CONFIG } from '@/lib/game/config';
 import type { GameState } from '@/lib/game/types';
-import type { TechnologyKey } from '@/lib/game/types';
 
 const { buildings: BUILDINGS } = CONFIG;
 
@@ -74,24 +73,36 @@ export function setBuildingCount(state: GameState, buildingKey: BuildingKey, cou
   };
 }
 
-/**
- * Check if all required technologies are researched for a building
- */
-export function hasAllRequiredTechnologiesForBuilding(state: GameState, requiredTechs: TechnologyKey | TechnologyKey[] | undefined): boolean {
-  if (!requiredTechs) return true;
-  
-  const techArray = Array.isArray(requiredTechs) ? requiredTechs : [requiredTechs];
-  
-  return techArray.every(techKey => state.technologies[techKey] > 0);
-}
 
 /**
- * Check if a building is unlocked (no tech requirement or tech is researched)
+ * Check if a building is unlocked (all unlock conditions met)
  */
 export function isBuildingUnlocked(state: GameState, buildingKey: BuildingKey): boolean {
   const building = BUILDINGS[buildingKey];
-  if (!building || !building.requiresTech) return true;
-  return hasAllRequiredTechnologiesForBuilding(state, building.requiresTech);
+  if (!building) return false;
+  
+  // If no unlock conditions, building is always available
+  if (!building.unlockConditions || building.unlockConditions.length === 0) {
+    return true;
+  }
+  
+  // Check all unlock conditions
+  return building.unlockConditions.every(condition => {
+    switch (condition.type) {
+      case 'technology':
+        return state.technologies[condition.key] >= condition.value;
+      case 'building':
+        return getBuildingCount(state, condition.key) >= condition.value;
+      case 'resource':
+        return (state.resources[condition.key] || 0) >= condition.value;
+      case 'prestige':
+        return (state.upgrades[condition.key] || 0) >= condition.value;
+      case 'achievement':
+        return state.achievements.unlocked[condition.key] !== undefined;
+      default:
+        return true; // For unknown condition types, assume they're met
+    }
+  });
 }
 
 /**

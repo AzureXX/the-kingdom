@@ -88,6 +88,11 @@ export function checkUnlockConditions(
         const prestigeLevel = getUpgradeLevel(state, condition.key);
         return prestigeLevel >= condition.value;
 
+      case 'achievement':
+        // Check if the achievement is unlocked
+        const achievement = state.achievements.unlocked[condition.key];
+        return achievement !== undefined;
+
       default:
         return false;
     }

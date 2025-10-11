@@ -37,7 +37,7 @@ import { validateResourceOperation } from '@/lib/game/utils/validation/resourceV
  * 
  */
 export function isValidBuildingKey(key: string): key is BuildingKey {
-  return ['woodcutter', 'quarry', 'farm', 'blacksmith', 'castle', 'library', 'university', 'laboratory'].includes(key as BuildingKey);
+  return ['woodcutter', 'quarry', 'farm', 'blacksmith', 'castle', 'library', 'university', 'laboratory', 'taxOffice'].includes(key as BuildingKey);
 }
 
 /**
@@ -165,15 +165,15 @@ export function validateBuildings(
       result.isValid = false;
     }
 
-    // Validate technology requirements
-    if (building.requiresTech) {
-      for (const techKey of building.requiresTech) {
-        if (!availableTechnologies.includes(techKey)) {
+    // Validate unlock conditions
+    if (building.unlockConditions) {
+      for (const condition of building.unlockConditions) {
+        if (condition.type === 'technology' && !availableTechnologies.includes(condition.key as TechnologyKey)) {
           result.errors.push({
             type: 'error',
             category: 'building',
-            message: `Building ${key} requires unknown technology: ${techKey}`,
-            details: { buildingKey: key, requiredTech: techKey, availableTechs: availableTechnologies }
+            message: `Building ${key} has unlock condition for unknown technology: ${condition.key}`,
+            details: { buildingKey: key, requiredTech: condition.key, availableTechs: availableTechnologies }
           });
           result.isValid = false;
         }

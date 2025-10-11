@@ -56,13 +56,22 @@ export interface PrestigeUnlockCondition {
 }
 
 /**
+ * Achievement unlock condition for an action
+ */
+export interface AchievementUnlockCondition {
+  type: 'achievement';
+  key: string;
+}
+
+/**
  * Unlock condition for an action - discriminated union for better type safety
  */
 export type ActionUnlockCondition = 
   | TechnologyUnlockCondition
   | BuildingUnlockCondition
   | ResourceUnlockCondition
-  | PrestigeUnlockCondition;
+  | PrestigeUnlockCondition
+  | AchievementUnlockCondition;
 
 /**
  * Definition of a game action that players can execute.
@@ -136,3 +145,6 @@ export const isResourceUnlock = (condition: ActionUnlockCondition): condition is
 
 export const isPrestigeUnlock = (condition: ActionUnlockCondition): condition is PrestigeUnlockCondition => 
   condition.type === 'prestige';
+
+export const isAchievementUnlock = (condition: ActionUnlockCondition): condition is AchievementUnlockCondition => 
+  condition.type === 'achievement';

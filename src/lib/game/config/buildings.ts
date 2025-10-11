@@ -54,7 +54,7 @@ export const BUILDINGS: Record<BuildingKey, BuildingDef> = {
     costScale: 1.22,
     baseProd: { gold: 1.0, researchPoints: 0.1 },
     baseUse: {},
-    requiresTech: ['writing'],
+    unlockConditions: [{ type: 'technology', key: 'writing', value: 1 }],
   },
   university: {
     name: 'University',
@@ -64,7 +64,10 @@ export const BUILDINGS: Record<BuildingKey, BuildingDef> = {
     costScale: 1.28,
     baseProd: { gold: 3.0, prestige: 0.05, researchPoints: 0.3 },
     baseUse: { food: 1.0 },
-    requiresTech: ['writing', 'mathematics'],
+    unlockConditions: [
+      { type: 'technology', key: 'writing', value: 1 },
+      { type: 'technology', key: 'mathematics', value: 1 }
+    ],
   },
   laboratory: {
     name: 'Laboratory',
@@ -74,6 +77,19 @@ export const BUILDINGS: Record<BuildingKey, BuildingDef> = {
     costScale: 1.30,
     baseProd: { gold: 5.0, prestige: 0.1, researchPoints: 0.5 },
     baseUse: { food: 2.0 },
-    requiresTech: ['chemistry', 'engineering'],
+    unlockConditions: [
+      { type: 'technology', key: 'chemistry', value: 1 },
+      { type: 'technology', key: 'engineering', value: 1 }
+    ],
+  },
+  taxOffice: {
+    name: 'Tax Office',
+    icon: 'ic-tax-office',
+    desc: 'Collects taxes from your citizens, generating gold income.',
+    baseCost: { gold: 100, wood: 20, stone: 10 },
+    costScale: 1.18,
+    baseProd: { gold: 0.5 },
+    baseUse: {},
+    unlockConditions: [{ type: 'achievement', key: 'foodMaster' }],
   },
 };

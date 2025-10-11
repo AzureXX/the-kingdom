@@ -5,7 +5,7 @@ import { formatNumber } from '@/lib/game/utils/number';
 import { getUnlockedBuildings } from '@/lib/game/utils/gameState';
 import { canBuyBuilding } from '@/lib/game/utils/calculations';
 
-import type { ResourceKey, TechnologyKey } from '@/lib/game/types';
+import type { ResourceKey, TechnologyKey, BuildingKey, ActionUnlockCondition } from '@/lib/game/types';
 import type { BuildingSceneProps } from '@/lib/game/types/context';
 
 import styles from '@/styles/page.module.scss';
@@ -14,11 +14,25 @@ import buildingStyles from '@/styles/components/game/BuildingList.module.scss';
 export const BuildingList = memo(function BuildingList({ state, costFor, onBuyBuilding }: Pick<BuildingSceneProps, 'state' | 'costFor' | 'onBuyBuilding'>): React.JSX.Element {
   const unlockedBuildings = getUnlockedBuildings(state);
 
-  const formatTechnologyRequirements = (requiredTechs: TechnologyKey | TechnologyKey[] | undefined): string => {
-    if (!requiredTechs) return '';
+  const formatUnlockConditions = (unlockConditions: ActionUnlockCondition[] | undefined): string => {
+    if (!unlockConditions || unlockConditions.length === 0) return '';
     
-    const techArray = Array.isArray(requiredTechs) ? requiredTechs : [requiredTechs];
-    return techArray.map(techKey => CONFIG.technologies[techKey].name).join(', ');
+    return unlockConditions.map(condition => {
+      switch (condition.type) {
+        case 'technology':
+          return CONFIG.technologies[condition.key as TechnologyKey].name;
+        case 'achievement':
+          return CONFIG.achievements[condition.key]?.name || condition.key;
+        case 'building':
+          return CONFIG.buildings[condition.key as BuildingKey].name;
+        case 'resource':
+          return `${CONFIG.resources[condition.key as ResourceKey].name} ${condition.value}`;
+        case 'prestige':
+          return `Prestige: ${condition.key}`;
+        default:
+          return String(condition);
+      }
+    }).join(', ');
   };
 
   return (
@@ -33,9 +47,9 @@ export const BuildingList = memo(function BuildingList({ state, costFor, onBuyBu
           .map(([resourceKey, value]) => `${CONFIG.resources[resourceKey as ResourceKey].name} ${formatNumber(value || 0)}`)
           .join(' · ');
         const canAfford = canBuyBuilding(state, buildingKey);
-        const techRequirements = formatTechnologyRequirements(building.requiresTech);
+        const unlockRequirements = formatUnlockConditions(building.unlockConditions);
         
-        const tooltipText = `${building.name}\n${building.desc}\n\nCost: ${costStr}${techRequirements ? `\nTech Required: ${techRequirements}` : ''}\nOwned: ${owned}`;
+        const tooltipText = `${building.name}\n${building.desc}\n\nCost: ${costStr}${unlockRequirements ? `\nRequirements: ${unlockRequirements}` : ''}\nOwned: ${owned}`;
         
         return (
           <div 
@@ -51,7 +65,7 @@ export const BuildingList = memo(function BuildingList({ state, costFor, onBuyBu
             <div className={styles.meta}>
               <div className={styles.name}>
                 {building.name} <span className={styles.pill}>x{owned}</span>
-                {techRequirements && (
+                {unlockRequirements && (
                   <span className={`${styles.pill} ${buildingStyles.techRequirementsPill}`}>
                     🔬
                   </span>

@@ -7,7 +7,8 @@ import type { BuildingKey, GameState, ResourceCost } from '@/lib/game/types';
 
 import { 
   getBuildingCount, 
-  updateBuildingCount
+  updateBuildingCount,
+  isBuildingUnlocked
 } from '@/lib/game/utils/gameState';
 import { payResources } from '@/lib/game/utils/resource';
 import { checkAchievements } from '@/lib/game/utils/achievement';
@@ -33,6 +34,11 @@ export function pay(state: GameState, cost: ResourceCost): GameState {
  */
 export function buyBuilding(state: GameState, key: BuildingKey): GameState {
   try {
+    // Check if building is unlocked
+    if (!isBuildingUnlocked(state, key)) {
+      return state; // Building not unlocked, cannot purchase
+    }
+    
     const cost = costFor(state, key);
     if (!canAfford(state, cost)) return state;
     
