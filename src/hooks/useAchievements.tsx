@@ -7,7 +7,8 @@ import {
   getAchievementProgress, 
   markNotificationShown, 
   getAchievementStats,
-  getBonusSummary
+  getBonusSummary,
+  getAllMultipliers
 } from '@/lib/game/utils/achievement';
 import { ACHIEVEMENTS } from '@/lib/game/config/achievements';
 import type { 
@@ -229,6 +230,29 @@ export function useAchievements() {
   }, [state]);
 
   /**
+   * Get all multipliers list
+   */
+  const allMultipliers = useMemo(() => {
+    if (!state) {
+      return {
+        resourceGain: [],
+        resourceGainMultiplier: [],
+        buildingGain: [],
+        buildingGainMultiplier: [],
+        clickGain: [],
+        clickMultiplier: [],
+        actionClickGain: [],
+        actionClickMultiplier: [],
+        loopGain: [],
+        loopMultiplier: [],
+        actionLoopGain: [],
+        actionLoopMultiplier: []
+      };
+    }
+    return getAllMultipliers(state);
+  }, [state]);
+
+  /**
    * Mark notification as shown
    */
   const markNotificationAsShown = useCallback((achievementKey: AchievementKey) => {
@@ -304,6 +328,7 @@ export function useAchievements() {
     stats,
     pendingNotifications,
     bonusSummary,
+    allMultipliers,
     
     // Filtering and sorting
     getFilteredAchievements,

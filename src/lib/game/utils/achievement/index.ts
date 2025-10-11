@@ -22,6 +22,7 @@ export { getAchievementStats } from '@/lib/game/utils/achievement/stats';
 export { 
   calculateTotalBonuses, 
   getBonusSummary, 
+  getAllMultipliers,
   formatBonusValue, 
   getResourceDisplayName 
 } from '@/lib/game/utils/achievement/bonusCalculator';

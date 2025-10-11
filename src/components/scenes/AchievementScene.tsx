@@ -13,7 +13,7 @@ interface AchievementSceneProps {
 }
 
 export function AchievementScene({ onAchievementClick }: AchievementSceneProps) {
-  const { stats, pendingNotifications, bonusSummary } = useAchievements();
+  const { stats, pendingNotifications, bonusSummary, allMultipliers } = useAchievements();
   const [filter, setFilter] = useState<AchievementFilter>({});
   const [sortBy, setSortBy] = useState<AchievementSortOption>('progress');
   const [showStats, setShowStats] = useState(false);
@@ -224,127 +224,197 @@ export function AchievementScene({ onAchievementClick }: AchievementSceneProps) 
       {showBonuses && (
         <div className={styles.bonusPanel}>
           <div className={styles.bonusHeader}>
-            <h3 className={styles.bonusTitle}>🎁 Total Achievement Bonuses</h3>
-            <p className={styles.bonusSubtitle}>Active bonuses from all unlocked achievements</p>
+            <h3 className={styles.bonusTitle}>🎁 All Achievement Bonuses</h3>
+            <p className={styles.bonusSubtitle}>Complete list of all active bonuses from unlocked achievements</p>
           </div>
           
-          <div className={styles.bonusGrid}>
-            {/* Production Bonuses Section */}
-            <div className={styles.bonusSection}>
-              <h4 className={styles.bonusSectionTitle}>📈 Production Bonuses</h4>
-              <p className={styles.bonusSectionDescription}>Bonuses that affect your automatic resource production per second</p>
-              <div className={styles.bonusStats}>
-                <div className={styles.bonusStat}>
-                  <span className={styles.bonusLabel}>Resource Gain Bonus:</span>
-                  <span className={styles.bonusValue}>+{bonusSummary.totalResourceGain.toFixed(3)}/s</span>
-                </div>
-                <div className={styles.bonusStat}>
-                  <span className={styles.bonusLabel}>Production Multiplier:</span>
-                  <span className={styles.bonusValue}>+{bonusSummary.totalResourceMultipliers.toFixed(3)}%</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Click Bonuses Section */}
-            <div className={styles.bonusSection}>
-              <h4 className={styles.bonusSectionTitle}>🖱️ Click Bonuses</h4>
-              <p className={styles.bonusSectionDescription}>Bonuses that affect your manual click actions</p>
-              <div className={styles.bonusStats}>
-                <div className={styles.bonusStat}>
-                  <span className={styles.bonusLabel}>Click Gain Bonus:</span>
-                  <span className={styles.bonusValue}>+{bonusSummary.totalClickBonuses.toFixed(3)}</span>
-                </div>
-                <div className={styles.bonusStat}>
-                  <span className={styles.bonusLabel}>Click Multiplier:</span>
-                  <span className={styles.bonusValue}>+{bonusSummary.totalClickMultipliers.toFixed(3)}%</span>
+          <div className={styles.multiplierList}>
+            {/* Resource Production Bonuses */}
+            {allMultipliers.resourceGain.length > 0 && (
+              <div className={styles.multiplierSection}>
+                <h4 className={styles.multiplierSectionTitle}>📈 Resource Production Gain</h4>
+                <div className={styles.multiplierItems}>
+                  {allMultipliers.resourceGain.map(({ resource, name, value }: { resource: ResourceKey; name: string; value: number }) => (
+                    <div key={`resource-gain-${resource}`} className={styles.multiplierItem}>
+                      <span className={styles.multiplierLabel}>{name} Production:</span>
+                      <span className={styles.multiplierValue}>+{formatBonusValue(value, 'gain')}/s</span>
+                    </div>
+                  ))}
                 </div>
               </div>
-            </div>
+            )}
 
-            {/* Loop Bonuses Section */}
-            <div className={styles.bonusSection}>
-              <h4 className={styles.bonusSectionTitle}>🔄 Loop Bonuses</h4>
-              <p className={styles.bonusSectionDescription}>Bonuses that affect your automated loop actions</p>
-              <div className={styles.bonusStats}>
-                <div className={styles.bonusStat}>
-                  <span className={styles.bonusLabel}>Loop Gain Bonus:</span>
-                  <span className={styles.bonusValue}>+{bonusSummary.totalLoopBonuses.toFixed(3)}</span>
-                </div>
-                <div className={styles.bonusStat}>
-                  <span className={styles.bonusLabel}>Loop Multiplier:</span>
-                  <span className={styles.bonusValue}>+{bonusSummary.totalLoopMultipliers.toFixed(3)}%</span>
+            {/* Resource Production Multipliers */}
+            {allMultipliers.resourceGainMultiplier.length > 0 && (
+              <div className={styles.multiplierSection}>
+                <h4 className={styles.multiplierSectionTitle}>📈 Resource Production Multipliers</h4>
+                <div className={styles.multiplierItems}>
+                  {allMultipliers.resourceGainMultiplier.map(({ resource, name, value }: { resource: ResourceKey; name: string; value: number }) => (
+                    <div key={`resource-mult-${resource}`} className={styles.multiplierItem}>
+                      <span className={styles.multiplierLabel}>{name} Production:</span>
+                      <span className={styles.multiplierValue}>{formatBonusValue(value, 'multiplier')}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
-            </div>
-          </div>
+            )}
 
-          <div className={styles.resourceBreakdown}>
-            <h4 className={styles.bonusSectionTitle}>📊 Resource Breakdown</h4>
-            <div className={styles.resourceGrid}>
-              {getResourceBreakdown().map(({ resource, name, resourceGain, resourceMultiplier, clickGain, clickMultiplier, loopGain, loopMultiplier }) => (
-                <div key={resource} className={styles.resourceCard}>
-                  <h5 className={styles.resourceName}>{name}</h5>
-                  <div className={styles.resourceBonuses}>
-                    {/* Production Bonuses */}
-                    {(resourceGain > 0 || resourceMultiplier > 1) && (
-                      <div className={styles.bonusCategory}>
-                        <span className={styles.bonusCategoryTitle}>📈 Production:</span>
-                        {resourceGain > 0 && (
-                          <div className={styles.resourceBonus}>
-                            <span className={styles.bonusType}>Gain:</span>
-                            <span className={styles.bonusValue}>+{formatBonusValue(resourceGain, 'gain')}/s</span>
-                          </div>
-                        )}
-                        {resourceMultiplier > 1 && (
-                          <div className={styles.resourceBonus}>
-                            <span className={styles.bonusType}>Multiplier:</span>
-                            <span className={styles.bonusValue}>{formatBonusValue(resourceMultiplier, 'multiplier')}</span>
-                          </div>
-                        )}
-                      </div>
-                    )}
-                    
-                    {/* Click Bonuses */}
-                    {(clickGain > 0 || clickMultiplier > 1) && (
-                      <div className={styles.bonusCategory}>
-                        <span className={styles.bonusCategoryTitle}>🖱️ Click:</span>
-                        {clickGain > 0 && (
-                          <div className={styles.resourceBonus}>
-                            <span className={styles.bonusType}>Gain:</span>
-                            <span className={styles.bonusValue}>+{formatBonusValue(clickGain, 'gain')}</span>
-                          </div>
-                        )}
-                        {clickMultiplier > 1 && (
-                          <div className={styles.resourceBonus}>
-                            <span className={styles.bonusType}>Multiplier:</span>
-                            <span className={styles.bonusValue}>{formatBonusValue(clickMultiplier, 'multiplier')}</span>
-                          </div>
-                        )}
-                      </div>
-                    )}
-                    
-                    {/* Loop Bonuses */}
-                    {(loopGain > 0 || loopMultiplier > 1) && (
-                      <div className={styles.bonusCategory}>
-                        <span className={styles.bonusCategoryTitle}>🔄 Loop:</span>
-                        {loopGain > 0 && (
-                          <div className={styles.resourceBonus}>
-                            <span className={styles.bonusType}>Gain:</span>
-                            <span className={styles.bonusValue}>+{formatBonusValue(loopGain, 'gain')}</span>
-                          </div>
-                        )}
-                        {loopMultiplier > 1 && (
-                          <div className={styles.resourceBonus}>
-                            <span className={styles.bonusType}>Multiplier:</span>
-                            <span className={styles.bonusValue}>{formatBonusValue(loopMultiplier, 'multiplier')}</span>
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
+            {/* Building Production Bonuses */}
+            {allMultipliers.buildingGain.length > 0 && (
+              <div className={styles.multiplierSection}>
+                <h4 className={styles.multiplierSectionTitle}>🏗️ Building Production Gain</h4>
+                <div className={styles.multiplierItems}>
+                  {allMultipliers.buildingGain.map(({ building, resourceName, value }: { building: string; resourceName: string; value: number }) => (
+                    <div key={`building-gain-${building}-${resourceName}`} className={styles.multiplierItem}>
+                      <span className={styles.multiplierLabel}>{building} → {resourceName}:</span>
+                      <span className={styles.multiplierValue}>+{formatBonusValue(value, 'gain')}/s</span>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </div>
+            )}
+
+            {/* Building Production Multipliers */}
+            {allMultipliers.buildingGainMultiplier.length > 0 && (
+              <div className={styles.multiplierSection}>
+                <h4 className={styles.multiplierSectionTitle}>🏗️ Building Production Multipliers</h4>
+                <div className={styles.multiplierItems}>
+                  {allMultipliers.buildingGainMultiplier.map(({ building, resourceName, value }: { building: string; resourceName: string; value: number }) => (
+                    <div key={`building-mult-${building}-${resourceName}`} className={styles.multiplierItem}>
+                      <span className={styles.multiplierLabel}>{building} → {resourceName}:</span>
+                      <span className={styles.multiplierValue}>{formatBonusValue(value, 'multiplier')}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Click Action Bonuses */}
+            {allMultipliers.clickGain.length > 0 && (
+              <div className={styles.multiplierSection}>
+                <h4 className={styles.multiplierSectionTitle}>🖱️ Click Action Gain</h4>
+                <div className={styles.multiplierItems}>
+                  {allMultipliers.clickGain.map(({ resource, name, value }: { resource: ResourceKey; name: string; value: number }) => (
+                    <div key={`click-gain-${resource}`} className={styles.multiplierItem}>
+                      <span className={styles.multiplierLabel}>{name} Click Actions:</span>
+                      <span className={styles.multiplierValue}>+{formatBonusValue(value, 'gain')}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Click Action Multipliers */}
+            {allMultipliers.clickMultiplier.length > 0 && (
+              <div className={styles.multiplierSection}>
+                <h4 className={styles.multiplierSectionTitle}>🖱️ Click Action Multipliers</h4>
+                <div className={styles.multiplierItems}>
+                  {allMultipliers.clickMultiplier.map(({ resource, name, value }: { resource: ResourceKey; name: string; value: number }) => (
+                    <div key={`click-mult-${resource}`} className={styles.multiplierItem}>
+                      <span className={styles.multiplierLabel}>{name} Click Actions:</span>
+                      <span className={styles.multiplierValue}>{formatBonusValue(value, 'multiplier')}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Action-Specific Click Bonuses */}
+            {allMultipliers.actionClickGain.length > 0 && (
+              <div className={styles.multiplierSection}>
+                <h4 className={styles.multiplierSectionTitle}>⚔️ Action-Specific Click Gain</h4>
+                <div className={styles.multiplierItems}>
+                  {allMultipliers.actionClickGain.map(({ action, resourceName, value }: { action: string; resourceName: string; value: number }) => (
+                    <div key={`action-click-gain-${action}-${resourceName}`} className={styles.multiplierItem}>
+                      <span className={styles.multiplierLabel}>{action} → {resourceName}:</span>
+                      <span className={styles.multiplierValue}>+{formatBonusValue(value, 'gain')}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Action-Specific Click Multipliers */}
+            {allMultipliers.actionClickMultiplier.length > 0 && (
+              <div className={styles.multiplierSection}>
+                <h4 className={styles.multiplierSectionTitle}>⚔️ Action-Specific Click Multipliers</h4>
+                <div className={styles.multiplierItems}>
+                  {allMultipliers.actionClickMultiplier.map(({ action, resourceName, value }: { action: string; resourceName: string; value: number }) => (
+                    <div key={`action-click-mult-${action}-${resourceName}`} className={styles.multiplierItem}>
+                      <span className={styles.multiplierLabel}>{action} → {resourceName}:</span>
+                      <span className={styles.multiplierValue}>{formatBonusValue(value, 'multiplier')}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Loop Action Bonuses */}
+            {allMultipliers.loopGain.length > 0 && (
+              <div className={styles.multiplierSection}>
+                <h4 className={styles.multiplierSectionTitle}>🔄 Loop Action Gain</h4>
+                <div className={styles.multiplierItems}>
+                  {allMultipliers.loopGain.map(({ resource, name, value }: { resource: ResourceKey; name: string; value: number }) => (
+                    <div key={`loop-gain-${resource}`} className={styles.multiplierItem}>
+                      <span className={styles.multiplierLabel}>{name} Loop Actions:</span>
+                      <span className={styles.multiplierValue}>+{formatBonusValue(value, 'gain')}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Loop Action Multipliers */}
+            {allMultipliers.loopMultiplier.length > 0 && (
+              <div className={styles.multiplierSection}>
+                <h4 className={styles.multiplierSectionTitle}>🔄 Loop Action Multipliers</h4>
+                <div className={styles.multiplierItems}>
+                  {allMultipliers.loopMultiplier.map(({ resource, name, value }: { resource: ResourceKey; name: string; value: number }) => (
+                    <div key={`loop-mult-${resource}`} className={styles.multiplierItem}>
+                      <span className={styles.multiplierLabel}>{name} Loop Actions:</span>
+                      <span className={styles.multiplierValue}>{formatBonusValue(value, 'multiplier')}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Action-Specific Loop Bonuses */}
+            {allMultipliers.actionLoopGain.length > 0 && (
+              <div className={styles.multiplierSection}>
+                <h4 className={styles.multiplierSectionTitle}>🔄 Action-Specific Loop Gain</h4>
+                <div className={styles.multiplierItems}>
+                  {allMultipliers.actionLoopGain.map(({ action, resourceName, value }: { action: string; resourceName: string; value: number }) => (
+                    <div key={`action-loop-gain-${action}-${resourceName}`} className={styles.multiplierItem}>
+                      <span className={styles.multiplierLabel}>{action} → {resourceName}:</span>
+                      <span className={styles.multiplierValue}>+{formatBonusValue(value, 'gain')}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Action-Specific Loop Multipliers */}
+            {allMultipliers.actionLoopMultiplier.length > 0 && (
+              <div className={styles.multiplierSection}>
+                <h4 className={styles.multiplierSectionTitle}>🔄 Action-Specific Loop Multipliers</h4>
+                <div className={styles.multiplierItems}>
+                  {allMultipliers.actionLoopMultiplier.map(({ action, resourceName, value }: { action: string; resourceName: string; value: number }) => (
+                    <div key={`action-loop-mult-${action}-${resourceName}`} className={styles.multiplierItem}>
+                      <span className={styles.multiplierLabel}>{action} → {resourceName}:</span>
+                      <span className={styles.multiplierValue}>{formatBonusValue(value, 'multiplier')}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* No bonuses message */}
+            {Object.values(allMultipliers).every((arr: any[]) => arr.length === 0) && (
+              <div className={styles.noBonuses}>
+                <p>No achievement bonuses active yet. Complete some achievements to unlock bonuses!</p>
+              </div>
+            )}
           </div>
         </div>
       )}

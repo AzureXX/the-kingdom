@@ -123,6 +123,183 @@ export function formatBonusValue(value: number, type: 'gain' | 'multiplier'): st
 }
 
 /**
+ * Get detailed list of all multipliers for display
+ */
+export function getAllMultipliers(state: GameState): {
+  resourceGain: Array<{ resource: ResourceKey; name: string; value: number }>;
+  resourceGainMultiplier: Array<{ resource: ResourceKey; name: string; value: number }>;
+  buildingGain: Array<{ building: string; resource: ResourceKey; resourceName: string; value: number }>;
+  buildingGainMultiplier: Array<{ building: string; resource: ResourceKey; resourceName: string; value: number }>;
+  clickGain: Array<{ resource: ResourceKey; name: string; value: number }>;
+  clickMultiplier: Array<{ resource: ResourceKey; name: string; value: number }>;
+  actionClickGain: Array<{ action: string; resource: ResourceKey; resourceName: string; value: number }>;
+  actionClickMultiplier: Array<{ action: string; resource: ResourceKey; resourceName: string; value: number }>;
+  loopGain: Array<{ resource: ResourceKey; name: string; value: number }>;
+  loopMultiplier: Array<{ resource: ResourceKey; name: string; value: number }>;
+  actionLoopGain: Array<{ action: string; resource: ResourceKey; resourceName: string; value: number }>;
+  actionLoopMultiplier: Array<{ action: string; resource: ResourceKey; resourceName: string; value: number }>;
+} {
+  if (!state || !state.achievementBonuses) {
+    return {
+      resourceGain: [],
+      resourceGainMultiplier: [],
+      buildingGain: [],
+      buildingGainMultiplier: [],
+      clickGain: [],
+      clickMultiplier: [],
+      actionClickGain: [],
+      actionClickMultiplier: [],
+      loopGain: [],
+      loopMultiplier: [],
+      actionLoopGain: [],
+      actionLoopMultiplier: []
+    };
+  }
+
+  const bonuses = state.achievementBonuses;
+  const allResources: ResourceKey[] = ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'];
+
+  const result = {
+    resourceGain: [] as Array<{ resource: ResourceKey; name: string; value: number }>,
+    resourceGainMultiplier: [] as Array<{ resource: ResourceKey; name: string; value: number }>,
+    buildingGain: [] as Array<{ building: string; resource: ResourceKey; resourceName: string; value: number }>,
+    buildingGainMultiplier: [] as Array<{ building: string; resource: ResourceKey; resourceName: string; value: number }>,
+    clickGain: [] as Array<{ resource: ResourceKey; name: string; value: number }>,
+    clickMultiplier: [] as Array<{ resource: ResourceKey; name: string; value: number }>,
+    actionClickGain: [] as Array<{ action: string; resource: ResourceKey; resourceName: string; value: number }>,
+    actionClickMultiplier: [] as Array<{ action: string; resource: ResourceKey; resourceName: string; value: number }>,
+    loopGain: [] as Array<{ resource: ResourceKey; name: string; value: number }>,
+    loopMultiplier: [] as Array<{ resource: ResourceKey; name: string; value: number }>,
+    actionLoopGain: [] as Array<{ action: string; resource: ResourceKey; resourceName: string; value: number }>,
+    actionLoopMultiplier: [] as Array<{ action: string; resource: ResourceKey; resourceName: string; value: number }>
+  };
+
+  // Process resource-wide bonuses
+  for (const resource of allResources) {
+    const resourceName = getResourceDisplayName(resource);
+
+    // Resource gain
+    const resourceGain = bonuses.resourceGain[resource];
+    if (resourceGain && resourceGain > 0) {
+      result.resourceGain.push({ resource, name: resourceName, value: resourceGain });
+    }
+
+    // Resource gain multiplier
+    const resourceGainMultiplier = bonuses.resourceGainMultiplier[resource];
+    if (resourceGainMultiplier && resourceGainMultiplier > 1) {
+      result.resourceGainMultiplier.push({ resource, name: resourceName, value: resourceGainMultiplier });
+    }
+
+    // Click gain
+    const clickGain = bonuses.clickGain[resource];
+    if (clickGain && clickGain > 0) {
+      result.clickGain.push({ resource, name: resourceName, value: clickGain });
+    }
+
+    // Click multiplier
+    const clickMultiplier = bonuses.clickMultiplier[resource];
+    if (clickMultiplier && clickMultiplier > 1) {
+      result.clickMultiplier.push({ resource, name: resourceName, value: clickMultiplier });
+    }
+
+    // Loop gain
+    const loopGain = bonuses.loopGain[resource];
+    if (loopGain && loopGain > 0) {
+      result.loopGain.push({ resource, name: resourceName, value: loopGain });
+    }
+
+    // Loop multiplier
+    const loopMultiplier = bonuses.loopMultiplier[resource];
+    if (loopMultiplier && loopMultiplier > 1) {
+      result.loopMultiplier.push({ resource, name: resourceName, value: loopMultiplier });
+    }
+  }
+
+  // Process building-specific bonuses
+  for (const [building, buildingBonuses] of Object.entries(bonuses.buildingGain || {})) {
+    for (const [resource, value] of Object.entries(buildingBonuses)) {
+      if (value && value > 0) {
+        result.buildingGain.push({
+          building,
+          resource: resource as ResourceKey,
+          resourceName: getResourceDisplayName(resource as ResourceKey),
+          value
+        });
+      }
+    }
+  }
+
+  for (const [building, buildingBonuses] of Object.entries(bonuses.buildingGainMultiplier || {})) {
+    for (const [resource, value] of Object.entries(buildingBonuses)) {
+      if (value && value > 1) {
+        result.buildingGainMultiplier.push({
+          building,
+          resource: resource as ResourceKey,
+          resourceName: getResourceDisplayName(resource as ResourceKey),
+          value
+        });
+      }
+    }
+  }
+
+  // Process action-specific click bonuses
+  for (const [action, actionBonuses] of Object.entries(bonuses.actionClickGain || {})) {
+    for (const [resource, value] of Object.entries(actionBonuses)) {
+      if (value && value > 0) {
+        result.actionClickGain.push({
+          action,
+          resource: resource as ResourceKey,
+          resourceName: getResourceDisplayName(resource as ResourceKey),
+          value
+        });
+      }
+    }
+  }
+
+  for (const [action, actionBonuses] of Object.entries(bonuses.actionClickMultiplier || {})) {
+    for (const [resource, value] of Object.entries(actionBonuses)) {
+      if (value && value > 1) {
+        result.actionClickMultiplier.push({
+          action,
+          resource: resource as ResourceKey,
+          resourceName: getResourceDisplayName(resource as ResourceKey),
+          value
+        });
+      }
+    }
+  }
+
+  // Process action-specific loop bonuses
+  for (const [action, actionBonuses] of Object.entries(bonuses.actionLoopGain || {})) {
+    for (const [resource, value] of Object.entries(actionBonuses)) {
+      if (value && value > 0) {
+        result.actionLoopGain.push({
+          action,
+          resource: resource as ResourceKey,
+          resourceName: getResourceDisplayName(resource as ResourceKey),
+          value
+        });
+      }
+    }
+  }
+
+  for (const [action, actionBonuses] of Object.entries(bonuses.actionLoopMultiplier || {})) {
+    for (const [resource, value] of Object.entries(actionBonuses)) {
+      if (value && value > 1) {
+        result.actionLoopMultiplier.push({
+          action,
+          resource: resource as ResourceKey,
+          resourceName: getResourceDisplayName(resource as ResourceKey),
+          value
+        });
+      }
+    }
+  }
+
+  return result;
+}
+
+/**
  * Get resource display name
  */
 export function getResourceDisplayName(resource: ResourceKey): string {
