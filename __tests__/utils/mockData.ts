@@ -33,6 +33,7 @@ export const mockBasicGameState: GameState = {
     library: 0,
     university: 0,
     laboratory: 0,
+    taxOffice: 0,
   },
   
   // Technologies
@@ -156,6 +157,7 @@ export const mockAdvancedGameState: GameState = {
     library: 2,
     university: 1,
     laboratory: 0,
+    taxOffice: 0,
   },
   
   technologies: {
@@ -198,6 +200,7 @@ export const mockMaxedGameState: GameState = {
     library: 20,
     university: 10,
     laboratory: 5,
+    taxOffice: 0,
   },
   
   technologies: {

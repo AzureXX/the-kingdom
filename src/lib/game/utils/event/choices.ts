@@ -46,8 +46,11 @@ export function makeEventChoice(state: GameState, eventKey: EventKey, choiceInde
   // Add resources that the choice gives
   newState = addResources(newState, choice.gives);
   
-  // Apply resource changes from choice.takes using unified utility
-  newState = applyResourceChanges(newState, choice.takes);
+  // Apply resource changes from choice.takes (convert positive values to negative for subtraction)
+  const negativeTakes = Object.fromEntries(
+    Object.entries(choice.takes).map(([key, value]) => [key, -(value || 0)])
+  );
+  newState = applyResourceChanges(newState, negativeTakes);
   
   // Record the choice in history - optimized to avoid array recreation
   const newEventHistory = [...newState.events.eventHistory, {
