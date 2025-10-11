@@ -17,15 +17,21 @@ const stateErrorHandler = createStateErrorHandler('gameActions');
 /**
  * Add resources with achievement bonuses applied
  */
-function addResourcesWithBonuses(state: GameState, gains: ResourceCost): GameState {
+function addResourcesWithBonuses(state: GameState, gains: ResourceCost, actionKey?: ActionKey): GameState {
   try {
     const bonuses = state.achievementBonuses || {
       resourceGain: {},
       resourceGainMultiplier: {},
+      buildingGain: {},
+      buildingGainMultiplier: {},
       clickGain: {},
       clickMultiplier: {},
+      actionClickGain: {},
+      actionClickMultiplier: {},
       loopGain: {},
-      loopMultiplier: {}
+      loopMultiplier: {},
+      actionLoopGain: {},
+      actionLoopMultiplier: {}
     };
 
     // Apply click bonuses to gains
@@ -34,17 +40,27 @@ function addResourcesWithBonuses(state: GameState, gains: ResourceCost): GameSta
     for (const resourceKey in gains) {
       const rk = resourceKey as ResourceKey;
       const baseGain = gains[rk] || 0;
+      
+      // Apply resource-specific click bonuses
       const clickGain = bonuses.clickGain[rk] || 0;
       const clickMultiplier = bonuses.clickMultiplier[rk] || 1;
       
-      // Apply click multiplier to base gains and add click bonuses
-      enhancedGains[rk] = (baseGain * clickMultiplier) + clickGain;
+      // Apply action-specific click bonuses (if actionKey is provided)
+      const actionClickGain = actionKey ? (bonuses.actionClickGain[actionKey]?.[rk] || 0) : 0;
+      const actionClickMultiplier = actionKey ? (bonuses.actionClickMultiplier[actionKey]?.[rk] || 1) : 1;
+      
+      // Calculate final gains: (base + resource bonus + action bonus) * multipliers
+      const totalBonus = clickGain + actionClickGain;
+      const totalMultiplier = clickMultiplier * actionClickMultiplier;
+      
+      enhancedGains[rk] = (baseGain * totalMultiplier) + totalBonus;
     }
 
     return addResources(state, enhancedGains);
   } catch (error) {
     stateErrorHandler('Failed to add resources with bonuses', { 
       gains,
+      actionKey,
       error: error instanceof Error ? error.message : String(error) 
     });
     return addResources(state, gains); // Fallback to basic addResources
@@ -125,7 +141,7 @@ export function executeAction(state: GameState, actionKey: ActionKey): GameState
       : state;
 
     // Add the gains with achievement bonuses
-    newState = addResourcesWithBonuses(newState, action.gains);
+    newState = addResourcesWithBonuses(newState, action.gains, actionKey);
 
     // Update action unlock tracking if it's a one-time unlock
     if (action.oneTimeUnlock) {

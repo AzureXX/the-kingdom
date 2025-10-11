@@ -17,7 +17,7 @@ export const GAME_CONSTANTS = {
   // Performance constants
   PERFORMANCE_METRICS_UPDATE_INTERVAL: 120, // Update performance metrics every 120 frames
   NUMBER_FORMAT_THRESHOLD: 1000,
-  NUMBER_FORMAT_DECIMALS: 2,
+  NUMBER_FORMAT_DECIMALS: 3,
   
   // Performance monitoring configuration
   PERFORMANCE_MONITORING: {

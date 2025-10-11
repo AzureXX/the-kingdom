@@ -236,11 +236,11 @@ export function AchievementScene({ onAchievementClick }: AchievementSceneProps) 
               <div className={styles.bonusStats}>
                 <div className={styles.bonusStat}>
                   <span className={styles.bonusLabel}>Resource Gain Bonus:</span>
-                  <span className={styles.bonusValue}>+{bonusSummary.totalResourceGain.toFixed(0)}/s</span>
+                  <span className={styles.bonusValue}>+{bonusSummary.totalResourceGain.toFixed(3)}/s</span>
                 </div>
                 <div className={styles.bonusStat}>
                   <span className={styles.bonusLabel}>Production Multiplier:</span>
-                  <span className={styles.bonusValue}>+{bonusSummary.totalResourceMultipliers.toFixed(1)}%</span>
+                  <span className={styles.bonusValue}>+{bonusSummary.totalResourceMultipliers.toFixed(3)}%</span>
                 </div>
               </div>
             </div>
@@ -252,11 +252,11 @@ export function AchievementScene({ onAchievementClick }: AchievementSceneProps) 
               <div className={styles.bonusStats}>
                 <div className={styles.bonusStat}>
                   <span className={styles.bonusLabel}>Click Gain Bonus:</span>
-                  <span className={styles.bonusValue}>+{bonusSummary.totalClickBonuses.toFixed(0)}</span>
+                  <span className={styles.bonusValue}>+{bonusSummary.totalClickBonuses.toFixed(3)}</span>
                 </div>
                 <div className={styles.bonusStat}>
                   <span className={styles.bonusLabel}>Click Multiplier:</span>
-                  <span className={styles.bonusValue}>+{bonusSummary.totalClickMultipliers.toFixed(1)}%</span>
+                  <span className={styles.bonusValue}>+{bonusSummary.totalClickMultipliers.toFixed(3)}%</span>
                 </div>
               </div>
             </div>
@@ -268,11 +268,11 @@ export function AchievementScene({ onAchievementClick }: AchievementSceneProps) 
               <div className={styles.bonusStats}>
                 <div className={styles.bonusStat}>
                   <span className={styles.bonusLabel}>Loop Gain Bonus:</span>
-                  <span className={styles.bonusValue}>+{bonusSummary.totalLoopBonuses.toFixed(0)}</span>
+                  <span className={styles.bonusValue}>+{bonusSummary.totalLoopBonuses.toFixed(3)}</span>
                 </div>
                 <div className={styles.bonusStat}>
                   <span className={styles.bonusLabel}>Loop Multiplier:</span>
-                  <span className={styles.bonusValue}>+{bonusSummary.totalLoopMultipliers.toFixed(1)}%</span>
+                  <span className={styles.bonusValue}>+{bonusSummary.totalLoopMultipliers.toFixed(3)}%</span>
                 </div>
               </div>
             </div>

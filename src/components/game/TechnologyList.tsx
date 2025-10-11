@@ -36,7 +36,7 @@ export const TechnologyList = memo(function TechnologyList({ state, onResearchTe
               Researching: {CONFIG.technologies[activeResearch].name}
             </div>
             <div className={styles.tiny}>
-              Progress: {researchProgress.toFixed(1)}% ({timeRemaining}s remaining)
+              Progress: {researchProgress.toFixed(3)}% ({timeRemaining}s remaining)
             </div>
             <div className={styles.progressBar}>
               <div 

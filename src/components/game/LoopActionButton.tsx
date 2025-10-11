@@ -49,10 +49,10 @@ export const LoopActionButton = memo(function LoopActionButton({
       
       {isActive || currentPoints > 0 ? (
         <div className={styles.tooltipStats}>
-          <div>Progress: {progress.currentPoints.toFixed(0)} / {progress.pointsRequired.toFixed(0)}</div>
+          <div>Progress: {progress.currentPoints.toFixed(3)} / {progress.pointsRequired.toFixed(3)}</div>
           <div>Loops Completed: {totalLoopsCompleted}</div>
           {isActive && (
-            <div>Time Remaining: ~{progress.timeRemaining.toFixed(1)}s</div>
+            <div>Time Remaining: ~{progress.timeRemaining.toFixed(3)}s</div>
           )}
         </div>
       ) : (
@@ -89,7 +89,7 @@ export const LoopActionButton = memo(function LoopActionButton({
         Status: {isActive ? 'Active' : isDisabled ? 'Locked' : 'Paused'}
         {!isActive && currentPoints > 0 && (
           <div style={{ fontSize: '10px', marginTop: '4px', color: '#cbd5e0' }}>
-            Progress saved: {currentPoints.toFixed(0)} / {progress.pointsRequired.toFixed(0)}
+            Progress saved: {currentPoints.toFixed(3)} / {progress.pointsRequired.toFixed(3)}
           </div>
         )}
         {isDisabled && actionDef.showWhenLocked && (

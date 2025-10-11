@@ -63,7 +63,7 @@ export const ResearchScene = memo(function ResearchScene({
                     {state.research.activeResearch}
                   </span>
                   <span style={{ color: '#FF9800', fontSize: '0.9rem' }}>
-                    {researchProgress.toFixed(1)}% complete
+                    {researchProgress.toFixed(3)}% complete
                   </span>
                 </div>
                 <div style={{ 
@@ -106,7 +106,7 @@ export const ResearchScene = memo(function ResearchScene({
                 }}>
                   <span>Researched: <strong style={{ color: '#FF9800' }}>{researchedCount}/{totalTechnologies}</strong></span>
                   {activeResearch && (
-                    <span>Progress: <strong style={{ color: '#FF9800' }}>{researchProgress.toFixed(1)}%</strong></span>
+                    <span>Progress: <strong style={{ color: '#FF9800' }}>{researchProgress.toFixed(3)}%</strong></span>
                   )}
                 </div>
               </div>

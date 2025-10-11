@@ -113,12 +113,12 @@ export function getBonusSummary(state: GameState): {
  */
 export function formatBonusValue(value: number, type: 'gain' | 'multiplier'): string {
   if (type === 'multiplier') {
-    if (value === 1) return '1.0x';
-    return `${value.toFixed(1)}x`;
+    if (value === 1) return '1.000x';
+    return `${value.toFixed(3)}x`;
   } else {
-    if (value === 0) return '0';
-    if (value >= 1000) return `${(value / 1000).toFixed(1)}k`;
-    return value.toFixed(0);
+    if (value === 0) return '0.000';
+    if (value >= 1000) return `${(value / 1000).toFixed(3)}k`;
+    return value.toFixed(3);
   }
 }
 

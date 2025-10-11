@@ -28,10 +28,16 @@ export function getPerSec(state: GameState): Record<ResourceKey, number> {
     const bonuses = state.achievementBonuses || {
       resourceGain: {},
       resourceGainMultiplier: {},
+      buildingGain: {},
+      buildingGainMultiplier: {},
       clickGain: {},
-      clickMultiplier: 1,
+      clickMultiplier: {},
+      actionClickGain: {},
+      actionClickMultiplier: {},
       loopGain: {},
-      loopMultiplier: 1
+      loopMultiplier: {},
+      actionLoopGain: {},
+      actionLoopMultiplier: {}
     };
     
     const out: Record<ResourceKey, number> = { gold: 0, wood: 0, stone: 0, food: 0, prestige: 0, researchPoints: 0 };
@@ -49,10 +55,19 @@ export function getPerSec(state: GameState): Record<ResourceKey, number> {
       for (const r in def.baseProd) {
         const rk = r as ResourceKey;
         const baseProduction = (def.baseProd[rk] || 0) * n;
-        const multiplier = (muls.prodMul[rk] || 1) * (bonuses.resourceGainMultiplier[rk] || 1);
-        const bonus = bonuses.resourceGain[rk] || 0;
         
-        out[rk] += (baseProduction * multiplier) + bonus;
+        // Apply building-specific bonuses first
+        const buildingGain = bonuses.buildingGain[key]?.[rk] || 0;
+        const buildingMultiplier = bonuses.buildingGainMultiplier[key]?.[rk] || 1;
+        
+        // Apply resource-specific bonuses
+        const resourceMultiplier = (muls.prodMul[rk] || 1) * (bonuses.resourceGainMultiplier[rk] || 1);
+        const resourceBonus = bonuses.resourceGain[rk] || 0;
+        
+        // Calculate final production: (base + building bonus) * multipliers + resource bonus
+        const finalProduction = ((baseProduction + buildingGain) * buildingMultiplier * resourceMultiplier) + resourceBonus;
+        
+        out[rk] += finalProduction;
       }
       
       // Subtract consumption

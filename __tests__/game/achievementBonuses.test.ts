@@ -34,10 +34,16 @@ describe('Achievement Bonus Calculator', () => {
         achievementBonuses: {
           resourceGain: { gold: 10, wood: 5 },
           resourceGainMultiplier: { gold: 1.2, wood: 1.1 },
+          buildingGain: {},
+          buildingGainMultiplier: {},
           clickGain: { gold: 2, wood: 1 },
           clickMultiplier: { gold: 1.5, wood: 1.2 },
+          actionClickGain: {},
+          actionClickMultiplier: {},
           loopGain: { gold: 3, wood: 2 },
-          loopMultiplier: { gold: 1.3, wood: 1.1 }
+          loopMultiplier: { gold: 1.3, wood: 1.1 },
+          actionLoopGain: {},
+          actionLoopMultiplier: {}
         }
       };
 
@@ -58,10 +64,16 @@ describe('Achievement Bonus Calculator', () => {
         achievementBonuses: {
           resourceGain: { gold: 10, wood: 5 },
           resourceGainMultiplier: { gold: 1.2, wood: 1.1 },
+          buildingGain: {},
+          buildingGainMultiplier: {},
           clickGain: { gold: 2, wood: 1 },
           clickMultiplier: { gold: 1.5, wood: 1.2 },
+          actionClickGain: {},
+          actionClickMultiplier: {},
           loopGain: { gold: 3, wood: 2 },
-          loopMultiplier: { gold: 1.3, wood: 1.1 }
+          loopMultiplier: { gold: 1.3, wood: 1.1 },
+          actionLoopGain: {},
+          actionLoopMultiplier: {}
         }
       };
 
@@ -81,10 +93,16 @@ describe('Achievement Bonus Calculator', () => {
         achievementBonuses: {
           resourceGain: { gold: 10 },
           resourceGainMultiplier: { gold: 1.2 },
+          buildingGain: {},
+          buildingGainMultiplier: {},
           clickGain: { gold: 2 },
           clickMultiplier: { gold: 1.5 },
+          actionClickGain: {},
+          actionClickMultiplier: {},
           loopGain: { gold: 3 },
-          loopMultiplier: { gold: 1.3 }
+          loopMultiplier: { gold: 1.3 },
+          actionLoopGain: {},
+          actionLoopMultiplier: {}
         }
       };
 
@@ -103,16 +121,16 @@ describe('Achievement Bonus Calculator', () => {
 
   describe('formatBonusValue', () => {
     it('should format gain values correctly', () => {
-      expect(formatBonusValue(0, 'gain')).toBe('0');
-      expect(formatBonusValue(5, 'gain')).toBe('5');
-      expect(formatBonusValue(1000, 'gain')).toBe('1.0k');
-      expect(formatBonusValue(1500, 'gain')).toBe('1.5k');
+      expect(formatBonusValue(0, 'gain')).toBe('0.000');
+      expect(formatBonusValue(5, 'gain')).toBe('5.000');
+      expect(formatBonusValue(1000, 'gain')).toBe('1.000k');
+      expect(formatBonusValue(1500, 'gain')).toBe('1.500k');
     });
 
     it('should format multiplier values correctly', () => {
-      expect(formatBonusValue(1, 'multiplier')).toBe('1.0x');
-      expect(formatBonusValue(1.2, 'multiplier')).toBe('1.2x');
-      expect(formatBonusValue(2.5, 'multiplier')).toBe('2.5x');
+      expect(formatBonusValue(1, 'multiplier')).toBe('1.000x');
+      expect(formatBonusValue(1.2, 'multiplier')).toBe('1.200x');
+      expect(formatBonusValue(2.5, 'multiplier')).toBe('2.500x');
     });
   });
 
