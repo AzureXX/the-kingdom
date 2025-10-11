@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { useAchievements } from '@/hooks';
 import { ACHIEVEMENTS } from '@/lib/game/config';
 import styles from '@/styles/components/ui/AchievementNotification.module.scss';
@@ -17,41 +17,114 @@ export function AchievementNotification({
   const { pendingNotifications, markNotificationAsShown, getRarityColor } = useAchievements();
   const [visibleNotifications, setVisibleNotifications] = useState<typeof pendingNotifications>([]);
   const [isAnimating, setIsAnimating] = useState(false);
+  
+  // Local state for shown notifications - has priority over global state
+  const [localShownNotifications, setLocalShownNotifications] = useState<Set<string>>(new Set());
+  const isInitialized = useRef(false);
+  const lastSyncTime = useRef(0);
+  const SYNC_INTERVAL = 2000; // Sync every 2 seconds
+
+  // Function to sync local shown notifications to global state
+  const syncToGlobalState = useCallback(() => {
+    const now = Date.now();
+    if (now - lastSyncTime.current < SYNC_INTERVAL) return;
+    
+    // Since pendingNotifications is already filtered to show only unshown notifications,
+    // we need to sync any notifications that are in local shown but still appear in pendingNotifications
+    const pendingKeys = new Set(pendingNotifications?.map(n => n.achievementKey) || []);
+    
+    const needsSync = Array.from(localShownNotifications).filter(
+      key => pendingKeys.has(key) // If it's in local shown but still in pending, it needs sync
+    );
+    
+    if (needsSync.length > 0) {
+      needsSync.forEach(achievementKey => {
+        markNotificationAsShown(achievementKey);
+      });
+      lastSyncTime.current = now;
+    }
+  }, [localShownNotifications, pendingNotifications, markNotificationAsShown]);
+
+  // Sync local state with global state on initialization and updates
+  useEffect(() => {
+    if (!pendingNotifications) return;
+    
+    // On first load, initialize local state as empty since pendingNotifications only contains unshown notifications
+    if (!isInitialized.current) {
+      setLocalShownNotifications(new Set());
+      isInitialized.current = true;
+    }
+    // Note: We don't need to sync from global state since pendingNotifications is already filtered
+    // and we maintain local state as the source of truth for what's been shown
+  }, [pendingNotifications]);
+
+  // Periodic sync to global state
+  useEffect(() => {
+    const interval = setInterval(() => {
+      syncToGlobalState();
+    }, SYNC_INTERVAL);
+
+    return () => clearInterval(interval);
+  }, [syncToGlobalState]);
+
+  // Sync to global state when local shown notifications change
+  useEffect(() => {
+    if (isInitialized.current) {
+      syncToGlobalState();
+    }
+  }, [localShownNotifications, syncToGlobalState]);
 
   const handleClose = useCallback((achievementKey: string) => {
     setIsAnimating(false);
+    
+    // Add to local shown notifications immediately
+    setLocalShownNotifications(prev => {
+      const newSet = new Set(prev);
+      newSet.add(achievementKey);
+      return newSet;
+    });
     
     setTimeout(() => {
       setVisibleNotifications(prev => 
         prev.filter(n => !(n.achievementKey === achievementKey))
       );
-      markNotificationAsShown(achievementKey);
       
       if (onClose) {
         onClose();
       }
     }, 300); // Wait for animation to complete
-  }, [markNotificationAsShown, onClose]);
+  }, [onClose]);
 
   useEffect(() => {
     if (pendingNotifications && pendingNotifications.length > 0) {
-      const newNotifications = pendingNotifications.filter(
-        n => !visibleNotifications.some(vn => vn.achievementKey === n.achievementKey && vn.timestamp === n.timestamp)
-      );
+      // Filter out notifications that are already shown locally (local state has priority)
+      const newNotifications = pendingNotifications.filter(n => {
+        // Don't show if already in local shown notifications
+        if (localShownNotifications.has(n.achievementKey)) {
+          return false;
+        }
+        
+        // Don't show if already visible
+        if (visibleNotifications.some(vn => vn.achievementKey === n.achievementKey && vn.timestamp === n.timestamp)) {
+          return false;
+        }
+        
+        return true;
+      });
       
       if (newNotifications.length > 0) {
         setVisibleNotifications(prev => [...prev, ...newNotifications]);
         setIsAnimating(true);
-        
+
         // Auto-close after delay
         const timer = setTimeout(() => {
           handleClose(newNotifications[0].achievementKey);
+          clearTimeout(timer);
         }, autoCloseDelay);
         
-        return () => clearTimeout(timer);
       }
     }
-  }, [pendingNotifications, autoCloseDelay, visibleNotifications, handleClose]);
+  }, [pendingNotifications, autoCloseDelay, visibleNotifications, handleClose, localShownNotifications]);
 
   
   if (visibleNotifications.length === 0) {
