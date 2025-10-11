@@ -188,7 +188,6 @@ export default function GamePage() {
       
       <EventModal 
         isOpen={state?.events.activeEvent !== null} 
-        onClose={() => {}} 
       />
 
       <SvgSprites />

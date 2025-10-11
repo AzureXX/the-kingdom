@@ -9,10 +9,9 @@ import styles from '@/styles/page.module.scss';
 
 interface EventModalProps {
   isOpen: boolean;
-  onClose: () => void;
 }
 
-export function EventModal({ isOpen, onClose }: EventModalProps) {
+export function EventModal({ isOpen }: EventModalProps) {
   const { state, setState } = useGameStateContext();
   
   if (!isOpen || !state || !state.events.activeEvent) {
@@ -27,8 +26,6 @@ export function EventModal({ isOpen, onClose }: EventModalProps) {
     
     const nextState = makeEventChoice(state, eventKey, choiceIndex);
     setState(nextState);
-    
-    onClose();
   };
   
   const formatResourceChange = (gives: Record<string, number>, takes: Record<string, number>) => {
@@ -59,9 +56,6 @@ export function EventModal({ isOpen, onClose }: EventModalProps) {
             <span className={styles.icon}>{event.icon}</span>
             {event.name}
           </h2>
-          <button className={styles.modalClose} onClick={onClose}>
-            ×
-          </button>
         </div>
         
         <div className={styles.modalContent}>
