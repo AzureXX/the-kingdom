@@ -106,12 +106,20 @@ export const mockBasicGameState: GameState = {
     },
   },
   
-  // Achievement multipliers
-  achievementMultipliers: {
-    clickGain: 1,
-    cost: 1,
-    prodMul: {},
-    useMul: {},
+  // Achievement bonuses (new system)
+  achievementBonuses: {
+    resourceGain: {},
+    resourceGainMultiplier: {},
+    buildingGain: {},
+    buildingGainMultiplier: {},
+    clickGain: {},
+    clickMultiplier: {},
+    actionClickGain: {},
+    actionClickMultiplier: {},
+    loopGain: {},
+    loopMultiplier: {},
+    actionLoopGain: {},
+    actionLoopMultiplier: {},
   },
   
   // Lifetime resources

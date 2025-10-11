@@ -12,5 +12,5 @@ export function needsMigration(state: GameState): boolean {
          !state.achievements.notifications ||
          state.achievements.totalPoints === undefined ||
          !state.achievements.stats ||
-         !state.achievementMultipliers;
+         !state.achievementBonuses;
 }

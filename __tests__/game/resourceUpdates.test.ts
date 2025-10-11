@@ -1,16 +1,16 @@
 import { addResources, getResource, setResource, updateMultipleResources } from '@/lib/game/utils/gameState'
-import { createTestGameState, createGameStateWithResources } from '../utils/testHelpers'
+import { createTestGameState, createGameStateWithResources, createGameStateWithResourcesNoAchievements, addResourcesNoAchievements } from '../utils/testHelpers'
 import type { ResourceKey } from '@/lib/game/types'
 
 describe('resourceUpdates', () => {
   describe('addResources', () => {
     it('should add resources to state', () => {
-      const state = createGameStateWithResources({
+      const state = createGameStateWithResourcesNoAchievements({
         gold: 100,
         wood: 50,
       })
       
-      const newState = addResources(state, { gold: 25, wood: 15 })
+      const newState = addResourcesNoAchievements(state, { gold: 25, wood: 15 })
       
       expect(newState.resources.gold).toBe(125) // 100 + 25
       expect(newState.resources.wood).toBe(65)  // 50 + 15
@@ -41,12 +41,12 @@ describe('resourceUpdates', () => {
     })
 
     it('should preserve other state properties', () => {
-      const state = createGameStateWithResources({
+      const state = createGameStateWithResourcesNoAchievements({
         gold: 100,
         wood: 50,
       })
       
-      const newState = addResources(state, { gold: 25 })
+      const newState = addResourcesNoAchievements(state, { gold: 25 })
       
       expect(newState.resources.gold).toBe(125) // Changed
       expect(newState.resources.wood).toBe(50)  // Unchanged

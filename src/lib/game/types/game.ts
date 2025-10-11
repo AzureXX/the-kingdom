@@ -5,7 +5,7 @@ import type { BuildingKey } from '@/lib/game/types/buildings';
 import type { TechnologyKey } from '@/lib/game/types/technologies';
 import type { PrestigeUpgradeKey } from  '@/lib/game/types/prestige';
 import type { EventKey } from '@/lib/game/types/events';
-import type { ActionUnlocks, ActionCooldowns } from '@/lib/game/types/actions';
+import type { ActionUnlocks, ActionCooldowns, ActionKey } from '@/lib/game/types/actions';
 import type { LoopActionState, LoopActionSettings } from '@/lib/game/types/loopActions';
 import type { AchievementState } from '@/lib/game/types/achievements';
 
@@ -130,9 +130,9 @@ export interface LoopActionSystemState {
 export interface AchievementSystemState {
   /** Achievement system state */
   achievements: AchievementState;
-
-  /** Achievement-based multipliers */
-  achievementMultipliers: Multipliers;
+  
+  /** Achievement-based bonuses and additional multipliers */
+  achievementBonuses: AchievementBonuses;
 }
 
 /**
@@ -159,4 +159,34 @@ export type Multipliers = {
   cost: number;
   prodMul: Partial<Record<ResourceKey, number>>;
   useMul: Partial<Record<ResourceKey, number>>;
+};
+
+/**
+ * Achievement-based bonuses and multipliers
+ */
+export type AchievementBonuses = {
+  /** Direct resource production bonuses (e.g., +3 wood/s) */
+  resourceGain: Partial<Record<ResourceKey, number>>;
+  /** Resource production multipliers (e.g., 1.2x wood/s) */
+  resourceGainMultiplier: Partial<Record<ResourceKey, number>>;
+  /** Building-specific production bonuses (e.g., +2 wood/s from woodcutters) */
+  buildingGain: Partial<Record<BuildingKey, Partial<Record<ResourceKey, number>>>>;
+  /** Building-specific production multipliers (e.g., 1.3x woodcutter production) */
+  buildingGainMultiplier: Partial<Record<BuildingKey, Partial<Record<ResourceKey, number>>>>;
+  /** Click action bonuses (e.g., +1 wood per click) */
+  clickGain: Partial<Record<ResourceKey, number>>;
+  /** Click action multipliers (e.g., 1.2x click gains) */
+  clickMultiplier: Partial<Record<ResourceKey, number>>;
+  /** Action-specific click bonuses (e.g., +2 wood from gatherWood action) */
+  actionClickGain: Partial<Record<ActionKey, Partial<Record<ResourceKey, number>>>>;
+  /** Action-specific click multipliers (e.g., 1.5x gatherWood gains) */
+  actionClickMultiplier: Partial<Record<ActionKey, Partial<Record<ResourceKey, number>>>>;
+  /** Loop action bonuses (e.g., +1 wood per loop) */
+  loopGain: Partial<Record<ResourceKey, number>>;
+  /** Loop action multipliers (e.g., 1.2x loop gains) */
+  loopMultiplier: Partial<Record<ResourceKey, number>>;
+  /** Action-specific loop bonuses (e.g., +3 wood from woodcutting loop) */
+  actionLoopGain: Partial<Record<ActionKey, Partial<Record<ResourceKey, number>>>>;
+  /** Action-specific loop multipliers (e.g., 1.4x woodcutting loop gains) */
+  actionLoopMultiplier: Partial<Record<ActionKey, Partial<Record<ResourceKey, number>>>>;
 };

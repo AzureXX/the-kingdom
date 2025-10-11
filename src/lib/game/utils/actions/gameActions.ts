@@ -10,8 +10,46 @@ import { getAction } from '@/lib/game/config/actions';
 import { canExecuteAction } from '@/lib/game/utils/actionChecker';
 import { createStateErrorHandler } from '@/lib/game/utils/error';
 import { pay } from '@/lib/game/utils/actions/resourceActions';
+import type { ResourceCost, ResourceKey } from '@/lib/game/types';
 
 const stateErrorHandler = createStateErrorHandler('gameActions');
+
+/**
+ * Add resources with achievement bonuses applied
+ */
+function addResourcesWithBonuses(state: GameState, gains: ResourceCost): GameState {
+  try {
+    const bonuses = state.achievementBonuses || {
+      resourceGain: {},
+      resourceGainMultiplier: {},
+      clickGain: {},
+      clickMultiplier: {},
+      loopGain: {},
+      loopMultiplier: {}
+    };
+
+    // Apply click bonuses to gains
+    const enhancedGains: ResourceCost = {};
+    
+    for (const resourceKey in gains) {
+      const rk = resourceKey as ResourceKey;
+      const baseGain = gains[rk] || 0;
+      const clickGain = bonuses.clickGain[rk] || 0;
+      const clickMultiplier = bonuses.clickMultiplier[rk] || 1;
+      
+      // Apply click multiplier to base gains and add click bonuses
+      enhancedGains[rk] = (baseGain * clickMultiplier) + clickGain;
+    }
+
+    return addResources(state, enhancedGains);
+  } catch (error) {
+    stateErrorHandler('Failed to add resources with bonuses', { 
+      gains,
+      error: error instanceof Error ? error.message : String(error) 
+    });
+    return addResources(state, gains); // Fallback to basic addResources
+  }
+}
 
 /**
  * Update action unlock status for one-time unlock actions
@@ -86,8 +124,8 @@ export function executeAction(state: GameState, actionKey: ActionKey): GameState
       ? pay(state, action.cost) 
       : state;
 
-    // Add the gains
-    newState = addResources(newState, action.gains);
+    // Add the gains with achievement bonuses
+    newState = addResourcesWithBonuses(newState, action.gains);
 
     // Update action unlock tracking if it's a one-time unlock
     if (action.oneTimeUnlock) {

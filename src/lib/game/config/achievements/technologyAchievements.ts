@@ -38,7 +38,7 @@ export const TECHNOLOGY_ACHIEVEMENTS: Record<string, AchievementDef> = {
       { type: 'technology', target: 'engineering', value: 1 }
     ],
     rewards: [
-      { type: 'multiplier', target: 'prodMul', value: 1.4, permanent: true }
+      { type: 'resourceGainMultiplier', target: 'all', value: 1.4, permanent: true }
     ],
     hidden: false,
     repeatable: false
@@ -61,7 +61,7 @@ export const TECHNOLOGY_ACHIEVEMENTS: Record<string, AchievementDef> = {
       { type: 'technology', target: 'biology', value: 1 }
     ],
     rewards: [
-      { type: 'multiplier', target: 'prodMul', value: 3.0, permanent: true }
+      { type: 'resourceGainMultiplier', target: 'all', value: 3.0, permanent: true }
     ],
     hidden: false,
     repeatable: false

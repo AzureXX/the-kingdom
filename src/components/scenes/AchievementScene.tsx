@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import { AchievementList } from '@/components/game/AchievementList';
 import { useAchievements } from '@/hooks';
-import type { AchievementFilter, AchievementSortOption, GameState } from '@/lib/game/types';
+import { formatBonusValue, getResourceDisplayName } from '@/lib/game/utils/achievement';
+import type { AchievementFilter, AchievementSortOption, GameState, ResourceKey } from '@/lib/game/types';
 import styles from '@/styles/components/scenes/AchievementScene.module.scss';
 
 interface AchievementSceneProps {
@@ -12,10 +13,11 @@ interface AchievementSceneProps {
 }
 
 export function AchievementScene({ onAchievementClick }: AchievementSceneProps) {
-  const { stats, pendingNotifications } = useAchievements();
+  const { stats, pendingNotifications, bonusSummary } = useAchievements();
   const [filter, setFilter] = useState<AchievementFilter>({});
   const [sortBy, setSortBy] = useState<AchievementSortOption>('progress');
   const [showStats, setShowStats] = useState(false);
+  const [showBonuses, setShowBonuses] = useState(false);
 
   const handleAchievementClick = (achievementKey: string) => {
     if (onAchievementClick) {
@@ -49,6 +51,20 @@ export function AchievementScene({ onAchievementClick }: AchievementSceneProps) 
       count,
       percentage: Math.round((count / stats.unlockedAchievements) * 100) || 0
     }));
+  };
+
+  const getResourceBreakdown = () => {
+    const allResources: ResourceKey[] = ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'];
+    return allResources.map(resource => {
+      const breakdown = bonusSummary.resourceBreakdown[resource];
+      if (!breakdown) return null;
+      
+      return {
+        resource,
+        name: getResourceDisplayName(resource),
+        ...breakdown
+      };
+    }).filter((item): item is NonNullable<typeof item> => item !== null);
   };
 
 
@@ -165,6 +181,13 @@ export function AchievementScene({ onAchievementClick }: AchievementSceneProps) 
             {showStats ? 'Hide Stats' : 'Show Stats'}
           </button>
 
+          <button
+            className={styles.statsButton}
+            onClick={() => setShowBonuses(!showBonuses)}
+          >
+            {showBonuses ? 'Hide Bonuses' : 'Show Bonuses'}
+          </button>
+
         </div>
       </div>
 
@@ -193,6 +216,134 @@ export function AchievementScene({ onAchievementClick }: AchievementSceneProps) 
                   </div>
                 ))}
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showBonuses && (
+        <div className={styles.bonusPanel}>
+          <div className={styles.bonusHeader}>
+            <h3 className={styles.bonusTitle}>🎁 Total Achievement Bonuses</h3>
+            <p className={styles.bonusSubtitle}>Active bonuses from all unlocked achievements</p>
+          </div>
+          
+          <div className={styles.bonusGrid}>
+            {/* Production Bonuses Section */}
+            <div className={styles.bonusSection}>
+              <h4 className={styles.bonusSectionTitle}>📈 Production Bonuses</h4>
+              <p className={styles.bonusSectionDescription}>Bonuses that affect your automatic resource production per second</p>
+              <div className={styles.bonusStats}>
+                <div className={styles.bonusStat}>
+                  <span className={styles.bonusLabel}>Resource Gain Bonus:</span>
+                  <span className={styles.bonusValue}>+{bonusSummary.totalResourceGain.toFixed(0)}/s</span>
+                </div>
+                <div className={styles.bonusStat}>
+                  <span className={styles.bonusLabel}>Production Multiplier:</span>
+                  <span className={styles.bonusValue}>+{bonusSummary.totalResourceMultipliers.toFixed(1)}%</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Click Bonuses Section */}
+            <div className={styles.bonusSection}>
+              <h4 className={styles.bonusSectionTitle}>🖱️ Click Bonuses</h4>
+              <p className={styles.bonusSectionDescription}>Bonuses that affect your manual click actions</p>
+              <div className={styles.bonusStats}>
+                <div className={styles.bonusStat}>
+                  <span className={styles.bonusLabel}>Click Gain Bonus:</span>
+                  <span className={styles.bonusValue}>+{bonusSummary.totalClickBonuses.toFixed(0)}</span>
+                </div>
+                <div className={styles.bonusStat}>
+                  <span className={styles.bonusLabel}>Click Multiplier:</span>
+                  <span className={styles.bonusValue}>+{bonusSummary.totalClickMultipliers.toFixed(1)}%</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Loop Bonuses Section */}
+            <div className={styles.bonusSection}>
+              <h4 className={styles.bonusSectionTitle}>🔄 Loop Bonuses</h4>
+              <p className={styles.bonusSectionDescription}>Bonuses that affect your automated loop actions</p>
+              <div className={styles.bonusStats}>
+                <div className={styles.bonusStat}>
+                  <span className={styles.bonusLabel}>Loop Gain Bonus:</span>
+                  <span className={styles.bonusValue}>+{bonusSummary.totalLoopBonuses.toFixed(0)}</span>
+                </div>
+                <div className={styles.bonusStat}>
+                  <span className={styles.bonusLabel}>Loop Multiplier:</span>
+                  <span className={styles.bonusValue}>+{bonusSummary.totalLoopMultipliers.toFixed(1)}%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.resourceBreakdown}>
+            <h4 className={styles.bonusSectionTitle}>📊 Resource Breakdown</h4>
+            <div className={styles.resourceGrid}>
+              {getResourceBreakdown().map(({ resource, name, resourceGain, resourceMultiplier, clickGain, clickMultiplier, loopGain, loopMultiplier }) => (
+                <div key={resource} className={styles.resourceCard}>
+                  <h5 className={styles.resourceName}>{name}</h5>
+                  <div className={styles.resourceBonuses}>
+                    {/* Production Bonuses */}
+                    {(resourceGain > 0 || resourceMultiplier > 1) && (
+                      <div className={styles.bonusCategory}>
+                        <span className={styles.bonusCategoryTitle}>📈 Production:</span>
+                        {resourceGain > 0 && (
+                          <div className={styles.resourceBonus}>
+                            <span className={styles.bonusType}>Gain:</span>
+                            <span className={styles.bonusValue}>+{formatBonusValue(resourceGain, 'gain')}/s</span>
+                          </div>
+                        )}
+                        {resourceMultiplier > 1 && (
+                          <div className={styles.resourceBonus}>
+                            <span className={styles.bonusType}>Multiplier:</span>
+                            <span className={styles.bonusValue}>{formatBonusValue(resourceMultiplier, 'multiplier')}</span>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    
+                    {/* Click Bonuses */}
+                    {(clickGain > 0 || clickMultiplier > 1) && (
+                      <div className={styles.bonusCategory}>
+                        <span className={styles.bonusCategoryTitle}>🖱️ Click:</span>
+                        {clickGain > 0 && (
+                          <div className={styles.resourceBonus}>
+                            <span className={styles.bonusType}>Gain:</span>
+                            <span className={styles.bonusValue}>+{formatBonusValue(clickGain, 'gain')}</span>
+                          </div>
+                        )}
+                        {clickMultiplier > 1 && (
+                          <div className={styles.resourceBonus}>
+                            <span className={styles.bonusType}>Multiplier:</span>
+                            <span className={styles.bonusValue}>{formatBonusValue(clickMultiplier, 'multiplier')}</span>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    
+                    {/* Loop Bonuses */}
+                    {(loopGain > 0 || loopMultiplier > 1) && (
+                      <div className={styles.bonusCategory}>
+                        <span className={styles.bonusCategoryTitle}>🔄 Loop:</span>
+                        {loopGain > 0 && (
+                          <div className={styles.resourceBonus}>
+                            <span className={styles.bonusType}>Gain:</span>
+                            <span className={styles.bonusValue}>+{formatBonusValue(loopGain, 'gain')}</span>
+                          </div>
+                        )}
+                        {loopMultiplier > 1 && (
+                          <div className={styles.resourceBonus}>
+                            <span className={styles.bonusType}>Multiplier:</span>
+                            <span className={styles.bonusValue}>{formatBonusValue(loopMultiplier, 'multiplier')}</span>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

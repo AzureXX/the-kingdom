@@ -34,16 +34,10 @@ const stateErrorHandler = createStateErrorHandler('resourceInitializer');
 export function initResourceState(): {
   resources: Partial<Record<ResourceKey, number>>;
   lifetime: Partial<Record<ResourceKey, number>>;
-  achievementMultipliers: {
-    prodMul: Partial<Record<ResourceKey, number>>;
-    useMul: Partial<Record<ResourceKey, number>>;
-  };
 } {
   try {
     const resources: Partial<Record<ResourceKey, number>> = {};
     const lifetime: Partial<Record<ResourceKey, number>> = {};
-    const prodMul: Partial<Record<ResourceKey, number>> = {};
-    const useMul: Partial<Record<ResourceKey, number>> = {};
     
     // Initialize resources with starting values
     for (const k in RESOURCES) {
@@ -52,17 +46,11 @@ export function initResourceState(): {
       
       resources[key] = startValue;
       lifetime[key] = startValue; // Initialize lifetime with starting value
-      prodMul[key] = 1; // Initialize production multiplier
-      useMul[key] = 1;  // Initialize usage multiplier
     }
     
     return {
       resources,
-      lifetime,
-      achievementMultipliers: {
-        prodMul,
-        useMul
-      }
+      lifetime
     };
   } catch (error) {
     stateErrorHandler('Failed to initialize resource state', { 

@@ -25,6 +25,15 @@ export function getPerSec(state: GameState): Record<ResourceKey, number> {
     }
 
     const muls = getMultipliers(state);
+    const bonuses = state.achievementBonuses || {
+      resourceGain: {},
+      resourceGainMultiplier: {},
+      clickGain: {},
+      clickMultiplier: 1,
+      loopGain: {},
+      loopMultiplier: 1
+    };
+    
     const out: Record<ResourceKey, number> = { gold: 0, wood: 0, stone: 0, food: 0, prestige: 0, researchPoints: 0 };
     
     for (const key in BUILDINGS) {
@@ -39,7 +48,11 @@ export function getPerSec(state: GameState): Record<ResourceKey, number> {
       // Add production
       for (const r in def.baseProd) {
         const rk = r as ResourceKey;
-        out[rk] += (def.baseProd[rk] || 0) * n * (muls.prodMul[rk] || 1);
+        const baseProduction = (def.baseProd[rk] || 0) * n;
+        const multiplier = (muls.prodMul[rk] || 1) * (bonuses.resourceGainMultiplier[rk] || 1);
+        const bonus = bonuses.resourceGain[rk] || 0;
+        
+        out[rk] += (baseProduction * multiplier) + bonus;
       }
       
       // Subtract consumption

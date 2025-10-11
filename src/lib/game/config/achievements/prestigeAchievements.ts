@@ -18,7 +18,7 @@ export const PRESTIGE_ACHIEVEMENTS: Record<string, AchievementDef> = {
       { type: 'prestige', target: 'count', value: 1 }
     ],
     rewards: [
-      { type: 'multiplier', target: 'prodMul', value: 1.3, permanent: true }
+      { type: 'resourceGainMultiplier', target: 'all', value: 1.3, permanent: true }
     ],
     hidden: false,
     repeatable: false
@@ -36,7 +36,7 @@ export const PRESTIGE_ACHIEVEMENTS: Record<string, AchievementDef> = {
       { type: 'prestige', target: 'count', value: 5 }
     ],
     rewards: [
-      { type: 'multiplier', target: 'prodMul', value: 1.8, permanent: true }
+      { type: 'resourceGainMultiplier', target: 'all', value: 1.8, permanent: true }
     ],
     hidden: false,
     repeatable: false
@@ -54,7 +54,7 @@ export const PRESTIGE_ACHIEVEMENTS: Record<string, AchievementDef> = {
       { type: 'prestige', target: 'count', value: 25 }
     ],
     rewards: [
-      { type: 'multiplier', target: 'prodMul', value: 3.0, permanent: true }
+      { type: 'resourceGainMultiplier', target: 'all', value: 3.0, permanent: true }
     ],
     hidden: false,
     repeatable: false

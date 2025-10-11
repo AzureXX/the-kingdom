@@ -36,7 +36,7 @@ export const BUILDING_ACHIEVEMENTS: Record<string, AchievementDef> = {
       { type: 'building', target: 'total', value: 10 }
     ],
     rewards: [
-      { type: 'multiplier', target: 'cost', value: 0.95, permanent: false }
+      { type: 'resourceGain', target: 'gold', value: 1, permanent: false }
     ],
     hidden: false,
     repeatable: false
@@ -58,7 +58,7 @@ export const BUILDING_ACHIEVEMENTS: Record<string, AchievementDef> = {
       { type: 'building', target: 'castle', value: 1 }
     ],
     rewards: [
-      { type: 'multiplier', target: 'prodMul', value: 1.3, permanent: true }
+      { type: 'resourceGainMultiplier', target: 'all', value: 1.3, permanent: true }
     ],
     hidden: false,
     repeatable: false
@@ -76,7 +76,7 @@ export const BUILDING_ACHIEVEMENTS: Record<string, AchievementDef> = {
       { type: 'building', target: 'total', value: 50 }
     ],
     rewards: [
-      { type: 'multiplier', target: 'cost', value: 0.9, permanent: true }
+      { type: 'resourceGain', target: 'gold', value: 2, permanent: true }
     ],
     hidden: false,
     repeatable: false
@@ -94,7 +94,7 @@ export const BUILDING_ACHIEVEMENTS: Record<string, AchievementDef> = {
       { type: 'building', target: 'total', value: 100 }
     ],
     rewards: [
-      { type: 'multiplier', target: 'prodMul', value: 1.8, permanent: true }
+      { type: 'resourceGainMultiplier', target: 'all', value: 1.8, permanent: true }
     ],
     hidden: false,
     repeatable: false

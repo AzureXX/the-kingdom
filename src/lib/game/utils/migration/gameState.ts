@@ -14,11 +14,19 @@ export function migrateGameState(state: GameState): GameState {
       return {
         ...state,
         achievements: initAchievementState(),
-        achievementMultipliers: {
-          clickGain: 1,
-          cost: 1,
-          prodMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 },
-          useMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 },
+        achievementBonuses: {
+          resourceGain: {},
+          resourceGainMultiplier: {},
+          buildingGain: {},
+          buildingGainMultiplier: {},
+          clickGain: {},
+          clickMultiplier: {},
+          actionClickGain: {},
+          actionClickMultiplier: {},
+          loopGain: {},
+          loopMultiplier: {},
+          actionLoopGain: {},
+          actionLoopMultiplier: {},
         }
       };
     }
@@ -38,18 +46,26 @@ export function migrateGameState(state: GameState): GameState {
         }
       };
 
-      // Add achievement multipliers if missing
-      const achievementMultipliers = state.achievementMultipliers || {
-        clickGain: 1,
-        cost: 1,
-        prodMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 },
-        useMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 },
+      // Add achievement bonuses if missing
+      const achievementBonuses = state.achievementBonuses || {
+        resourceGain: {},
+        resourceGainMultiplier: {},
+        buildingGain: {},
+        buildingGainMultiplier: {},
+        clickGain: {},
+        clickMultiplier: {},
+        actionClickGain: {},
+        actionClickMultiplier: {},
+        loopGain: {},
+        loopMultiplier: {},
+        actionLoopGain: {},
+        actionLoopMultiplier: {},
       };
 
       return {
         ...state,
         achievements,
-        achievementMultipliers
+        achievementBonuses
       };
     }
 
@@ -61,11 +77,19 @@ export function migrateGameState(state: GameState): GameState {
     return {
       ...state,
       achievements: initAchievementState(),
-      achievementMultipliers: {
-        clickGain: 1,
-        cost: 1,
-        prodMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 },
-        useMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 },
+      achievementBonuses: {
+        resourceGain: {},
+        resourceGainMultiplier: {},
+        buildingGain: {},
+        buildingGainMultiplier: {},
+        clickGain: {},
+        clickMultiplier: {},
+        actionClickGain: {},
+        actionClickMultiplier: {},
+        loopGain: {},
+        loopMultiplier: {},
+        actionLoopGain: {},
+        actionLoopMultiplier: {},
       }
     };
   }

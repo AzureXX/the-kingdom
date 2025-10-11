@@ -17,3 +17,11 @@ export { markNotificationShown } from '@/lib/game/utils/achievement/notification
 
 // Statistics
 export { getAchievementStats } from '@/lib/game/utils/achievement/stats';
+
+// Bonus calculations
+export { 
+  calculateTotalBonuses, 
+  getBonusSummary, 
+  formatBonusValue, 
+  getResourceDisplayName 
+} from '@/lib/game/utils/achievement/bonusCalculator';

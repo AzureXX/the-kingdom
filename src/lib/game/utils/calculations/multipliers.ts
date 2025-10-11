@@ -52,6 +52,7 @@ export function getMultipliers(state: GameState): Multipliers {
       });
     }
     
+    
     return ctx;
   } catch (error) {
     calculationHandler('Failed to calculate multipliers', { error: error instanceof Error ? error.message : String(error) });

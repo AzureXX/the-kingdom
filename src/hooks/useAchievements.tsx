@@ -6,7 +6,8 @@ import {
   checkAchievements, 
   getAchievementProgress, 
   markNotificationShown, 
-  getAchievementStats 
+  getAchievementStats,
+  getBonusSummary
 } from '@/lib/game/utils/achievement';
 import { ACHIEVEMENTS } from '@/lib/game/config/achievements';
 import type { 
@@ -210,6 +211,24 @@ export function useAchievements() {
   }, [state]);
 
   /**
+   * Get bonus summary
+   */
+  const bonusSummary = useMemo(() => {
+    if (!state) {
+      return {
+        totalResourceGain: 0,
+        totalResourceMultipliers: 0,
+        totalClickBonuses: 0,
+        totalClickMultipliers: 0,
+        totalLoopBonuses: 0,
+        totalLoopMultipliers: 0,
+        resourceBreakdown: {}
+      };
+    }
+    return getBonusSummary(state);
+  }, [state]);
+
+  /**
    * Mark notification as shown
    */
   const markNotificationAsShown = useCallback((achievementKey: AchievementKey) => {
@@ -284,6 +303,7 @@ export function useAchievements() {
     achievements,
     stats,
     pendingNotifications,
+    bonusSummary,
     
     // Filtering and sorting
     getFilteredAchievements,

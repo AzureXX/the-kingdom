@@ -36,7 +36,7 @@ export const EVENT_ACHIEVEMENTS: Record<string, AchievementDef> = {
       { type: 'event', target: 'count', value: 50 }
     ],
     rewards: [
-      { type: 'multiplier', target: 'prodMul', value: 1.5, permanent: true }
+      { type: 'resourceGainMultiplier', target: 'all', value: 1.5, permanent: true }
     ],
     hidden: false,
     repeatable: false

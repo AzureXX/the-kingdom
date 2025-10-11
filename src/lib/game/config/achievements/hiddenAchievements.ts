@@ -18,7 +18,7 @@ export const HIDDEN_ACHIEVEMENTS: Record<string, AchievementDef> = {
       { type: 'combo', target: 'category_complete', value: 1 }
     ],
     rewards: [
-      { type: 'multiplier', target: 'prodMul', value: 5.0, permanent: true }
+      { type: 'resourceGainMultiplier', target: 'all', value: 5.0, permanent: true }
     ],
     hidden: true,
     repeatable: false
@@ -36,7 +36,7 @@ export const HIDDEN_ACHIEVEMENTS: Record<string, AchievementDef> = {
       { type: 'combo', target: 'all_complete', value: 1 }
     ],
     rewards: [
-      { type: 'multiplier', target: 'prodMul', value: 10.0, permanent: true }
+      { type: 'resourceGainMultiplier', target: 'all', value: 10.0, permanent: true }
     ],
     hidden: true,
     repeatable: false

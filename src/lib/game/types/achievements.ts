@@ -55,8 +55,19 @@ export type AchievementOperator = '>=' | '>' | '=' | '<=' | '<';
  * Types of achievement rewards
  */
 export type AchievementRewardType = 
-  | 'resource' 
-  | 'multiplier' 
+  | 'resource'           // Direct resource amount (e.g., +100 gold)
+  | 'resourceGain'       // Resource production gain (e.g., +3 wood/s)
+  | 'resourceGainMultiplier' // Resource production multiplier (e.g., 1.2x wood/s)
+  | 'buildingGain'       // Building-specific production gain (e.g., +2 wood/s from woodcutters)
+  | 'buildingGainMultiplier' // Building-specific production multiplier (e.g., 1.3x woodcutter production)
+  | 'clickGain'          // Click action gain (e.g., +1 wood per click)
+  | 'clickMultiplier'    // Click action multiplier (e.g., 1.2x click gains)
+  | 'actionClickGain'    // Action-specific click gain (e.g., +2 wood from gatherWood action)
+  | 'actionClickMultiplier' // Action-specific click multiplier (e.g., 1.5x gatherWood gains)
+  | 'loopGain'           // Loop action gain (e.g., +1 wood per loop)
+  | 'loopMultiplier'     // Loop action multiplier (e.g., 1.2x loop gains)
+  | 'actionLoopGain'     // Action-specific loop gain (e.g., +3 wood from woodcutting loop)
+  | 'actionLoopMultiplier' // Action-specific loop multiplier (e.g., 1.4x woodcutting loop gains)
   | 'unlock' 
   | 'cosmetic';
 
@@ -84,6 +95,8 @@ export interface AchievementReward {
   type: AchievementRewardType;
   /** Target resource/multiplier/etc. */
   target: string;
+  /** Resource affected by the reward (for building/action-specific bonuses) */
+  resource?: string;
   /** Reward value */
   value: number;
   /** Whether reward persists through prestige */

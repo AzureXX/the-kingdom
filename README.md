@@ -10,6 +10,7 @@ A sophisticated browser-based idle/clicker game built with Next.js, React, and T
 - **[MODULES.md](docs/MODULES.md)** - Complete module reference and architecture overview
 - **[REFACTORING.md](docs/REFACTORING.md)** - Refactoring analysis and recommendations
 - **[GAME_DESIGN.md](docs/GAME_DESIGN.md)** - Game mechanics and systems documentation
+- **[ACHIEVEMENT_REWARDS.md](docs/ACHIEVEMENT_REWARDS.md)** - Complete achievement rewards system documentation
 - **[TECHNICAL_IMPLEMENTATION.md](docs/TECHNICAL_IMPLEMENTATION.md)** - Technical architecture and implementation details
 - **[CONFIGURATION_GUIDE.md](docs/CONFIGURATION_GUIDE.md)** - Configuration system and content creation guide
 - **[DEVELOPMENT_GUIDELINES.md](docs/DEVELOPMENT_GUIDELINES.md)** - Development standards and best practices

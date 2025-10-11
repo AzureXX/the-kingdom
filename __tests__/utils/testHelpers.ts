@@ -28,6 +28,88 @@ export function createGameStateWithResources(resources: Partial<Record<ResourceK
 }
 
 /**
+ * Create a game state with specific resource values without triggering achievements
+ * This is useful for testing resource operations in isolation
+ */
+export function createGameStateWithResourcesNoAchievements(resources: Partial<Record<ResourceKey, number>>): GameState {
+  const state = createNewGameState()
+  
+  // Clear all achievements to prevent them from triggering during tests
+  state.achievements = {
+    unlocked: {},
+    progress: {},
+    notifications: [],
+    totalPoints: 0,
+    stats: {
+      unlockedCount: 0,
+      sessionUnlocks: 0
+    }
+  }
+  
+  for (const [key, value] of Object.entries(resources)) {
+    if (key in state.resources && value !== undefined) {
+      state.resources[key as ResourceKey] = value
+    }
+  }
+  
+  return state
+}
+
+/**
+ * Add resources without checking achievements (for testing)
+ */
+export function addResourcesNoAchievements(state: GameState, obj: Partial<Record<ResourceKey, number>>): GameState {
+  if (Object.keys(obj).length === 0) return state;
+  
+  const resourceUpdates: Partial<Record<ResourceKey, number>> = {};
+  const lifetimeUpdates: Partial<Record<ResourceKey, number>> = {};
+  let hasChanges = false;
+  let hasLifetimeChanges = false;
+  
+  for (const r in obj) {
+    const rk = r as ResourceKey;
+    const current = state.resources[rk] || 0;
+    const delta = obj[rk] || 0;
+    const newValue = current + delta;
+    
+    if (delta !== 0) {
+      resourceUpdates[rk] = newValue;
+      hasChanges = true;
+      
+      // Track lifetime resources for statistics and prestige calculations
+      if (delta > 0) {
+        const currentLifetime = state.lifetime[rk] || 0;
+        const newLifetime = currentLifetime + delta;
+        lifetimeUpdates[rk] = newLifetime;
+        hasLifetimeChanges = true;
+      }
+    }
+  }
+  
+  if (!hasChanges) return state;
+  
+  // Update resources
+  let newState = {
+    ...state,
+    resources: {
+      ...state.resources,
+      ...resourceUpdates
+    }
+  };
+  
+  // Update lifetime resources if any were gained
+  if (hasLifetimeChanges) {
+    newState = {
+      ...newState,
+      lifetime: { ...newState.lifetime, ...lifetimeUpdates }
+    };
+  }
+  
+  // NOTE: We intentionally skip checkAchievements here for testing
+  return newState;
+}
+
+/**
  * Create a game state with specific building counts
  */
 export function createGameStateWithBuildings(buildings: Partial<Record<BuildingKey, number>>): GameState {

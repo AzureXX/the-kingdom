@@ -21,7 +21,7 @@ export const COMBO_ACHIEVEMENTS: Record<string, AchievementDef> = {
       { type: 'resource', target: 'food', value: 100 }
     ],
     rewards: [
-      { type: 'multiplier', target: 'prodMul', value: 1.4, permanent: true }
+      { type: 'resourceGainMultiplier', target: 'all', value: 1.4, permanent: true }
     ],
     hidden: false,
     repeatable: false
@@ -43,7 +43,7 @@ export const COMBO_ACHIEVEMENTS: Record<string, AchievementDef> = {
       { type: 'building', target: 'castle', value: 10 }
     ],
     rewards: [
-      { type: 'multiplier', target: 'prodMul', value: 2.5, permanent: true }
+      { type: 'resourceGainMultiplier', target: 'all', value: 2.5, permanent: true }
     ],
     hidden: false,
     repeatable: false

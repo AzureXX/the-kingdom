@@ -91,12 +91,20 @@ export function createNewGameState(): GameState {
       // Achievement state
       achievements: initAchievementState(),
       
-      // Achievement multipliers (from resource state)
-      achievementMultipliers: {
-        clickGain: 1,
-        cost: 1,
-        prodMul: resourceState.achievementMultipliers.prodMul,
-        useMul: resourceState.achievementMultipliers.useMul
+      // Achievement bonuses (new reward system)
+      achievementBonuses: {
+        resourceGain: {},
+        resourceGainMultiplier: {},
+        buildingGain: {},
+        buildingGainMultiplier: {},
+        clickGain: {},
+        clickMultiplier: {},
+        actionClickGain: {},
+        actionClickMultiplier: {},
+        loopGain: {},
+        loopMultiplier: {},
+        actionLoopGain: {},
+        actionLoopMultiplier: {}
       }
     };
     

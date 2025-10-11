@@ -6,6 +6,45 @@ import { pay } from '@/lib/game/utils/actions';
 import { addResources } from '@/lib/game/utils/gameState';
 import { canAfford } from '@/lib/game/utils/calculations';
 import { logMessage } from '@/lib/game/utils/error';
+import type { ResourceCost, ResourceKey } from '@/lib/game/types';
+
+/**
+ * Add resources with loop action bonuses applied
+ */
+function addResourcesWithLoopBonuses(state: GameState, gains: ResourceCost): GameState {
+  try {
+    const bonuses = state.achievementBonuses || {
+      resourceGain: {},
+      resourceGainMultiplier: {},
+      clickGain: {},
+      clickMultiplier: {},
+      loopGain: {},
+      loopMultiplier: {}
+    };
+
+    // Apply loop bonuses to gains
+    const enhancedGains: ResourceCost = {};
+    
+    for (const resourceKey in gains) {
+      const rk = resourceKey as ResourceKey;
+      const baseGain = gains[rk] || 0;
+      const loopGain = bonuses.loopGain[rk] || 0;
+      const loopMultiplier = bonuses.loopMultiplier[rk] || 1;
+      
+      // Apply loop multiplier to base gains and add loop bonuses
+      enhancedGains[rk] = (baseGain * loopMultiplier) + loopGain;
+    }
+
+    return addResources(state, enhancedGains);
+  } catch (error) {
+    logMessage('Failed to add resources with loop bonuses', {
+      level: 'error',
+      context: 'loopAction',
+      details: { gains, error: error instanceof Error ? error.message : String(error) }
+    });
+    return addResources(state, gains); // Fallback to basic addResources
+  }
+}
 
 export function processLoopActionTick(state: GameState): GameState {
   let newState = { ...state };
@@ -23,7 +62,7 @@ export function processLoopActionTick(state: GameState): GameState {
     if (newPoints >= pointsRequired) {
       const actionDef = LOOP_ACTIONS[action.actionKey];
       
-      newState = addResources(newState, actionDef.gains);
+      newState = addResourcesWithLoopBonuses(newState, actionDef.gains);
       
       if (actionDef.cost && Object.keys(actionDef.cost).length > 0) {
         if (!canAfford(newState, actionDef.cost)) {

@@ -41,7 +41,7 @@ describe('Achievement Rewards', () => {
         points: 10,
         requirements: [],
         rewards: [
-          { type: 'multiplier', target: 'prodMul', value: 1.5, permanent: true }
+          { type: 'resourceGainMultiplier', target: 'all', value: 1.5, permanent: true }
         ],
         hidden: false,
         repeatable: false
@@ -49,17 +49,17 @@ describe('Achievement Rewards', () => {
 
       const result = applyAchievementRewards(state, achievement);
 
-      // Should initialize achievement multipliers if they don't exist
-      expect(result.achievementMultipliers).toBeDefined();
-      expect(result.achievementMultipliers.prodMul).toBeDefined();
+      // Should initialize achievement bonuses if they don't exist
+      expect(result.achievementBonuses).toBeDefined();
+      expect(result.achievementBonuses.resourceGainMultiplier).toBeDefined();
       
       // Should apply multiplier to all resources
-      expect(result.achievementMultipliers.prodMul.gold).toBe(1.5);
-      expect(result.achievementMultipliers.prodMul.wood).toBe(1.5);
-      expect(result.achievementMultipliers.prodMul.stone).toBe(1.5);
-      expect(result.achievementMultipliers.prodMul.food).toBe(1.5);
-      expect(result.achievementMultipliers.prodMul.prestige).toBe(1.5);
-      expect(result.achievementMultipliers.prodMul.researchPoints).toBe(1.5);
+      expect(result.achievementBonuses.resourceGainMultiplier.gold).toBe(1.5);
+      expect(result.achievementBonuses.resourceGainMultiplier.wood).toBe(1.5);
+      expect(result.achievementBonuses.resourceGainMultiplier.stone).toBe(1.5);
+      expect(result.achievementBonuses.resourceGainMultiplier.food).toBe(1.5);
+      expect(result.achievementBonuses.resourceGainMultiplier.prestige).toBe(1.5);
+      expect(result.achievementBonuses.resourceGainMultiplier.researchPoints).toBe(1.5);
     });
 
     it('should apply click gain multiplier correctly', () => {
@@ -74,7 +74,7 @@ describe('Achievement Rewards', () => {
         points: 10,
         requirements: [],
         rewards: [
-          { type: 'multiplier', target: 'clickGain', value: 2.0, permanent: true }
+          { type: 'clickMultiplier', target: 'all', value: 2.0, permanent: true }
         ],
         hidden: false,
         repeatable: false
@@ -82,8 +82,13 @@ describe('Achievement Rewards', () => {
 
       const result = applyAchievementRewards(state, achievement);
 
-      expect(result.achievementMultipliers).toBeDefined();
-      expect(result.achievementMultipliers.clickGain).toBe(2.0);
+      expect(result.achievementBonuses).toBeDefined();
+      expect(result.achievementBonuses.clickMultiplier.gold).toBe(2.0);
+      expect(result.achievementBonuses.clickMultiplier.wood).toBe(2.0);
+      expect(result.achievementBonuses.clickMultiplier.stone).toBe(2.0);
+      expect(result.achievementBonuses.clickMultiplier.food).toBe(2.0);
+      expect(result.achievementBonuses.clickMultiplier.prestige).toBe(2.0);
+      expect(result.achievementBonuses.clickMultiplier.researchPoints).toBe(2.0);
     });
 
     it('should apply cost multiplier correctly', () => {
@@ -98,7 +103,7 @@ describe('Achievement Rewards', () => {
         points: 10,
         requirements: [],
         rewards: [
-          { type: 'multiplier', target: 'cost', value: 0.8, permanent: true }
+          { type: 'resourceGain', target: 'gold', value: 5, permanent: true }
         ],
         hidden: false,
         repeatable: false
@@ -106,8 +111,8 @@ describe('Achievement Rewards', () => {
 
       const result = applyAchievementRewards(state, achievement);
 
-      expect(result.achievementMultipliers).toBeDefined();
-      expect(result.achievementMultipliers.cost).toBe(0.8);
+      expect(result.achievementBonuses).toBeDefined();
+      expect(result.achievementBonuses.resourceGain.gold).toBe(5);
     });
 
     it('should handle multiple rewards', () => {
@@ -123,7 +128,7 @@ describe('Achievement Rewards', () => {
         requirements: [],
         rewards: [
           { type: 'resource', target: 'gold', value: 50, permanent: false },
-          { type: 'multiplier', target: 'prodMul', value: 1.2, permanent: true }
+          { type: 'resourceGainMultiplier', target: 'all', value: 1.2, permanent: true }
         ],
         hidden: false,
         repeatable: false
@@ -133,7 +138,7 @@ describe('Achievement Rewards', () => {
 
       // Should apply both rewards
       expect(result.resources.gold).toBe((state.resources.gold || 0) + 50);
-      expect(result.achievementMultipliers.prodMul.gold).toBe(1.2);
+      expect(result.achievementBonuses.resourceGainMultiplier.gold).toBe(1.2);
     });
 
     it('should handle cosmetic rewards (no state change)', () => {

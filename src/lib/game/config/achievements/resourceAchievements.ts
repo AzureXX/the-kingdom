@@ -18,7 +18,7 @@ export const RESOURCE_ACHIEVEMENTS: Record<string, AchievementDef> = {
       { type: 'resource', target: 'gold', value: 100 }
     ],
     rewards: [
-      { type: 'multiplier', target: 'clickGain', value: 1.1, permanent: false }
+      { type: 'clickMultiplier', target: 'all', value: 1.1, permanent: false }
     ],
     hidden: false,
     repeatable: false
@@ -90,7 +90,7 @@ export const RESOURCE_ACHIEVEMENTS: Record<string, AchievementDef> = {
       { type: 'resource', target: 'prestige', value: 10 }
     ],
     rewards: [
-      { type: 'multiplier', target: 'prodMul', value: 1.2, permanent: true }
+      { type: 'resourceGainMultiplier', target: 'all', value: 1.2, permanent: true }
     ],
     hidden: false,
     repeatable: false
@@ -129,7 +129,7 @@ export const RESOURCE_ACHIEVEMENTS: Record<string, AchievementDef> = {
       { type: 'resource', target: 'food', value: 10000 }
     ],
     rewards: [
-      { type: 'multiplier', target: 'prodMul', value: 1.5, permanent: true }
+      { type: 'resourceGainMultiplier', target: 'all', value: 1.5, permanent: true }
     ],
     hidden: false,
     repeatable: false
@@ -147,7 +147,7 @@ export const RESOURCE_ACHIEVEMENTS: Record<string, AchievementDef> = {
       { type: 'resource', target: 'gold', value: 1000000, operator: '>=' }
     ],
     rewards: [
-      { type: 'multiplier', target: 'prodMul', value: 2.0, permanent: true }
+      { type: 'resourceGainMultiplier', target: 'all', value: 2.0, permanent: true }
     ],
     hidden: false,
     repeatable: false

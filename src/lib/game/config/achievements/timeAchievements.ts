@@ -18,7 +18,7 @@ export const TIME_ACHIEVEMENTS: Record<string, AchievementDef> = {
       { type: 'time', target: 'total', value: 3600 } // 1 hour in seconds
     ],
     rewards: [
-      { type: 'multiplier', target: 'prodMul', value: 1.2, permanent: true }
+      { type: 'resourceGainMultiplier', target: 'gold', value: 1.2, permanent: true }
     ],
     hidden: false,
     repeatable: false
@@ -36,7 +36,8 @@ export const TIME_ACHIEVEMENTS: Record<string, AchievementDef> = {
       { type: 'time', target: 'total', value: 28800 } // 8 hours in seconds
     ],
     rewards: [
-      { type: 'multiplier', target: 'prodMul', value: 1.8, permanent: true }
+      { type: 'resourceGain', target: 'gold', value: 5, permanent: true },
+      { type: 'resourceGainMultiplier', target: 'wood', value: 1.5, permanent: true }
     ],
     hidden: false,
     repeatable: false
@@ -55,7 +56,8 @@ export const TIME_ACHIEVEMENTS: Record<string, AchievementDef> = {
       { type: 'time', target: 'session', value: 600 } // 10 minutes
     ],
     rewards: [
-      { type: 'multiplier', target: 'prodMul', value: 1.5, permanent: false }
+      { type: 'clickGain', target: 'gold', value: 3, permanent: false },
+      { type: 'resourceGain', target: 'gold', value: 2, permanent: false }
     ],
     hidden: false,
     repeatable: true

@@ -18,7 +18,7 @@ export const ACTION_ACHIEVEMENTS: Record<string, AchievementDef> = {
       { type: 'click', target: 'total', value: 100 }
     ],
     rewards: [
-      { type: 'multiplier', target: 'clickGain', value: 1.2, permanent: false }
+      { type: 'clickMultiplier', target: 'all', value: 1.2, permanent: false }
     ],
     hidden: false,
     repeatable: false
@@ -36,7 +36,7 @@ export const ACTION_ACHIEVEMENTS: Record<string, AchievementDef> = {
       { type: 'click', target: 'total', value: 1000 }
     ],
     rewards: [
-      { type: 'multiplier', target: 'clickGain', value: 1.5, permanent: false }
+      { type: 'clickMultiplier', target: 'all', value: 1.5, permanent: false }
     ],
     hidden: false,
     repeatable: false
@@ -54,7 +54,7 @@ export const ACTION_ACHIEVEMENTS: Record<string, AchievementDef> = {
       { type: 'click', target: 'total', value: 10000 }
     ],
     rewards: [
-      { type: 'multiplier', target: 'clickGain', value: 2.0, permanent: true }
+      { type: 'clickMultiplier', target: 'all', value: 2.0, permanent: true }
     ],
     hidden: false,
     repeatable: false
@@ -72,7 +72,7 @@ export const ACTION_ACHIEVEMENTS: Record<string, AchievementDef> = {
       { type: 'action', target: 'total', value: 100 }
     ],
     rewards: [
-      { type: 'multiplier', target: 'prodMul', value: 1.6, permanent: true }
+      { type: 'resourceGainMultiplier', target: 'all', value: 1.6, permanent: true }
     ],
     hidden: false,
     repeatable: false

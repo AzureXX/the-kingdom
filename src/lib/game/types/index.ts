@@ -81,6 +81,7 @@ export type {
 export type {
   GameState,
   Multipliers,
+  AchievementBonuses,
   // Focused state interfaces for better maintainability
   CoreGameState,
   ResourceState,
