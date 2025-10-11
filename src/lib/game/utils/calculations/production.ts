@@ -60,20 +60,43 @@ export function getPerSec(state: GameState): Record<ResourceKey, number> {
         const buildingGain = bonuses.buildingGain[key]?.[rk] || 0;
         const buildingMultiplier = bonuses.buildingGainMultiplier[key]?.[rk] || 1;
         
-        // Apply resource-specific bonuses
-        const resourceMultiplier = (muls.prodMul[rk] || 1) * (bonuses.resourceGainMultiplier[rk] || 1);
-        const resourceBonus = bonuses.resourceGain[rk] || 0;
+        // Calculate building production: (base + building bonus per building) * building multiplier
+        const buildingProduction = (baseProduction + (buildingGain * n)) * buildingMultiplier;
         
-        // Calculate final production: (base + building bonus) * multipliers + resource bonus
-        const finalProduction = ((baseProduction + buildingGain) * buildingMultiplier * resourceMultiplier) + resourceBonus;
-        
-        out[rk] += finalProduction;
+        out[rk] += buildingProduction;
       }
       
       // Subtract consumption
       for (const r in def.baseUse) {
         const rk = r as ResourceKey;
         out[rk] -= (def.baseUse[rk] || 0) * n * (muls.useMul[rk] || 1);
+      }
+    }
+    
+    // Apply resourceGain bonuses to all resources (even if no buildings produce them)
+    for (const resourceKey in bonuses.resourceGain) {
+      const rk = resourceKey as ResourceKey;
+      const resourceBonus = bonuses.resourceGain[rk] || 0;
+      if (resourceBonus > 0) {
+        out[rk] += resourceBonus;
+      }
+    }
+    
+    // Apply resourceGainMultiplier to total production (including resourceGain)
+    for (const resourceKey in bonuses.resourceGainMultiplier) {
+      const rk = resourceKey as ResourceKey;
+      const resourceMultiplier = bonuses.resourceGainMultiplier[rk] || 1;
+      if (resourceMultiplier !== 1) {
+        out[rk] *= resourceMultiplier;
+      }
+    }
+    
+    // Apply prestige multipliers to final production
+    for (const resourceKey in muls.prodMul) {
+      const rk = resourceKey as ResourceKey;
+      const prestigeMultiplier = muls.prodMul[rk] || 1;
+      if (prestigeMultiplier !== 1) {
+        out[rk] *= prestigeMultiplier;
       }
     }
     
