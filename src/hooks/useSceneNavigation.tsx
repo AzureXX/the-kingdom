@@ -87,8 +87,8 @@ export function useSceneNavigation() {
 
       const key = event.key;
       
-      // Number keys 1-5 for scene switching
-      if (key >= '1' && key <= '5') {
+      // Number keys 1-6 for scene switching
+      if (key >= '1' && key <= '6') {
         const sceneIndex = parseInt(key) - 1;
         if (sceneIndex < SCENE_ORDER.length) {
           event.preventDefault();

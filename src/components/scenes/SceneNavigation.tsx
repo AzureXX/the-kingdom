@@ -49,7 +49,7 @@ export const SceneNavigation = memo(function SceneNavigation({
       
       <div className={styles.navigationHints}>
         <span className={styles.hint}>
-          Use number keys (1-5) or arrow keys to navigate scenes
+          Use number keys (1-6) or arrow keys to navigate scenes
         </span>
       </div>
     </nav>
