@@ -12,7 +12,6 @@ import { EVENT_ACHIEVEMENTS } from '@/lib/game/config/achievements/eventAchievem
 import { TIME_ACHIEVEMENTS } from '@/lib/game/config/achievements/timeAchievements';
 import { COMBO_ACHIEVEMENTS } from '@/lib/game/config/achievements/comboAchievements';
 import { HIDDEN_ACHIEVEMENTS } from '@/lib/game/config/achievements/hiddenAchievements';
-import { DEMO_ACHIEVEMENTS } from '@/lib/game/config/achievements/demoAchievements';
 
 /**
  * Combined achievement definitions organized by category
@@ -45,8 +44,6 @@ export const ACHIEVEMENTS: Record<AchievementKey, AchievementDef> = {
   // Hidden achievements
   ...HIDDEN_ACHIEVEMENTS,
   
-  // Demo achievements (showcasing new reward types)
-  ...DEMO_ACHIEVEMENTS
 } as Record<AchievementKey, AchievementDef>;
 
 /**

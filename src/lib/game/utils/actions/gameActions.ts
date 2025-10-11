@@ -53,7 +53,7 @@ function addResourcesWithBonuses(state: GameState, gains: ResourceCost, actionKe
       const totalBonus = clickGain + actionClickGain;
       const totalMultiplier = clickMultiplier * actionClickMultiplier;
       
-      enhancedGains[rk] = (baseGain * totalMultiplier) + totalBonus;
+      enhancedGains[rk] = (baseGain + totalBonus) * totalMultiplier;
     }
 
     return addResources(state, enhancedGains);

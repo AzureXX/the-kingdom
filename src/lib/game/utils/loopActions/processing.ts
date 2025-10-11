@@ -6,20 +6,26 @@ import { pay } from '@/lib/game/utils/actions';
 import { addResources } from '@/lib/game/utils/gameState';
 import { canAfford } from '@/lib/game/utils/calculations';
 import { logMessage } from '@/lib/game/utils/error';
-import type { ResourceCost, ResourceKey } from '@/lib/game/types';
+import type { ResourceCost, ResourceKey, ActionKey } from '@/lib/game/types';
 
 /**
  * Add resources with loop action bonuses applied
  */
-function addResourcesWithLoopBonuses(state: GameState, gains: ResourceCost): GameState {
+function addResourcesWithLoopBonuses(state: GameState, gains: ResourceCost, actionKey: string): GameState {
   try {
     const bonuses = state.achievementBonuses || {
       resourceGain: {},
       resourceGainMultiplier: {},
+      buildingGain: {},
+      buildingGainMultiplier: {},
       clickGain: {},
       clickMultiplier: {},
+      actionClickGain: {},
+      actionClickMultiplier: {},
       loopGain: {},
-      loopMultiplier: {}
+      loopMultiplier: {},
+      actionLoopGain: {},
+      actionLoopMultiplier: {}
     };
 
     // Apply loop bonuses to gains
@@ -28,11 +34,20 @@ function addResourcesWithLoopBonuses(state: GameState, gains: ResourceCost): Gam
     for (const resourceKey in gains) {
       const rk = resourceKey as ResourceKey;
       const baseGain = gains[rk] || 0;
+      
+      // Apply action-specific loop bonuses first
+      const actionLoopGain = bonuses.actionLoopGain[actionKey as ActionKey]?.[rk] || 0;
+      const actionLoopMultiplier = bonuses.actionLoopMultiplier[actionKey as ActionKey]?.[rk] || 1;
+      
+      // Apply resource-specific loop bonuses
       const loopGain = bonuses.loopGain[rk] || 0;
       const loopMultiplier = bonuses.loopMultiplier[rk] || 1;
       
-      // Apply loop multiplier to base gains and add loop bonuses
-      enhancedGains[rk] = (baseGain * loopMultiplier) + loopGain;
+      // Calculate final gains: (base + action bonus + resource bonus) * multipliers
+      const totalBonus = actionLoopGain + loopGain;
+      const totalMultiplier = actionLoopMultiplier * loopMultiplier;
+      
+      enhancedGains[rk] = (baseGain + totalBonus) * totalMultiplier;
     }
 
     return addResources(state, enhancedGains);
@@ -40,7 +55,7 @@ function addResourcesWithLoopBonuses(state: GameState, gains: ResourceCost): Gam
     logMessage('Failed to add resources with loop bonuses', {
       level: 'error',
       context: 'loopAction',
-      details: { gains, error: error instanceof Error ? error.message : String(error) }
+      details: { gains, actionKey, error: error instanceof Error ? error.message : String(error) }
     });
     return addResources(state, gains); // Fallback to basic addResources
   }
@@ -62,7 +77,7 @@ export function processLoopActionTick(state: GameState): GameState {
     if (newPoints >= pointsRequired) {
       const actionDef = LOOP_ACTIONS[action.actionKey];
       
-      newState = addResourcesWithLoopBonuses(newState, actionDef.gains);
+      newState = addResourcesWithLoopBonuses(newState, actionDef.gains, action.actionKey);
       
       if (actionDef.cost && Object.keys(actionDef.cost).length > 0) {
         if (!canAfford(newState, actionDef.cost)) {
