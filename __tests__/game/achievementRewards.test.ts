@@ -141,30 +141,6 @@ describe('Achievement Rewards', () => {
       expect(result.achievementBonuses.resourceGainMultiplier.gold).toBe(1.2);
     });
 
-    it('should handle cosmetic rewards (no state change)', () => {
-      const state = createTestGameState();
-      const achievement: AchievementDef = {
-        key: 'testCosmetic',
-        name: 'Test Cosmetic',
-        description: 'Test achievement',
-        icon: '🧪',
-        category: 'misc',
-        rarity: 'common',
-        points: 10,
-        requirements: [],
-        rewards: [
-          { type: 'cosmetic', target: 'title', value: 1, permanent: false }
-        ],
-        hidden: false,
-        repeatable: false
-      };
-
-      const result = applyAchievementRewards(state, achievement);
-
-      // Should return state unchanged for cosmetic rewards
-      expect(result).toEqual(state);
-    });
-
     it('should handle invalid reward types gracefully', () => {
       const state = createTestGameState();
       const achievement: AchievementDef = {

@@ -144,12 +144,6 @@ These bonuses affect only specific loop actions.
 - **Example**: Unlocks woodcutter building
 - **Usage**: `{ type: 'unlock', target: 'woodcutter', value: 1, permanent: true }`
 
-### `cosmetic`
-- **Description**: Cosmetic rewards (titles, themes, etc.)
-- **Target**: Cosmetic key
-- **Example**: Unlocks new theme
-- **Usage**: `{ type: 'cosmetic', target: 'theme_forest', value: 1, permanent: true }`
-
 ---
 
 ## 🎯 Targeting Examples

@@ -68,8 +68,7 @@ export type AchievementRewardType =
   | 'loopMultiplier'     // Loop action multiplier (e.g., 1.2x loop gains)
   | 'actionLoopGain'     // Action-specific loop gain (e.g., +3 wood from woodcutting loop)
   | 'actionLoopMultiplier' // Action-specific loop multiplier (e.g., 1.4x woodcutting loop gains)
-  | 'unlock' 
-  | 'cosmetic';
+  | 'unlock';
 
 /**
  * Individual requirement for an achievement

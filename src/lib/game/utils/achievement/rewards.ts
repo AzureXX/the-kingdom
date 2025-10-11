@@ -61,8 +61,6 @@ function applyReward(state: GameState, reward: AchievementReward): GameState {
         return applyActionLoopMultiplierReward(state, reward);
       case 'unlock':
         return applyUnlockReward(state, reward);
-      case 'cosmetic':
-        return state;
       default:
         stateErrorHandler('Unknown reward type', { 
           rewardType: reward.type,
