@@ -188,7 +188,6 @@ export function getResourceConsumptionMultipliers(state: GameState): Partial<Rec
 /**
  * Calculate all multipliers based on current upgrade levels
  * Now uses separate prestige bonus system
- * @deprecated Use specific multiplier functions instead for better performance
  */
 export function getMultipliers(state: GameState): Multipliers {
   try {
