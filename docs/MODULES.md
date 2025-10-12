@@ -94,7 +94,6 @@ This document provides a comprehensive list of all modules in the Medieval Kingd
 - `src/lib/game/utils/number/formatting.ts` - Number formatting utilities
 - `src/lib/game/utils/string/encoding.ts` - String encoding utilities
 - `src/lib/game/utils/string/parsing.ts` - String parsing utilities
-- `src/lib/game/utils/index.ts` - Main utility exports
 
 ### **Game Logic Utilities**
 - `src/lib/game/utils/actions/gameActions.ts` - Action execution logic
@@ -127,11 +126,6 @@ This document provides a comprehensive list of all modules in the Medieval Kingd
 - `src/lib/game/utils/loopActions/validation.ts` - Loop action validation
 - `src/lib/game/utils/loopActions/index.ts` - Loop action exports
 
-### **Loop Calculation Utilities**
-- `src/lib/game/utils/loopCalculations/efficiency.ts` - Efficiency calculations
-- `src/lib/game/utils/loopCalculations/progress.ts` - Progress calculations
-- `src/lib/game/utils/loopCalculations/stats.ts` - Statistics calculations
-- `src/lib/game/utils/loopCalculations/index.ts` - Loop calculation exports
 
 ### **Achievement Utilities**
 - `src/lib/game/utils/achievement/checker.ts` - Achievement checking logic
@@ -145,8 +139,6 @@ This document provides a comprehensive list of all modules in the Medieval Kingd
 ### **Event Utilities**
 - `src/lib/game/utils/event/triggering.ts` - Event triggering logic
 - `src/lib/game/utils/event/choices.ts` - Choice processing
-- `src/lib/game/utils/event/state.ts` - Event state management
-- `src/lib/game/utils/event/history.ts` - Event history tracking
 - `src/lib/game/utils/event/timing.ts` - Event timing logic
 - `src/lib/game/utils/event/index.ts` - Event exports
 
@@ -183,8 +175,6 @@ This document provides a comprehensive list of all modules in the Medieval Kingd
 ### **Performance Utilities**
 - `src/lib/game/utils/performance/monitoring.ts` - Performance monitoring
 - `src/lib/game/utils/performance/calculations.ts` - Performance calculations
-- `src/lib/game/utils/performance/analysis.ts` - Performance analysis
-- `src/lib/game/utils/performance/optimization.ts` - Performance optimization
 - `src/lib/game/utils/performance/formatting.ts` - Performance formatting
 - `src/lib/game/utils/performance/budget.ts` - Performance budget management
 - `src/lib/game/utils/performance/circularBuffer.ts` - Circular buffer implementation
@@ -199,7 +189,6 @@ This document provides a comprehensive list of all modules in the Medieval Kingd
 - `src/lib/game/utils/validation/index.ts` - Validation exports
 
 ### **Action Checker Utilities**
-- `src/lib/game/utils/actionChecker/queries.ts` - Action queries
 - `src/lib/game/utils/actionChecker/status.ts` - Action status checking
 - `src/lib/game/utils/actionChecker/validation.ts` - Action validation
 - `src/lib/game/utils/actionChecker/index.ts` - Action checker exports
@@ -320,7 +309,7 @@ This document provides a comprehensive list of all modules in the Medieval Kingd
 
 ### **By Functionality:**
 - **Configuration**: 25 modules (game content definitions)
-- **Utilities**: 91 modules (game logic and calculations)
+- **Utilities**: 82 modules (game logic and calculations)
 - **Components**: 25 modules (UI components + App Router)
 - **Hooks**: 8 modules (React hooks)
 - **Styles**: 13 modules (SCSS stylesheets)

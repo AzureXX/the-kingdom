@@ -284,7 +284,6 @@ src/lib/game/utils/
 │   └── stats.ts                  # Achievement statistics
 ├── actionChecker/                # Action validation utilities
 │   ├── index.ts                  # Action checker utilities export
-│   ├── queries.ts                # Action queries
 │   ├── status.ts                 # Action status checking
 │   └── validation.ts             # Action validation checking
 ├── actions/                      # Action processing utilities
@@ -307,9 +306,7 @@ src/lib/game/utils/
 │   └── logging.ts                # Error logging
 ├── event/                        # Event system utilities
 │   ├── choices.ts                # Event choice processing
-│   ├── history.ts                # Event history tracking
 │   ├── index.ts                  # Event utilities export
-│   ├── state.ts                  # Event state management
 │   ├── timing.ts                 # Event timing logic
 │   └── triggering.ts             # Event triggering
 ├── gameCalculations/             # Game-specific calculations
@@ -330,28 +327,20 @@ src/lib/game/utils/
 │   ├── processing.ts             # Loop action processing
 │   ├── progress.ts               # Loop progress tracking
 │   └── validation.ts             # Loop action validation
-├── loopCalculations/             # Loop calculation utilities
-│   ├── efficiency.ts             # Loop efficiency calculations
-│   ├── index.ts                  # Loop calculation utilities export
-│   ├── progress.ts               # Loop progress calculations
-│   └── stats.ts                  # Loop statistics calculations
 ├── migration/                    # Save migration utilities
 │   ├── gameState.ts              # Game state migration
 │   ├── index.ts                  # Migration utilities export
 │   └── validation.ts             # Migration validation
 ├── number/                       # Number formatting utilities
 │   ├── formatting.ts             # Number formatting
-│   ├── index.ts                  # Number utilities export
-│   └── math.ts                   # Mathematical utilities
+│   └── index.ts                  # Number utilities export
 ├── performance/                  # Performance monitoring utilities
-│   ├── analysis.ts               # Performance analysis
 │   ├── budget.ts                 # Performance budget checking
 │   ├── calculations.ts           # Performance calculations
 │   ├── circularBuffer.ts         # Circular buffer implementation
 │   ├── formatting.ts             # Performance formatting
 │   ├── index.ts                  # Performance utilities export
-│   ├── monitoring.ts             # Performance monitoring
-│   └── optimization.ts           # Performance optimization
+│   └── monitoring.ts             # Performance monitoring
 ├── prestige/                     # Prestige system utilities
 │   ├── calculations.ts           # Prestige calculations
 │   ├── index.ts                  # Prestige utilities export
@@ -423,9 +412,9 @@ src/styles/
 - **App Router Files**: 3
 - **Component Files**: 25
 - **Hook Files**: 8
-- **Game Logic Files**: 159
+- **Game Logic Files**: 150
 - **Style Files**: 13
-- **Total Files**: ~255
+- **Total Files**: ~246
 
 ### **Directory Count by Category:**
 - **Root Directories**: 4
