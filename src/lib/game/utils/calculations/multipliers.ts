@@ -3,6 +3,8 @@
 import type { GameState, Multipliers, ResourceKey, BuildingKey } from '@/lib/game/types';
 import { GAME_CONSTANTS } from '@/lib/game/constants';
 import { createValidationErrorHandler, createCalculationErrorHandler } from '@/lib/game/utils/error';
+import { getEmptyAchievementBonusesObject } from '@/lib/game/utils/achievement/bonusCalculator';
+import { getEmptyPrestigeBonusesObject } from '@/lib/game/utils/prestige/bonusApplication';
 // Create specialized error handlers
 const validationHandler = createValidationErrorHandler('calculations');
 const calculationHandler = createCalculationErrorHandler('calculations');
@@ -19,38 +21,10 @@ export function getClickGainMultiplier(state: GameState): number {
     }
 
     // Get base multipliers from achievement bonuses
-    const achievementBonuses = state.achievementBonuses || {
-      resourceGain: {},
-      resourceGainMultiplier: {},
-      buildingGain: {},
-      buildingGainMultiplier: {},
-      clickGain: {},
-      clickMultiplier: {},
-      actionClickGain: {},
-      actionClickMultiplier: {},
-      loopGain: {},
-      loopMultiplier: {},
-      actionLoopGain: {},
-      actionLoopMultiplier: {},
-      buildingCostReduction: {},
-    };
+    const achievementBonuses = state.achievementBonuses || getEmptyAchievementBonusesObject();
 
     // Get prestige bonuses (separate system)
-    const prestigeBonuses = state.prestigeBonuses || {
-      resourceGain: {},
-      resourceGainMultiplier: {},
-      buildingGain: {},
-      buildingGainMultiplier: {},
-      clickGain: {},
-      clickMultiplier: {},
-      actionClickGain: {},
-      actionClickMultiplier: {},
-      loopGain: {},
-      loopMultiplier: {},
-      actionLoopGain: {},
-      actionLoopMultiplier: {},
-      buildingCostReduction: {},
-    };
+    const prestigeBonuses = state.prestigeBonuses || getEmptyPrestigeBonusesObject();
 
     // Calculate click gain multiplier (average of all resource click multipliers)
     let totalClickMultiplier = 0;
@@ -86,38 +60,10 @@ export function getBuildingCostMultipliers(state: GameState): Partial<Record<Bui
     }
 
     // Get base multipliers from achievement bonuses
-    const achievementBonuses = state.achievementBonuses || {
-      resourceGain: {},
-      resourceGainMultiplier: {},
-      buildingGain: {},
-      buildingGainMultiplier: {},
-      clickGain: {},
-      clickMultiplier: {},
-      actionClickGain: {},
-      actionClickMultiplier: {},
-      loopGain: {},
-      loopMultiplier: {},
-      actionLoopGain: {},
-      actionLoopMultiplier: {},
-      buildingCostReduction: {},
-    };
+    const achievementBonuses = state.achievementBonuses || getEmptyAchievementBonusesObject();
 
     // Get prestige bonuses (separate system)
-    const prestigeBonuses = state.prestigeBonuses || {
-      resourceGain: {},
-      resourceGainMultiplier: {},
-      buildingGain: {},
-      buildingGainMultiplier: {},
-      clickGain: {},
-      clickMultiplier: {},
-      actionClickGain: {},
-      actionClickMultiplier: {},
-      loopGain: {},
-      loopMultiplier: {},
-      actionLoopGain: {},
-      actionLoopMultiplier: {},
-      buildingCostReduction: {},
-    };
+    const prestigeBonuses = state.prestigeBonuses || getEmptyPrestigeBonusesObject();
 
     const cost: Partial<Record<BuildingKey, number>> = {};
     const buildingKeys: BuildingKey[] = ['woodcutter', 'quarry', 'farm', 'blacksmith', 'castle', 'library', 'university', 'laboratory', 'taxOffice'];

@@ -4,6 +4,8 @@ import type { GameState } from '@/lib/game/types';
 import { initAchievementState } from '@/lib/game/utils/achievement';
 import { applyPrestigeBonuses } from '@/lib/game/utils/prestige/bonusApplication';
 import { createStateErrorHandler } from '@/lib/game/utils/error';
+import { getEmptyAchievementBonusesObject } from '@/lib/game/utils/achievement/bonusCalculator';
+import { getEmptyPrestigeBonusesObject } from '@/lib/game/utils/prestige/bonusApplication';
 
 /**
  * Migrate game state to include achievement data if missing
@@ -15,21 +17,8 @@ export function migrateGameState(state: GameState): GameState {
       return {
         ...state,
         achievements: initAchievementState(),
-        achievementBonuses: {
-          resourceGain: {},
-          resourceGainMultiplier: {},
-          buildingGain: {},
-          buildingGainMultiplier: {},
-          clickGain: {},
-          clickMultiplier: {},
-          actionClickGain: {},
-          actionClickMultiplier: {},
-          loopGain: {},
-          loopMultiplier: {},
-          actionLoopGain: {},
-          actionLoopMultiplier: {},
-          buildingCostReduction: {},
-        }
+        achievementBonuses: getEmptyAchievementBonusesObject(),
+        prestigeBonuses: getEmptyPrestigeBonusesObject(),
       };
     }
 
@@ -49,29 +38,10 @@ export function migrateGameState(state: GameState): GameState {
       };
 
       // Add achievement bonuses if missing
-      const achievementBonuses = state.achievementBonuses || {
-        resourceGain: {},
-        resourceGainMultiplier: {},
-        buildingGain: {},
-        buildingGainMultiplier: {},
-        clickGain: {},
-        clickMultiplier: {},
-        actionClickGain: {},
-        actionClickMultiplier: {},
-        loopGain: {},
-        loopMultiplier: {},
-        actionLoopGain: {},
-        actionLoopMultiplier: {},
-      };
+      const achievementBonuses = state.achievementBonuses || getEmptyAchievementBonusesObject();
 
       // Add prestige bonuses if missing
-      const prestigeBonuses = state.prestigeBonuses || {
-        resourceGain: {},
-        resourceGainMultiplier: {},
-        clickGain: {},
-        clickMultiplier: {},
-        buildingCostReduction: {},
-      };
+      const prestigeBonuses = state.prestigeBonuses || getEmptyPrestigeBonusesObject();
 
       const migratedState = {
         ...state,
@@ -92,36 +62,8 @@ export function migrateGameState(state: GameState): GameState {
     const fallbackState = {
       ...state,
       achievements: initAchievementState(),
-      achievementBonuses: {
-        resourceGain: {},
-        resourceGainMultiplier: {},
-        buildingGain: {},
-        buildingGainMultiplier: {},
-        clickGain: {},
-        clickMultiplier: {},
-        actionClickGain: {},
-        actionClickMultiplier: {},
-        loopGain: {},
-        loopMultiplier: {},
-        actionLoopGain: {},
-        actionLoopMultiplier: {},
-        buildingCostReduction: {},
-      },
-      prestigeBonuses: {
-        resourceGain: {},
-        resourceGainMultiplier: {},
-        buildingGain: {},
-        buildingGainMultiplier: {},
-        clickGain: {},
-        clickMultiplier: {},
-        actionClickGain: {},
-        actionClickMultiplier: {},
-        loopGain: {},
-        loopMultiplier: {},
-        actionLoopGain: {},
-        actionLoopMultiplier: {},
-        buildingCostReduction: {},
-      }
+      achievementBonuses: getEmptyAchievementBonusesObject(),
+      prestigeBonuses: getEmptyPrestigeBonusesObject(),
     };
     
     // Apply prestige bonuses to the fallback state

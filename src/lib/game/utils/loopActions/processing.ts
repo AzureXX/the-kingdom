@@ -6,6 +6,7 @@ import { pay } from '@/lib/game/utils/actions';
 import { addResources } from '@/lib/game/utils/gameState';
 import { canAfford } from '@/lib/game/utils/calculations';
 import { logMessage } from '@/lib/game/utils/error';
+import { getEmptyAchievementBonusesObject } from '@/lib/game/utils/achievement/bonusCalculator';
 import type { ResourceCost, ResourceKey, ActionKey } from '@/lib/game/types';
 
 /**
@@ -13,20 +14,7 @@ import type { ResourceCost, ResourceKey, ActionKey } from '@/lib/game/types';
  */
 function addResourcesWithLoopBonuses(state: GameState, gains: ResourceCost, actionKey: string): GameState {
   try {
-    const bonuses = state.achievementBonuses || {
-      resourceGain: {},
-      resourceGainMultiplier: {},
-      buildingGain: {},
-      buildingGainMultiplier: {},
-      clickGain: {},
-      clickMultiplier: {},
-      actionClickGain: {},
-      actionClickMultiplier: {},
-      loopGain: {},
-      loopMultiplier: {},
-      actionLoopGain: {},
-      actionLoopMultiplier: {}
-    };
+    const bonuses = state.achievementBonuses || getEmptyAchievementBonusesObject();
 
     // Apply loop bonuses to gains
     const enhancedGains: ResourceCost = {};

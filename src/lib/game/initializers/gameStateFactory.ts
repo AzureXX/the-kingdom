@@ -18,6 +18,8 @@ import { DEFAULT_LOOP_SETTINGS } from '@/lib/game/config/loopActions';
 import { initAchievementState } from '@/lib/game/utils/achievement';
 import { applyPrestigeBonuses } from '@/lib/game/utils/prestige/bonusApplication';
 import { createStateErrorHandler } from '@/lib/game/utils/error';
+import { getEmptyAchievementBonusesObject } from '@/lib/game/utils/achievement/bonusCalculator';
+import { getEmptyPrestigeBonusesObject } from '@/lib/game/utils/prestige/bonusApplication';
 
 // Import all individual initializers
 import { initResourceState } from '@/lib/game/initializers/resourceInitializer';
@@ -86,21 +88,7 @@ export function createNewGameState(): GameState {
       upgrades,
       
       // Prestige bonuses (separate from achievement bonuses)
-      prestigeBonuses: {
-        resourceGain: {},
-        resourceGainMultiplier: {},
-        buildingGain: {},
-        buildingGainMultiplier: {},
-        clickGain: {},
-        clickMultiplier: {},
-        actionClickGain: {},
-        actionClickMultiplier: {},
-        loopGain: {},
-        loopMultiplier: {},
-        actionLoopGain: {},
-        actionLoopMultiplier: {},
-        buildingCostReduction: {},
-      },
+      prestigeBonuses: getEmptyPrestigeBonusesObject(),
       
       // Loop actions state
       loopActions: [],
@@ -110,21 +98,7 @@ export function createNewGameState(): GameState {
       achievements: initAchievementState(),
       
       // Achievement bonuses (new reward system)
-      achievementBonuses: {
-        resourceGain: {},
-        resourceGainMultiplier: {},
-        buildingGain: {},
-        buildingGainMultiplier: {},
-        clickGain: {},
-        clickMultiplier: {},
-        actionClickGain: {},
-        actionClickMultiplier: {},
-        loopGain: {},
-        loopMultiplier: {},
-        actionLoopGain: {},
-        actionLoopMultiplier: {},
-        buildingCostReduction: {},
-      }
+      achievementBonuses: getEmptyAchievementBonusesObject()
     };
     
     // Apply prestige bonuses to the new game state

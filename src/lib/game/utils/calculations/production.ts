@@ -6,6 +6,8 @@ import { getBuildingCount } from '@/lib/game/utils/gameState';
 import { isValidBuildingKey } from '@/lib/game/utils/validation';
 import { logInvalidKey, createValidationErrorHandler, createCalculationErrorHandler } from '@/lib/game/utils/error';
 import { getResourceConsumptionMultipliers } from '@/lib/game/utils/calculations/multipliers';
+import { getEmptyAchievementBonusesObject } from '@/lib/game/utils/achievement/bonusCalculator';
+import { getEmptyPrestigeBonusesObject } from '@/lib/game/utils/prestige/bonusApplication';
 
 const { buildings: BUILDINGS } = CONFIG;
 
@@ -25,28 +27,9 @@ export function getPerSec(state: GameState): Record<ResourceKey, number> {
     }
 
     const useMultipliers = getResourceConsumptionMultipliers(state);
-    const achievementBonuses = state.achievementBonuses || {
-      resourceGain: {},
-      resourceGainMultiplier: {},
-      buildingGain: {},
-      buildingGainMultiplier: {},
-      clickGain: {},
-      clickMultiplier: {},
-      actionClickGain: {},
-      actionClickMultiplier: {},
-      loopGain: {},
-      loopMultiplier: {},
-      actionLoopGain: {},
-      actionLoopMultiplier: {}
-    };
+    const achievementBonuses = state.achievementBonuses || getEmptyAchievementBonusesObject();
     
-    const prestigeBonuses = state.prestigeBonuses || {
-      resourceGain: {},
-      resourceGainMultiplier: {},
-      clickGain: {},
-      clickMultiplier: {},
-      buildingCostReduction: {},
-    };
+    const prestigeBonuses = state.prestigeBonuses || getEmptyPrestigeBonusesObject();
     
     // Step 1: Calculate building production with building-specific bonuses
     const buildingProduction: Record<ResourceKey, number> = { gold: 0, wood: 0, stone: 0, food: 0, prestige: 0, researchPoints: 0 };

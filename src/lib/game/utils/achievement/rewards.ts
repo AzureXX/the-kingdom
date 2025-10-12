@@ -1,7 +1,8 @@
 // Achievement reward application logic
 
-import type { GameState, AchievementDef, AchievementReward, ResourceKey, AchievementBonuses, BuildingKey, ActionKey } from '@/lib/game/types';
+import type { GameState, AchievementDef, AchievementReward, ResourceKey, BuildingKey, ActionKey } from '@/lib/game/types';
 import { createStateErrorHandler } from '@/lib/game/utils/error';
+import { getEmptyAchievementBonusesObject } from '@/lib/game/utils/achievement/bonusCalculator';
 
 // Create specialized error handler
 const stateErrorHandler = createStateErrorHandler('achievementSystem');
@@ -118,7 +119,7 @@ function applyResourceReward(state: GameState, reward: AchievementReward): GameS
 function applyResourceGainReward(state: GameState, reward: AchievementReward): GameState {
   try {
     const resourceKey = reward.target as ResourceKey;
-    const currentBonuses = state.achievementBonuses || createDefaultAchievementBonuses();
+    const currentBonuses = state.achievementBonuses || getEmptyAchievementBonusesObject();
     
     const newResourceGain = {
       ...currentBonuses.resourceGain,
@@ -146,7 +147,7 @@ function applyResourceGainReward(state: GameState, reward: AchievementReward): G
  */
 function applyResourceGainMultiplierReward(state: GameState, reward: AchievementReward): GameState {
   try {
-    const currentBonuses = state.achievementBonuses || createDefaultAchievementBonuses();
+    const currentBonuses = state.achievementBonuses || getEmptyAchievementBonusesObject();
     
     if (reward.target === 'all') {
       // Apply to all resources
@@ -194,7 +195,7 @@ function applyResourceGainMultiplierReward(state: GameState, reward: Achievement
 function applyClickGainReward(state: GameState, reward: AchievementReward): GameState {
   try {
     const resourceKey = reward.target as ResourceKey;
-    const currentBonuses = state.achievementBonuses || createDefaultAchievementBonuses();
+    const currentBonuses = state.achievementBonuses || getEmptyAchievementBonusesObject();
     
     const newClickGain = {
       ...currentBonuses.clickGain,
@@ -222,7 +223,7 @@ function applyClickGainReward(state: GameState, reward: AchievementReward): Game
  */
 function applyClickMultiplierReward(state: GameState, reward: AchievementReward): GameState {
   try {
-    const currentBonuses = state.achievementBonuses || createDefaultAchievementBonuses();
+    const currentBonuses = state.achievementBonuses || getEmptyAchievementBonusesObject();
     
     if (reward.target === 'all') {
       // Apply to all resources
@@ -270,7 +271,7 @@ function applyClickMultiplierReward(state: GameState, reward: AchievementReward)
 function applyLoopGainReward(state: GameState, reward: AchievementReward): GameState {
   try {
     const resourceKey = reward.target as ResourceKey;
-    const currentBonuses = state.achievementBonuses || createDefaultAchievementBonuses();
+    const currentBonuses = state.achievementBonuses || getEmptyAchievementBonusesObject();
     
     const newLoopGain = {
       ...currentBonuses.loopGain,
@@ -298,7 +299,7 @@ function applyLoopGainReward(state: GameState, reward: AchievementReward): GameS
  */
 function applyLoopMultiplierReward(state: GameState, reward: AchievementReward): GameState {
   try {
-    const currentBonuses = state.achievementBonuses || createDefaultAchievementBonuses();
+    const currentBonuses = state.achievementBonuses || getEmptyAchievementBonusesObject();
     
     if (reward.target === 'all') {
       // Apply to all resources
@@ -346,7 +347,7 @@ function applyLoopMultiplierReward(state: GameState, reward: AchievementReward):
  */
 function applyBuildingGainReward(state: GameState, reward: AchievementReward): GameState {
   try {
-    const currentBonuses = state.achievementBonuses || createDefaultAchievementBonuses();
+    const currentBonuses = state.achievementBonuses || getEmptyAchievementBonusesObject();
     const buildingKey = reward.target as BuildingKey;
     const resourceKey = reward.resource as ResourceKey;
     
@@ -386,7 +387,7 @@ function applyBuildingGainReward(state: GameState, reward: AchievementReward): G
  */
 function applyBuildingGainMultiplierReward(state: GameState, reward: AchievementReward): GameState {
   try {
-    const currentBonuses = state.achievementBonuses || createDefaultAchievementBonuses();
+    const currentBonuses = state.achievementBonuses || getEmptyAchievementBonusesObject();
     const buildingKey = reward.target as BuildingKey;
     const resourceKey = reward.resource as ResourceKey;
     
@@ -426,7 +427,7 @@ function applyBuildingGainMultiplierReward(state: GameState, reward: Achievement
  */
 function applyActionClickGainReward(state: GameState, reward: AchievementReward): GameState {
   try {
-    const currentBonuses = state.achievementBonuses || createDefaultAchievementBonuses();
+    const currentBonuses = state.achievementBonuses || getEmptyAchievementBonusesObject();
     const actionKey = reward.target as ActionKey;
     const resourceKey = reward.resource as ResourceKey;
     
@@ -466,7 +467,7 @@ function applyActionClickGainReward(state: GameState, reward: AchievementReward)
  */
 function applyActionClickMultiplierReward(state: GameState, reward: AchievementReward): GameState {
   try {
-    const currentBonuses = state.achievementBonuses || createDefaultAchievementBonuses();
+    const currentBonuses = state.achievementBonuses || getEmptyAchievementBonusesObject();
     const actionKey = reward.target as ActionKey;
     const resourceKey = reward.resource as ResourceKey;
     
@@ -506,7 +507,7 @@ function applyActionClickMultiplierReward(state: GameState, reward: AchievementR
  */
 function applyActionLoopGainReward(state: GameState, reward: AchievementReward): GameState {
   try {
-    const currentBonuses = state.achievementBonuses || createDefaultAchievementBonuses();
+    const currentBonuses = state.achievementBonuses || getEmptyAchievementBonusesObject();
     const actionKey = reward.target as ActionKey;
     const resourceKey = reward.resource as ResourceKey;
     
@@ -546,7 +547,7 @@ function applyActionLoopGainReward(state: GameState, reward: AchievementReward):
  */
 function applyActionLoopMultiplierReward(state: GameState, reward: AchievementReward): GameState {
   try {
-    const currentBonuses = state.achievementBonuses || createDefaultAchievementBonuses();
+    const currentBonuses = state.achievementBonuses || getEmptyAchievementBonusesObject();
     const actionKey = reward.target as ActionKey;
     const resourceKey = reward.resource as ResourceKey;
     
@@ -581,26 +582,6 @@ function applyActionLoopMultiplierReward(state: GameState, reward: AchievementRe
   }
 }
 
-/**
- * Create default achievement bonuses structure
- */
-function createDefaultAchievementBonuses(): AchievementBonuses {
-  return {
-    resourceGain: {},
-    resourceGainMultiplier: {},
-    buildingGain: {},
-    buildingGainMultiplier: {},
-    clickGain: {},
-    clickMultiplier: {},
-    actionClickGain: {},
-    actionClickMultiplier: {},
-    loopGain: {},
-    loopMultiplier: {},
-    actionLoopGain: {},
-    actionLoopMultiplier: {},
-    buildingCostReduction: {},
-  };
-}
 
 /**
  * Apply an unlock reward
@@ -642,21 +623,7 @@ function applyUnlockReward(state: GameState, reward: AchievementReward): GameSta
  */
 function applyBuildingCostReductionReward(state: GameState, reward: AchievementReward): GameState {
   try {
-    const achievementBonuses = state.achievementBonuses || {
-      resourceGain: {},
-      resourceGainMultiplier: {},
-      buildingGain: {},
-      buildingGainMultiplier: {},
-      clickGain: {},
-      clickMultiplier: {},
-      actionClickGain: {},
-      actionClickMultiplier: {},
-      loopGain: {},
-      loopMultiplier: {},
-      actionLoopGain: {},
-      actionLoopMultiplier: {},
-        buildingCostReduction: {},
-    };
+    const achievementBonuses = state.achievementBonuses || getEmptyAchievementBonusesObject();
 
     // Apply building cost reduction to specific building or all buildings
     const newBuildingCostReduction = { ...achievementBonuses.buildingCostReduction };

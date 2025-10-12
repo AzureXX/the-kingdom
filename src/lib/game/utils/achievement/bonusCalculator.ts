@@ -1,36 +1,50 @@
 // Achievement bonus calculation utilities
 
-import type { GameState, ResourceKey } from '@/lib/game/types';
+import type { GameState, ResourceKey, AchievementBonuses } from '@/lib/game/types';
+
+/**
+ * Create an empty achievement bonuses object with all properties initialized
+ */
+export function getEmptyAchievementBonusesObject(): AchievementBonuses {
+  return {
+    resourceGain: {},
+    resourceGainMultiplier: {},
+    buildingGain: {},
+    buildingGainMultiplier: {},
+    clickGain: {},
+    clickMultiplier: {},
+    actionClickGain: {},
+    actionClickMultiplier: {},
+    loopGain: {},
+    loopMultiplier: {},
+    actionLoopGain: {},
+    actionLoopMultiplier: {},
+    buildingCostReduction: {}
+  };
+}
 
 /**
  * Calculate total bonuses from all unlocked achievements
  */
-function calculateTotalBonuses(state: GameState): {
-  resourceGain: Partial<Record<ResourceKey, number>>;
-  resourceGainMultiplier: Partial<Record<ResourceKey, number>>;
-  clickGain: Partial<Record<ResourceKey, number>>;
-  clickMultiplier: Partial<Record<ResourceKey, number>>;
-  loopGain: Partial<Record<ResourceKey, number>>;
-  loopMultiplier: Partial<Record<ResourceKey, number>>;
-} {
+function calculateTotalBonuses(state: GameState): AchievementBonuses {
   if (!state || !state.achievementBonuses) {
-    return {
-      resourceGain: {},
-      resourceGainMultiplier: {},
-      clickGain: {},
-      clickMultiplier: {},
-      loopGain: {},
-      loopMultiplier: {}
-    };
+    return getEmptyAchievementBonusesObject();
   }
 
   return {
     resourceGain: { ...state.achievementBonuses.resourceGain },
     resourceGainMultiplier: { ...state.achievementBonuses.resourceGainMultiplier },
+    buildingGain: { ...state.achievementBonuses.buildingGain },
+    buildingGainMultiplier: { ...state.achievementBonuses.buildingGainMultiplier },
+    actionClickGain: { ...state.achievementBonuses.actionClickGain },
+    actionClickMultiplier: { ...state.achievementBonuses.actionClickMultiplier },
+    actionLoopGain: { ...state.achievementBonuses.actionLoopGain },
+    actionLoopMultiplier: { ...state.achievementBonuses.actionLoopMultiplier },
     clickGain: { ...state.achievementBonuses.clickGain },
     clickMultiplier: { ...state.achievementBonuses.clickMultiplier },
     loopGain: { ...state.achievementBonuses.loopGain },
-    loopMultiplier: { ...state.achievementBonuses.loopMultiplier }
+    loopMultiplier: { ...state.achievementBonuses.loopMultiplier },
+    buildingCostReduction: { ...state.achievementBonuses.buildingCostReduction }
   };
 }
 
@@ -138,6 +152,7 @@ export function getAllMultipliers(state: GameState): {
   loopMultiplier: Array<{ resource: ResourceKey; name: string; value: number }>;
   actionLoopGain: Array<{ action: string; resource: ResourceKey; resourceName: string; value: number }>;
   actionLoopMultiplier: Array<{ action: string; resource: ResourceKey; resourceName: string; value: number }>;
+  buildingCostReduction: Array<{ building: string; value: number }>;
 } {
   if (!state || !state.achievementBonuses) {
     return {
@@ -152,7 +167,8 @@ export function getAllMultipliers(state: GameState): {
       loopGain: [],
       loopMultiplier: [],
       actionLoopGain: [],
-      actionLoopMultiplier: []
+      actionLoopMultiplier: [],
+      buildingCostReduction: []
     };
   }
 
@@ -171,7 +187,8 @@ export function getAllMultipliers(state: GameState): {
     loopGain: [] as Array<{ resource: ResourceKey; name: string; value: number }>,
     loopMultiplier: [] as Array<{ resource: ResourceKey; name: string; value: number }>,
     actionLoopGain: [] as Array<{ action: string; resource: ResourceKey; resourceName: string; value: number }>,
-    actionLoopMultiplier: [] as Array<{ action: string; resource: ResourceKey; resourceName: string; value: number }>
+    actionLoopMultiplier: [] as Array<{ action: string; resource: ResourceKey; resourceName: string; value: number }>,
+    buildingCostReduction: [] as Array<{ building: string; value: number }>
   };
 
   // Process resource-wide bonuses

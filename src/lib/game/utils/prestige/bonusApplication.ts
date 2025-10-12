@@ -8,9 +8,9 @@ import { createStateErrorHandler } from '@/lib/game/utils/error';
 const stateErrorHandler = createStateErrorHandler('prestigeSystem');
 
 /**
- * Create default prestige bonuses
+ * Create an empty prestige bonuses object with all properties initialized
  */
-function createDefaultPrestigeBonuses(): PrestigeBonuses {
+export function getEmptyPrestigeBonusesObject(): PrestigeBonuses {
   return {
     resourceGain: {},
     resourceGainMultiplier: {},
@@ -47,7 +47,7 @@ export function applyPrestigeBonuses(state: GameState): GameState {
     });
     return {
       ...state,
-      prestigeBonuses: createDefaultPrestigeBonuses()
+      prestigeBonuses: getEmptyPrestigeBonusesObject()
     };
   }
 }
@@ -56,7 +56,7 @@ export function applyPrestigeBonuses(state: GameState): GameState {
  * Calculate all prestige bonuses from upgrade levels
  */
 function calculateAllPrestigeBonuses(state: GameState): PrestigeBonuses {
-  const bonuses = createDefaultPrestigeBonuses();
+    const bonuses = getEmptyPrestigeBonusesObject();
 
   // Apply each prestige upgrade's rewards based on its level
   for (const [upgradeKey, level] of Object.entries(state.upgrades)) {

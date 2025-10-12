@@ -11,6 +11,8 @@ import { canExecuteAction } from '@/lib/game/utils/actionChecker';
 import { createStateErrorHandler } from '@/lib/game/utils/error';
 import { pay } from '@/lib/game/utils/actions/resourceActions';
 import { getClickGainMultiplier } from '@/lib/game/utils/calculations';
+import { getEmptyAchievementBonusesObject } from '@/lib/game/utils/achievement/bonusCalculator';
+import { getEmptyPrestigeBonusesObject } from '@/lib/game/utils/prestige/bonusApplication';
 import type { ResourceCost, ResourceKey } from '@/lib/game/types';
 
 const stateErrorHandler = createStateErrorHandler('gameActions');
@@ -20,28 +22,9 @@ const stateErrorHandler = createStateErrorHandler('gameActions');
  */
 function addResourcesWithBonuses(state: GameState, gains: ResourceCost, actionKey?: ActionKey): GameState {
   try {
-    const achievementBonuses = state.achievementBonuses || {
-      resourceGain: {},
-      resourceGainMultiplier: {},
-      buildingGain: {},
-      buildingGainMultiplier: {},
-      clickGain: {},
-      clickMultiplier: {},
-      actionClickGain: {},
-      actionClickMultiplier: {},
-      loopGain: {},
-      loopMultiplier: {},
-      actionLoopGain: {},
-      actionLoopMultiplier: {}
-    };
+    const achievementBonuses = state.achievementBonuses || getEmptyAchievementBonusesObject();
 
-    const prestigeBonuses = state.prestigeBonuses || {
-      resourceGain: {},
-      resourceGainMultiplier: {},
-      clickGain: {},
-      clickMultiplier: {},
-      buildingCostReduction: {},
-    };
+    const prestigeBonuses = state.prestigeBonuses || getEmptyPrestigeBonusesObject();
 
     // Get click gain multiplier
     const clickGainMultiplier = getClickGainMultiplier(state);

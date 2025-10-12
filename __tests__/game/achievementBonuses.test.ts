@@ -6,7 +6,7 @@ import {
 import { createNewGameState } from '@/lib/game/initializers/gameStateFactory';
 import { applyAchievementRewards } from '@/lib/game/utils/achievement/rewards';
 import type { GameState, AchievementDef, AchievementRewardType, ResourceKey } from '@/lib/game/types';
-
+import { getEmptyAchievementBonusesObject } from '@/lib/game/utils/achievement/bonusCalculator';
 describe('Achievement Bonus Calculator', () => {
   let state: GameState;
 
@@ -20,19 +20,13 @@ describe('Achievement Bonus Calculator', () => {
       const newState = {
         ...state,
         achievementBonuses: {
+          ...getEmptyAchievementBonusesObject(),
           resourceGain: { gold: 10, wood: 5 },
           resourceGainMultiplier: { gold: 1.2, wood: 1.1 },
-          buildingGain: {},
-          buildingGainMultiplier: {},
           clickGain: { gold: 2, wood: 1 },
           clickMultiplier: { gold: 1.5, wood: 1.2 },
-          actionClickGain: {},
-          actionClickMultiplier: {},
           loopGain: { gold: 3, wood: 2 },
           loopMultiplier: { gold: 1.3, wood: 1.1 },
-          actionLoopGain: {},
-          actionLoopMultiplier: {},
-          buildingCostReduction: {}
         }
       };
 
@@ -50,19 +44,13 @@ describe('Achievement Bonus Calculator', () => {
       const newState = {
         ...state,
         achievementBonuses: {
+          ...getEmptyAchievementBonusesObject(),
           resourceGain: { gold: 10 },
           resourceGainMultiplier: { gold: 1.2 },
-          buildingGain: {},
-          buildingGainMultiplier: {},
           clickGain: { gold: 2 },
           clickMultiplier: { gold: 1.5 },
-          actionClickGain: {},
-          actionClickMultiplier: {},
           loopGain: { gold: 3 },
           loopMultiplier: { gold: 1.3 },
-          actionLoopGain: {},
-          actionLoopMultiplier: {},
-          buildingCostReduction: {}
         }
       };
 

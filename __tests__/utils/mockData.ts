@@ -1,4 +1,6 @@
 import type { GameState } from '@/lib/game/types'
+import { getEmptyAchievementBonusesObject } from '@/lib/game/utils/achievement/bonusCalculator'
+import { getEmptyPrestigeBonusesObject } from '@/lib/game/utils/prestige/bonusApplication'
 
 /**
  * Mock data for testing game functionality
@@ -86,6 +88,22 @@ export const mockBasicGameState: GameState = {
     masterCraftsmen: 0,
     fertileLands: 0,
     militaryMight: 0,
+    goldenTouch: 0,
+    forestMastery: 0,
+    stoneQuarry: 0,
+    researchAcceleration: 0,
+    efficientBuilders: 0,
+    merchantGuilds: 0,
+    royalTreasury: 0,
+    militaryEngineers: 0,
+    scholarlyPursuits: 0,
+    agriculturalRevolution: 0,
+    miningInnovation: 0,
+    diplomaticRelations: 0,
+    technologicalAdvancement: 0,
+    economicStimulation: 0,
+    culturalHeritage: 0,
+    strategicPlanning: 0,
   },
   
   // Loop actions
@@ -108,20 +126,7 @@ export const mockBasicGameState: GameState = {
   },
   
   // Achievement bonuses (new system)
-  achievementBonuses: {
-    resourceGain: {},
-    resourceGainMultiplier: {},
-    buildingGain: {},
-    buildingGainMultiplier: {},
-    clickGain: {},
-    clickMultiplier: {},
-    actionClickGain: {},
-    actionClickMultiplier: {},
-    loopGain: {},
-    loopMultiplier: {},
-    actionLoopGain: {},
-    actionLoopMultiplier: {},
-  },
+  achievementBonuses: getEmptyAchievementBonusesObject(),
   
   // Lifetime resources
   lifetime: {
@@ -132,6 +137,9 @@ export const mockBasicGameState: GameState = {
     prestige: 0,
     researchPoints: 0,
   },
+  
+  // Prestige bonuses
+  prestigeBonuses: getEmptyPrestigeBonusesObject(),
 }
 
 /**
@@ -174,6 +182,22 @@ export const mockAdvancedGameState: GameState = {
     masterCraftsmen: 3,
     fertileLands: 2,
     militaryMight: 1,
+    goldenTouch: 0,
+    forestMastery: 0,
+    stoneQuarry: 0,
+    researchAcceleration: 0,
+    efficientBuilders: 0,
+    merchantGuilds: 0,
+    royalTreasury: 0,
+    militaryEngineers: 0,
+    scholarlyPursuits: 0,
+    agriculturalRevolution: 0,
+    miningInnovation: 0,
+    diplomaticRelations: 0,
+    technologicalAdvancement: 0,
+    economicStimulation: 0,
+    culturalHeritage: 0,
+    strategicPlanning: 0,
   },
 }
 
@@ -217,6 +241,22 @@ export const mockMaxedGameState: GameState = {
     masterCraftsmen: 25,
     fertileLands: 25,
     militaryMight: 20,
+    goldenTouch: 0,
+    forestMastery: 0,
+    stoneQuarry: 0,
+    researchAcceleration: 0,
+    efficientBuilders: 0,
+    merchantGuilds: 0,
+    royalTreasury: 0,
+    militaryEngineers: 0,
+    scholarlyPursuits: 0,
+    agriculturalRevolution: 0,
+    miningInnovation: 0,
+    diplomaticRelations: 0,
+    technologicalAdvancement: 0,
+    economicStimulation: 0,
+    culturalHeritage: 0,
+    strategicPlanning: 0,
   },
 }
 

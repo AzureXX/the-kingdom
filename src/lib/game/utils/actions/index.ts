@@ -6,7 +6,7 @@
  */
 
 // Building actions
-export { buyBuilding, pay as payForBuilding } from '@/lib/game/utils/actions/buildingActions';
+export { buyBuilding } from '@/lib/game/utils/actions/buildingActions';
 
 // Upgrade actions
 export { buyUpgrade } from '@/lib/game/utils/actions/upgradeActions';
