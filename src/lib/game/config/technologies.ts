@@ -7,7 +7,7 @@ export const TECHNOLOGIES: Record<TechnologyKey, TechnologyDef> = {
     desc: 'The foundation of knowledge and communication.',
     baseCost: { gold: 50, wood: 20 },
     costScale: 1.0, // Technologies don't scale in cost
-    researchTime: 30,
+    researchTime: 3,
     unlocksBuildings: ['library'],
   },
   mathematics: {
@@ -16,7 +16,7 @@ export const TECHNOLOGIES: Record<TechnologyKey, TechnologyDef> = {
     desc: 'Advanced calculations and logical thinking.',
     baseCost: { gold: 100, wood: 30, stone: 20 },
     costScale: 1.0,
-    researchTime: 60,
+    researchTime: 6,
     unlocksBuildings: ['university'],
     requiresTech: ['writing'],
   },
@@ -26,7 +26,7 @@ export const TECHNOLOGIES: Record<TechnologyKey, TechnologyDef> = {
     desc: 'Advanced construction and mechanical knowledge.',
     baseCost: { gold: 150, wood: 50, stone: 40 },
     costScale: 1.0,
-    researchTime: 90,
+    researchTime: 9,
     requiresTech: ['writing', 'mathematics'],
   },
   chemistry: {
@@ -35,7 +35,7 @@ export const TECHNOLOGIES: Record<TechnologyKey, TechnologyDef> = {
     desc: 'Understanding of materials and reactions.',
     baseCost: { gold: 200, wood: 60, stone: 50, food: 20 },
     costScale: 1.0,
-    researchTime: 120,
+    researchTime: 12,
     unlocksBuildings: ['laboratory'],
     requiresTech: ['mathematics', 'engineering'],
   },
@@ -45,7 +45,7 @@ export const TECHNOLOGIES: Record<TechnologyKey, TechnologyDef> = {
     desc: 'Laws of nature and energy.',
     baseCost: { gold: 300, wood: 80, stone: 70, food: 30 },
     costScale: 1.0,
-    researchTime: 180,
+    researchTime: 18,
     requiresTech: ['mathematics', 'chemistry'],
   },
   biology: {
@@ -54,7 +54,7 @@ export const TECHNOLOGIES: Record<TechnologyKey, TechnologyDef> = {
     desc: 'Study of life and living organisms.',
     baseCost: { gold: 400, wood: 100, stone: 90, food: 50 },
     costScale: 1.0,
-    researchTime: 240,
+    researchTime: 24,
     requiresTech: ['chemistry', 'physics'],
   },
 };
