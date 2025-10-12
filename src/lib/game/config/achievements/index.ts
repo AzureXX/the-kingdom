@@ -64,40 +64,6 @@ export function getAchievementsByRarity(rarity: string): AchievementDef[] {
   );
 }
 
-/**
- * Get total achievement points available
- */
-export function getTotalAchievementPoints(): number {
-  return Object.values(ACHIEVEMENTS).reduce((total, achievement) => 
-    total + achievement.points, 0
-  );
-}
-
-/**
- * Get achievement count by category
- */
-export function getAchievementCountByCategory(): Record<string, number> {
-  const counts: Record<string, number> = {};
-  
-  Object.values(ACHIEVEMENTS).forEach(achievement => {
-    counts[achievement.category] = (counts[achievement.category] || 0) + 1;
-  });
-  
-  return counts;
-}
-
-/**
- * Get achievement count by rarity
- */
-export function getAchievementCountByRarity(): Record<string, number> {
-  const counts: Record<string, number> = {};
-  
-  Object.values(ACHIEVEMENTS).forEach(achievement => {
-    counts[achievement.rarity] = (counts[achievement.rarity] || 0) + 1;
-  });
-  
-  return counts;
-}
 
 // Re-export individual category achievements for direct access
 export {

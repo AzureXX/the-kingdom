@@ -377,33 +377,3 @@ function applyActionLoopMultiplierReward(bonuses: PrestigeBonuses, reward: Prest
   }
 }
 
-/**
- * Calculate total prestige bonuses for display
- */
-export function calculatePrestigeBonuses(state: GameState): {
-  totalBonuses: number;
-  upgradeBreakdown: Record<PrestigeUpgradeKey, number>;
-} {
-  try {
-    const upgradeBreakdown: Record<PrestigeUpgradeKey, number> = {} as Record<PrestigeUpgradeKey, number>;
-    let totalBonuses = 0;
-
-    for (const [upgradeKey, level] of Object.entries(state.upgrades)) {
-      const key = upgradeKey as PrestigeUpgradeKey;
-      const upgrade = PRESTIGE_CONFIG.upgrades[key];
-      
-      if (upgrade && level > 0) {
-        const totalRewards = upgrade.rewards.length * level;
-        upgradeBreakdown[key] = totalRewards;
-        totalBonuses += totalRewards;
-      }
-    }
-
-    return { totalBonuses, upgradeBreakdown };
-  } catch (error) {
-    stateErrorHandler('Failed to calculate prestige bonuses', { 
-      error: error instanceof Error ? error.message : String(error) 
-    });
-    return { totalBonuses: 0, upgradeBreakdown: {} as Record<PrestigeUpgradeKey, number> };
-  }
-}
