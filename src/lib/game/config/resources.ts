@@ -5,7 +5,7 @@ export const RESOURCES: Record<ResourceKey, ResourceDef> = {
   wood: { name: 'Wood', icon: 'ic-wood', decimals: 3, start: 0 },
   stone: { name: 'Stone', icon: 'ic-stone', decimals: 3, start: 0 },
   food: { name: 'Food', icon: 'ic-food', decimals: 3, start: 0 },
-  prestige: { name: 'Prestige', icon: 'ic-prestige', decimals: 3, start: 0, hidden: true },
+  prestige: { name: 'Prestige', icon: 'ic-prestige', decimals: 3, start: 100, hidden: true },
   researchPoints: { name: 'Research Points', icon: 'ic-research', decimals: 3, start: 0, hidden: true },
 };
 

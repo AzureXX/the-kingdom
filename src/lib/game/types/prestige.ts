@@ -6,7 +6,23 @@ export type PrestigeUpgradeKey =
   | 'royalDecrees'
   | 'masterCraftsmen'
   | 'fertileLands'
-  | 'militaryMight';
+  | 'militaryMight'
+  | 'goldenTouch'
+  | 'forestMastery'
+  | 'stoneQuarry'
+  | 'researchAcceleration'
+  | 'efficientBuilders'
+  | 'merchantGuilds'
+  | 'royalTreasury'
+  | 'militaryEngineers'
+  | 'scholarlyPursuits'
+  | 'agriculturalRevolution'
+  | 'miningInnovation'
+  | 'diplomaticRelations'
+  | 'technologicalAdvancement'
+  | 'economicStimulation'
+  | 'culturalHeritage'
+  | 'strategicPlanning';
 
 export interface PrestigeUpgradeDef {
   name: string;

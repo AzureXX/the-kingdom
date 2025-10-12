@@ -10,12 +10,13 @@ import { getAction } from '@/lib/game/config/actions';
 import { canExecuteAction } from '@/lib/game/utils/actionChecker';
 import { createStateErrorHandler } from '@/lib/game/utils/error';
 import { pay } from '@/lib/game/utils/actions/resourceActions';
+import { getMultipliers } from '@/lib/game/utils/calculations';
 import type { ResourceCost, ResourceKey } from '@/lib/game/types';
 
 const stateErrorHandler = createStateErrorHandler('gameActions');
 
 /**
- * Add resources with achievement bonuses applied
+ * Add resources with achievement bonuses and prestige multipliers applied
  */
 function addResourcesWithBonuses(state: GameState, gains: ResourceCost, actionKey?: ActionKey): GameState {
   try {
@@ -34,6 +35,9 @@ function addResourcesWithBonuses(state: GameState, gains: ResourceCost, actionKe
       actionLoopMultiplier: {}
     };
 
+    // Get prestige multipliers
+    const multipliers = getMultipliers(state);
+
     // Apply click bonuses to gains
     const enhancedGains: ResourceCost = {};
     
@@ -49,9 +53,12 @@ function addResourcesWithBonuses(state: GameState, gains: ResourceCost, actionKe
       const actionClickGain = actionKey ? (bonuses.actionClickGain[actionKey]?.[rk] || 0) : 0;
       const actionClickMultiplier = actionKey ? (bonuses.actionClickMultiplier[actionKey]?.[rk] || 1) : 1;
       
-      // Calculate final gains: (base + resource bonus + action bonus) * multipliers
+      // Apply prestige click gain multiplier
+      const prestigeClickMultiplier = multipliers.clickGain;
+      
+      // Calculate final gains: (base + resource bonus + action bonus) * multipliers * prestige multiplier
       const totalBonus = clickGain + actionClickGain;
-      const totalMultiplier = clickMultiplier * actionClickMultiplier;
+      const totalMultiplier = clickMultiplier * actionClickMultiplier * prestigeClickMultiplier;
       
       enhancedGains[rk] = (baseGain + totalBonus) * totalMultiplier;
     }
