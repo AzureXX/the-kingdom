@@ -4,7 +4,7 @@ import type { ResourceKey, BuildingKey, PrestigeUpgradeKey, TechnologyKey, Resou
 import { CONFIG } from '@/lib/game/config';
 import { getBuildingCount } from '@/lib/game/utils/gameState';
 import { createValidationErrorHandler, createCalculationErrorHandler } from '@/lib/game/utils/error';
-import { getMultipliers } from '@/lib/game/utils/calculations/multipliers';
+import { getBuildingCostMultipliers } from '@/lib/game/utils/calculations/multipliers';
 
 const { buildings: BUILDINGS, technologies: TECHNOLOGIES, prestige: PRESTIGE_CONFIG } = CONFIG;
 
@@ -35,12 +35,12 @@ export function costFor(state: GameState, buildKey: BuildingKey): ResourceCost {
     }
 
     const owned = getBuildingCount(state, buildKey);
-    const muls = getMultipliers(state);
+    const buildingCostMultipliers = getBuildingCostMultipliers(state);
     const cost: ResourceCost = {};
     
     for (const r in def.baseCost) {
       const rk = r as ResourceKey;
-      const buildingCostMultiplier = muls.cost[buildKey] || 1;
+      const buildingCostMultiplier = buildingCostMultipliers[buildKey] || 1;
       cost[rk] = Math.ceil((def.baseCost[rk] || 0) * Math.pow(def.costScale, owned) * buildingCostMultiplier);
     }
     

@@ -8,34 +8,16 @@ const validationHandler = createValidationErrorHandler('calculations');
 const calculationHandler = createCalculationErrorHandler('calculations');
 
 /**
- * Calculate all multipliers based on current upgrade levels
- * Now uses separate prestige bonus system
+ * Calculate click gain multiplier (average of all resource click multipliers)
  */
-export function getMultipliers(state: GameState): Multipliers {
+export function getClickGainMultiplier(state: GameState): number {
   try {
     // Validate input
     if (!state || typeof state !== 'object') {
-      validationHandler('Invalid state parameter for getMultipliers', { state: typeof state });
+      validationHandler('Invalid state parameter for getClickGainMultiplier', { state: typeof state });
       throw new Error('Invalid state parameter');
     }
 
-    const prodMul: Partial<Record<ResourceKey, number>> = {};
-    const useMul: Partial<Record<ResourceKey, number>> = {};
-    const cost: Partial<Record<BuildingKey, number>> = {};
-    
-    // Initialize all resource multipliers with default value of 1
-    const resourceKeys: ResourceKey[] = ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'];
-    for (const key of resourceKeys) {
-      prodMul[key] = 1;
-      useMul[key] = 1;
-    }
-    
-    // Initialize all building cost multipliers with default value of 1
-    const buildingKeys: BuildingKey[] = ['woodcutter', 'quarry', 'farm', 'blacksmith', 'castle', 'library', 'university', 'laboratory', 'taxOffice'];
-    for (const key of buildingKeys) {
-      cost[key] = 1;
-    }
-    
     // Get base multipliers from achievement bonuses
     const achievementBonuses = state.achievementBonuses || {
       resourceGain: {},
@@ -49,27 +31,32 @@ export function getMultipliers(state: GameState): Multipliers {
       loopGain: {},
       loopMultiplier: {},
       actionLoopGain: {},
-      actionLoopMultiplier: {}
+      actionLoopMultiplier: {},
+      buildingCostReduction: {},
     };
 
     // Get prestige bonuses (separate system)
     const prestigeBonuses = state.prestigeBonuses || {
       resourceGain: {},
       resourceGainMultiplier: {},
+      buildingGain: {},
+      buildingGainMultiplier: {},
       clickGain: {},
       clickMultiplier: {},
+      actionClickGain: {},
+      actionClickMultiplier: {},
+      loopGain: {},
+      loopMultiplier: {},
+      actionLoopGain: {},
+      actionLoopMultiplier: {},
       buildingCostReduction: {},
     };
-
-    // Initialize production multipliers to 1 (they are now calculated directly in production.ts)
-    // This keeps the interface consistent but the actual calculation is done in production.ts
-    for (const resourceKey of resourceKeys) {
-      prodMul[resourceKey] = 1;
-    }
 
     // Calculate click gain multiplier (average of all resource click multipliers)
     let totalClickMultiplier = 0;
     let clickMultiplierCount = 0;
+    const resourceKeys: ResourceKey[] = ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'];
+    
     for (const resourceKey of resourceKeys) {
       const achievementMultiplier = achievementBonuses.clickMultiplier[resourceKey] || 1;
       const prestigeMultiplier = prestigeBonuses.clickMultiplier[resourceKey] || 1;
@@ -79,7 +66,67 @@ export function getMultipliers(state: GameState): Multipliers {
         clickMultiplierCount++;
       }
     }
-    const clickGain = clickMultiplierCount > 0 ? totalClickMultiplier / clickMultiplierCount : 1;
+    
+    return clickMultiplierCount > 0 ? totalClickMultiplier / clickMultiplierCount : 1;
+  } catch (error) {
+    calculationHandler('Failed to calculate click gain multiplier', { error: error instanceof Error ? error.message : String(error) });
+    return GAME_CONSTANTS.GAME.DEFAULT_MULTIPLIER;
+  }
+}
+
+/**
+ * Calculate building-specific cost multipliers
+ */
+export function getBuildingCostMultipliers(state: GameState): Partial<Record<BuildingKey, number>> {
+  try {
+    // Validate input
+    if (!state || typeof state !== 'object') {
+      validationHandler('Invalid state parameter for getBuildingCostMultipliers', { state: typeof state });
+      throw new Error('Invalid state parameter');
+    }
+
+    // Get base multipliers from achievement bonuses
+    const achievementBonuses = state.achievementBonuses || {
+      resourceGain: {},
+      resourceGainMultiplier: {},
+      buildingGain: {},
+      buildingGainMultiplier: {},
+      clickGain: {},
+      clickMultiplier: {},
+      actionClickGain: {},
+      actionClickMultiplier: {},
+      loopGain: {},
+      loopMultiplier: {},
+      actionLoopGain: {},
+      actionLoopMultiplier: {},
+      buildingCostReduction: {},
+    };
+
+    // Get prestige bonuses (separate system)
+    const prestigeBonuses = state.prestigeBonuses || {
+      resourceGain: {},
+      resourceGainMultiplier: {},
+      buildingGain: {},
+      buildingGainMultiplier: {},
+      clickGain: {},
+      clickMultiplier: {},
+      actionClickGain: {},
+      actionClickMultiplier: {},
+      loopGain: {},
+      loopMultiplier: {},
+      actionLoopGain: {},
+      actionLoopMultiplier: {},
+      buildingCostReduction: {},
+    };
+
+    const cost: Partial<Record<BuildingKey, number>> = {};
+    const buildingKeys: BuildingKey[] = ['woodcutter', 'quarry', 'farm', 'blacksmith', 'castle', 'library', 'university', 'laboratory', 'taxOffice'];
+    const resourceKeys: ResourceKey[] = ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'];
+    
+    // Initialize all building cost multipliers with default value of 1
+    for (const key of buildingKeys) {
+      cost[key] = 1;
+    }
 
     // Calculate building-specific cost multipliers
     for (const buildingKey of buildingKeys) {
@@ -87,7 +134,9 @@ export function getMultipliers(state: GameState): Multipliers {
       let totalProdMultiplier = 0;
       let prodMultiplierCount = 0;
       for (const resourceKey of resourceKeys) {
-        const multiplier = prodMul[resourceKey] || 1;
+        const achievementMultiplier = achievementBonuses.resourceGainMultiplier[resourceKey] || 1;
+        const prestigeMultiplier = prestigeBonuses.resourceGainMultiplier[resourceKey] || 1;
+        const multiplier = achievementMultiplier * prestigeMultiplier;
         if (multiplier > 1) {
           totalProdMultiplier += multiplier;
           prodMultiplierCount++;
@@ -102,22 +151,63 @@ export function getMultipliers(state: GameState): Multipliers {
       
       cost[buildingKey] = baseCost * (1 - totalBuildingCostReduction);
     }
+
+    return cost;
+  } catch (error) {
+    calculationHandler('Failed to calculate building cost multipliers', { error: error instanceof Error ? error.message : String(error) });
+    return { woodcutter: 1, quarry: 1, farm: 1, blacksmith: 1, castle: 1, library: 1, university: 1, laboratory: 1, taxOffice: 1 };
+  }
+}
+
+/**
+ * Calculate resource consumption multipliers
+ */
+export function getResourceConsumptionMultipliers(state: GameState): Partial<Record<ResourceKey, number>> {
+  try {
+    // Validate input
+    if (!state || typeof state !== 'object') {
+      validationHandler('Invalid state parameter for getResourceConsumptionMultipliers', { state: typeof state });
+      throw new Error('Invalid state parameter');
+    }
+
+    const useMul: Partial<Record<ResourceKey, number>> = {};
+    const resourceKeys: ResourceKey[] = ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'];
     
-    const ctx: Multipliers = {
+    // Initialize all resource consumption multipliers with default value of 1
+    for (const key of resourceKeys) {
+      useMul[key] = 1;
+    }
+
+    return useMul;
+  } catch (error) {
+    calculationHandler('Failed to calculate resource consumption multipliers', { error: error instanceof Error ? error.message : String(error) });
+    return { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 };
+  }
+}
+
+/**
+ * Calculate all multipliers based on current upgrade levels
+ * Now uses separate prestige bonus system
+ * @deprecated Use specific multiplier functions instead for better performance
+ */
+export function getMultipliers(state: GameState): Multipliers {
+  try {
+    // Use the new specific functions for better performance
+    const clickGain = getClickGainMultiplier(state);
+    const cost = getBuildingCostMultipliers(state);
+    const useMul = getResourceConsumptionMultipliers(state);
+    
+    return {
       clickGain,
       cost,
-      prodMul,
       useMul,
     };
-    
-    return ctx;
   } catch (error) {
     calculationHandler('Failed to calculate multipliers', { error: error instanceof Error ? error.message : String(error) });
     // Return default multipliers on error for safety
     return {
       clickGain: GAME_CONSTANTS.GAME.DEFAULT_MULTIPLIER,
       cost: { woodcutter: 1, quarry: 1, farm: 1, blacksmith: 1, castle: 1, library: 1, university: 1, laboratory: 1, taxOffice: 1 },
-      prodMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 },
       useMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 },
     };
   }

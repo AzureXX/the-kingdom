@@ -5,7 +5,7 @@ import { CONFIG } from '@/lib/game/config';
 import { getBuildingCount } from '@/lib/game/utils/gameState';
 import { isValidBuildingKey } from '@/lib/game/utils/validation';
 import { logInvalidKey, createValidationErrorHandler, createCalculationErrorHandler } from '@/lib/game/utils/error';
-import { getMultipliers } from '@/lib/game/utils/calculations/multipliers';
+import { getResourceConsumptionMultipliers } from '@/lib/game/utils/calculations/multipliers';
 
 const { buildings: BUILDINGS } = CONFIG;
 
@@ -24,7 +24,7 @@ export function getPerSec(state: GameState): Record<ResourceKey, number> {
       throw new Error('Invalid state parameter');
     }
 
-    const muls = getMultipliers(state);
+    const useMultipliers = getResourceConsumptionMultipliers(state);
     const achievementBonuses = state.achievementBonuses || {
       resourceGain: {},
       resourceGainMultiplier: {},
@@ -82,7 +82,7 @@ export function getPerSec(state: GameState): Record<ResourceKey, number> {
       // Subtract consumption (this is separate from production bonuses)
       for (const r in def.baseUse) {
         const rk = r as ResourceKey;
-        buildingProduction[rk] -= (def.baseUse[rk] || 0) * n * (muls.useMul[rk] || 1);
+        buildingProduction[rk] -= (def.baseUse[rk] || 0) * n * (useMultipliers[rk] || 1);
       }
     }
     

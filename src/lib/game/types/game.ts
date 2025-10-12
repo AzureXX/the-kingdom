@@ -160,7 +160,6 @@ export type GameState = CoreGameState &
 export type Multipliers = {
   clickGain: number;
   cost: Partial<Record<BuildingKey, number>>;
-  prodMul: Partial<Record<ResourceKey, number>>;
   useMul: Partial<Record<ResourceKey, number>>;
 };
 

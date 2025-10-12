@@ -1,7 +1,12 @@
 // Calculations system exports
 
 // Multipliers
-export { getMultipliers } from '@/lib/game/utils/calculations/multipliers';
+export { 
+  getMultipliers,
+  getClickGainMultiplier,
+  getBuildingCostMultipliers,
+  getResourceConsumptionMultipliers
+} from '@/lib/game/utils/calculations/multipliers';
 
 // Costs
 export { costFor, technologyCostFor, getUpgradeCost } from '@/lib/game/utils/calculations/costs';
