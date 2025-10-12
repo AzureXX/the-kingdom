@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { AchievementList } from '@/components/game/AchievementList';
 import { useAchievements } from '@/hooks';
-import { formatBonusValue, getResourceDisplayName } from '@/lib/game/utils/achievement';
+import { formatBonusValue } from '@/lib/game/utils/achievement';
 import type { AchievementFilter, AchievementSortOption, GameState, ResourceKey } from '@/lib/game/types';
 import styles from '@/styles/components/scenes/AchievementScene.module.scss';
 
@@ -13,7 +13,7 @@ interface AchievementSceneProps {
 }
 
 export function AchievementScene({ onAchievementClick }: AchievementSceneProps) {
-  const { stats, pendingNotifications, bonusSummary, allMultipliers } = useAchievements();
+  const { stats, pendingNotifications, allMultipliers } = useAchievements();
   const [filter, setFilter] = useState<AchievementFilter>({});
   const [sortBy, setSortBy] = useState<AchievementSortOption>('progress');
   const [showStats, setShowStats] = useState(false);
@@ -52,21 +52,6 @@ export function AchievementScene({ onAchievementClick }: AchievementSceneProps) 
       percentage: Math.round((count / stats.unlockedAchievements) * 100) || 0
     }));
   };
-
-  const getResourceBreakdown = () => {
-    const allResources: ResourceKey[] = ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'];
-    return allResources.map(resource => {
-      const breakdown = bonusSummary.resourceBreakdown[resource];
-      if (!breakdown) return null;
-      
-      return {
-        resource,
-        name: getResourceDisplayName(resource),
-        ...breakdown
-      };
-    }).filter((item): item is NonNullable<typeof item> => item !== null);
-  };
-
 
   return (
     <div className={styles.achievementScene}>
@@ -409,8 +394,7 @@ export function AchievementScene({ onAchievementClick }: AchievementSceneProps) 
               </div>
             )}
 
-            {/* No bonuses message */}
-            {Object.values(allMultipliers).every((arr: any[]) => arr.length === 0) && (
+            {Object.values(allMultipliers).every((arr: unknown[]) => arr.length === 0) && (
               <div className={styles.noBonuses}>
                 <p>No achievement bonuses active yet. Complete some achievements to unlock bonuses!</p>
               </div>
