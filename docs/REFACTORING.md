@@ -6,7 +6,7 @@
 
 ## 📊 **Analysis Summary**
 
-This document analyzes each of the 193 modules in the Medieval Kingdom idle game to determine which ones need refactoring and which are well-structured.
+This document analyzes each of the 207 modules in the Medieval Kingdom idle game to determine which ones need refactoring and which are well-structured.
 
 ---
 
@@ -18,7 +18,7 @@ This document analyzes each of the 193 modules in the Medieval Kingdom idle game
 ### **App Router Components (2 modules)**
 ### **UI Components (25 modules)**
 ### **Styling Modules (13 modules)**
-### **Test Modules (13 modules)**
+### **Test Modules (27 modules)**
 ### **Simple Utility Modules (15 modules)**
 ### **Complex Utility Modules (91 modules)**
 ### **Game Hooks (8 modules)**
@@ -36,8 +36,8 @@ This document analyzes each of the 193 modules in the Medieval Kingdom idle game
 
 ## 📊 **Summary Statistics**
 
-- **Total Modules Analyzed**: 193
-- **Modules That DON'T Need Refactoring**: 193 (100%)
+- **Total Modules Analyzed**: 207
+- **Modules That DON'T Need Refactoring**: 207 (100%)
 - **Modules That NEED Refactoring**: 0 (0%)
 
 ---

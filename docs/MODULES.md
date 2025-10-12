@@ -297,21 +297,23 @@ This document provides a comprehensive list of all modules in the Medieval Kingd
 ## 🧪 **Testing Modules**
 
 ### **Test Files**
-- `src/__tests__/setup.test.ts` - Test setup verification
-- `src/__tests__/game/resourceCalculations.test.ts` - Resource calculation tests
-- `src/__tests__/game/resourceUpdates.test.ts` - Resource update tests
-- `src/__tests__/game/resourceValidation.test.ts` - Resource validation tests
+- `__tests__/setup.test.ts` - Test setup verification
+- `__tests__/game/achievementBonuses.test.ts` - Achievement bonus tests
+- `__tests__/game/achievementRewards.test.ts` - Achievement reward tests
+- `__tests__/game/resourceCalculations.test.ts` - Resource calculation tests
+- `__tests__/game/resourceUpdates.test.ts` - Resource update tests
+- `__tests__/game/resourceValidation.test.ts` - Resource validation tests
 
 ### **Test Utilities**
-- `src/__tests__/utils/testHelpers.ts` - Test helper functions
-- `src/__tests__/utils/mockData.ts` - Mock data for tests
-- `src/__tests__/utils/circularBuffer.test.ts` - Circular buffer tests
-- `src/__tests__/utils/errorLogger.test.ts` - Error logger tests
-- `src/__tests__/utils/numberUtils.test.ts` - Number utility tests
-- `src/__tests__/utils/performanceOptimizations.test.ts` - Performance optimization tests
-- `src/__tests__/utils/stringUtils.test.ts` - String utility tests
-- `src/__tests__/utils/validationUtils.test.ts` - Validation utility tests
-- `src/__tests__/utils/index.ts` - Test utility exports
+- `__tests__/utils/testHelpers.ts` - Test helper functions
+- `__tests__/utils/mockData.ts` - Mock data for tests
+- `__tests__/utils/circularBuffer.test.ts` - Circular buffer tests
+- `__tests__/utils/errorLogger.test.ts` - Error logger tests
+- `__tests__/utils/numberUtils.test.ts` - Number utility tests
+- `__tests__/utils/performanceOptimizations.test.ts` - Performance optimization tests
+- `__tests__/utils/stringUtils.test.ts` - String utility tests
+- `__tests__/utils/validationUtils.test.ts` - Validation utility tests
+- `__tests__/utils/index.ts` - Test utility exports
 
 ---
 
@@ -325,7 +327,7 @@ This document provides a comprehensive list of all modules in the Medieval Kingd
 - **Styles**: 13 modules (SCSS stylesheets)
 - **Types**: 12 modules (TypeScript definitions)
 - **Constants**: 5 modules (game constants)
-- **Tests**: 13 modules (test files and utilities)
+- **Tests**: 27 modules (test files and utilities)
 
 ### **By Complexity:**
 - **High Complexity**: Performance monitoring, game loop, save system

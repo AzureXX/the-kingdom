@@ -30,6 +30,8 @@ the-kingdom/
 ```
 __tests__/
 ├── game/                         # Game logic tests
+│   ├── achievementBonuses.test.ts
+│   ├── achievementRewards.test.ts
 │   ├── resourceCalculations.test.ts
 │   ├── resourceUpdates.test.ts
 │   └── resourceValidation.test.ts
@@ -416,14 +418,14 @@ src/styles/
 
 ### **File Count by Category:**
 - **Configuration Files**: 8
-- **Test Files**: 13
-- **Documentation Files**: 3
+- **Test Files**: 27
+- **Documentation Files**: 12
 - **App Router Files**: 3
 - **Component Files**: 25
 - **Hook Files**: 8
 - **Game Logic Files**: 159
 - **Style Files**: 13
-- **Total Files**: ~232
+- **Total Files**: ~255
 
 ### **Directory Count by Category:**
 - **Root Directories**: 4
