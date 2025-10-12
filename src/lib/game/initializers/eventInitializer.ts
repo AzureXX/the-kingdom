@@ -12,12 +12,24 @@
  * ```
  */
 
-import type { EventKey } from '@/lib/game/types';
+import type { EventState } from '@/lib/game/types';
 import { GAME_CONSTANTS, EVENT_CONSTANTS } from '@/lib/game/constants';
 import { createStateErrorHandler } from '@/lib/game/utils/error';
 
 // Create specialized error handler for event initialization
 const stateErrorHandler = createStateErrorHandler('eventInitializer');
+
+/**
+ * Create an empty event state object with all properties initialized
+ */
+export function getEmptyEventStateObject(): EventState['events'] {
+  return {
+    activeEvent: null,
+    activeEventStartTime: 0,
+    nextEventTime: 0,
+    eventHistory: []
+  };
+}
 
 /**
  * Initialize event state with default values
@@ -31,16 +43,7 @@ const stateErrorHandler = createStateErrorHandler('eventInitializer');
  * - Initializes empty event history
  * 
  */
-export function initEventState(): {
-  activeEvent: EventKey | null;
-  activeEventStartTime: number;
-  nextEventTime: number;
-  eventHistory: Array<{
-    eventKey: EventKey;
-    choiceIndex: number;
-    timestamp: number;
-  }>;
-} {
+export function initEventState(): EventState['events'] {
   try {
     // Calculate initial event timing with random interval
     const randomIntervalSeconds = Math.random() * 
@@ -50,10 +53,8 @@ export function initEventState(): {
     const nextEventTime = Date.now() + (randomIntervalSeconds * GAME_CONSTANTS.TIME_CONSTANTS.MILLISECONDS_PER_SECOND);
     
     return {
-      activeEvent: null,
-      activeEventStartTime: 0,
-      nextEventTime,
-      eventHistory: [],
+      ...getEmptyEventStateObject(),
+      nextEventTime
     };
   } catch (error) {
     stateErrorHandler('Failed to initialize event state', { 

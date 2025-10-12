@@ -11,6 +11,20 @@ const validationHandler = createValidationErrorHandler('gameState');
 const stateErrorHandler = createStateErrorHandler('gameState');
 
 /**
+ * Create an empty resource object with all resources initialized to 0
+ */
+export function getEmptyResourceObject(): Record<ResourceKey, number> {
+  return {
+    gold: 0,
+    wood: 0,
+    stone: 0,
+    food: 0,
+    prestige: 0,
+    researchPoints: 0
+  };
+}
+
+/**
  * Get a resource value safely, returning 0 if not found
  */
 export function getResource(state: GameState, resourceKey: ResourceKey): number {

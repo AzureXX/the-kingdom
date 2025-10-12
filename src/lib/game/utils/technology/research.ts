@@ -7,6 +7,7 @@ import { getResource, setResource, setTechnologyLevel } from '@/lib/game/utils/g
 import { isValidResourceKey } from '@/lib/game/utils/validation';
 import { logInvalidKey } from '@/lib/game/utils/error';
 import { canResearchTechnology } from '@/lib/game/utils/technology/validation';
+import { getEmptyResearchStateObject } from '@/lib/game/initializers/researchInitializer';
 
 const { technologies: TECHNOLOGIES } = CONFIG;
 
@@ -78,9 +79,7 @@ export function completeResearch(state: GameState, technologyKey: TechnologyKey)
     ...newState,
     research: {
       ...newState.research,
-      activeResearch: null,
-      researchStartTime: 0,
-      researchEndTime: 0
+      ...getEmptyResearchStateObject()
     }
   };
 }

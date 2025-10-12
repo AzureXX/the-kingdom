@@ -8,6 +8,7 @@ import { logInvalidKey, createValidationErrorHandler, createCalculationErrorHand
 import { getResourceConsumptionMultipliers } from '@/lib/game/utils/calculations/multipliers';
 import { getEmptyAchievementBonusesObject } from '@/lib/game/utils/achievement/bonusCalculator';
 import { getEmptyPrestigeBonusesObject } from '@/lib/game/utils/prestige/bonusApplication';
+import { getEmptyResourceObject } from '@/lib/game/utils/gameState/resources';
 
 const { buildings: BUILDINGS } = CONFIG;
 
@@ -32,7 +33,7 @@ export function getPerSec(state: GameState): Record<ResourceKey, number> {
     const prestigeBonuses = state.prestigeBonuses || getEmptyPrestigeBonusesObject();
     
     // Step 1: Calculate building production with building-specific bonuses
-    const buildingProduction: Record<ResourceKey, number> = { gold: 0, wood: 0, stone: 0, food: 0, prestige: 0, researchPoints: 0 };
+    const buildingProduction: Record<ResourceKey, number> = getEmptyResourceObject();
     
     for (const key in BUILDINGS) {
       if (!isValidBuildingKey(key)) {
@@ -70,7 +71,7 @@ export function getPerSec(state: GameState): Record<ResourceKey, number> {
     }
     
     // Step 2: Calculate total gains and apply multipliers per resource
-    const out: Record<ResourceKey, number> = { gold: 0, wood: 0, stone: 0, food: 0, prestige: 0, researchPoints: 0 };
+    const out: Record<ResourceKey, number> = getEmptyResourceObject();
     
     for (const resourceKey of ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'] as ResourceKey[]) {
       const rk = resourceKey;
@@ -98,6 +99,6 @@ export function getPerSec(state: GameState): Record<ResourceKey, number> {
   } catch (error) {
     calculationHandler('Failed to calculate production per second', { error: error instanceof Error ? error.message : String(error) });
     // Return zero production on error for safety
-    return { gold: 0, wood: 0, stone: 0, food: 0, prestige: 0, researchPoints: 0 };
+    return getEmptyResourceObject();
   }
 }

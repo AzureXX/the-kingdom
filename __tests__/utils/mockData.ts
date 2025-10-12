@@ -1,6 +1,10 @@
 import type { GameState } from '@/lib/game/types'
 import { getEmptyAchievementBonusesObject } from '@/lib/game/utils/achievement/bonusCalculator'
 import { getEmptyPrestigeBonusesObject } from '@/lib/game/utils/prestige/bonusApplication'
+import { getEmptyAchievementStateObject } from '@/lib/game/utils/achievement/initialization'
+import { getEmptyResearchStateObject } from '@/lib/game/initializers/researchInitializer'
+import { getEmptyEventStateObject } from '@/lib/game/initializers/eventInitializer'
+import { getEmptyLoopActionsArray } from '@/lib/game/initializers/gameStateFactory'
 
 /**
  * Mock data for testing game functionality
@@ -49,19 +53,10 @@ export const mockBasicGameState: GameState = {
   },
   
   // Events
-  events: {
-    activeEvent: null,
-    activeEventStartTime: 0,
-    nextEventTime: 0,
-    eventHistory: [],
-  },
+  events: getEmptyEventStateObject(),
   
   // Research
-  research: {
-    activeResearch: null,
-    researchStartTime: 0,
-    researchEndTime: 0,
-  },
+  research: getEmptyResearchStateObject(),
   
   // Actions
   actions: {
@@ -107,23 +102,14 @@ export const mockBasicGameState: GameState = {
   },
   
   // Loop actions
-  loopActions: [],
+  loopActions: getEmptyLoopActionsArray(),
   loopSettings: {
     maxConcurrentActions: 3,
     basePointsPerTick: 1,
   },
   
   // Achievements
-  achievements: {
-    unlocked: {},
-    progress: {},
-    notifications: [],
-    totalPoints: 0,
-    stats: {
-      unlockedCount: 0,
-      sessionUnlocks: 0,
-    },
-  },
+  achievements: getEmptyAchievementStateObject(),
   
   // Achievement bonuses (new system)
   achievementBonuses: getEmptyAchievementBonusesObject(),

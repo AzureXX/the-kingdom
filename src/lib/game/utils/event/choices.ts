@@ -7,6 +7,7 @@ import { getResource, addResources } from '@/lib/game/utils/gameState';
 import { isValidResourceKey } from '@/lib/game/utils/validation';
 import { logInvalidKey } from '@/lib/game/utils/error';
 import { applyResourceChanges } from '@/lib/game/utils/resource';
+import { getEmptyEventStateObject } from '@/lib/game/initializers/eventInitializer';
 
 const { events: EVENTS } = CONFIG;
 
@@ -73,10 +74,9 @@ export function makeEventChoice(state: GameState, eventKey: EventKey, choiceInde
   return {
     ...newState,
     events: {
+      ...getEmptyEventStateObject(),
       ...newState.events,
       eventHistory: newEventHistory,
-      activeEvent: null,
-      activeEventStartTime: 0,
       nextEventTime
     }
   };

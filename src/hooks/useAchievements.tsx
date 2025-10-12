@@ -7,7 +7,8 @@ import {
   markNotificationShown, 
   getAchievementStats,
   getBonusSummary,
-  getAllMultipliers
+  getAllMultipliers,
+  getEmptyAchievementStateObject
 } from '@/lib/game/utils/achievement';
 import { ACHIEVEMENTS } from '@/lib/game/config/achievements';
 import type { 
@@ -30,16 +31,7 @@ export function useAchievements() {
     if (!state) return [];
 
     // Ensure achievements state exists
-    const achievementsState = state.achievements || {
-      unlocked: {},
-      progress: {},
-      notifications: [],
-      totalPoints: 0,
-      stats: {
-        unlockedCount: 0,
-        sessionUnlocks: 0
-      }
-    };
+    const achievementsState = state.achievements || getEmptyAchievementStateObject();
 
     return Object.entries(ACHIEVEMENTS).map(([key, achievement]) => {
       const progress = getAchievementProgress(state, key as AchievementKey);

@@ -13,9 +13,21 @@
  */
 
 import { createStateErrorHandler } from '@/lib/game/utils/error';
+import type { ResearchState } from '@/lib/game/types';
 
 // Create specialized error handler for research initialization
 const stateErrorHandler = createStateErrorHandler('researchInitializer');
+
+/**
+ * Create an empty research state object with all properties initialized
+ */
+export function getEmptyResearchStateObject(): ResearchState['research'] {
+  return {
+    activeResearch: null,
+    researchStartTime: 0,
+    researchEndTime: 0
+  };
+}
 
 /**
  * Initialize research state with default values
@@ -30,11 +42,7 @@ const stateErrorHandler = createStateErrorHandler('researchInitializer');
  * 
  */
 export function initResearchState(): {
-  research: {
-    activeResearch: null;
-    researchStartTime: 0;
-    researchEndTime: 0;
-  };
+  research: ResearchState['research'];
   actions: {
     unlocks: Record<string, boolean>;
     cooldowns: Record<string, number>;
@@ -42,11 +50,7 @@ export function initResearchState(): {
 } {
   try {
     return {
-      research: {
-        activeResearch: null,
-        researchStartTime: 0,
-        researchEndTime: 0,
-      },
+      research: getEmptyResearchStateObject(),
       actions: {
         unlocks: {},
         cooldowns: {},

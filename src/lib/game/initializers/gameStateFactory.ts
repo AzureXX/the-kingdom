@@ -20,6 +20,7 @@ import { applyPrestigeBonuses } from '@/lib/game/utils/prestige/bonusApplication
 import { createStateErrorHandler } from '@/lib/game/utils/error';
 import { getEmptyAchievementBonusesObject } from '@/lib/game/utils/achievement/bonusCalculator';
 import { getEmptyPrestigeBonusesObject } from '@/lib/game/utils/prestige/bonusApplication';
+import type { LoopActionState } from '@/lib/game/types';
 
 // Import all individual initializers
 import { initResourceState } from '@/lib/game/initializers/resourceInitializer';
@@ -32,6 +33,13 @@ const { prestige: PRESTIGE_CONFIG, version: CONFIG_VERSION } = CONFIG;
 
 // Create specialized error handler for game state factory
 const stateErrorHandler = createStateErrorHandler('gameStateFactory');
+
+/**
+ * Create an empty loop actions array
+ */
+export function getEmptyLoopActionsArray(): LoopActionState[] {
+  return [];
+}
 
 /**
  * Create a new game state by composing all individual state initializers
@@ -91,7 +99,7 @@ export function createNewGameState(): GameState {
       prestigeBonuses: getEmptyPrestigeBonusesObject(),
       
       // Loop actions state
-      loopActions: [],
+      loopActions: getEmptyLoopActionsArray(),
       loopSettings: DEFAULT_LOOP_SETTINGS,
       
       // Achievement state

@@ -1,7 +1,7 @@
 // Achievement system exports
 
 // Initialization
-export { initAchievementState } from '@/lib/game/utils/achievement/initialization';
+export { initAchievementState, getEmptyAchievementStateObject } from '@/lib/game/utils/achievement/initialization';
 
 // Progress calculation
 export { calculateAchievementProgress, getAchievementProgress } from '@/lib/game/utils/achievement/progress';

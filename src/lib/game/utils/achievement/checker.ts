@@ -9,6 +9,7 @@ import { ACHIEVEMENTS } from '@/lib/game/config/achievements';
 import { calculateAchievementProgress } from '@/lib/game/utils/achievement/progress';
 import { applyAchievementRewards } from '@/lib/game/utils/achievement/rewards';
 import { createValidationErrorHandler, createStateErrorHandler } from '@/lib/game/utils/error';
+import { getEmptyAchievementStateObject } from '@/lib/game/utils/achievement/initialization';
 
 // Create specialized error handlers
 const validationHandler = createValidationErrorHandler('achievementSystem');
@@ -30,18 +31,7 @@ export function checkAchievements(state: GameState): GameState {
     if (!state.achievements) {
       return {
         ...state,
-        achievements: {
-          unlocked: {},
-          progress: {},
-          notifications: [],
-          totalPoints: 0,
-          stats: {
-            unlockedCount: 0,
-            sessionUnlocks: 0,
-            lastUnlocked: undefined,
-            lastUnlockTime: undefined
-          }
-        }
+        achievements: getEmptyAchievementStateObject()
       };
     }
 

@@ -1,5 +1,6 @@
 import type { GameState, ResourceKey, BuildingKey, TechnologyKey, PrestigeUpgradeKey, EventKey } from '@/lib/game/types'
 import { createNewGameState } from '@/lib/game/initializers/gameStateFactory'
+import { getEmptyAchievementStateObject } from '@/lib/game/utils/achievement/initialization'
 
 /**
  * Test utilities for creating and manipulating game states
@@ -35,16 +36,7 @@ export function createGameStateWithResourcesNoAchievements(resources: Partial<Re
   const state = createNewGameState()
   
   // Clear all achievements to prevent them from triggering during tests
-  state.achievements = {
-    unlocked: {},
-    progress: {},
-    notifications: [],
-    totalPoints: 0,
-    stats: {
-      unlockedCount: 0,
-      sessionUnlocks: 0
-    }
-  }
+  state.achievements = getEmptyAchievementStateObject()
   
   for (const [key, value] of Object.entries(resources)) {
     if (key in state.resources && value !== undefined) {
