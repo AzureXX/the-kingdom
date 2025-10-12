@@ -89,77 +89,8 @@ export function AchievementScene({ onAchievementClick }: AchievementSceneProps) 
           </div>
         </div>
       </div>
-
-      <div className={styles.controls}>
-        <div className={styles.filterControls}>
-          <div className={styles.filterGroup}>
-            <label className={styles.filterLabel}>Category:</label>
-            <select
-              value={filter.category || 'all'}
-              onChange={(e) => handleFilterChange({ category: e.target.value as AchievementFilter['category'] })}
-              className={styles.filterSelect}
-            >
-              <option value="all">All Categories</option>
-              <option value="resource">Resources</option>
-              <option value="building">Buildings</option>
-              <option value="technology">Technology</option>
-              <option value="action">Actions</option>
-              <option value="prestige">Prestige</option>
-              <option value="event">Events</option>
-              <option value="time">Time</option>
-              <option value="misc">Miscellaneous</option>
-            </select>
-          </div>
-
-          <div className={styles.filterGroup}>
-            <label className={styles.filterLabel}>Rarity:</label>
-            <select
-              value={filter.rarity || 'all'}
-              onChange={(e) => handleFilterChange({ rarity: e.target.value as AchievementFilter['rarity'] })}
-              className={styles.filterSelect}
-            >
-              <option value="all">All Rarities</option>
-              <option value="common">Common</option>
-              <option value="uncommon">Uncommon</option>
-              <option value="rare">Rare</option>
-              <option value="epic">Epic</option>
-              <option value="legendary">Legendary</option>
-            </select>
-          </div>
-
-          <div className={styles.filterGroup}>
-            <label className={styles.filterLabel}>Status:</label>
-            <select
-              value={filter.status || 'all'}
-              onChange={(e) => handleFilterChange({ status: e.target.value as AchievementFilter['status'] })}
-              className={styles.filterSelect}
-            >
-              <option value="all">All Status</option>
-              <option value="unlocked">Unlocked</option>
-              <option value="locked">Locked</option>
-              <option value="in_progress">In Progress</option>
-            </select>
-          </div>
-        </div>
-
-        <div className={styles.sortControls}>
-          <div className={styles.filterGroup}>
-            <label className={styles.filterLabel}>Sort by:</label>
-            <select
-              value={sortBy}
-              onChange={(e) => handleSortChange(e.target.value as AchievementSortOption)}
-              className={styles.filterSelect}
-            >
-              <option value="progress">Progress</option>
-              <option value="points">Points</option>
-              <option value="name">Name</option>
-              <option value="rarity">Rarity</option>
-              <option value="category">Category</option>
-              <option value="unlock_time">Unlock Time</option>
-            </select>
-          </div>
-
-          <button
+      <div className={styles.buttonContainer}>
+        <button
             className={styles.statsButton}
             onClick={() => setShowStats(!showStats)}
           >
@@ -172,9 +103,8 @@ export function AchievementScene({ onAchievementClick }: AchievementSceneProps) 
           >
             {showBonuses ? 'Hide Bonuses' : 'Show Bonuses'}
           </button>
-
-        </div>
       </div>
+      
 
       {showStats && (
         <div className={styles.statsPanel}>
@@ -402,16 +332,6 @@ export function AchievementScene({ onAchievementClick }: AchievementSceneProps) 
           </div>
         </div>
       )}
-
-      <div className={styles.searchContainer}>
-        <input
-          type="text"
-          placeholder="Search achievements..."
-          value={filter.search || ''}
-          onChange={(e) => handleFilterChange({ search: e.target.value })}
-          className={styles.searchInput}
-        />
-      </div>
 
       <AchievementList
         filter={filter}
