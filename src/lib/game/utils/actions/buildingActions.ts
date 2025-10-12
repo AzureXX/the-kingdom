@@ -3,7 +3,8 @@
  * Handles building purchases and related functionality
  */
 
-import type { BuildingKey, GameState, ResourceCost } from '@/lib/game/types';
+import type { BuildingKey, GameState } from '@/lib/game/types';
+import { pay } from '@/lib/game/utils/actions/resourceActions';
 
 import { 
   getBuildingCount, 
@@ -16,19 +17,6 @@ import { costFor, canAfford } from '@/lib/game/utils/calculations';
 import { createStateErrorHandler } from '@/lib/game/utils/error';
 
 const stateErrorHandler = createStateErrorHandler('buildingActions');
-
-/**
- * Pay resources (subtract from state) - Uses unified utility
- */
-export function pay(state: GameState, cost: ResourceCost): GameState {
-  try {
-    return payResources(state, cost);
-  } catch (error) {
-    stateErrorHandler('Failed to pay resources', { cost, error: error instanceof Error ? error.message : String(error) });
-    return state; // Return original state on error
-  }
-}
-
 /**
  * Buy a building - Optimized pure function with error handling
  */
