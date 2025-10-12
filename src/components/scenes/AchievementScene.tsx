@@ -4,9 +4,8 @@ import React, { useState } from 'react';
 import { AchievementList } from '@/components/game/AchievementList';
 import { useAchievements } from '@/hooks';
 import { formatBonusValue } from '@/lib/game/utils/achievement';
-import type { AchievementFilter, AchievementSortOption, GameState, ResourceKey } from '@/lib/game/types';
 import styles from '@/styles/components/scenes/AchievementScene.module.scss';
-
+import type { GameState, ResourceKey } from '@/lib/game/types';
 interface AchievementSceneProps {
   state: GameState;
   onAchievementClick?: (achievementKey: string) => void;
@@ -14,8 +13,6 @@ interface AchievementSceneProps {
 
 export function AchievementScene({ onAchievementClick }: AchievementSceneProps) {
   const { stats, pendingNotifications, allMultipliers } = useAchievements();
-  const [filter, setFilter] = useState<AchievementFilter>({});
-  const [sortBy, setSortBy] = useState<AchievementSortOption>('progress');
   const [showStats, setShowStats] = useState(false);
   const [showBonuses, setShowBonuses] = useState(false);
 
@@ -23,14 +20,6 @@ export function AchievementScene({ onAchievementClick }: AchievementSceneProps) 
     if (onAchievementClick) {
       onAchievementClick(achievementKey);
     }
-  };
-
-  const handleFilterChange = (newFilter: Partial<AchievementFilter>) => {
-    setFilter(prev => ({ ...prev, ...newFilter }));
-  };
-
-  const handleSortChange = (newSortBy: AchievementSortOption) => {
-    setSortBy(newSortBy);
   };
 
   const getCompletionPercentage = () => {
@@ -334,8 +323,6 @@ export function AchievementScene({ onAchievementClick }: AchievementSceneProps) 
       )}
 
       <AchievementList
-        filter={filter}
-        sortBy={sortBy}
         onAchievementClick={handleAchievementClick}
         className={styles.achievementList}
       />

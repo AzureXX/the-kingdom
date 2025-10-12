@@ -7,23 +7,19 @@ import type { AchievementFilter, AchievementSortOption } from '@/lib/game/types'
 import styles from '@/styles/components/game/AchievementList.module.scss';
 
 interface AchievementListProps {
-  filter?: AchievementFilter;
-  sortBy?: AchievementSortOption;
   compact?: boolean;
   onAchievementClick?: (achievementKey: string) => void;
   className?: string;
 }
 
 export function AchievementList({ 
-  filter = {}, 
-  sortBy = 'progress',
   compact = false,
   onAchievementClick,
   className = ''
 }: AchievementListProps) {
   const { getFilteredAchievements } = useAchievements();
-  const [localFilter, setLocalFilter] = useState<AchievementFilter>(filter);
-  const [localSortBy, setLocalSortBy] = useState<AchievementSortOption>(sortBy);
+  const [localFilter, setLocalFilter] = useState<AchievementFilter>({});
+  const [localSortBy, setLocalSortBy] = useState<AchievementSortOption>('progress');
 
   const achievements = useMemo(() => {
     return getFilteredAchievements(localFilter, localSortBy);
