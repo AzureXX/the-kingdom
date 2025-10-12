@@ -4,7 +4,7 @@ import { CONFIG } from '@/lib/game/config';
 import type { TechnologyKey, GameState } from '@/lib/game/types';
 import { isValidTechnologyKey } from '@/lib/game/utils/validation';
 import { logInvalidKey } from '@/lib/game/utils/error';
-import { hasPrerequisitesMet, canResearchTechnology } from '@/lib/game/utils/technology/validation';
+import { hasPrerequisitesMet } from '@/lib/game/utils/technology/validation';
 
 /**
  * Get all technologies with prerequisites met (regardless of resources)

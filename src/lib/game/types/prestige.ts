@@ -50,6 +50,8 @@ export interface PrestigeReward {
   type: PrestigeRewardType;
   /** Target resource/multiplier/etc. */
   target: string;
+  /** Resource key (for building-specific rewards) */
+  resource?: ResourceKey;
   /** Reward value */
   value: number;
   /** Whether reward persists through prestige */

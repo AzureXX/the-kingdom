@@ -253,7 +253,7 @@ function applyBuildingGainReward(bonuses: PrestigeBonuses, reward: PrestigeRewar
       bonuses.buildingGain[reward.target]![resource] = (bonuses.buildingGain[reward.target]![resource] || 0) + reward.value;
     }
   } else {
-    bonuses.buildingGain[reward.target]![resourceKey] = (bonuses.buildingGain[reward.target]![resourceKey] || 0) + reward.value;
+    bonuses.buildingGain[reward.target]![resourceKey as ResourceKey] = (bonuses.buildingGain[reward.target]![resourceKey as ResourceKey] || 0) + reward.value;
   }
 }
 
@@ -271,7 +271,7 @@ function applyBuildingGainMultiplierReward(bonuses: PrestigeBonuses, reward: Pre
       bonuses.buildingGainMultiplier[reward.target]![resource] = (bonuses.buildingGainMultiplier[reward.target]![resource] || 1) * reward.value;
     }
   } else {
-    bonuses.buildingGainMultiplier[reward.target]![resourceKey] = (bonuses.buildingGainMultiplier[reward.target]![resourceKey] || 1) * reward.value;
+    bonuses.buildingGainMultiplier[reward.target]![resourceKey as ResourceKey] = (bonuses.buildingGainMultiplier[reward.target]![resourceKey as ResourceKey] || 1) * reward.value;
   }
 }
 
@@ -289,7 +289,7 @@ function applyActionClickGainReward(bonuses: PrestigeBonuses, reward: PrestigeRe
       bonuses.actionClickGain[reward.target]![resource] = (bonuses.actionClickGain[reward.target]![resource] || 0) + reward.value;
     }
   } else {
-    bonuses.actionClickGain[reward.target]![resourceKey] = (bonuses.actionClickGain[reward.target]![resourceKey] || 0) + reward.value;
+    bonuses.actionClickGain[reward.target]![resourceKey as ResourceKey] = (bonuses.actionClickGain[reward.target]![resourceKey as ResourceKey] || 0) + reward.value;
   }
 }
 
@@ -307,7 +307,7 @@ function applyActionClickMultiplierReward(bonuses: PrestigeBonuses, reward: Pres
       bonuses.actionClickMultiplier[reward.target]![resource] = (bonuses.actionClickMultiplier[reward.target]![resource] || 1) * reward.value;
     }
   } else {
-    bonuses.actionClickMultiplier[reward.target]![resourceKey] = (bonuses.actionClickMultiplier[reward.target]![resourceKey] || 1) * reward.value;
+    bonuses.actionClickMultiplier[reward.target]![resourceKey as ResourceKey] = (bonuses.actionClickMultiplier[reward.target]![resourceKey as ResourceKey] || 1) * reward.value;
   }
 }
 
@@ -355,7 +355,7 @@ function applyActionLoopGainReward(bonuses: PrestigeBonuses, reward: PrestigeRew
       bonuses.actionLoopGain[reward.target]![resource] = (bonuses.actionLoopGain[reward.target]![resource] || 0) + reward.value;
     }
   } else {
-    bonuses.actionLoopGain[reward.target]![resourceKey] = (bonuses.actionLoopGain[reward.target]![resourceKey] || 0) + reward.value;
+    bonuses.actionLoopGain[reward.target]![resourceKey as ResourceKey] = (bonuses.actionLoopGain[reward.target]![resourceKey as ResourceKey] || 0) + reward.value;
   }
 }
 
@@ -373,7 +373,7 @@ function applyActionLoopMultiplierReward(bonuses: PrestigeBonuses, reward: Prest
       bonuses.actionLoopMultiplier[reward.target]![resource] = (bonuses.actionLoopMultiplier[reward.target]![resource] || 1) * reward.value;
     }
   } else {
-    bonuses.actionLoopMultiplier[reward.target]![resourceKey] = (bonuses.actionLoopMultiplier[reward.target]![resourceKey] || 1) * reward.value;
+    bonuses.actionLoopMultiplier[reward.target]![resourceKey as ResourceKey] = (bonuses.actionLoopMultiplier[reward.target]![resourceKey as ResourceKey] || 1) * reward.value;
   }
 }
 

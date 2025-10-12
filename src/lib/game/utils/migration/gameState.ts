@@ -28,6 +28,7 @@ export function migrateGameState(state: GameState): GameState {
           loopMultiplier: {},
           actionLoopGain: {},
           actionLoopMultiplier: {},
+          buildingCostReduction: {},
         }
       };
     }
@@ -104,12 +105,21 @@ export function migrateGameState(state: GameState): GameState {
         loopMultiplier: {},
         actionLoopGain: {},
         actionLoopMultiplier: {},
+        buildingCostReduction: {},
       },
       prestigeBonuses: {
         resourceGain: {},
         resourceGainMultiplier: {},
+        buildingGain: {},
+        buildingGainMultiplier: {},
         clickGain: {},
         clickMultiplier: {},
+        actionClickGain: {},
+        actionClickMultiplier: {},
+        loopGain: {},
+        loopMultiplier: {},
+        actionLoopGain: {},
+        actionLoopMultiplier: {},
         buildingCostReduction: {},
       }
     };

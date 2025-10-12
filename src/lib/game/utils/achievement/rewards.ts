@@ -597,7 +597,8 @@ function createDefaultAchievementBonuses(): AchievementBonuses {
     loopGain: {},
     loopMultiplier: {},
     actionLoopGain: {},
-    actionLoopMultiplier: {}
+    actionLoopMultiplier: {},
+    buildingCostReduction: {},
   };
 }
 
@@ -664,11 +665,11 @@ function applyBuildingCostReductionReward(state: GameState, reward: AchievementR
       // Apply to all buildings - we need to get all building keys
       const commonBuildings = ['woodcutter', 'quarry', 'farm', 'blacksmith', 'castle', 'library', 'university', 'laboratory', 'taxOffice'];
       for (const building of commonBuildings) {
-        newBuildingCostReduction[building] = (newBuildingCostReduction[building] || 0) + reward.value;
+        newBuildingCostReduction[building as BuildingKey] = (newBuildingCostReduction[building as BuildingKey] || 0) + reward.value;
       }
     } else {
       // Apply to specific building
-      newBuildingCostReduction[reward.target] = (newBuildingCostReduction[reward.target] || 0) + reward.value;
+      newBuildingCostReduction[reward.target as BuildingKey] = (newBuildingCostReduction[reward.target as BuildingKey] || 0) + reward.value;
     }
 
     return {
