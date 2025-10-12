@@ -46,23 +46,6 @@ export const ACHIEVEMENTS: Record<AchievementKey, AchievementDef> = {
   
 } as Record<AchievementKey, AchievementDef>;
 
-/**
- * Get all achievements by category
- */
-export function getAchievementsByCategory(category: string): AchievementDef[] {
-  return Object.values(ACHIEVEMENTS).filter(achievement => 
-    category === 'all' || achievement.category === category
-  );
-}
-
-/**
- * Get achievements by rarity
- */
-export function getAchievementsByRarity(rarity: string): AchievementDef[] {
-  return Object.values(ACHIEVEMENTS).filter(achievement => 
-    rarity === 'all' || achievement.rarity === rarity
-  );
-}
 
 
 // Re-export individual category achievements for direct access

@@ -3,7 +3,6 @@
 import { useCallback, useMemo } from 'react';
 import { useGameStateContext } from '@/lib/game/providers';
 import { 
-  checkAchievements, 
   getAchievementProgress, 
   markNotificationShown, 
   getAchievementStats,
@@ -13,7 +12,6 @@ import {
 import { ACHIEVEMENTS } from '@/lib/game/config/achievements';
 import type { 
   AchievementKey, 
-  AchievementDef, 
   AchievementFilter, 
   AchievementSortOption,
   AchievementStats 
@@ -127,47 +125,6 @@ export function useAchievements() {
     return filtered;
   }, [achievements]);
 
-  /**
-   * Get achievement by key
-   */
-  const getAchievement = useCallback((key: AchievementKey) => {
-    return achievements.find(a => a.key === key);
-  }, [achievements]);
-
-  /**
-   * Get achievements by category
-   */
-  const getAchievementsByCategory = useCallback((category: string) => {
-    return achievements.filter(a => category === 'all' || a.category === category);
-  }, [achievements]);
-
-  /**
-   * Get achievements by rarity
-   */
-  const getAchievementsByRarity = useCallback((rarity: string) => {
-    return achievements.filter(a => rarity === 'all' || a.rarity === rarity);
-  }, [achievements]);
-
-  /**
-   * Get unlocked achievements
-   */
-  const getUnlockedAchievements = useCallback(() => {
-    return achievements.filter(a => a.unlocked);
-  }, [achievements]);
-
-  /**
-   * Get locked achievements
-   */
-  const getLockedAchievements = useCallback(() => {
-    return achievements.filter(a => !a.unlocked);
-  }, [achievements]);
-
-  /**
-   * Get achievements in progress
-   */
-  const getInProgressAchievements = useCallback(() => {
-    return achievements.filter(a => !a.unlocked && a.progress.progress > 0);
-  }, [achievements]);
 
   /**
    * Get achievement statistics
@@ -262,34 +219,6 @@ export function useAchievements() {
     setState(newState);
   }, [state, setState]);
 
-  /**
-   * Check achievements (called by game loop)
-   */
-  const checkAchievementsNow = useCallback(() => {
-    if (!state) return;
-    
-    const newState = checkAchievements(state);
-    if (newState !== state) {
-      setState(newState);
-    }
-  }, [state, setState]);
-
-  /**
-   * Get achievement progress for display
-   */
-  const getProgressDisplay = useCallback((achievement: AchievementDef) => {
-    const progress = getAchievementProgress(state!, achievement.key);
-    
-    if (progress.isComplete) {
-      return 'Complete';
-    }
-    
-    if (progress.targetValue > 0) {
-      return `${Math.floor(progress.currentValue)} / ${progress.targetValue}`;
-    }
-    
-    return `${Math.floor(progress.progress * 100)}%`;
-  }, [state]);
 
   /**
    * Get achievement rarity color
@@ -305,22 +234,6 @@ export function useAchievements() {
     }
   }, []);
 
-  /**
-   * Get achievement category icon
-   */
-  const getCategoryIcon = useCallback((category: string) => {
-    switch (category) {
-      case 'resource': return '🪙';
-      case 'building': return '🏗️';
-      case 'technology': return '🔬';
-      case 'action': return '⚔️';
-      case 'prestige': return '👑';
-      case 'event': return '🎲';
-      case 'time': return '⏰';
-      case 'misc': return '🎯';
-      default: return '🏆';
-    }
-  }, []);
 
   return {
     // Data
@@ -332,20 +245,11 @@ export function useAchievements() {
     
     // Filtering and sorting
     getFilteredAchievements,
-    getAchievement,
-    getAchievementsByCategory,
-    getAchievementsByRarity,
-    getUnlockedAchievements,
-    getLockedAchievements,
-    getInProgressAchievements,
     
     // Actions
     markNotificationAsShown,
-    checkAchievementsNow,
     
     // Utilities
-    getProgressDisplay,
-    getRarityColor,
-    getCategoryIcon
+    getRarityColor
   };
 }
