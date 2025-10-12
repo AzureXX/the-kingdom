@@ -56,22 +56,6 @@ export function getBuildingCount(state: GameState, buildingKey: BuildingKey): nu
   return state.buildings[buildingKey] || 0;
 }
 
-/**
- * Set building count - Pure function
- */
-export function setBuildingCount(state: GameState, buildingKey: BuildingKey, count: number): GameState {
-  const currentCount = state.buildings[buildingKey] || 0;
-  const newCount = Math.max(0, count);
-  if (currentCount === newCount) return state;
-  
-  return {
-    ...state,
-    buildings: {
-      ...state.buildings,
-      [buildingKey]: newCount
-    }
-  };
-}
 
 
 /**

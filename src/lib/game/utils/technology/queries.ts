@@ -23,36 +23,3 @@ export function getTechnologiesWithPrerequisitesMet(state: GameState): Technolog
   return validKeys;
 }
 
-/**
- * Get all available technologies (requirements met, not researched)
- */
-export function getAvailableTechnologies(state: GameState): TechnologyKey[] {
-  const validKeys: TechnologyKey[] = [];
-  for (const techKey of Object.keys(CONFIG.technologies)) {
-    if (!isValidTechnologyKey(techKey)) {
-      logInvalidKey(techKey, 'technology', 'technology');
-      continue;
-    }
-    if (canResearchTechnology(state, techKey)) {
-      validKeys.push(techKey);
-    }
-  }
-  return validKeys;
-}
-
-/**
- * Get all researched technologies
- */
-export function getResearchedTechnologies(state: GameState): TechnologyKey[] {
-  const validKeys: TechnologyKey[] = [];
-  for (const techKey of Object.keys(CONFIG.technologies)) {
-    if (!isValidTechnologyKey(techKey)) {
-      logInvalidKey(techKey, 'technology', 'technology');
-      continue;
-    }
-    if (state.technologies[techKey] > 0) {
-      validKeys.push(techKey);
-    }
-  }
-  return validKeys;
-}

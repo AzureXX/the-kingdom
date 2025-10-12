@@ -10,4 +10,4 @@ export { startResearch, checkResearchProgress, completeResearch } from '@/lib/ga
 export { getResearchProgress, getResearchTimeRemaining } from '@/lib/game/utils/technology/progress';
 
 // Technology queries
-export { getTechnologiesWithPrerequisitesMet, getAvailableTechnologies, getResearchedTechnologies } from '@/lib/game/utils/technology/queries';
+export { getTechnologiesWithPrerequisitesMet } from '@/lib/game/utils/technology/queries';

@@ -16,7 +16,6 @@ export {
 export { 
   updateBuildingCount, 
   getBuildingCount, 
-  setBuildingCount, 
   isBuildingUnlocked, 
   getUnlockedBuildings 
 } from '@/lib/game/utils/gameState/buildings';
