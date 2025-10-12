@@ -63,31 +63,18 @@ export interface ValidationResult {
   warnings: string[];
 }
 
-/**
- * Game operation result with validation
- */
-export interface GameOperationResult {
-  success: boolean;
-  validation: ValidationResult;
-  message?: string;
-}
 
 /**
  * Common prop interfaces for standardized component patterns
  */
 
-/**
- * Base interface for components that need game state and formatting
- */
-export interface BaseGameComponentProps {
-  state: GameState;
-  fmt: (n: number, decimals?: number) => string;
-}
 
 /**
  * Interface for action-related components
  */
-export interface ActionComponentProps extends BaseGameComponentProps {
+export interface ActionComponentProps {
+  state: GameState;
+  fmt: (n: number, decimals?: number) => string;
   onExecuteAction: (actionKey: ActionKey) => void;
 }
 
