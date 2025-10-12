@@ -4,7 +4,7 @@
 export { initAchievementState, getEmptyAchievementStateObject } from '@/lib/game/utils/achievement/initialization';
 
 // Progress calculation
-export { calculateAchievementProgress, getAchievementProgress } from '@/lib/game/utils/achievement/progress';
+export { calculateAchievementProgress, getAchievementProgress, getEmptyAchievementProgressResult } from '@/lib/game/utils/achievement/progress';
 
 // Reward application
 export { applyAchievementRewards } from '@/lib/game/utils/achievement/rewards';

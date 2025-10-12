@@ -19,6 +19,18 @@ const validationHandler = createValidationErrorHandler('achievementSystem');
 const stateErrorHandler = createStateErrorHandler('achievementSystem');
 
 /**
+ * Create an empty achievement progress result object
+ */
+export function getEmptyAchievementProgressResult(): AchievementProgress {
+  return {
+    progress: 0,
+    currentValue: 0,
+    targetValue: 0,
+    isComplete: false
+  };
+}
+
+/**
  * Calculate progress toward a specific achievement
  */
 export function calculateAchievementProgress(
@@ -31,7 +43,7 @@ export function calculateAchievementProgress(
         state: !!state, 
         achievement: !!achievement 
       });
-      return { progress: 0, currentValue: 0, targetValue: 0, isComplete: false };
+      return getEmptyAchievementProgressResult();
     }
 
     let totalProgress = 0;
@@ -70,7 +82,7 @@ export function calculateAchievementProgress(
       achievementKey: achievement.key,
       error: error instanceof Error ? error.message : String(error) 
     });
-    return { progress: 0, currentValue: 0, targetValue: 0, isComplete: false };
+    return getEmptyAchievementProgressResult();
   }
 }
 
@@ -195,7 +207,7 @@ export function getAchievementProgress(
     const achievement = ACHIEVEMENTS[achievementKey];
     if (!achievement) {
       validationHandler('Unknown achievement key', { achievementKey });
-      return { progress: 0, currentValue: 0, targetValue: 0, isComplete: false };
+      return getEmptyAchievementProgressResult();
     }
 
     return calculateAchievementProgress(state, achievement);
@@ -204,6 +216,6 @@ export function getAchievementProgress(
       achievementKey,
       error: error instanceof Error ? error.message : String(error) 
     });
-    return { progress: 0, currentValue: 0, targetValue: 0, isComplete: false };
+    return getEmptyAchievementProgressResult();
   }
 }
