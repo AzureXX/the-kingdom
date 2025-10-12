@@ -11,18 +11,10 @@ export {
   checkMetricsChanged
 } from '@/lib/game/utils/performance/monitoring';
 
-// Performance optimization tools
-export {
-  debounce,
-  throttle,
-  calculateMovingAverage,
-  detectPerformanceAnomalies
-} from '@/lib/game/utils/performance/optimization';
 
 // Performance formatting utilities
 export {
-  formatBytes,
-  formatPerformanceMetric
+  formatBytes
 } from '@/lib/game/utils/performance/formatting';
 
 // Performance budget utilities
@@ -31,14 +23,6 @@ export {
   type PerformanceBudget
 } from '@/lib/game/utils/performance/budget';
 
-// Performance analysis utilities
-export {
-  measurePerformanceOverhead,
-  analyzePerformanceMonitoring,
-  logPerformanceAnalysis,
-  type PerformanceOverheadMetrics,
-  type PerformanceAnalysisResult
-} from '@/lib/game/utils/performance/analysis';
 
 // Circular buffer utilities
 export {

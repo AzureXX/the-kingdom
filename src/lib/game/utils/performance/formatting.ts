@@ -14,18 +14,3 @@ export function formatBytes(bytes: number): string {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
 
-/**
- * Format performance metrics for display
- */
-export function formatPerformanceMetric(value: number, unit: string, decimals: number = 2): string {
-  if (unit === 'ms') {
-    return `${value.toFixed(decimals)}ms`;
-  }
-  if (unit === 'fps') {
-    return `${value.toFixed(decimals)} FPS`;
-  }
-  if (unit === 'bytes') {
-    return formatBytes(value);
-  }
-  return `${value.toFixed(decimals)} ${unit}`;
-}

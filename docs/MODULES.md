@@ -92,7 +92,6 @@ This document provides a comprehensive list of all modules in the Medieval Kingd
 
 ### **Core Utilities**
 - `src/lib/game/utils/number/formatting.ts` - Number formatting utilities
-- `src/lib/game/utils/number/math.ts` - Mathematical operations
 - `src/lib/game/utils/string/encoding.ts` - String encoding utilities
 - `src/lib/game/utils/string/parsing.ts` - String parsing utilities
 - `src/lib/game/utils/index.ts` - Main utility exports

@@ -1,4 +1,4 @@
-import { formatNumber, clamp } from '@/lib/game/utils/number'
+import { formatNumber } from '@/lib/game/utils/number'
 
 describe('numberUtils', () => {
   describe('formatNumber', () => {
@@ -44,35 +44,6 @@ describe('numberUtils', () => {
     it('should handle negative numbers', () => {
       expect(formatNumber(-1234)).toBe('-1.23K')
       expect(formatNumber(-1000000)).toBe('-1.00M')
-    })
-  })
-
-  describe('clamp', () => {
-    it('should return value when within bounds', () => {
-      expect(clamp(5, 0, 10)).toBe(5)
-      expect(clamp(0, 0, 10)).toBe(0)
-      expect(clamp(10, 0, 10)).toBe(10)
-    })
-
-    it('should clamp to minimum when below bounds', () => {
-      expect(clamp(-5, 0, 10)).toBe(0)
-      expect(clamp(-100, 0, 10)).toBe(0)
-    })
-
-    it('should clamp to maximum when above bounds', () => {
-      expect(clamp(15, 0, 10)).toBe(10)
-      expect(clamp(100, 0, 10)).toBe(10)
-    })
-
-    it('should handle negative bounds', () => {
-      expect(clamp(-15, -10, -5)).toBe(-10)
-      expect(clamp(-3, -10, -5)).toBe(-5)
-      expect(clamp(-7, -10, -5)).toBe(-7)
-    })
-
-    it('should handle same min and max', () => {
-      expect(clamp(5, 10, 10)).toBe(10)
-      expect(clamp(15, 10, 10)).toBe(10)
     })
   })
 })

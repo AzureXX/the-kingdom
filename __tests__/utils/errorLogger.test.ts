@@ -1,12 +1,9 @@
 import { 
-  handleGameError, 
-  createErrorHandler,
   createValidationErrorHandler, 
   createCalculationErrorHandler, 
   createStateErrorHandler,
   logMessage,
   logInvalidKey,
-  logSaveOperation,
   logErrorBoundaryOperation
 } from '@/lib/game/utils/error'
 
@@ -26,83 +23,7 @@ describe('errorLogger', () => {
     mockConsoleLog.mockRestore()
   })
 
-  describe('handleGameError', () => {
-    it('should log error with category and details', () => {
-      const error = new Error('Test error')
-      const details = { key: 'test', value: 123 }
-      
-      const result = handleGameError(error, 'validation', 'testContext', details)
-      
-      expect(result.message).toBe('Test error')
-      expect(result.category).toBe('validation')
-      expect(result.context).toBe('testContext')
-      expect(result.details).toEqual(details)
-      expect(result.timestamp).toBeDefined()
-      expect(result.stack).toBeDefined()
-    })
 
-    it('should handle string errors', () => {
-      const error = 'String error message'
-      
-      const result = handleGameError(error, 'calculation', 'testContext')
-      
-      expect(result.message).toBe('String error message')
-      expect(result.category).toBe('calculation')
-      expect(result.context).toBe('testContext')
-      expect(result.stack).toBeUndefined()
-    })
-
-    it('should handle errors without details', () => {
-      const error = new Error('Test error')
-      
-      const result = handleGameError(error, 'state', 'testContext')
-      
-      expect(result.message).toBe('Test error')
-      expect(result.category).toBe('state')
-      expect(result.context).toBe('testContext')
-      expect(result.details).toBeUndefined()
-    })
-  })
-
-  describe('createErrorHandler', () => {
-    it('should create a generic error handler with any category', () => {
-      const handler = createErrorHandler('config', 'testConfig')
-      const message = 'Config error'
-      const details = { key: 'test' }
-      
-      const result = handler(message, details)
-      
-      expect(result.message).toBe('Config error')
-      expect(result.category).toBe('config')
-      expect(result.context).toBe('testConfig')
-      expect(result.details).toEqual(details)
-    })
-
-    it('should create a system error handler', () => {
-      const handler = createErrorHandler('system', 'testSystem')
-      const message = 'System error'
-      
-      const result = handler(message)
-      
-      expect(result.message).toBe('System error')
-      expect(result.category).toBe('system')
-      expect(result.context).toBe('testSystem')
-      expect(result.details).toBeUndefined()
-    })
-
-    it('should create a user error handler', () => {
-      const handler = createErrorHandler('user', 'testUser')
-      const message = 'User error'
-      const details = { action: 'click' }
-      
-      const result = handler(message, details)
-      
-      expect(result.message).toBe('User error')
-      expect(result.category).toBe('user')
-      expect(result.context).toBe('testUser')
-      expect(result.details).toEqual(details)
-    })
-  })
 
   describe('createValidationErrorHandler', () => {
     it('should create a validation error handler', () => {
@@ -201,25 +122,6 @@ describe('errorLogger', () => {
     })
   })
 
-  describe('logSaveOperation', () => {
-    it('should log successful save operations', () => {
-      logSaveOperation('save game', true, { file: 'test.json' })
-      
-      expect(mockConsoleLog).toHaveBeenCalledWith(
-        expect.stringContaining('✅ save game completed successfully'),
-        expect.objectContaining({ file: 'test.json' })
-      )
-    })
-
-    it('should log failed save operations', () => {
-      logSaveOperation('save game', false, { error: 'permission denied' })
-      
-      expect(mockConsoleError).toHaveBeenCalledWith(
-        expect.stringContaining('❌ save game failed'),
-        expect.objectContaining({ error: 'permission denied' })
-      )
-    })
-  })
 
   describe('logErrorBoundaryOperation', () => {
     it('should log successful error boundary operations', () => {

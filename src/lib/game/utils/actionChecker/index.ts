@@ -11,8 +11,3 @@ export {
 // Status
 export { getActionStatus } from '@/lib/game/utils/actionChecker/status';
 
-// Queries
-export { 
-  getAvailableActions,
-  getUnlockedButUnavailableActions
-} from '@/lib/game/utils/actionChecker/queries';

@@ -2,8 +2,6 @@
 
 // Handlers
 export { 
-  handleGameError,
-  createErrorHandler,
   createValidationErrorHandler,
   createCalculationErrorHandler,
   createStateErrorHandler

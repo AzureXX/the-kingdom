@@ -76,8 +76,8 @@ describe('resourceUpdates', () => {
       
       const newState = updateMultipleResources(state, { gold: -25, wood: -15 })
       
-      expect(newState.resources.gold).toBe(0) // Clamped to 0
-      expect(newState.resources.wood).toBe(0) // Clamped to 0
+      expect(newState.resources.gold).toBe(0)
+      expect(newState.resources.wood).toBe(0)
     })
 
     it('should preserve other state properties', () => {
@@ -137,7 +137,7 @@ describe('resourceUpdates', () => {
       
       const newState = setResource(state, 'gold', -10)
       
-      expect(newState.resources.gold).toBe(0) // Clamped to 0
+      expect(newState.resources.gold).toBe(0)
     })
 
     it('should preserve other state properties', () => {

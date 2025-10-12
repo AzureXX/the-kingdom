@@ -1,9 +1,7 @@
-// Resource change utilities
-
-import { getResource, updateMultipleResources, addResources } from '@/lib/game/utils/gameState';
+import { getResource, updateMultipleResources } from '@/lib/game/utils/gameState';
 import { isValidResourceKey } from '@/lib/game/utils/validation';
 import { logInvalidKey } from '@/lib/game/utils/error';
-import type { GameState, ResourceKey, ResourceCost, ResourceProduction } from '@/lib/game/types';
+import type { GameState, ResourceKey, ResourceCost } from '@/lib/game/types';
 
 /**
  * Apply resource changes (both positive and negative) - Unified implementation
@@ -54,17 +52,3 @@ export function applyResourceChanges(state: GameState, changes: ResourceCost): G
   return updateMultipleResources(state, resourceUpdates);
 }
 
-/**
- * Add resources to the game state - Unified implementation
- * 
- * @param state - Current game state
- * @param resources - Resources to add
- * @returns Updated game state
- * 
- * ```typescript
- * const newState = addResourcesToState(state, { gold: 100, wood: 50 });
- * ```
- */
-export function addResourcesToState(state: GameState, resources: ResourceProduction): GameState {
-  return addResources(state, resources);
-}
