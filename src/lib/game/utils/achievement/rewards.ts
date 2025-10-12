@@ -59,6 +59,8 @@ function applyReward(state: GameState, reward: AchievementReward): GameState {
         return applyActionLoopGainReward(state, reward);
       case 'actionLoopMultiplier':
         return applyActionLoopMultiplierReward(state, reward);
+      case 'buildingCostReduction':
+        return applyBuildingCostReductionReward(state, reward);
       case 'unlock':
         return applyUnlockReward(state, reward);
       default:
@@ -627,6 +629,57 @@ function applyUnlockReward(state: GameState, reward: AchievementReward): GameSta
     return state;
   } catch (error) {
     stateErrorHandler('Failed to apply unlock reward', { 
+      reward: reward,
+      error: error instanceof Error ? error.message : String(error) 
+    });
+    return state;
+  }
+}
+
+/**
+ * Apply building cost reduction reward (e.g., -5% costs)
+ */
+function applyBuildingCostReductionReward(state: GameState, reward: AchievementReward): GameState {
+  try {
+    const achievementBonuses = state.achievementBonuses || {
+      resourceGain: {},
+      resourceGainMultiplier: {},
+      buildingGain: {},
+      buildingGainMultiplier: {},
+      clickGain: {},
+      clickMultiplier: {},
+      actionClickGain: {},
+      actionClickMultiplier: {},
+      loopGain: {},
+      loopMultiplier: {},
+      actionLoopGain: {},
+      actionLoopMultiplier: {},
+        buildingCostReduction: {},
+    };
+
+    // Apply building cost reduction to specific building or all buildings
+    const newBuildingCostReduction = { ...achievementBonuses.buildingCostReduction };
+    
+    if (reward.target === 'all') {
+      // Apply to all buildings - we need to get all building keys
+      const commonBuildings = ['woodcutter', 'quarry', 'farm', 'blacksmith', 'castle', 'library', 'university', 'laboratory', 'taxOffice'];
+      for (const building of commonBuildings) {
+        newBuildingCostReduction[building] = (newBuildingCostReduction[building] || 0) + reward.value;
+      }
+    } else {
+      // Apply to specific building
+      newBuildingCostReduction[reward.target] = (newBuildingCostReduction[reward.target] || 0) + reward.value;
+    }
+
+    return {
+      ...state,
+      achievementBonuses: {
+        ...achievementBonuses,
+        buildingCostReduction: newBuildingCostReduction
+      }
+    };
+  } catch (error) {
+    stateErrorHandler('Failed to apply building cost reduction reward', { 
       reward: reward,
       error: error instanceof Error ? error.message : String(error) 
     });

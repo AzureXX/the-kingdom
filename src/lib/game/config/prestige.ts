@@ -1,4 +1,4 @@
-import type { ResourceKey, PrestigeUpgradeKey, PrestigeUpgradeDef } from '@/lib/game/types';
+import type { ResourceKey, PrestigeUpgradeKey, PrestigeUpgradeDef, PrestigeReward } from '@/lib/game/types';
 
 export const PRESTIGE_CONFIG = {
   gainFrom: 'food' as ResourceKey,
@@ -9,13 +9,9 @@ export const PRESTIGE_CONFIG = {
       desc: '+25% click gains per level.',
       costCurve: (lvl: number) => 5 * Math.pow(1.6, lvl),
       max: 20,
-      effect: (lvl: number, ctx: {
-        muls: { clickGain: number; cost: number };
-        prodMul: Partial<Record<ResourceKey, number>>;
-        useMul: Partial<Record<ResourceKey, number>>;
-      }) => {
-        ctx.muls.clickGain *= 1 + 0.25 * lvl;
-      },
+      rewards: [
+        { type: 'clickMultiplier', target: 'all', value: 1.25, permanent: true }
+      ] as PrestigeReward[],
     },
     masterCraftsmen: {
       name: 'Master Craftsmen',
@@ -23,97 +19,75 @@ export const PRESTIGE_CONFIG = {
       desc: '-3% building costs per level.',
       costCurve: (lvl: number) => 8 * Math.pow(1.7, lvl),
       max: 25,
-      effect: (lvl: number, ctx: {
-        muls: { clickGain: number; cost: number };
-        prodMul: Partial<Record<ResourceKey, number>>;
-        useMul: Partial<Record<ResourceKey, number>>;
-      }) => {
-        ctx.muls.cost *= Math.pow(0.97, lvl);
-      },
+      rewards: [
+        { type: 'buildingCostReduction', target: 'all', value: 0.03, permanent: true }
+      ] as PrestigeReward[],
     },
     fertileLands: {
       name: 'Fertile Lands',
       icon: 'ic-farm',
-      desc: '+20% Food production per level.',
+      desc: '+2 Food/s and +20% Food production per level.',
       costCurve: (lvl: number) => 6 * Math.pow(1.65, lvl),
       max: 25,
-      effect: (lvl: number, ctx: {
-        muls: { clickGain: number; cost: number };
-        prodMul: Partial<Record<ResourceKey, number>>;
-        useMul: Partial<Record<ResourceKey, number>>;
-      }) => {
-        ctx.prodMul.food = (ctx.prodMul.food || 1) * Math.pow(1.2, lvl);
-      },
+      rewards: [
+        { type: 'resourceGain', target: 'food', value: 2, permanent: true },
+        { type: 'resourceGainMultiplier', target: 'food', value: 1.2, permanent: true }
+      ] as PrestigeReward[],
     },
     militaryMight: {
       name: 'Military Might',
       icon: 'ic-castle',
-      desc: '+20% Prestige production per level.',
+      desc: '+0.1 Prestige/s and +20% Prestige production per level.',
       costCurve: (lvl: number) => 10 * Math.pow(1.7, lvl),
       max: 20,
-      effect: (lvl: number, ctx: {
-        muls: { clickGain: number; cost: number };
-        prodMul: Partial<Record<ResourceKey, number>>;
-        useMul: Partial<Record<ResourceKey, number>>;
-      }) => {
-        ctx.prodMul.prestige = (ctx.prodMul.prestige || 1) * Math.pow(1.2, lvl);
-      },
+      rewards: [
+        { type: 'resourceGain', target: 'prestige', value: 0.1, permanent: true },
+        { type: 'resourceGainMultiplier', target: 'prestige', value: 1.2, permanent: true }
+      ] as PrestigeReward[],
     },
     goldenTouch: {
       name: 'Golden Touch',
       icon: 'ic-gold',
-      desc: '+30% Gold production per level.',
+      desc: '+1 Gold/s and +30% Gold production per level.',
       costCurve: (lvl: number) => 7 * Math.pow(1.55, lvl),
       max: 30,
-      effect: (lvl: number, ctx: {
-        muls: { clickGain: number; cost: number };
-        prodMul: Partial<Record<ResourceKey, number>>;
-        useMul: Partial<Record<ResourceKey, number>>;
-      }) => {
-        ctx.prodMul.gold = (ctx.prodMul.gold || 1) * Math.pow(1.3, lvl);
-      },
+      rewards: [
+        { type: 'resourceGain', target: 'gold', value: 1, permanent: true },
+        { type: 'resourceGainMultiplier', target: 'gold', value: 1.3, permanent: true }
+      ] as PrestigeReward[],
     },
     forestMastery: {
       name: 'Forest Mastery',
       icon: 'ic-wood',
-      desc: '+25% Wood production per level.',
+      desc: '+1.5 Wood/s and +25% Wood production per level.',
       costCurve: (lvl: number) => 6 * Math.pow(1.6, lvl),
       max: 30,
-      effect: (lvl: number, ctx: {
-        muls: { clickGain: number; cost: number };
-        prodMul: Partial<Record<ResourceKey, number>>;
-        useMul: Partial<Record<ResourceKey, number>>;
-      }) => {
-        ctx.prodMul.wood = (ctx.prodMul.wood || 1) * Math.pow(1.25, lvl);
-      },
+      rewards: [
+        { type: 'resourceGain', target: 'wood', value: 1.5, permanent: true },
+        { type: 'resourceGainMultiplier', target: 'wood', value: 1.25, permanent: true }
+      ] as PrestigeReward[],
     },
     stoneQuarry: {
       name: 'Stone Quarry',
       icon: 'ic-stone',
-      desc: '+25% Stone production per level.',
+      desc: '+1 Stone/s and +25% Stone production per level.',
       costCurve: (lvl: number) => 6 * Math.pow(1.6, lvl),
       max: 30,
-      effect: (lvl: number, ctx: {
-        muls: { clickGain: number; cost: number };
-        prodMul: Partial<Record<ResourceKey, number>>;
-        useMul: Partial<Record<ResourceKey, number>>;
-      }) => {
-        ctx.prodMul.stone = (ctx.prodMul.stone || 1) * Math.pow(1.25, lvl);
-      },
+      rewards: [
+        { type: 'resourceGain', target: 'stone', value: 1, permanent: true },
+        { type: 'resourceGainMultiplier', target: 'stone', value: 1.25, permanent: true }
+      ] as PrestigeReward[],
     },
     researchAcceleration: {
       name: 'Research Acceleration',
       icon: 'ic-research',
-      desc: '+35% Research Points production per level.',
+      desc: '+0.2 Research/s and +35% Research Points production per level.',
       costCurve: (lvl: number) => 8 * Math.pow(1.65, lvl),
       max: 25,
-      effect: (lvl: number, ctx: {
-        muls: { clickGain: number; cost: number };
-        prodMul: Partial<Record<ResourceKey, number>>;
-        useMul: Partial<Record<ResourceKey, number>>;
-      }) => {
-        ctx.prodMul.researchPoints = (ctx.prodMul.researchPoints || 1) * Math.pow(1.35, lvl);
-      },
+      rewards: [
+        { type: 'resourceGain', target: 'researchPoints', value: 0.2, permanent: true },
+        { type: 'resourceGainMultiplier', target: 'researchPoints', value: 1.35, permanent: true }
+      ] as PrestigeReward[],
     },
     efficientBuilders: {
       name: 'Efficient Builders',
@@ -121,188 +95,143 @@ export const PRESTIGE_CONFIG = {
       desc: '-2% all building costs per level.',
       costCurve: (lvl: number) => 9 * Math.pow(1.68, lvl),
       max: 35,
-      effect: (lvl: number, ctx: {
-        muls: { clickGain: number; cost: number };
-        prodMul: Partial<Record<ResourceKey, number>>;
-        useMul: Partial<Record<ResourceKey, number>>;
-      }) => {
-        ctx.muls.cost *= Math.pow(0.98, lvl);
-      },
+      rewards: [
+        { type: 'buildingCostReduction', target: 'all', value: 0.02, permanent: true }
+      ] as PrestigeReward[],
     },
     merchantGuilds: {
       name: 'Merchant Guilds',
       icon: 'ic-gold',
-      desc: '+15% all resource production per level.',
+      desc: '+0.5 all resources/s and +15% all resource production per level.',
       costCurve: (lvl: number) => 12 * Math.pow(1.7, lvl),
       max: 20,
-      effect: (lvl: number, ctx: {
-        muls: { clickGain: number; cost: number };
-        prodMul: Partial<Record<ResourceKey, number>>;
-        useMul: Partial<Record<ResourceKey, number>>;
-      }) => {
-        const resourceKeys: ResourceKey[] = ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'];
-        for (const key of resourceKeys) {
-          ctx.prodMul[key] = (ctx.prodMul[key] || 1) * Math.pow(1.15, lvl);
-        }
-      },
+      rewards: [
+        { type: 'resourceGain', target: 'all', value: 0.5, permanent: true },
+        { type: 'resourceGainMultiplier', target: 'all', value: 1.15, permanent: true }
+      ] as PrestigeReward[],
     },
     royalTreasury: {
       name: 'Royal Treasury',
       icon: 'ic-gold',
-      desc: '+40% Gold click gains per level.',
+      desc: '+1 Gold per click and +40% Gold click gains per level.',
       costCurve: (lvl: number) => 6 * Math.pow(1.62, lvl),
       max: 25,
-      effect: (lvl: number, ctx: {
-        muls: { clickGain: number; cost: number };
-        prodMul: Partial<Record<ResourceKey, number>>;
-        useMul: Partial<Record<ResourceKey, number>>;
-      }) => {
-        ctx.muls.clickGain *= 1 + 0.4 * lvl;
-      },
+      rewards: [
+        { type: 'clickGain', target: 'gold', value: 1, permanent: true },
+        { type: 'clickMultiplier', target: 'gold', value: 1.4, permanent: true }
+      ] as PrestigeReward[],
     },
     militaryEngineers: {
       name: 'Military Engineers',
       icon: 'ic-castle',
-      desc: '+30% Prestige production and -5% building costs per level.',
+      desc: '+0.2 Prestige/s, +30% Prestige production and -5% building costs per level.',
       costCurve: (lvl: number) => 15 * Math.pow(1.75, lvl),
       max: 15,
-      effect: (lvl: number, ctx: {
-        muls: { clickGain: number; cost: number };
-        prodMul: Partial<Record<ResourceKey, number>>;
-        useMul: Partial<Record<ResourceKey, number>>;
-      }) => {
-        ctx.prodMul.prestige = (ctx.prodMul.prestige || 1) * Math.pow(1.3, lvl);
-        ctx.muls.cost *= Math.pow(0.95, lvl);
-      },
+      rewards: [
+        { type: 'resourceGain', target: 'prestige', value: 0.2, permanent: true },
+        { type: 'resourceGainMultiplier', target: 'prestige', value: 1.3, permanent: true },
+        { type: 'buildingCostReduction', target: 'all', value: 0.05, permanent: true }
+      ] as PrestigeReward[],
     },
     scholarlyPursuits: {
       name: 'Scholarly Pursuits',
       icon: 'ic-research',
-      desc: '+50% Research Points production and +20% click gains per level.',
+      desc: '+0.3 Research/s, +50% Research Points production and +20% click gains per level.',
       costCurve: (lvl: number) => 10 * Math.pow(1.7, lvl),
       max: 20,
-      effect: (lvl: number, ctx: {
-        muls: { clickGain: number; cost: number };
-        prodMul: Partial<Record<ResourceKey, number>>;
-        useMul: Partial<Record<ResourceKey, number>>;
-      }) => {
-        ctx.prodMul.researchPoints = (ctx.prodMul.researchPoints || 1) * Math.pow(1.5, lvl);
-        ctx.muls.clickGain *= 1 + 0.2 * lvl;
-      },
+      rewards: [
+        { type: 'resourceGain', target: 'researchPoints', value: 0.3, permanent: true },
+        { type: 'resourceGainMultiplier', target: 'researchPoints', value: 1.5, permanent: true },
+        { type: 'clickMultiplier', target: 'all', value: 1.2, permanent: true }
+      ] as PrestigeReward[],
     },
     agriculturalRevolution: {
       name: 'Agricultural Revolution',
       icon: 'ic-farm',
-      desc: '+40% Food production and +20% Wood production per level.',
+      desc: '+3 Food/s, +1.5 Wood/s, +40% Food production and +20% Wood production per level.',
       costCurve: (lvl: number) => 8 * Math.pow(1.65, lvl),
       max: 25,
-      effect: (lvl: number, ctx: {
-        muls: { clickGain: number; cost: number };
-        prodMul: Partial<Record<ResourceKey, number>>;
-        useMul: Partial<Record<ResourceKey, number>>;
-      }) => {
-        ctx.prodMul.food = (ctx.prodMul.food || 1) * Math.pow(1.4, lvl);
-        ctx.prodMul.wood = (ctx.prodMul.wood || 1) * Math.pow(1.2, lvl);
-      },
+      rewards: [
+        { type: 'resourceGain', target: 'food', value: 3, permanent: true },
+        { type: 'resourceGain', target: 'wood', value: 1.5, permanent: true },
+        { type: 'resourceGainMultiplier', target: 'food', value: 1.4, permanent: true },
+        { type: 'resourceGainMultiplier', target: 'wood', value: 1.2, permanent: true }
+      ] as PrestigeReward[],
     },
     miningInnovation: {
       name: 'Mining Innovation',
       icon: 'ic-stone',
-      desc: '+35% Stone production and +25% Gold production per level.',
+      desc: '+2 Stone/s, +1.5 Gold/s, +35% Stone production and +25% Gold production per level.',
       costCurve: (lvl: number) => 9 * Math.pow(1.68, lvl),
       max: 25,
-      effect: (lvl: number, ctx: {
-        muls: { clickGain: number; cost: number };
-        prodMul: Partial<Record<ResourceKey, number>>;
-        useMul: Partial<Record<ResourceKey, number>>;
-      }) => {
-        ctx.prodMul.stone = (ctx.prodMul.stone || 1) * Math.pow(1.35, lvl);
-        ctx.prodMul.gold = (ctx.prodMul.gold || 1) * Math.pow(1.25, lvl);
-      },
+      rewards: [
+        { type: 'resourceGain', target: 'stone', value: 2, permanent: true },
+        { type: 'resourceGain', target: 'gold', value: 1.5, permanent: true },
+        { type: 'resourceGainMultiplier', target: 'stone', value: 1.35, permanent: true },
+        { type: 'resourceGainMultiplier', target: 'gold', value: 1.25, permanent: true }
+      ] as PrestigeReward[],
     },
     diplomaticRelations: {
       name: 'Diplomatic Relations',
       icon: 'ic-castle',
-      desc: '+25% Prestige production and +15% all resource production per level.',
+      desc: '+0.3 Prestige/s, +1 all resources/s, +25% Prestige production and +15% all resource production per level.',
       costCurve: (lvl: number) => 14 * Math.pow(1.72, lvl),
       max: 18,
-      effect: (lvl: number, ctx: {
-        muls: { clickGain: number; cost: number };
-        prodMul: Partial<Record<ResourceKey, number>>;
-        useMul: Partial<Record<ResourceKey, number>>;
-      }) => {
-        ctx.prodMul.prestige = (ctx.prodMul.prestige || 1) * Math.pow(1.25, lvl);
-        const resourceKeys: ResourceKey[] = ['gold', 'wood', 'stone', 'food', 'researchPoints'];
-        for (const key of resourceKeys) {
-          ctx.prodMul[key] = (ctx.prodMul[key] || 1) * Math.pow(1.15, lvl);
-        }
-      },
+      rewards: [
+        { type: 'resourceGain', target: 'prestige', value: 0.3, permanent: true },
+        { type: 'resourceGain', target: 'all', value: 1, permanent: true },
+        { type: 'resourceGainMultiplier', target: 'prestige', value: 1.25, permanent: true },
+        { type: 'resourceGainMultiplier', target: 'all', value: 1.15, permanent: true }
+      ] as PrestigeReward[],
     },
     technologicalAdvancement: {
       name: 'Technological Advancement',
       icon: 'ic-research',
-      desc: '+60% Research Points production and -3% all costs per level.',
+      desc: '+0.5 Research/s, +60% Research Points production and -3% all costs per level.',
       costCurve: (lvl: number) => 16 * Math.pow(1.8, lvl),
       max: 15,
-      effect: (lvl: number, ctx: {
-        muls: { clickGain: number; cost: number };
-        prodMul: Partial<Record<ResourceKey, number>>;
-        useMul: Partial<Record<ResourceKey, number>>;
-      }) => {
-        ctx.prodMul.researchPoints = (ctx.prodMul.researchPoints || 1) * Math.pow(1.6, lvl);
-        ctx.muls.cost *= Math.pow(0.97, lvl);
-      },
+      rewards: [
+        { type: 'resourceGain', target: 'researchPoints', value: 0.5, permanent: true },
+        { type: 'resourceGainMultiplier', target: 'researchPoints', value: 1.6, permanent: true },
+        { type: 'buildingCostReduction', target: 'all', value: 0.03, permanent: true }
+      ] as PrestigeReward[],
     },
     economicStimulation: {
       name: 'Economic Stimulation',
       icon: 'ic-gold',
-      desc: '+30% Gold production and +20% all resource production per level.',
+      desc: '+2 Gold/s, +1 all resources/s, +30% Gold production and +20% all resource production per level.',
       costCurve: (lvl: number) => 11 * Math.pow(1.7, lvl),
       max: 20,
-      effect: (lvl: number, ctx: {
-        muls: { clickGain: number; cost: number };
-        prodMul: Partial<Record<ResourceKey, number>>;
-        useMul: Partial<Record<ResourceKey, number>>;
-      }) => {
-        ctx.prodMul.gold = (ctx.prodMul.gold || 1) * Math.pow(1.3, lvl);
-        const resourceKeys: ResourceKey[] = ['wood', 'stone', 'food', 'prestige', 'researchPoints'];
-        for (const key of resourceKeys) {
-          ctx.prodMul[key] = (ctx.prodMul[key] || 1) * Math.pow(1.2, lvl);
-        }
-      },
+      rewards: [
+        { type: 'resourceGain', target: 'gold', value: 2, permanent: true },
+        { type: 'resourceGain', target: 'all', value: 1, permanent: true },
+        { type: 'resourceGainMultiplier', target: 'gold', value: 1.3, permanent: true },
+        { type: 'resourceGainMultiplier', target: 'all', value: 1.2, permanent: true }
+      ] as PrestigeReward[],
     },
     culturalHeritage: {
       name: 'Cultural Heritage',
       icon: 'ic-castle',
-      desc: '+35% Prestige production and +25% click gains per level.',
+      desc: '+0.4 Prestige/s, +35% Prestige production and +25% click gains per level.',
       costCurve: (lvl: number) => 13 * Math.pow(1.75, lvl),
       max: 18,
-      effect: (lvl: number, ctx: {
-        muls: { clickGain: number; cost: number };
-        prodMul: Partial<Record<ResourceKey, number>>;
-        useMul: Partial<Record<ResourceKey, number>>;
-      }) => {
-        ctx.prodMul.prestige = (ctx.prodMul.prestige || 1) * Math.pow(1.35, lvl);
-        ctx.muls.clickGain *= 1 + 0.25 * lvl;
-      },
+      rewards: [
+        { type: 'resourceGain', target: 'prestige', value: 0.4, permanent: true },
+        { type: 'resourceGainMultiplier', target: 'prestige', value: 1.35, permanent: true },
+        { type: 'clickMultiplier', target: 'all', value: 1.25, permanent: true }
+      ] as PrestigeReward[],
     },
     strategicPlanning: {
       name: 'Strategic Planning',
       icon: 'ic-castle',
-      desc: '+20% all resource production and -4% all costs per level.',
+      desc: '+2 all resources/s, +20% all resource production and -4% all costs per level.',
       costCurve: (lvl: number) => 18 * Math.pow(1.8, lvl),
       max: 12,
-      effect: (lvl: number, ctx: {
-        muls: { clickGain: number; cost: number };
-        prodMul: Partial<Record<ResourceKey, number>>;
-        useMul: Partial<Record<ResourceKey, number>>;
-      }) => {
-        const resourceKeys: ResourceKey[] = ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'];
-        for (const key of resourceKeys) {
-          ctx.prodMul[key] = (ctx.prodMul[key] || 1) * Math.pow(1.2, lvl);
-        }
-        ctx.muls.cost *= Math.pow(0.96, lvl);
-      },
+      rewards: [
+        { type: 'resourceGain', target: 'all', value: 2, permanent: true },
+        { type: 'resourceGainMultiplier', target: 'all', value: 1.2, permanent: true },
+        { type: 'buildingCostReduction', target: 'all', value: 0.04, permanent: true }
+      ] as PrestigeReward[],
     },
   } as Record<PrestigeUpgradeKey, PrestigeUpgradeDef>,
 };

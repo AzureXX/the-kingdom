@@ -40,7 +40,8 @@ export function costFor(state: GameState, buildKey: BuildingKey): ResourceCost {
     
     for (const r in def.baseCost) {
       const rk = r as ResourceKey;
-      cost[rk] = Math.ceil((def.baseCost[rk] || 0) * Math.pow(def.costScale, owned) * muls.cost);
+      const buildingCostMultiplier = muls.cost[buildKey] || 1;
+      cost[rk] = Math.ceil((def.baseCost[rk] || 0) * Math.pow(def.costScale, owned) * buildingCostMultiplier);
     }
     
     return cost;

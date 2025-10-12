@@ -2,6 +2,7 @@
 
 import type { GameState } from '@/lib/game/types';
 import { initAchievementState } from '@/lib/game/utils/achievement';
+import { applyPrestigeBonuses } from '@/lib/game/utils/prestige/bonusApplication';
 import { createStateErrorHandler } from '@/lib/game/utils/error';
 
 /**
@@ -62,11 +63,24 @@ export function migrateGameState(state: GameState): GameState {
         actionLoopMultiplier: {},
       };
 
-      return {
+      // Add prestige bonuses if missing
+      const prestigeBonuses = state.prestigeBonuses || {
+        resourceGain: {},
+        resourceGainMultiplier: {},
+        clickGain: {},
+        clickMultiplier: {},
+        buildingCostReduction: {},
+      };
+
+      const migratedState = {
         ...state,
         achievements,
-        achievementBonuses
+        achievementBonuses,
+        prestigeBonuses
       };
+      
+      // Apply prestige bonuses to the migrated state
+      return applyPrestigeBonuses(migratedState);
     }
 
     return state;
@@ -74,7 +88,7 @@ export function migrateGameState(state: GameState): GameState {
     const migrationErrorHandler = createStateErrorHandler('migration');
     migrationErrorHandler('Failed to migrate game state', { error: error instanceof Error ? error.message : String(error) });
     // Return state with initialized achievements as fallback
-    return {
+    const fallbackState = {
       ...state,
       achievements: initAchievementState(),
       achievementBonuses: {
@@ -90,7 +104,17 @@ export function migrateGameState(state: GameState): GameState {
         loopMultiplier: {},
         actionLoopGain: {},
         actionLoopMultiplier: {},
+      },
+      prestigeBonuses: {
+        resourceGain: {},
+        resourceGainMultiplier: {},
+        clickGain: {},
+        clickMultiplier: {},
+        buildingCostReduction: {},
       }
     };
+    
+    // Apply prestige bonuses to the fallback state
+    return applyPrestigeBonuses(fallbackState);
   }
 }

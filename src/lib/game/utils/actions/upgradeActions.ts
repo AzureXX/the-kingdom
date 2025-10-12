@@ -12,6 +12,7 @@ import {
   updateResource
 } from '@/lib/game/utils/gameState';
 import { getUpgradeCost, canBuyUpgrade } from '@/lib/game/utils/calculations';
+import { applyPrestigeBonuses } from '@/lib/game/utils/prestige/bonusApplication';
 import { createStateErrorHandler } from '@/lib/game/utils/error';
 
 const stateErrorHandler = createStateErrorHandler('upgradeActions');
@@ -33,7 +34,10 @@ export function buyUpgrade(state: GameState, key: PrestigeUpgradeKey): GameState
     if (newPrestige === currentPrestige) return state;
     
     const newState = updateResource(state, 'prestige', newPrestige);
-    return updateUpgradeLevel(newState, key, currentLevel + 1);
+    const stateWithUpgrade = updateUpgradeLevel(newState, key, currentLevel + 1);
+    
+    // Apply prestige bonuses after upgrading
+    return applyPrestigeBonuses(stateWithUpgrade);
   } catch (error) {
     stateErrorHandler('Failed to buy upgrade', { upgradeKey: key, error: error instanceof Error ? error.message : String(error) });
     return state; // Return original state on error

@@ -16,6 +16,7 @@ import type { GameState, PrestigeUpgradeKey } from '@/lib/game/types';
 import { CONFIG } from '@/lib/game/config';
 import { DEFAULT_LOOP_SETTINGS } from '@/lib/game/config/loopActions';
 import { initAchievementState } from '@/lib/game/utils/achievement';
+import { applyPrestigeBonuses } from '@/lib/game/utils/prestige/bonusApplication';
 import { createStateErrorHandler } from '@/lib/game/utils/error';
 
 // Import all individual initializers
@@ -84,6 +85,23 @@ export function createNewGameState(): GameState {
       // Upgrade state
       upgrades,
       
+      // Prestige bonuses (separate from achievement bonuses)
+      prestigeBonuses: {
+        resourceGain: {},
+        resourceGainMultiplier: {},
+        buildingGain: {},
+        buildingGainMultiplier: {},
+        clickGain: {},
+        clickMultiplier: {},
+        actionClickGain: {},
+        actionClickMultiplier: {},
+        loopGain: {},
+        loopMultiplier: {},
+        actionLoopGain: {},
+        actionLoopMultiplier: {},
+        buildingCostReduction: {},
+      },
+      
       // Loop actions state
       loopActions: [],
       loopSettings: DEFAULT_LOOP_SETTINGS,
@@ -104,11 +122,13 @@ export function createNewGameState(): GameState {
         loopGain: {},
         loopMultiplier: {},
         actionLoopGain: {},
-        actionLoopMultiplier: {}
+        actionLoopMultiplier: {},
+        buildingCostReduction: {},
       }
     };
     
-    return state;
+    // Apply prestige bonuses to the new game state
+    return applyPrestigeBonuses(state);
   } catch (error) {
     stateErrorHandler('Failed to create new game state', { 
       error: error instanceof Error ? error.message : String(error) 

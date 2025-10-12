@@ -27,6 +27,9 @@ export type {
 export type {
   PrestigeUpgradeKey,
   PrestigeUpgradeDef,
+  PrestigeRewardType,
+  PrestigeReward,
+  PrestigeBonuses,
 } from '@/lib/game/types/prestige';
 
 // Event types

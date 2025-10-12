@@ -20,7 +20,7 @@ const stateErrorHandler = createStateErrorHandler('gameActions');
  */
 function addResourcesWithBonuses(state: GameState, gains: ResourceCost, actionKey?: ActionKey): GameState {
   try {
-    const bonuses = state.achievementBonuses || {
+    const achievementBonuses = state.achievementBonuses || {
       resourceGain: {},
       resourceGainMultiplier: {},
       buildingGain: {},
@@ -35,6 +35,14 @@ function addResourcesWithBonuses(state: GameState, gains: ResourceCost, actionKe
       actionLoopMultiplier: {}
     };
 
+    const prestigeBonuses = state.prestigeBonuses || {
+      resourceGain: {},
+      resourceGainMultiplier: {},
+      clickGain: {},
+      clickMultiplier: {},
+      buildingCostReduction: {},
+    };
+
     // Get prestige multipliers
     const multipliers = getMultipliers(state);
 
@@ -45,20 +53,24 @@ function addResourcesWithBonuses(state: GameState, gains: ResourceCost, actionKe
       const rk = resourceKey as ResourceKey;
       const baseGain = gains[rk] || 0;
       
-      // Apply resource-specific click bonuses
-      const clickGain = bonuses.clickGain[rk] || 0;
-      const clickMultiplier = bonuses.clickMultiplier[rk] || 1;
+      // Apply achievement resource-specific click bonuses
+      const achievementClickGain = achievementBonuses.clickGain[rk] || 0;
+      const achievementClickMultiplier = achievementBonuses.clickMultiplier[rk] || 1;
+      
+      // Apply prestige resource-specific click bonuses
+      const prestigeClickGain = prestigeBonuses.clickGain[rk] || 0;
+      const prestigeClickMultiplier = prestigeBonuses.clickMultiplier[rk] || 1;
       
       // Apply action-specific click bonuses (if actionKey is provided)
-      const actionClickGain = actionKey ? (bonuses.actionClickGain[actionKey]?.[rk] || 0) : 0;
-      const actionClickMultiplier = actionKey ? (bonuses.actionClickMultiplier[actionKey]?.[rk] || 1) : 1;
+      const actionClickGain = actionKey ? (achievementBonuses.actionClickGain[actionKey]?.[rk] || 0) : 0;
+      const actionClickMultiplier = actionKey ? (achievementBonuses.actionClickMultiplier[actionKey]?.[rk] || 1) : 1;
       
-      // Apply prestige click gain multiplier
-      const prestigeClickMultiplier = multipliers.clickGain;
+      // Apply global prestige click gain multiplier
+      const globalPrestigeClickMultiplier = multipliers.clickGain;
       
-      // Calculate final gains: (base + resource bonus + action bonus) * multipliers * prestige multiplier
-      const totalBonus = clickGain + actionClickGain;
-      const totalMultiplier = clickMultiplier * actionClickMultiplier * prestigeClickMultiplier;
+      // Calculate final gains: (base + achievement bonus + prestige bonus + action bonus) * multipliers * global prestige multiplier
+      const totalBonus = achievementClickGain + prestigeClickGain + actionClickGain;
+      const totalMultiplier = achievementClickMultiplier * prestigeClickMultiplier * actionClickMultiplier * globalPrestigeClickMultiplier;
       
       enhancedGains[rk] = (baseGain + totalBonus) * totalMultiplier;
     }

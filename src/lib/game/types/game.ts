@@ -3,7 +3,7 @@
 import type { ResourceKey } from '@/lib/game/types/resources';
 import type { BuildingKey } from '@/lib/game/types/buildings';
 import type { TechnologyKey } from '@/lib/game/types/technologies';
-import type { PrestigeUpgradeKey } from  '@/lib/game/types/prestige';
+import type { PrestigeUpgradeKey, PrestigeBonuses } from  '@/lib/game/types/prestige';
 import type { EventKey } from '@/lib/game/types/events';
 import type { ActionUnlocks, ActionCooldowns, ActionKey } from '@/lib/game/types/actions';
 import type { LoopActionState, LoopActionSettings } from '@/lib/game/types/loopActions';
@@ -59,6 +59,9 @@ export interface TechnologyState {
 export interface PrestigeState {
   /** Current level for each prestige upgrade */
   upgrades: Record<PrestigeUpgradeKey, number>;
+  
+  /** Prestige-based bonuses and additional multipliers */
+  prestigeBonuses: PrestigeBonuses;
 }
 
 /**
@@ -156,7 +159,7 @@ export type GameState = CoreGameState &
 
 export type Multipliers = {
   clickGain: number;
-  cost: number;
+  cost: Partial<Record<BuildingKey, number>>;
   prodMul: Partial<Record<ResourceKey, number>>;
   useMul: Partial<Record<ResourceKey, number>>;
 };
@@ -189,4 +192,6 @@ export type AchievementBonuses = {
   actionLoopGain: Partial<Record<ActionKey, Partial<Record<ResourceKey, number>>>>;
   /** Action-specific loop multipliers (e.g., 1.4x woodcutting loop gains) */
   actionLoopMultiplier: Partial<Record<ActionKey, Partial<Record<ResourceKey, number>>>>;
+  /** Building cost reduction per building type (e.g., -5% quarry costs) */
+  buildingCostReduction: Partial<Record<BuildingKey, number>>;
 };

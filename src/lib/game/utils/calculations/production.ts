@@ -25,7 +25,7 @@ export function getPerSec(state: GameState): Record<ResourceKey, number> {
     }
 
     const muls = getMultipliers(state);
-    const bonuses = state.achievementBonuses || {
+    const achievementBonuses = state.achievementBonuses || {
       resourceGain: {},
       resourceGainMultiplier: {},
       buildingGain: {},
@@ -40,7 +40,16 @@ export function getPerSec(state: GameState): Record<ResourceKey, number> {
       actionLoopMultiplier: {}
     };
     
-    const out: Record<ResourceKey, number> = { gold: 0, wood: 0, stone: 0, food: 0, prestige: 0, researchPoints: 0 };
+    const prestigeBonuses = state.prestigeBonuses || {
+      resourceGain: {},
+      resourceGainMultiplier: {},
+      clickGain: {},
+      clickMultiplier: {},
+      buildingCostReduction: {},
+    };
+    
+    // Step 1: Calculate building production with building-specific bonuses
+    const buildingProduction: Record<ResourceKey, number> = { gold: 0, wood: 0, stone: 0, food: 0, prestige: 0, researchPoints: 0 };
     
     for (const key in BUILDINGS) {
       if (!isValidBuildingKey(key)) {
@@ -51,53 +60,55 @@ export function getPerSec(state: GameState): Record<ResourceKey, number> {
       const n = getBuildingCount(state, key);
       if (!n) continue;
       
-      // Add production
+      // Calculate production for each resource this building produces
       for (const r in def.baseProd) {
         const rk = r as ResourceKey;
-        const baseProduction = (def.baseProd[rk] || 0) * n;
+        const baseProd = (def.baseProd[rk] || 0) * n;
         
-        // Apply building-specific bonuses first
-        const buildingGain = bonuses.buildingGain[key]?.[rk] || 0;
-        const buildingMultiplier = bonuses.buildingGainMultiplier[key]?.[rk] || 1;
+        // Apply building-specific bonuses
+        const achievementBuildingGain = achievementBonuses.buildingGain[key]?.[rk] || 0;
+        const achievementBuildingMultiplier = achievementBonuses.buildingGainMultiplier[key]?.[rk] || 1;
+        const prestigeBuildingGain = prestigeBonuses.buildingGain[key]?.[rk] || 0;
+        const prestigeBuildingMultiplier = prestigeBonuses.buildingGainMultiplier[key]?.[rk] || 1;
         
-        // Calculate building production: (base + building bonus per building) * building multiplier
-        const buildingProduction = (baseProduction + (buildingGain * n)) * buildingMultiplier;
+        // Calculate: (base + achievementGain + prestigeGain) * achievementMulti * prestigeMulti
+        const totalGains = baseProd + (achievementBuildingGain * n) + (prestigeBuildingGain * n);
+        const totalMultiplier = achievementBuildingMultiplier * prestigeBuildingMultiplier;
+        const finalProduction = totalGains * totalMultiplier;
         
-        out[rk] += buildingProduction;
+        buildingProduction[rk] += finalProduction;
       }
       
-      // Subtract consumption
+      // Subtract consumption (this is separate from production bonuses)
       for (const r in def.baseUse) {
         const rk = r as ResourceKey;
-        out[rk] -= (def.baseUse[rk] || 0) * n * (muls.useMul[rk] || 1);
+        buildingProduction[rk] -= (def.baseUse[rk] || 0) * n * (muls.useMul[rk] || 1);
       }
     }
     
-    // Apply resourceGain bonuses to all resources (even if no buildings produce them)
-    for (const resourceKey in bonuses.resourceGain) {
-      const rk = resourceKey as ResourceKey;
-      const resourceBonus = bonuses.resourceGain[rk] || 0;
-      if (resourceBonus > 0) {
-        out[rk] += resourceBonus;
-      }
-    }
+    // Step 2: Calculate total gains and apply multipliers per resource
+    const out: Record<ResourceKey, number> = { gold: 0, wood: 0, stone: 0, food: 0, prestige: 0, researchPoints: 0 };
     
-    // Apply resourceGainMultiplier to total production (including resourceGain)
-    for (const resourceKey in bonuses.resourceGainMultiplier) {
-      const rk = resourceKey as ResourceKey;
-      const resourceMultiplier = bonuses.resourceGainMultiplier[rk] || 1;
-      if (resourceMultiplier !== 1) {
-        out[rk] *= resourceMultiplier;
-      }
-    }
-    
-    // Apply prestige multipliers to final production
-    for (const resourceKey in muls.prodMul) {
-      const rk = resourceKey as ResourceKey;
-      const prestigeMultiplier = muls.prodMul[rk] || 1;
-      if (prestigeMultiplier !== 1) {
-        out[rk] *= prestigeMultiplier;
-      }
+    for (const resourceKey of ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'] as ResourceKey[]) {
+      const rk = resourceKey;
+      
+      // Calculate total gains: buildingProduction + achievementGain + prestigeGain
+      let totalGains = buildingProduction[rk];
+      
+      // Add achievement resourceGain
+      const achievementGain = achievementBonuses.resourceGain[rk] || 0;
+      totalGains += achievementGain;
+      
+      // Add prestige resourceGain
+      const prestigeGain = prestigeBonuses.resourceGain[rk] || 0;
+      totalGains += prestigeGain;
+      
+      // Apply combined multipliers: totalGains * achievementMulti * prestigeMulti
+      const achievementMultiplier = achievementBonuses.resourceGainMultiplier[rk] || 1;
+      const prestigeMultiplier = prestigeBonuses.resourceGainMultiplier[rk] || 1;
+      const combinedMultiplier = achievementMultiplier * prestigeMultiplier;
+      
+      out[rk] = totalGains * combinedMultiplier;
     }
     
     return out;

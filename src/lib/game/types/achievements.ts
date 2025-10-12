@@ -68,6 +68,7 @@ export type AchievementRewardType =
   | 'loopMultiplier'     // Loop action multiplier (e.g., 1.2x loop gains)
   | 'actionLoopGain'     // Action-specific loop gain (e.g., +3 wood from woodcutting loop)
   | 'actionLoopMultiplier' // Action-specific loop multiplier (e.g., 1.4x woodcutting loop gains)
+  | 'buildingCostReduction' // Building cost reduction (e.g., -5% costs)
   | 'unlock';
 
 /**
