@@ -48,16 +48,4 @@ export const ACHIEVEMENTS: Record<AchievementKey, AchievementDef> = {
 
 
 
-// Re-export individual category achievements for direct access
-export {
-  RESOURCE_ACHIEVEMENTS,
-  BUILDING_ACHIEVEMENTS,
-  TECHNOLOGY_ACHIEVEMENTS,
-  ACTION_ACHIEVEMENTS,
-  PRESTIGE_ACHIEVEMENTS,
-  EVENT_ACHIEVEMENTS,
-  TIME_ACHIEVEMENTS,
-  COMBO_ACHIEVEMENTS,
-  HIDDEN_ACHIEVEMENTS
-};
 

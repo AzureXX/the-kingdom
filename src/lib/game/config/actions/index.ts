@@ -41,10 +41,3 @@ export function getAllActions(): Record<ActionKey, ActionDef> {
 
 
 
-// Re-export individual category actions for direct access
-export {
-  BASIC_ACTIONS,
-  TRADING_ACTIONS,
-  BUILDING_ACTIONS,
-  TECHNOLOGY_ACTIONS
-};

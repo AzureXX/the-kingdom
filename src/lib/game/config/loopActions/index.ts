@@ -31,10 +31,3 @@ export const DEFAULT_LOOP_SETTINGS = {
   pointsPerSecond: 2000,
 };
 
-// Re-export individual category loop actions for direct access
-export {
-  GATHERING_LOOP_ACTIONS,
-  CRAFTING_LOOP_ACTIONS,
-  RESEARCH_LOOP_ACTIONS,
-  MILITARY_LOOP_ACTIONS
-};

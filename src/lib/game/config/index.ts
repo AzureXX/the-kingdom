@@ -9,14 +9,9 @@ import { ACHIEVEMENTS } from '@/lib/game/config/achievements';
 import { validateGameConfig, formatValidationResults } from '@/lib/game/utils/validation/crossReferenceValidation';
 import { logMessage } from '@/lib/game/utils/error';
 
-// Re-export all config objects
+// Re-export config objects that are used directly
 export {
-  RESOURCES,
-  BUILDINGS,
-  TECHNOLOGIES,
   PRESTIGE_CONFIG,
-  EVENTS,
-  ACTIONS,
   LOOP_ACTIONS,
   ACHIEVEMENTS,
 };

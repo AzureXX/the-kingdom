@@ -25,10 +25,3 @@ export const EVENTS: Record<EventKey, EventDef> = {
   ...SOCIAL_EVENTS
 } as Record<EventKey, EventDef>;
 
-// Re-export individual category events for direct access
-export {
-  TRADING_EVENTS,
-  CONFLICT_EVENTS,
-  NATURAL_EVENTS,
-  SOCIAL_EVENTS
-};
