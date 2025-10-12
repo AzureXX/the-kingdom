@@ -31,7 +31,8 @@ describe('Achievement Bonus Calculator', () => {
           loopGain: { gold: 3, wood: 2 },
           loopMultiplier: { gold: 1.3, wood: 1.1 },
           actionLoopGain: {},
-          actionLoopMultiplier: {}
+          actionLoopMultiplier: {},
+          buildingCostReduction: {}
         }
       };
 
@@ -60,7 +61,8 @@ describe('Achievement Bonus Calculator', () => {
           loopGain: { gold: 3 },
           loopMultiplier: { gold: 1.3 },
           actionLoopGain: {},
-          actionLoopMultiplier: {}
+          actionLoopMultiplier: {},
+          buildingCostReduction: {}
         }
       };
 

@@ -5,7 +5,7 @@ import type { GameState, ResourceKey } from '@/lib/game/types';
 /**
  * Calculate total bonuses from all unlocked achievements
  */
-export function calculateTotalBonuses(state: GameState): {
+function calculateTotalBonuses(state: GameState): {
   resourceGain: Partial<Record<ResourceKey, number>>;
   resourceGainMultiplier: Partial<Record<ResourceKey, number>>;
   clickGain: Partial<Record<ResourceKey, number>>;
