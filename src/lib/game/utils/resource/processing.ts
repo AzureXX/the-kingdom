@@ -1,35 +1,7 @@
 // Resource processing utilities
 
-import { applyResourceChanges } from '@/lib/game/utils/resource/changes';
-import { createStateErrorHandler } from '@/lib/game/utils/error';
-import type { GameState, ResourceKey, ResourceCost } from '@/lib/game/types';
+import type { GameState, ResourceKey } from '@/lib/game/types';
 
-const stateErrorHandler = createStateErrorHandler('resourceUpdates');
-
-/**
- * Process resource changes with validation and error handling
- * 
- * @param state - Current game state
- * @param changes - Resource changes to apply
- * @param context - Context for error logging
- * @returns Updated game state
- * 
- * ```typescript
- * const newState = processResourceChanges(state, changes, 'eventSystem');
- * ```
- */
-export function processResourceChanges(
-  state: GameState, 
-  changes: ResourceCost, 
-  context: string
-): GameState {
-  try {
-    return applyResourceChanges(state, changes);
-  } catch (error) {
-    stateErrorHandler(`Failed to process resource changes in ${context}`, { error: error instanceof Error ? error.message : String(error) });
-    return state; // Return original state on error
-  }
-}
 
 /**
  * Calculate resource changes for time-based updates

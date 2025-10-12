@@ -1,5 +1,4 @@
 import { 
-  calculateTotalBonuses, 
   getBonusSummary, 
   formatBonusValue, 
   getResourceDisplayName 
@@ -15,47 +14,6 @@ describe('Achievement Bonus Calculator', () => {
     state = createNewGameState();
   });
 
-  describe('calculateTotalBonuses', () => {
-    it('should return empty bonuses for new game state', () => {
-      const bonuses = calculateTotalBonuses(state);
-      
-      expect(bonuses.resourceGain).toEqual({});
-      expect(bonuses.resourceGainMultiplier).toEqual({});
-      expect(bonuses.clickGain).toEqual({});
-      expect(bonuses.clickMultiplier).toEqual({});
-      expect(bonuses.loopGain).toEqual({});
-      expect(bonuses.loopMultiplier).toEqual({});
-    });
-
-    it('should return bonuses from game state', () => {
-      // Add some bonuses to the state
-      const newState = {
-        ...state,
-        achievementBonuses: {
-          resourceGain: { gold: 10, wood: 5 },
-          resourceGainMultiplier: { gold: 1.2, wood: 1.1 },
-          buildingGain: {},
-          buildingGainMultiplier: {},
-          clickGain: { gold: 2, wood: 1 },
-          clickMultiplier: { gold: 1.5, wood: 1.2 },
-          actionClickGain: {},
-          actionClickMultiplier: {},
-          loopGain: { gold: 3, wood: 2 },
-          loopMultiplier: { gold: 1.3, wood: 1.1 },
-          actionLoopGain: {},
-          actionLoopMultiplier: {}
-        }
-      };
-
-      const bonuses = calculateTotalBonuses(newState);
-      
-      expect(bonuses.resourceGain.gold).toBe(10);
-      expect(bonuses.resourceGain.wood).toBe(5);
-      expect(bonuses.resourceGainMultiplier.gold).toBe(1.2);
-      expect(bonuses.clickMultiplier.gold).toBe(1.5);
-      expect(bonuses.loopGain.gold).toBe(3);
-    });
-  });
 
   describe('getBonusSummary', () => {
     it('should calculate correct totals', () => {

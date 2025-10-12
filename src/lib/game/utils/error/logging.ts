@@ -56,20 +56,6 @@ export function logConfigValidation(isValid: boolean, errors?: ValidationError[]
   }
 }
 
-/**
- * Log save system operations
- */
-export function logSaveOperation(operation: string, success: boolean, details?: ErrorLogDetails): void {
-  const message = success 
-    ? `✅ ${operation} completed successfully`
-    : `❌ ${operation} failed`;
-    
-  logMessage(message, {
-    level: success ? 'log' : 'error',
-    context: 'save',
-    details
-  });
-}
 
 /**
  * Log error boundary operations for better error tracking and recovery

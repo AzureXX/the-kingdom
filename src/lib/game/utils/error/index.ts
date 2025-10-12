@@ -12,7 +12,6 @@ export {
   logMessage,
   logInvalidKey,
   logConfigValidation,
-  logSaveOperation,
   logErrorBoundaryOperation,
   logGameError
 } from '@/lib/game/utils/error/logging';

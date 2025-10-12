@@ -7,4 +7,4 @@ export { payResources } from '@/lib/game/utils/resource/payments';
 export { applyResourceChanges } from '@/lib/game/utils/resource/changes';
 
 // Processing utilities
-export { processResourceChanges, calculateTimeBasedChanges } from '@/lib/game/utils/resource/processing';
+export { calculateTimeBasedChanges } from '@/lib/game/utils/resource/processing';
