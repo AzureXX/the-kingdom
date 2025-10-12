@@ -50,6 +50,4 @@ export {
 export {
   calculatePerformanceScoreCached,
   getPerformanceSuggestionsCached,
-  clearPerformanceCache,
-  getCacheStats
 } from '@/lib/game/utils/performance/calculations';

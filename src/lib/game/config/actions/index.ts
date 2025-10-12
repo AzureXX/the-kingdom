@@ -1,7 +1,6 @@
 // Action system configuration - grouped by category
 
 import type { ActionKey, ActionDef } from '@/lib/game/types/actions';
-import type { BuildingKey, TechnologyKey } from '@/lib/game/types';
 
 // Import all action categories
 import { BASIC_ACTIONS } from '@/lib/game/config/actions/basicActions';
@@ -40,40 +39,7 @@ export function getAllActions(): Record<ActionKey, ActionDef> {
   return ACTIONS;
 }
 
-/**
- * Get actions that are always available (no unlock conditions)
- */
-export function getBasicActions(): ActionKey[] {
-  return Object.entries(ACTIONS)
-    .filter(([, action]) => action.unlockConditions.length === 0)
-    .map(([key]) => key as ActionKey);
-}
 
-/**
- * Get actions that require a specific building
- */
-export function getActionsRequiringBuilding(buildingKey: BuildingKey): ActionKey[] {
-  return Object.entries(ACTIONS)
-    .filter(([, action]) => 
-      action.unlockConditions.some(condition => 
-        condition.type === 'building' && condition.key === buildingKey
-      )
-    )
-    .map(([key]) => key as ActionKey);
-}
-
-/**
- * Get actions that require a specific technology
- */
-export function getActionsRequiringTechnology(technologyKey: TechnologyKey): ActionKey[] {
-  return Object.entries(ACTIONS)
-    .filter(([, action]) => 
-      action.unlockConditions.some(condition => 
-        condition.type === 'technology' && condition.key === technologyKey
-      )
-    )
-    .map(([key]) => key as ActionKey);
-}
 
 // Re-export individual category actions for direct access
 export {

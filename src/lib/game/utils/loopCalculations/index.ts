@@ -6,5 +6,3 @@ export { calculatePointsPerTick, calculateProgress } from '@/lib/game/utils/loop
 // Efficiency calculations
 export { calculateLoopActionEfficiency } from '@/lib/game/utils/loopCalculations/efficiency';
 
-// Statistics calculations
-export { getLoopActionStats } from '@/lib/game/utils/loopCalculations/stats';

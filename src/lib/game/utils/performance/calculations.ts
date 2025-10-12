@@ -180,31 +180,3 @@ export function getPerformanceSuggestionsCached(
   return suggestions;
 }
 
-/**
- * Clear the performance cache (useful for testing or when thresholds change)
- */
-export function clearPerformanceCache(): void {
-  performanceCache.lastMetrics = null;
-  performanceCache.lastThresholds = null;
-  performanceCache.cachedScore = 100;
-  performanceCache.cachedSuggestions = [];
-  performanceCache.lastUpdateTime = 0;
-}
-
-/**
- * Get cache statistics for debugging
- */
-export function getCacheStats(): {
-  isCacheValid: boolean;
-  lastUpdateTime: number;
-  cacheAge: number;
-  hasCachedData: boolean;
-} {
-  const now = performance.now();
-  return {
-    isCacheValid: performanceCache.lastUpdateTime > 0 && (now - performanceCache.lastUpdateTime) <= CACHE_DURATION,
-    lastUpdateTime: performanceCache.lastUpdateTime,
-    cacheAge: now - performanceCache.lastUpdateTime,
-    hasCachedData: performanceCache.lastMetrics !== null
-  };
-}

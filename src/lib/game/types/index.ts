@@ -75,8 +75,6 @@ export type {
   AchievementState,
   AchievementFilter,
   AchievementSortOption,
-  AchievementCheckContext,
-  AchievementValidationResult,
   AchievementStats,
 } from '@/lib/game/types/achievements';
 

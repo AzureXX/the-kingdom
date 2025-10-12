@@ -1,8 +1,3 @@
-// Achievement system type definitions
-
-import type { GameState } from '@/lib/game/types/game';
-
-
 /**
  * Unique identifier for an achievement
  * Using string type for compatibility with dynamic key access patterns
@@ -211,31 +206,6 @@ export type AchievementSortOption =
   | 'category' 
   | 'unlock_time';
 
-/**
- * Achievement checking context
- */
-export type AchievementCheckContext = {
-  /** Current game state */
-  state: GameState;
-  /** Time since last check (seconds) */
-  deltaTime: number;
-  /** Whether this is a full check or incremental */
-  fullCheck: boolean;
-  /** Specific achievements to check (if any) */
-  specificAchievements?: AchievementKey[];
-};
-
-/**
- * Achievement validation result
- */
-export type AchievementValidationResult = {
-  /** Whether the achievement definition is valid */
-  isValid: boolean;
-  /** Validation errors */
-  errors: string[];
-  /** Validation warnings */
-  warnings: string[];
-};
 
 /**
  * Achievement statistics for analytics
