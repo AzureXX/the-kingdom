@@ -41,15 +41,17 @@ export const BuildingList = memo(function BuildingList({ state, costFor, onBuyBu
       {unlockedBuildings.map((buildingKey) => {
         const building = CONFIG.buildings[buildingKey];
         const owned = state.buildings[buildingKey] || 0;
+        const maxLimit = building.maxLimit;
+        const isAtLimit = maxLimit !== undefined && owned >= maxLimit;
         const cost = costFor(buildingKey);
         const costStr = Object.entries(cost)
           .filter(([, value]) => value !== undefined && value > 0)
           .map(([resourceKey, value]) => `${CONFIG.resources[resourceKey as ResourceKey].name} ${formatNumber(value || 0)}`)
           .join(' · ');
-        const canAfford = canBuyBuilding(state, buildingKey);
+        const canAfford = canBuyBuilding(state, buildingKey) && !isAtLimit;
         const unlockRequirements = formatUnlockConditions(building.unlockConditions);
         
-        const tooltipText = `${building.name}\n${building.desc}\n\nCost: ${costStr}${unlockRequirements ? `\nRequirements: ${unlockRequirements}` : ''}\nOwned: ${owned}`;
+        const tooltipText = `${building.name}\n${building.desc}\n\nCost: ${costStr}${unlockRequirements ? `\nRequirements: ${unlockRequirements}` : ''}\nOwned: ${owned}${maxLimit ? `/${maxLimit}` : ''}${isAtLimit ? '\n\n⚠️ Building limit reached!' : ''}`;
         
         return (
           <div 
@@ -64,10 +66,15 @@ export const BuildingList = memo(function BuildingList({ state, costFor, onBuyBu
             </span>
             <div className={styles.meta}>
               <div className={styles.name}>
-                {building.name} <span className={styles.pill}>x{owned}</span>
+                {building.name} <span className={styles.pill}>x{owned}{maxLimit ? `/${maxLimit}` : ''}</span>
                 {unlockRequirements && (
                   <span className={`${styles.pill} ${buildingStyles.techRequirementsPill}`}>
                     🔬
+                  </span>
+                )}
+                {isAtLimit && (
+                  <span className={`${styles.pill} ${buildingStyles.limitReachedPill}`}>
+                    ⚠️
                   </span>
                 )}
               </div>
@@ -77,8 +84,9 @@ export const BuildingList = memo(function BuildingList({ state, costFor, onBuyBu
                 className={styles.button} 
                 disabled={!canAfford} 
                 onClick={() => onBuyBuilding(buildingKey)}
+                title={isAtLimit ? 'Building limit reached' : undefined}
               >
-                Buy
+                {isAtLimit ? 'Max' : 'Buy'}
               </button>
             </div>
           </div>

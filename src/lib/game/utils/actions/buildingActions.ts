@@ -14,6 +14,7 @@ import {
 import { checkAchievements } from '@/lib/game/utils/achievement';
 import { costFor, canAfford } from '@/lib/game/utils/calculations';
 import { createStateErrorHandler } from '@/lib/game/utils/error';
+import { CONFIG } from '@/lib/game/config';
 
 const stateErrorHandler = createStateErrorHandler('buildingActions');
 /**
@@ -26,11 +27,17 @@ export function buyBuilding(state: GameState, key: BuildingKey): GameState {
       return state; // Building not unlocked, cannot purchase
     }
     
+    // Check building limit
+    const building = CONFIG.buildings[key];
+    const current = getBuildingCount(state, key);
+    if (building.maxLimit !== undefined && current >= building.maxLimit) {
+      return state; // Building limit reached, cannot purchase
+    }
+    
     const cost = costFor(state, key);
     if (!canAfford(state, cost)) return state;
     
     const newState = pay(state, cost);
-    const current = getBuildingCount(newState, key);
     const stateWithBuilding = updateBuildingCount(newState, key, current + 1);
     
     // Check achievements after building purchase

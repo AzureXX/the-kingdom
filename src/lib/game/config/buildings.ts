@@ -9,6 +9,7 @@ export const BUILDINGS: Record<BuildingKey, BuildingDef> = {
     costScale: 1.15,
     baseProd: { wood: 1.2 },
     baseUse: {},
+    maxLimit: 10,
   },
   quarry: {
     name: 'Quarry',
@@ -18,6 +19,7 @@ export const BUILDINGS: Record<BuildingKey, BuildingDef> = {
     costScale: 1.18,
     baseProd: { stone: 0.8 },
     baseUse: {},
+    maxLimit: 8,
   },
   farm: {
     name: 'Farm',
@@ -27,6 +29,7 @@ export const BUILDINGS: Record<BuildingKey, BuildingDef> = {
     costScale: 1.16,
     baseProd: { food: 1.5 },
     baseUse: {},
+    maxLimit: 12,
   },
   blacksmith: {
     name: 'Blacksmith',
@@ -36,6 +39,7 @@ export const BUILDINGS: Record<BuildingKey, BuildingDef> = {
     costScale: 1.20,
     baseProd: { gold: 2.5 },
     baseUse: { wood: 0.3, stone: 0.2 },
+    maxLimit: 6,
   },
   castle: {
     name: 'Castle',
@@ -45,6 +49,7 @@ export const BUILDINGS: Record<BuildingKey, BuildingDef> = {
     costScale: 1.25,
     baseProd: { prestige: 0.1 },
     baseUse: { food: 0.5 },
+    maxLimit: 3,
   },
   library: {
     name: 'Library',
@@ -55,6 +60,7 @@ export const BUILDINGS: Record<BuildingKey, BuildingDef> = {
     baseProd: { gold: 1.0, researchPoints: 0.1 },
     baseUse: {},
     unlockConditions: [{ type: 'technology', key: 'writing', value: 1 }],
+    maxLimit: 5,
   },
   university: {
     name: 'University',
@@ -68,6 +74,7 @@ export const BUILDINGS: Record<BuildingKey, BuildingDef> = {
       { type: 'technology', key: 'writing', value: 1 },
       { type: 'technology', key: 'mathematics', value: 1 }
     ],
+    maxLimit: 2,
   },
   laboratory: {
     name: 'Laboratory',
@@ -81,6 +88,7 @@ export const BUILDINGS: Record<BuildingKey, BuildingDef> = {
       { type: 'technology', key: 'chemistry', value: 1 },
       { type: 'technology', key: 'engineering', value: 1 }
     ],
+    maxLimit: 1,
   },
   taxOffice: {
     name: 'Tax Office',
@@ -91,5 +99,6 @@ export const BUILDINGS: Record<BuildingKey, BuildingDef> = {
     baseProd: { gold: 0.5 },
     baseUse: {},
     unlockConditions: [{ type: 'achievement', key: 'foodMaster' }],
+    maxLimit: 4,
   },
 };

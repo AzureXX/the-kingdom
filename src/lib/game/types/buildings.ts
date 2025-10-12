@@ -14,4 +14,5 @@ export interface BuildingDef {
   baseProd: ResourceProduction;
   baseUse: ResourceConsumption;
   unlockConditions?: ActionUnlockCondition[];
+  maxLimit?: number;
 }

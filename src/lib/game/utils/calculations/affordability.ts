@@ -2,7 +2,7 @@
 
 import type { ResourceKey, BuildingKey, PrestigeUpgradeKey, ResourceCost, GameState } from '@/lib/game/types';
 import { CONFIG } from '@/lib/game/config';
-import { getResource, getUpgradeLevel, isBuildingUnlocked } from '@/lib/game/utils/gameState';
+import { getResource, getUpgradeLevel, isBuildingUnlocked, getBuildingCount } from '@/lib/game/utils/gameState';
 import { createValidationErrorHandler, createCalculationErrorHandler } from '@/lib/game/utils/error';
 import { costFor, getUpgradeCost } from '@/lib/game/utils/calculations/costs';
 
@@ -56,6 +56,14 @@ export function canBuyBuilding(state: GameState, buildKey: BuildingKey): boolean
     }
 
     if (!isBuildingUnlocked(state, buildKey)) return false;
+    
+    // Check building limit
+    const building = CONFIG.buildings[buildKey];
+    const current = getBuildingCount(state, buildKey);
+    if (building.maxLimit !== undefined && current >= building.maxLimit) {
+      return false; // Building limit reached
+    }
+    
     return canAfford(state, costFor(state, buildKey));
   } catch (error) {
     calculationHandler('Failed to check if building can be purchased', { buildKey, error: error instanceof Error ? error.message : String(error) });
