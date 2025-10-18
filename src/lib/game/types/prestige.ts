@@ -89,6 +89,8 @@ export interface PrestigeUpgradeDef {
   desc: string;
   costCurve: (level: number) => number;
   max: number;
+  // Minimum prestige required to show this upgrade in UI
+  minPrestige: number;
   // Rewards that get applied per level (using prestige reward system)
   rewards: PrestigeReward[];
 }

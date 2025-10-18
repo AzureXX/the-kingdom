@@ -6,13 +6,20 @@ import type { PrestigeSceneProps } from '@/lib/game/types/context';
 import { formatNumber } from '@/lib/game/utils/number';
 
 export const UpgradeList = memo(function UpgradeList({ state, onBuyUpgrade }: Pick<PrestigeSceneProps, 'state'> & { onBuyUpgrade: (key: PrestigeUpgradeKey) => void }): React.JSX.Element {
+  const currentPrestige = state.resources.prestige || 0;
+  
   return (
     <div className={`${styles.section} ${styles.grid2}`}>
-      {(Object.keys(CONFIG.prestige.upgrades) as PrestigeUpgradeKey[]).map((key) => {
+      {(Object.keys(CONFIG.prestige.upgrades) as PrestigeUpgradeKey[])
+        .filter((key) => {
+          const u = CONFIG.prestige.upgrades[key];
+          return currentPrestige >= u.minPrestige;
+        })
+        .map((key) => {
         const u = CONFIG.prestige.upgrades[key];
         const lvl = state.upgrades[key] || 0;
         const cost = Math.ceil(u.costCurve(lvl));
-        const canAfford = (state.resources.prestige || 0) >= cost && lvl < u.max;
+        const canAfford = currentPrestige >= cost && lvl < u.max;
         
         return (
           <div key={key} className={styles.upgrade}>

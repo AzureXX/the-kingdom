@@ -10,6 +10,7 @@ export const TIER1_PRESTIGE_CONFIG = {
       desc: '+25% click gains per level.',
       costCurve: (lvl: number) => 5 * Math.pow(1.6, lvl),
       max: 20,
+      minPrestige: 0,
       rewards: [
         { type: 'clickMultiplier', target: 'wood', value: 1.25, permanent: true },
         { type: 'clickMultiplier', target: 'stone', value: 1.25, permanent: true },
@@ -27,6 +28,7 @@ export const TIER1_PRESTIGE_CONFIG = {
       desc: '+50% wood and stone gathering efficiency per level.',
       costCurve: (lvl: number) => 6 * Math.pow(1.65, lvl),
       max: 25,
+      minPrestige: 0,
       rewards: [
         { type: 'actionClickMultiplier', target: 'gatherWood', value: 1.5, permanent: true },
         { type: 'actionClickMultiplier', target: 'gatherStone', value: 1.5, permanent: true }
@@ -38,6 +40,7 @@ export const TIER1_PRESTIGE_CONFIG = {
       desc: '-25% building costs per level.',
       costCurve: (lvl: number) => 8 * Math.pow(1.7, lvl),
       max: 15,
+      minPrestige: 0,
       rewards: [
         { type: 'buildingCostReduction', target: 'primitiveHut', value: 0.25, permanent: true },
         { type: 'buildingCostReduction', target: 'toolWorkshop', value: 0.25, permanent: true },
@@ -53,6 +56,7 @@ export const TIER1_PRESTIGE_CONFIG = {
       desc: '+50% knowledge generation per level.',
       costCurve: (lvl: number) => 7 * Math.pow(1.68, lvl),
       max: 20,
+      minPrestige: 100,
       rewards: [
         { type: 'resourceGainMultiplier', target: 'knowledge', value: 1.5, permanent: true }
       ] as PrestigeReward[],
@@ -63,6 +67,7 @@ export const TIER1_PRESTIGE_CONFIG = {
       desc: '+50% loop action efficiency per level.',
       costCurve: (lvl: number) => 9 * Math.pow(1.72, lvl),
       max: 18,
+      minPrestige: 100,
       rewards: [
         { type: 'loopMultiplier', target: 'wood', value: 1.5, permanent: true },
         { type: 'loopMultiplier', target: 'stone', value: 1.5, permanent: true },
@@ -80,6 +85,7 @@ export const TIER1_PRESTIGE_CONFIG = {
       desc: '+100% tool crafting efficiency per level.',
       costCurve: (lvl: number) => 6 * Math.pow(1.62, lvl),
       max: 25,
+      minPrestige: 0,
       rewards: [
         { type: 'actionClickMultiplier', target: 'craftBasicTools', value: 2.0, permanent: true }
       ] as PrestigeReward[],
@@ -90,6 +96,7 @@ export const TIER1_PRESTIGE_CONFIG = {
       desc: '+50% knowledge generation per level.',
       costCurve: (lvl: number) => 8 * Math.pow(1.68, lvl),
       max: 20,
+      minPrestige: 0,
       rewards: [
         { type: 'resourceGainMultiplier', target: 'knowledge', value: 1.5, permanent: true }
       ] as PrestigeReward[],
@@ -100,6 +107,7 @@ export const TIER1_PRESTIGE_CONFIG = {
       desc: '+25% all resource production per level.',
       costCurve: (lvl: number) => 7 * Math.pow(1.65, lvl),
       max: 30,
+      minPrestige: 100,
       rewards: [
         { type: 'resourceGainMultiplier', target: 'wood', value: 1.25, permanent: true },
         { type: 'resourceGainMultiplier', target: 'stone', value: 1.25, permanent: true },
@@ -117,6 +125,7 @@ export const TIER1_PRESTIGE_CONFIG = {
       desc: '+25% click action effectiveness per level.',
       costCurve: (lvl: number) => 5 * Math.pow(1.6, lvl),
       max: 25,
+      minPrestige: 0,
       rewards: [
         { type: 'clickMultiplier', target: 'wood', value: 1.25, permanent: true },
         { type: 'clickMultiplier', target: 'stone', value: 1.25, permanent: true },
@@ -134,6 +143,7 @@ export const TIER1_PRESTIGE_CONFIG = {
       desc: '+30% knowledge generation per level.',
       costCurve: (lvl: number) => 6 * Math.pow(1.65, lvl),
       max: 25,
+      minPrestige: 100,
       rewards: [
         { type: 'resourceGainMultiplier', target: 'knowledge', value: 1.3, permanent: true }
       ] as PrestigeReward[],
@@ -144,6 +154,7 @@ export const TIER1_PRESTIGE_CONFIG = {
       desc: '+25% Tier 1 loop action efficiency per level.',
       costCurve: (lvl: number) => 8 * Math.pow(1.7, lvl),
       max: 20,
+      minPrestige: 100,
       rewards: [
         { type: 'loopMultiplier', target: 'wood', value: 1.25, permanent: true },
         { type: 'loopMultiplier', target: 'stone', value: 1.25, permanent: true },
