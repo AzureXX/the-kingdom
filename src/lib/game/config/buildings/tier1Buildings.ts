@@ -1,6 +1,6 @@
 import type { BuildingKey, BuildingDef } from '@/lib/game/types';
 
-export const BUILDINGS: Record<BuildingKey, BuildingDef> = {
+export const TIER1_BUILDINGS: Record<BuildingKey, BuildingDef> = {
   primitiveHut: {
     name: 'Primitive Hut',
     icon: 'ic-hut',

@@ -1,6 +1,6 @@
 import type { ResourceKey, ResourceDef } from '@/lib/game/types';
 
-export const RESOURCES: Record<ResourceKey, ResourceDef> = {
+export const TIER1_RESOURCES: Record<ResourceKey, ResourceDef> = {
   // Starting Resources
   wood: { name: 'Wood', icon: 'ic-wood', decimals: 2, start: 0 },
   stone: { name: 'Stone', icon: 'ic-stone', decimals: 2, start: 0 },
@@ -16,5 +16,3 @@ export const RESOURCES: Record<ResourceKey, ResourceDef> = {
   // Prestige
   prestige: { name: 'Prestige', icon: 'ic-prestige', decimals: 2, start: 0, hidden: true },
 };
-
-

@@ -1,6 +1,6 @@
 import type { ResourceKey, PrestigeUpgradeKey, PrestigeUpgradeDef, PrestigeReward } from '@/lib/game/types';
 
-export const PRESTIGE_CONFIG = {
+export const TIER1_PRESTIGE_CONFIG = {
   gainFrom: 'food' as ResourceKey,
   upgrades: {
     royalDecrees: {

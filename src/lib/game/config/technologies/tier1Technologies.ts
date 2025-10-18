@@ -1,6 +1,6 @@
 import type { TechnologyKey, TechnologyDef } from '@/lib/game/types';
 
-export const TECHNOLOGIES: Record<TechnologyKey, TechnologyDef> = {
+export const TIER1_TECHNOLOGIES: Record<TechnologyKey, TechnologyDef> = {
   basicAgriculture: {
     name: 'Basic Agriculture',
     icon: 'ic-agriculture',
