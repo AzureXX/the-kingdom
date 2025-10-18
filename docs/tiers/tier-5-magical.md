@@ -58,27 +58,96 @@
 - **Mystical Observatory** (Cost: 900 wood, 500 stone, 300 steel, 150 crystals)
 - **Portal Nexus** (Cost: 1200 wood, 800 stone, 500 steel, 100 portals)
 
-## 🔬 Research
+## 🔬 Technology Tree
 
-### Magic Theory
+### Tier 5 Technologies
+
+#### 1. Magic Theory
 - **Cost**: 5000 knowledge, 50 mana, 25 crystals
 - **Duration**: 50 minutes
-- **Unlocks**: Advanced Magic, Spell Research
+- **Unlocks**: 
+  - Advanced Magic action
+  - Spell Research building
 
-### Crystal Studies
+#### 2. Crystal Studies
 - **Cost**: 4000 knowledge, 40 crystals, 20 essences
 - **Duration**: 40 minutes
-- **Unlocks**: Crystal Technology, Energy Systems
+- **Unlocks**: 
+  - Crystal Technology action
+  - Energy Systems building
 
-### Ancient Knowledge
+#### 3. Ancient Knowledge
 - **Cost**: 6000 knowledge, 30 artifacts, 20 runes
 - **Duration**: 60 minutes
-- **Unlocks**: Ancient Technology, Lost Arts
+- **Unlocks**: 
+  - Ancient Technology action
+  - Lost Arts building
 
-### Mystical Arts
+#### 4. Mystical Arts
 - **Cost**: 8000 knowledge, 60 mana, 40 essences
 - **Duration**: 80 minutes
-- **Unlocks**: Portal Magic, Dimensional Travel
+- **Unlocks**: 
+  - Portal Magic action
+  - Dimensional Travel building
+
+#### 5. Essence Manipulation
+- **Cost**: 4500 knowledge, 50 essences, 30 mana
+- **Duration**: 45 minutes
+- **Unlocks**: 
+  - Essence Refinement action
+
+#### 6. Rune Mastery
+- **Cost**: 3500 knowledge, 60 runes, 25 crystals
+- **Duration**: 35 minutes
+- **Unlocks**: 
+  - Advanced Rune Carving action
+
+#### 7. Enchantment Theory
+- **Cost**: 5500 knowledge, 40 enchanted materials, 35 essences
+- **Duration**: 55 minutes
+- **Unlocks**: 
+  - Advanced Enchantment action
+
+#### 8. Arcane Engineering
+- **Cost**: 7000 knowledge, 80 mana, 50 crystals, 40 runes
+- **Duration**: 70 minutes
+- **Unlocks**: 
+  - Magical Construct action
+
+#### 9. Dimensional Physics
+- **Cost**: 9000 knowledge, 100 essences, 60 artifacts, 50 runes
+- **Duration**: 90 minutes
+- **Unlocks**: 
+  - Reality Manipulation action
+
+#### 10. Mystical Biology
+- **Cost**: 6000 knowledge, 70 mana, 45 essences, 30 enchanted materials
+- **Duration**: 60 minutes
+- **Unlocks**: 
+  - Magical Evolution action
+
+#### 11. Celestial Mechanics
+- **Cost**: 8500 knowledge, 90 crystals, 60 essences, 40 artifacts
+- **Duration**: 85 minutes
+- **Unlocks**: 
+  - Stellar Magic action
+
+#### 12. Transcendent Magic
+- **Cost**: 12000 knowledge, 150 mana, 100 essences, 80 runes, 60 artifacts
+- **Duration**: 120 minutes
+- **Unlocks**: 
+  - Ultimate Magic action
+
+### Technology Dependencies
+```
+Essence Manipulation → Magic Theory → Arcane Engineering → Transcendent Magic
+Rune Mastery → Ancient Knowledge → Dimensional Physics → Transcendent Magic
+Enchantment Theory → Mystical Arts → Celestial Mechanics → Transcendent Magic
+Crystal Studies → Arcane Engineering → Celestial Mechanics
+Magic Theory → Mystical Arts → Dimensional Physics
+Ancient Knowledge → Mystical Biology → Transcendent Magic
+Mystical Arts → Dimensional Physics → Transcendent Magic
+```
 
 ## 🏆 Achievements
 

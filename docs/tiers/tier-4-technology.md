@@ -58,27 +58,97 @@
 - **Pharmaceutical Plant** (Cost: 550 wood, 350 stone, 200 steel, 120 chemicals)
 - **Research Facility** (Cost: 800 wood, 500 stone, 300 steel, 200 electronics)
 
-## 🔬 Research
+## 🔬 Technology Tree
 
-### Electronics Engineering
+### Tier 4 Technologies
+
+#### 1. Electronics Engineering
 - **Cost**: 2000 knowledge, 20 electronics, 15 wire
 - **Duration**: 20 minutes
-- **Unlocks**: Advanced Electronics, Computer Systems
+- **Unlocks**: 
+  - Advanced Electronics action
+  - Computer Systems building
 
-### Chemical Engineering
+#### 2. Chemical Engineering
 - **Cost**: 1800 knowledge, 25 chemicals, 10 coal
 - **Duration**: 18 minutes
-- **Unlocks**: Advanced Chemistry, Pharmaceutical Production
+- **Unlocks**: 
+  - Advanced Chemistry action
+  - Pharmaceutical Production building
 
-### Materials Science
+#### 3. Materials Science
 - **Cost**: 2500 knowledge, 30 alloys, 20 plastics
 - **Duration**: 25 minutes
-- **Unlocks**: Advanced Materials, Nanotechnology
+- **Unlocks**: 
+  - Advanced Materials action
+  - Nanotechnology building
 
-### Digital Systems
+#### 4. Digital Systems
 - **Cost**: 3000 knowledge, 40 electronics, 25 computers
 - **Duration**: 30 minutes
-- **Unlocks**: AI Systems, Digital Networks
+- **Unlocks**: 
+  - AI Systems action
+  - Digital Networks building
+
+#### 5. Semiconductor Technology
+- **Cost**: 2200 knowledge, 35 electronics, 20 gems
+- **Duration**: 22 minutes
+- **Unlocks**: 
+  - Microchip Production action
+
+#### 6. Polymer Science
+- **Cost**: 1900 knowledge, 40 plastics, 25 chemicals
+- **Duration**: 19 minutes
+- **Unlocks**: 
+  - Advanced Plastic Production action
+
+#### 7. Metallurgical Engineering
+- **Cost**: 2100 knowledge, 50 alloys, 30 steel
+- **Duration**: 21 minutes
+- **Unlocks**: 
+  - Advanced Alloy Production action
+
+#### 8. Gem Processing
+- **Cost**: 1600 knowledge, 60 gems, 20 electronics
+- **Duration**: 16 minutes
+- **Unlocks**: 
+  - Gem Cutting action
+
+#### 9. Spice Technology
+- **Cost**: 1400 knowledge, 80 spices, 30 chemicals
+- **Duration**: 14 minutes
+- **Unlocks**: 
+  - Advanced Spice Processing action
+
+#### 10. Biotechnology
+- **Cost**: 2800 knowledge, 50 chemicals, 40 electronics
+- **Duration**: 28 minutes
+- **Unlocks**: 
+  - Genetic Engineering action
+
+#### 11. Quantum Computing
+- **Cost**: 3500 knowledge, 60 electronics, 40 gems, 30 alloys
+- **Duration**: 35 minutes
+- **Unlocks**: 
+  - Quantum Processing action
+
+#### 12. Nanotechnology
+- **Cost**: 3200 knowledge, 70 alloys, 50 plastics, 40 electronics
+- **Duration**: 32 minutes
+- **Unlocks**: 
+  - Nanomaterial Production action
+
+### Technology Dependencies
+```
+Semiconductor Technology → Electronics Engineering → Digital Systems → Quantum Computing
+Polymer Science → Materials Science → Nanotechnology
+Metallurgical Engineering → Materials Science → Nanotechnology
+Gem Processing → Electronics Engineering → Digital Systems
+Spice Technology → Chemical Engineering → Biotechnology
+Chemical Engineering → Biotechnology
+Materials Science → Nanotechnology
+Electronics Engineering → Digital Systems → Quantum Computing
+```
 
 ## 🏆 Achievements
 

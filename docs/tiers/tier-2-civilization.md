@@ -53,53 +53,136 @@
 - **Masonry Workshop** (Cost: 150 wood, 100 stone, 50 bricks)
 - **Textile Mill** (Cost: 200 wood, 120 stone, 80 cloth)
 
-## 🔬 Research
+## 🔬 Technology Tree
 
-### Textile Production
+### Tier 2 Technologies
+
+#### 1. Textile Production
 - **Cost**: 400 knowledge
 - **Duration**: 5 minutes
-- **Unlocks**: Make Clothing action, Textile Mill building
+- **Unlocks**: 
+  - Make Clothing action
+  - Textile Mill building
 
-### Advanced Agriculture
+#### 2. Advanced Agriculture
 - **Cost**: 600 knowledge
 - **Duration**: 6 minutes
-- **Unlocks**: Crop Rotation, Advanced Farm
+- **Unlocks**: 
+  - Crop Rotation action
+  - Advanced Farm building
 
-### Trade Networks
+#### 3. Trade Networks
 - **Cost**: 800 knowledge
 - **Duration**: 8 minutes
-- **Unlocks**: Trade Caravan action, Market building
+- **Unlocks**: 
+  - Trade Caravan action
+  - Market building
+
+#### 4. Weapon Crafting
+- **Cost**: 500 knowledge, 20 weapons
+- **Duration**: 4 minutes
+- **Unlocks**: 
+  - Advanced Weapon Crafting action
+
+#### 5. Pottery Mastery
+- **Cost**: 450 knowledge, 30 pottery
+- **Duration**: 5 minutes
+- **Unlocks**: 
+  - Advanced Pottery action
+
+#### 6. Leather Working
+- **Cost**: 550 knowledge, 25 leather
+- **Duration**: 6 minutes
+- **Unlocks**: 
+  - Advanced Leather Processing action
+
+#### 7. Brick Making
+- **Cost**: 400 knowledge, 40 bricks
+- **Duration**: 4 minutes
+- **Unlocks**: 
+  - Advanced Brick Making action
+
+#### 8. Rope Making
+- **Cost**: 350 knowledge, 30 rope
+- **Duration**: 3 minutes
+- **Unlocks**: 
+  - Advanced Rope Making action
+
+#### 9. Social Organization
+- **Cost**: 700 knowledge, 50 food
+- **Duration**: 7 minutes
+- **Unlocks**: 
+  - Leadership action
+
+#### 10. Advanced Construction
+- **Cost**: 600 knowledge, 60 bricks, 40 rope
+- **Duration**: 6 minutes
+- **Unlocks**: 
+  - Monument Building action
+
+### Technology Dependencies
+```
+Textile Production → Social Organization
+Advanced Agriculture → Advanced Construction
+Trade Networks → Social Organization
+Weapon Crafting → Advanced Construction
+Pottery Mastery → Social Organization
+Leather Working → Advanced Construction
+Brick Making → Advanced Construction
+Rope Making → Advanced Construction
+```
 
 ## 🏆 Achievements
 
 ### Crafting Mastery
 - **Weapon Smith** - Craft 1000 weapons
+  - *Reward*: `{ type: 'actionClickMultiplier', target: 'craftWeapons', resource: 'weapons', value: 1.4, permanent: true }`
 - **Textile Master** - Weave 1000 cloth
+  - *Reward*: `{ type: 'actionClickMultiplier', target: 'weaveCloth', resource: 'cloth', value: 1.4, permanent: true }`
 - **Pottery Artist** - Create 500 pottery
+  - *Reward*: `{ type: 'actionClickMultiplier', target: 'makePottery', resource: 'pottery', value: 1.5, permanent: true }`
 - **Leather Worker** - Process 1000 leather
+  - *Reward*: `{ type: 'actionClickMultiplier', target: 'processLeather', resource: 'leather', value: 1.4, permanent: true }`
 - **Brick Maker** - Create 2000 bricks
+  - *Reward*: `{ type: 'actionClickMultiplier', target: 'makeBricks', resource: 'bricks', value: 1.3, permanent: true }`
 - **Rope Weaver** - Weave 1000 rope
+  - *Reward*: `{ type: 'actionClickMultiplier', target: 'weaveRope', resource: 'rope', value: 1.4, permanent: true }`
 
 ### Building Achievements
 - **Early Architect** - Build 20 buildings
+  - *Reward*: `{ type: 'resourceGain', target: 'wood', value: 0.5, permanent: true }`, `{ type: 'resourceGain', target: 'stone', value: 0.5, permanent: true }`, `{ type: 'resourceGain', target: 'food', value: 0.5, permanent: true }`
 - **Crafting Center** - Build 10 crafting buildings
+  - *Reward*: `{ type: 'buildingGainMultiplier', target: 'weaponWorkshop', resource: 'weapons', value: 1.1, permanent: true }`, `{ type: 'buildingGainMultiplier', target: 'textileMill', resource: 'cloth', value: 1.1, permanent: true }`
 - **Trade Hub** - Build Market and 5 trade buildings
+  - *Reward*: `{ type: 'resourceGainMultiplier', target: 'gold', value: 1.3, permanent: true }`
 - **Agricultural Expert** - Build 5 farms
+  - *Reward*: `{ type: 'buildingGainMultiplier', target: 'farm', resource: 'food', value: 1.4, permanent: true }`
 - **Construction Master** - Build 15 advanced buildings
+  - *Reward*: `{ type: 'resourceGain', target: 'wood', value: 0.8, permanent: true }`, `{ type: 'resourceGain', target: 'stone', value: 0.8, permanent: true }`, `{ type: 'resourceGain', target: 'bricks', value: 0.8, permanent: true }`
 
 ### Resource Achievements
 - **Resource Collector** - Gather 10000 of each basic resource
+  - *Reward*: `{ type: 'resourceGainMultiplier', target: 'wood', value: 1.2, permanent: true }`, `{ type: 'resourceGainMultiplier', target: 'stone', value: 1.2, permanent: true }`, `{ type: 'resourceGainMultiplier', target: 'food', value: 1.2, permanent: true }`
 - **Crafted Goods** - Produce 5000 of each crafted resource
+  - *Reward*: `{ type: 'resourceGainMultiplier', target: 'weapons', value: 1.15, permanent: true }`, `{ type: 'resourceGainMultiplier', target: 'cloth', value: 1.15, permanent: true }`, `{ type: 'resourceGainMultiplier', target: 'pottery', value: 1.15, permanent: true }`
 - **Trade Pioneer** - Complete 100 trades
+  - *Reward*: `{ type: 'actionClickMultiplier', target: 'trade', resource: 'gold', value: 1.3, permanent: true }`
 - **Efficiency Expert** - Maintain 50% efficiency bonus for 1 hour
+  - *Reward*: `{ type: 'resourceGainMultiplier', target: 'wood', value: 1.1, permanent: true }`, `{ type: 'resourceGainMultiplier', target: 'stone', value: 1.1, permanent: true }`, `{ type: 'resourceGainMultiplier', target: 'food', value: 1.1, permanent: true }`
 - **Storage Master** - Store 50000 of any single resource
+  - *Reward*: `{ type: 'resourceGain', target: 'wood', value: 0.3, permanent: true }`, `{ type: 'resourceGain', target: 'stone', value: 0.3, permanent: true }`, `{ type: 'resourceGain', target: 'food', value: 0.3, permanent: true }`
 
 ### Hidden Achievements
 - **Crafting Perfectionist** - Complete all crafting achievements
+  - *Reward*: `{ type: 'resourceGainMultiplier', target: 'weapons', value: 1.3, permanent: true }`, `{ type: 'resourceGainMultiplier', target: 'cloth', value: 1.3, permanent: true }`, `{ type: 'resourceGainMultiplier', target: 'pottery', value: 1.3, permanent: true }`
 - **Trade Master** - Complete 1000 trades
+  - *Reward*: `{ type: 'actionClickMultiplier', target: 'trade', resource: 'gold', value: 1.5, permanent: true }`
 - **Building Enthusiast** - Build 100 buildings total
+  - *Reward*: `{ type: 'buildingGainMultiplier', target: 'farm', resource: 'food', value: 1.2, permanent: true }`, `{ type: 'buildingGainMultiplier', target: 'woodcutter', resource: 'wood', value: 1.2, permanent: true }`
 - **Resource Hoarder** - Store 100000 of any single resource
+  - *Reward*: `{ type: 'resourceGain', target: 'wood', value: 0.5, permanent: true }`, `{ type: 'resourceGain', target: 'stone', value: 0.5, permanent: true }`, `{ type: 'resourceGain', target: 'food', value: 0.5, permanent: true }`
 - **Speed Builder** - Complete Tier 2 in under 60 minutes
+  - *Reward*: `{ type: 'clickMultiplier', target: 'wood', value: 1.25, permanent: true }`, `{ type: 'clickMultiplier', target: 'stone', value: 1.25, permanent: true }`, `{ type: 'clickMultiplier', target: 'food', value: 1.25, permanent: true }`
 
 ## 👑 Prestige Options
 

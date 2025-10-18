@@ -58,27 +58,99 @@
 - **Angelic Citadel** (Cost: 6000 wood, 4000 stone, 3000 steel, 1500 celestial essence)
 - **Divine Throne** (Cost: 8000 wood, 6000 stone, 5000 steel, 2000 sacred artifacts)
 
-## 🔬 Research
+## 🔬 Technology Tree
 
-### Divine Studies
+### Tier 7 Technologies
+
+#### 1. Divine Studies
 - **Cost**: 25000 knowledge, 200 divine favor, 100 celestial essence
 - **Duration**: 250 minutes
-- **Unlocks**: Divine Technology, Celestial Mastery
+- **Unlocks**: 
+  - Divine Technology action
+  - Celestial Mastery building
 
-### Sacred Arts
+#### 2. Sacred Arts
 - **Cost**: 30000 knowledge, 150 sacred knowledge, 75 angelic materials
 - **Duration**: 300 minutes
-- **Unlocks**: Sacred Technology, Angelic Communication
+- **Unlocks**: 
+  - Sacred Technology action
+  - Angelic Communication building
 
-### Holy Mastery
+#### 3. Holy Mastery
 - **Cost**: 35000 knowledge, 100 holy light, 50 sacred artifacts
 - **Duration**: 350 minutes
-- **Unlocks**: Divine Mastery, Universal Blessing
+- **Unlocks**: 
+  - Divine Mastery action
+  - Universal Blessing building
 
-### Celestial Mastery
+#### 4. Celestial Mastery
 - **Cost**: 50000 knowledge, 300 celestial essence, 150 divine favor
 - **Duration**: 500 minutes
-- **Unlocks**: Celestial Control, Divine Authority
+- **Unlocks**: 
+  - Celestial Control action
+  - Divine Authority building
+
+#### 5. Angelic Studies
+- **Cost**: 28000 knowledge, 120 angelic materials, 80 celestial essence
+- **Duration**: 280 minutes
+- **Unlocks**: 
+  - Angelic Summoning action
+
+#### 6. Sacred Artifact Research
+- **Cost**: 32000 knowledge, 100 sacred artifacts, 60 holy light
+- **Duration**: 320 minutes
+- **Unlocks**: 
+  - Artifact Creation action
+
+#### 7. Divine Intervention
+- **Cost**: 40000 knowledge, 250 divine favor, 150 celestial essence, 100 holy light
+- **Duration**: 400 minutes
+- **Unlocks**: 
+  - Divine Intervention action
+
+#### 8. Celestial Architecture
+- **Cost**: 45000 knowledge, 200 angelic materials, 120 sacred artifacts, 80 divine favor
+- **Duration**: 450 minutes
+- **Unlocks**: 
+  - Celestial Construction action
+
+#### 9. Universal Blessing
+- **Cost**: 55000 knowledge, 300 holy light, 200 sacred knowledge, 150 angelic materials
+- **Duration**: 550 minutes
+- **Unlocks**: 
+  - Universal Blessing action
+
+#### 10. Divine Authority
+- **Cost**: 60000 knowledge, 400 divine favor, 250 celestial essence, 200 sacred artifacts
+- **Duration**: 600 minutes
+- **Unlocks**: 
+  - Divine Authority action
+
+#### 11. Sacred Transcendence
+- **Cost**: 70000 knowledge, 500 sacred knowledge, 300 holy light, 250 angelic materials
+- **Duration**: 700 minutes
+- **Unlocks**: 
+  - Sacred Transcendence action
+
+#### 12. Ultimate Divinity
+- **Cost**: 100000 knowledge, 1000 divine favor, 500 celestial essence, 400 sacred knowledge, 300 holy light, 200 sacred artifacts
+- **Duration**: 1000 minutes
+- **Unlocks**: 
+  - Ultimate Divinity action
+
+### Technology Dependencies
+```
+Angelic Studies → Divine Studies → Divine Intervention → Ultimate Divinity
+Sacred Artifact Research → Sacred Arts → Universal Blessing → Ultimate Divinity
+Divine Studies → Celestial Architecture → Divine Authority → Ultimate Divinity
+Sacred Arts → Universal Blessing → Sacred Transcendence → Ultimate Divinity
+Holy Mastery → Divine Intervention → Divine Authority → Ultimate Divinity
+Celestial Mastery → Celestial Architecture → Divine Authority → Ultimate Divinity
+Divine Intervention → Sacred Transcendence → Ultimate Divinity
+Universal Blessing → Sacred Transcendence → Ultimate Divinity
+Divine Authority → Ultimate Divinity
+Sacred Transcendence → Ultimate Divinity
+```
 
 ## 🏆 Achievements
 

@@ -58,27 +58,97 @@
 - **Stellar Forge** (Cost: 4000 wood, 3000 stone, 2000 steel, 1000 stardust)
 - **Dimensional Gateway** (Cost: 5000 wood, 4000 stone, 3000 steel, 200 void crystals)
 
-## 🔬 Research
+## 🔬 Technology Tree
 
-### Astrophysics
+### Tier 6 Technologies
+
+#### 1. Astrophysics
 - **Cost**: 10000 knowledge, 100 stardust, 50 cosmic energy
 - **Duration**: 100 minutes
-- **Unlocks**: Advanced Space Technology, Interstellar Travel
+- **Unlocks**: 
+  - Advanced Space Technology action
+  - Interstellar Travel building
 
-### Quantum Mechanics
+#### 2. Quantum Mechanics
 - **Cost**: 12000 knowledge, 80 quantum matter, 40 dark matter
 - **Duration**: 120 minutes
-- **Unlocks**: Quantum Technology, Reality Manipulation
+- **Unlocks**: 
+  - Quantum Technology action
+  - Reality Manipulation building
 
-### Cosmic Studies
+#### 3. Cosmic Studies
 - **Cost**: 15000 knowledge, 60 light essence, 30 void crystals
 - **Duration**: 150 minutes
-- **Unlocks**: Cosmic Mastery, Universal Understanding
+- **Unlocks**: 
+  - Cosmic Mastery action
+  - Universal Understanding building
 
-### Dimensional Physics
+#### 4. Dimensional Physics
 - **Cost**: 20000 knowledge, 100 void crystals, 50 wormholes
 - **Duration**: 200 minutes
-- **Unlocks**: Dimensional Travel, Reality Shaping
+- **Unlocks**: 
+  - Dimensional Travel action
+  - Reality Shaping building
+
+#### 5. Stellar Engineering
+- **Cost**: 11000 knowledge, 120 stardust, 60 cosmic energy
+- **Duration**: 110 minutes
+- **Unlocks**: 
+  - Stellar Construction action
+
+#### 6. Dark Matter Research
+- **Cost**: 13000 knowledge, 100 dark matter, 50 quantum matter
+- **Duration**: 130 minutes
+- **Unlocks**: 
+  - Dark Matter Manipulation action
+
+#### 7. Light Essence Studies
+- **Cost**: 9000 knowledge, 80 light essence, 40 stardust
+- **Duration**: 90 minutes
+- **Unlocks**: 
+  - Light Manipulation action
+
+#### 8. Void Exploration
+- **Cost**: 16000 knowledge, 120 void crystals, 60 dark matter
+- **Duration**: 160 minutes
+- **Unlocks**: 
+  - Void Navigation action
+
+#### 9. Cosmic Consciousness
+- **Cost**: 18000 knowledge, 150 cosmic energy, 80 quantum matter, 60 light essence
+- **Duration**: 180 minutes
+- **Unlocks**: 
+  - Universal Awareness action
+
+#### 10. Reality Fabrication
+- **Cost**: 22000 knowledge, 200 void crystals, 100 quantum matter, 80 cosmic energy
+- **Duration**: 220 minutes
+- **Unlocks**: 
+  - Reality Creation action
+
+#### 11. Temporal Mechanics
+- **Cost**: 25000 knowledge, 180 stardust, 120 quantum matter, 100 void crystals
+- **Duration**: 250 minutes
+- **Unlocks**: 
+  - Time Manipulation action
+
+#### 12. Universal Transcendence
+- **Cost**: 30000 knowledge, 300 cosmic energy, 200 quantum matter, 150 void crystals, 100 light essence
+- **Duration**: 300 minutes
+- **Unlocks**: 
+  - Universal Transcendence action
+
+### Technology Dependencies
+```
+Stellar Engineering → Astrophysics → Cosmic Consciousness → Universal Transcendence
+Dark Matter Research → Quantum Mechanics → Reality Fabrication → Universal Transcendence
+Light Essence Studies → Cosmic Studies → Cosmic Consciousness → Universal Transcendence
+Void Exploration → Dimensional Physics → Reality Fabrication → Universal Transcendence
+Astrophysics → Temporal Mechanics → Universal Transcendence
+Quantum Mechanics → Reality Fabrication → Universal Transcendence
+Cosmic Studies → Cosmic Consciousness → Universal Transcendence
+Dimensional Physics → Reality Fabrication → Universal Transcendence
+```
 
 ## 🏆 Achievements
 

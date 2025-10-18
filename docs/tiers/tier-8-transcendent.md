@@ -58,27 +58,100 @@
 - **Universal Throne** (Cost: 30000 wood, 25000 stone, 20000 steel, 10000 transcendent power)
 - **Infinite Spire** (Cost: 50000 wood, 40000 stone, 30000 steel, 20000 universal energy)
 
-## 🔬 Research
+## 🔬 Technology Tree
 
-### Universal Mastery
+### Tier 8 Technologies
+
+#### 1. Universal Mastery
 - **Cost**: 50000 knowledge, 500 universal energy, 250 infinite wisdom
 - **Duration**: 500 minutes
-- **Unlocks**: Universal Control, Reality Shaping
+- **Unlocks**: 
+  - Universal Control action
+  - Reality Shaping building
 
-### Transcendent Studies
+#### 2. Transcendent Studies
 - **Cost**: 75000 knowledge, 300 reality shards, 150 void essence
 - **Duration**: 750 minutes
-- **Unlocks**: Transcendent Technology, Void Mastery
+- **Unlocks**: 
+  - Transcendent Technology action
+  - Void Mastery building
 
-### Cosmic Transcendence
+#### 3. Cosmic Transcendence
 - **Cost**: 100000 knowledge, 200 cosmic consciousness, 100 transcendent power
 - **Duration**: 1000 minutes
-- **Unlocks**: Ultimate Power, Reality Transcendence
+- **Unlocks**: 
+  - Ultimate Power action
+  - Reality Transcendence building
 
-### Infinite Mastery
+#### 4. Infinite Mastery
 - **Cost**: 150000 knowledge, 500 transcendent power, 250 universal energy
 - **Duration**: 1500 minutes
-- **Unlocks**: Infinite Power, Universal Mastery
+- **Unlocks**: 
+  - Infinite Power action
+  - Universal Mastery building
+
+#### 5. Reality Engineering
+- **Cost**: 60000 knowledge, 400 reality shards, 200 void essence, 100 cosmic consciousness
+- **Duration**: 600 minutes
+- **Unlocks**: 
+  - Reality Construction action
+
+#### 6. Void Mastery
+- **Cost**: 80000 knowledge, 500 void essence, 250 reality shards, 150 transcendent power
+- **Duration**: 800 minutes
+- **Unlocks**: 
+  - Void Control action
+
+#### 7. Infinite Wisdom Studies
+- **Cost**: 70000 knowledge, 400 infinite wisdom, 200 universal energy, 100 cosmic consciousness
+- **Duration**: 700 minutes
+- **Unlocks**: 
+  - Infinite Knowledge action
+
+#### 8. Transcendent Power Research
+- **Cost**: 90000 knowledge, 600 transcendent power, 300 cosmic consciousness, 200 reality shards
+- **Duration**: 900 minutes
+- **Unlocks**: 
+  - Power Transcendence action
+
+#### 9. Universal Consciousness
+- **Cost**: 120000 knowledge, 800 cosmic consciousness, 400 infinite wisdom, 300 universal energy
+- **Duration**: 1200 minutes
+- **Unlocks**: 
+  - Universal Awareness action
+
+#### 10. Reality Transcendence
+- **Cost**: 140000 knowledge, 1000 reality shards, 500 void essence, 400 transcendent power
+- **Duration**: 1400 minutes
+- **Unlocks**: 
+  - Reality Transcendence action
+
+#### 11. Infinite Transcendence
+- **Cost**: 180000 knowledge, 1200 transcendent power, 600 universal energy, 500 infinite wisdom
+- **Duration**: 1800 minutes
+- **Unlocks**: 
+  - Infinite Transcendence action
+
+#### 12. Ultimate Transcendence
+- **Cost**: 250000 knowledge, 2000 universal energy, 1500 infinite wisdom, 1000 reality shards, 800 void essence, 600 cosmic consciousness, 500 transcendent power
+- **Duration**: 2500 minutes
+- **Unlocks**: 
+  - Ultimate Transcendence action
+
+### Technology Dependencies
+```
+Reality Engineering → Universal Mastery → Universal Consciousness → Ultimate Transcendence
+Void Mastery → Transcendent Studies → Reality Transcendence → Ultimate Transcendence
+Infinite Wisdom Studies → Cosmic Transcendence → Infinite Transcendence → Ultimate Transcendence
+Transcendent Power Research → Infinite Mastery → Infinite Transcendence → Ultimate Transcendence
+Universal Mastery → Universal Consciousness → Ultimate Transcendence
+Transcendent Studies → Reality Transcendence → Ultimate Transcendence
+Cosmic Transcendence → Infinite Transcendence → Ultimate Transcendence
+Infinite Mastery → Infinite Transcendence → Ultimate Transcendence
+Universal Consciousness → Ultimate Transcendence
+Reality Transcendence → Ultimate Transcendence
+Infinite Transcendence → Ultimate Transcendence
+```
 
 ## 🏆 Achievements
 

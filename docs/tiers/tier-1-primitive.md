@@ -51,40 +51,105 @@
 - **Crafting Hut** (Cost: 80 wood, 50 stone, 20 clay)
   - *Unlocks*: Advanced crafting
 
-## 🔬 Research
+## 🔬 Technology Tree
 
-### Basic Agriculture
+### Tier 1 Technologies
+
+#### 1. Basic Agriculture
 - **Cost**: 150 knowledge
 - **Duration**: 3 minutes
-- **Unlocks**: Plant Seeds action, Farm building
+- **Unlocks**: 
+  - Plant Seeds action
+  - Farm building
 
-### Basic Construction
+#### 2. Basic Construction
 - **Cost**: 300 knowledge
 - **Duration**: 4 minutes
-- **Unlocks**: Advanced Construction action, Masonry Workshop
+- **Unlocks**: 
+  - Advanced Construction action
+  - Masonry Workshop building
+
+#### 3. Tool Making
+- **Cost**: 200 knowledge, 10 tools
+- **Duration**: 2 minutes
+- **Unlocks**: 
+  - Advanced Tool Crafting action
+
+#### 4. Water Management
+- **Cost**: 180 knowledge, 15 water
+- **Duration**: 3 minutes
+- **Unlocks**: 
+  - Water Collection Loop
+
+#### 5. Clay Processing
+- **Cost**: 250 knowledge, 20 clay
+- **Duration**: 4 minutes
+- **Unlocks**: 
+  - Pottery Making action
+
+#### 6. Fiber Weaving
+- **Cost**: 220 knowledge, 25 fiber
+- **Duration**: 3 minutes
+- **Unlocks**: 
+  - Rope Making action
+
+#### 7. Primitive Medicine
+- **Cost**: 400 knowledge, 30 food, 20 water
+- **Duration**: 5 minutes
+- **Unlocks**: 
+  - Healing action
+
+#### 8. Basic Storage
+- **Cost**: 350 knowledge, 40 wood, 20 stone
+- **Duration**: 4 minutes
+- **Unlocks**: 
+  - Storage building
+
+### Technology Dependencies
+```
+Basic Agriculture → Water Management → Primitive Medicine
+                → Clay Processing → Basic Storage
+                → Fiber Weaving
+                → Tool Making → Basic Construction
+```
 
 ## 🏆 Achievements
 
 ### Basic Milestones
 - **First Steps** - Gather 100 of each basic resource
+  - *Reward*: `{ type: 'clickGain', target: 'wood', value: 0.5, permanent: true }`, `{ type: 'clickGain', target: 'stone', value: 0.5, permanent: true }`, `{ type: 'clickGain', target: 'food', value: 0.5, permanent: true }`
 - **Tool Maker** - Craft 500 tools
+  - *Reward*: `{ type: 'actionClickMultiplier', target: 'craftTools', resource: 'tools', value: 1.3, permanent: true }`
 - **Primitive Builder** - Build 5 primitive buildings
+  - *Reward*: `{ type: 'resourceGain', target: 'wood', value: 0.2, permanent: true }`, `{ type: 'resourceGain', target: 'stone', value: 0.2, permanent: true }`, `{ type: 'resourceGain', target: 'food', value: 0.2, permanent: true }`
 - **Knowledge Seeker** - Accumulate 1000 knowledge
+  - *Reward*: `{ type: 'resourceGainMultiplier', target: 'knowledge', value: 1.25, permanent: true }`
 - **Clay Master** - Process 1000 clay
+  - *Reward*: `{ type: 'actionClickMultiplier', target: 'digClay', resource: 'clay', value: 1.4, permanent: true }`
 - **Fiber Weaver** - Create 500 fiber items
+  - *Reward*: `{ type: 'actionClickMultiplier', target: 'gatherFiber', resource: 'fiber', value: 1.3, permanent: true }`
 
 ### Advanced Milestones
 - **Efficient Gatherer** - Gather 5000 of each basic resource
+  - *Reward*: `{ type: 'resourceGainMultiplier', target: 'wood', value: 1.15, permanent: true }`, `{ type: 'resourceGainMultiplier', target: 'stone', value: 1.15, permanent: true }`, `{ type: 'resourceGainMultiplier', target: 'food', value: 1.15, permanent: true }`
 - **Master Craftsman** - Craft 2000 tools
+  - *Reward*: `{ type: 'buildingGainMultiplier', target: 'toolWorkshop', resource: 'tools', value: 1.5, permanent: true }`
 - **Architect** - Build 20 primitive buildings
+  - *Reward*: `{ type: 'resourceGain', target: 'wood', value: 0.5, permanent: true }`, `{ type: 'resourceGain', target: 'stone', value: 0.5, permanent: true }`, `{ type: 'resourceGain', target: 'food', value: 0.5, permanent: true }`
 - **Scholar** - Accumulate 5000 knowledge
+  - *Reward*: `{ type: 'buildingGainMultiplier', target: 'studyCorner', resource: 'knowledge', value: 1.4, permanent: true }`
 - **Resource Hoarder** - Store 10000 of any single resource
+  - *Reward*: `{ type: 'resourceGainMultiplier', target: 'wood', value: 1.1, permanent: true }`, `{ type: 'resourceGainMultiplier', target: 'stone', value: 1.1, permanent: true }`, `{ type: 'resourceGainMultiplier', target: 'food', value: 1.1, permanent: true }`
 - **Speed Runner** - Complete Tier 1 in under 30 minutes
+  - *Reward*: `{ type: 'clickMultiplier', target: 'wood', value: 1.2, permanent: true }`, `{ type: 'clickMultiplier', target: 'stone', value: 1.2, permanent: true }`, `{ type: 'clickMultiplier', target: 'food', value: 1.2, permanent: true }`
 
 ### Hidden Achievements
 - **Perfectionist** - Complete all Tier 1 achievements
+  - *Reward*: `{ type: 'resourceGainMultiplier', target: 'wood', value: 1.25, permanent: true }`, `{ type: 'resourceGainMultiplier', target: 'stone', value: 1.25, permanent: true }`, `{ type: 'resourceGainMultiplier', target: 'food', value: 1.25, permanent: true }`
 - **Click Master** - Perform 1000 manual actions
+  - *Reward*: `{ type: 'clickMultiplier', target: 'wood', value: 1.3, permanent: true }`, `{ type: 'clickMultiplier', target: 'stone', value: 1.3, permanent: true }`, `{ type: 'clickMultiplier', target: 'food', value: 1.3, permanent: true }`
 - **Loop Pioneer** - Have 2 loop actions running simultaneously
+  - *Reward*: `{ type: 'loopMultiplier', target: 'water', value: 1.2, permanent: true }`, `{ type: 'loopMultiplier', target: 'clay', value: 1.2, permanent: true }`
 
 ## 👑 Prestige Options
 
