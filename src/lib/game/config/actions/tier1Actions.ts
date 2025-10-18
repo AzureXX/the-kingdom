@@ -53,7 +53,9 @@ export const TIER1_ACTIONS: Record<string, ActionDef> = {
     description: 'Create basic tools to improve efficiency.',
     cost: { wood: 8, stone: 5 },
     gains: { tools: 1 },
-    unlockConditions: [],
+    unlockConditions: [
+      { type: 'building', key: 'toolWorkshop', value: 1 }
+    ],
     oneTimeUnlock: false,
   },
 
@@ -63,8 +65,10 @@ export const TIER1_ACTIONS: Record<string, ActionDef> = {
     description: 'Spend time thinking and learning new things.',
     cost: { food: 3 },
     gains: { knowledge: 1 },
-    unlockConditions: [],
-    oneTimeUnlock: false,
+    unlockConditions: [
+      { type: 'resource', key: 'food', value: 10 }
+    ],
+    oneTimeUnlock: true,
   },
 
   collectWater: {
@@ -73,7 +77,9 @@ export const TIER1_ACTIONS: Record<string, ActionDef> = {
     description: 'Gather water from nearby sources.',
     cost: { food: 1 },
     gains: { water: 2 },
-    unlockConditions: [],
+    unlockConditions: [
+      { type: 'building', key: 'waterWell', value: 1 }
+    ],
     oneTimeUnlock: false,
   },
 
@@ -83,7 +89,9 @@ export const TIER1_ACTIONS: Record<string, ActionDef> = {
     description: 'Extract clay from the ground for pottery.',
     cost: { food: 2 },
     gains: { clay: 1 },
-    unlockConditions: [],
+    unlockConditions: [
+      { type: 'technology', key: 'clayProcessing', value: 1 }
+    ],
     oneTimeUnlock: false,
   },
 
@@ -93,7 +101,9 @@ export const TIER1_ACTIONS: Record<string, ActionDef> = {
     description: 'Collect plant fibers for rope making.',
     cost: { food: 1 },
     gains: { fiber: 1 },
-    unlockConditions: [],
+    unlockConditions: [
+      { type: 'technology', key: 'fiberWeaving', value: 1 }
+    ],
     oneTimeUnlock: false,
   }
 };

@@ -36,74 +36,80 @@
 ## 🔄 Loop Actions
 
 ### Basic Automation
-- **Basic Gathering Loop** (Cost: 5 food → +10 wood, +8 stone, +12 food)
-- **Water Collection Loop** (Cost: 3 food → +15 water)
+- **Basic Gathering Loop** (Cost: 5 food → +10 wood, +8 stone, +12 food) *(Available immediately)*
+- **Water Collection Loop** (Cost: 3 food → +15 water) *(Requires: Water Management technology)*
+- **Clay Digging Loop** (Cost: 4 food, 2 water → +12 clay) *(Requires: Water Management technology)*
+- **Fiber Harvesting Loop** (Cost: 3 food, 1 water → +10 fiber) *(Requires: Water Management technology)*
+- **Tool Crafting Loop** (Cost: 8 wood, 5 stone, 2 food → +6 tools) *(Requires: Tool Making technology)*
+- **Knowledge Study Loop** (Cost: 2 food, 1 water → +8 knowledge) *(Requires: Study Corner building)*
 
 ## 🏗️ Buildings
 
 ### Basic Structures
-- **Primitive Hut** (Cost: 25 wood, 15 stone, 5 food)
+- **Primitive Hut** (Cost: 25 wood, 15 stone, 5 food) *(Requires: 10 wood)*
   - *Unlocks*: Rest action
-- **Tool Workshop** (Cost: 60 wood, 40 stone, 8 tools)
+- **Tool Workshop** (Cost: 60 wood, 40 stone, 8 tools) *(Requires: 5 tools)*
   - *Unlocks*: 2.5x gathering efficiency
-- **Study Corner** (Cost: 40 wood, 25 stone, 15 knowledge)
+- **Study Corner** (Cost: 40 wood, 25 stone, 15 knowledge) *(Requires: 10 knowledge)*
   - *Unlocks*: Research system
-- **Crafting Hut** (Cost: 80 wood, 50 stone, 20 clay)
-  - *Unlocks*: Advanced crafting
+- **Water Well** (Cost: 30 wood, 20 stone, 10 water) *(Requires: 5 water)*
+  - *Unlocks*: Water production
+- **Clay Pit** (Cost: 20 wood, 15 stone, 5 clay) *(Requires: 3 clay)*
+  - *Unlocks*: Clay production
+- **Fiber Garden** (Cost: 25 wood, 10 stone, 8 fiber) *(Requires: 5 fiber)*
+  - *Unlocks*: Fiber production
 
 ## 🔬 Technology Tree
 
 ### Tier 1 Technologies
 
-#### 1. Basic Agriculture
+#### 1. Basic Agriculture *(Available immediately)*
 - **Cost**: 150 knowledge
 - **Duration**: 3 minutes
 - **Unlocks**: 
-  - Plant Seeds action
-  - Farm building
+  - Foundation for other technologies
 
-#### 2. Basic Construction
+#### 2. Basic Construction *(Requires: Basic Agriculture)*
 - **Cost**: 300 knowledge
 - **Duration**: 4 minutes
 - **Unlocks**: 
-  - Advanced Construction action
-  - Masonry Workshop building
+  - Advanced construction techniques
 
-#### 3. Tool Making
+#### 3. Tool Making *(Available immediately)*
 - **Cost**: 200 knowledge, 10 tools
 - **Duration**: 2 minutes
 - **Unlocks**: 
-  - Advanced Tool Crafting action
+  - Advanced tool crafting
 
-#### 4. Water Management
+#### 4. Water Management *(Requires: Basic Agriculture)*
 - **Cost**: 180 knowledge, 15 water
 - **Duration**: 3 minutes
 - **Unlocks**: 
   - Water Collection Loop
 
-#### 5. Clay Processing
+#### 5. Clay Processing *(Requires: Water Management)*
 - **Cost**: 250 knowledge, 20 clay
 - **Duration**: 4 minutes
 - **Unlocks**: 
-  - Pottery Making action
+  - Clay working techniques
 
-#### 6. Fiber Weaving
+#### 6. Fiber Weaving *(Requires: Water Management)*
 - **Cost**: 220 knowledge, 25 fiber
 - **Duration**: 3 minutes
 - **Unlocks**: 
-  - Rope Making action
+  - Fiber processing techniques
 
-#### 7. Primitive Medicine
+#### 7. Primitive Medicine *(Requires: Water Management + Fiber Weaving)*
 - **Cost**: 400 knowledge, 30 food, 20 water
 - **Duration**: 5 minutes
 - **Unlocks**: 
-  - Healing action
+  - Basic healing techniques
 
-#### 8. Basic Storage
+#### 8. Basic Storage *(Requires: Basic Construction)*
 - **Cost**: 350 knowledge, 40 wood, 20 stone
 - **Duration**: 4 minutes
 - **Unlocks**: 
-  - Storage building
+  - Resource storage improvements
 
 ### Technology Dependencies
 ```

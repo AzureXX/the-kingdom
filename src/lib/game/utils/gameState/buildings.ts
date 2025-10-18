@@ -59,11 +59,17 @@ export function getBuildingCount(state: GameState, buildingKey: BuildingKey): nu
 
 
 /**
- * Check if a building is unlocked (all unlock conditions met)
+ * Check if a building is unlocked (all unlock conditions met OR already owned)
  */
 export function isBuildingUnlocked(state: GameState, buildingKey: BuildingKey): boolean {
   const building = BUILDINGS[buildingKey];
   if (!building) return false;
+  
+  // If player already owns this building, it should always be visible
+  const ownedCount = getBuildingCount(state, buildingKey);
+  if (ownedCount > 0) {
+    return true;
+  }
   
   // If no unlock conditions, building is always available
   if (!building.unlockConditions || building.unlockConditions.length === 0) {

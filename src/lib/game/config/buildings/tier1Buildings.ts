@@ -21,6 +21,7 @@ export const TIER1_BUILDINGS: Record<BuildingKey, BuildingDef> = {
     baseProd: { tools: 0.3 },
     baseUse: { wood: 0.2, stone: 0.1 },
     maxLimit: 3,
+    unlockConditions: [{ type: 'resource', key: 'tools', value: 5 }],
   },
   
   studyCorner: {
@@ -32,6 +33,7 @@ export const TIER1_BUILDINGS: Record<BuildingKey, BuildingDef> = {
     baseProd: { knowledge: 0.2 },
     baseUse: { food: 0.1 },
     maxLimit: 2,
+    unlockConditions: [{ type: 'resource', key: 'knowledge', value: 10 }],
   },
   
   waterWell: {
@@ -43,6 +45,7 @@ export const TIER1_BUILDINGS: Record<BuildingKey, BuildingDef> = {
     baseProd: { water: 1.0 },
     baseUse: {},
     maxLimit: 4,
+    unlockConditions: [{ type: 'resource', key: 'water', value: 5 }],
   },
   
   clayPit: {
@@ -54,6 +57,7 @@ export const TIER1_BUILDINGS: Record<BuildingKey, BuildingDef> = {
     baseProd: { clay: 0.8 },
     baseUse: {},
     maxLimit: 3,
+    unlockConditions: [{ type: 'resource', key: 'clay', value: 3 }],
   },
   
   fiberGarden: {
@@ -65,5 +69,6 @@ export const TIER1_BUILDINGS: Record<BuildingKey, BuildingDef> = {
     baseProd: { fiber: 0.6 },
     baseUse: { water: 0.1 },
     maxLimit: 3,
+    unlockConditions: [{ type: 'resource', key: 'fiber', value: 5 }],
   }
 };

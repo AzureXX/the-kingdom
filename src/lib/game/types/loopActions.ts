@@ -5,7 +5,11 @@ export type LoopActionCategory = 'gathering' | 'crafting' | 'research' | 'milita
 
 export type TierOneLoopActionKeys = 
   | 'basicGatheringLoop'
-  | 'waterCollectionLoop';
+  | 'waterCollectionLoop'
+  | 'clayDiggingLoop'
+  | 'fiberHarvestingLoop'
+  | 'toolCraftingLoop'
+  | 'knowledgeStudyLoop';
 
 export type LoopActionKey = TierOneLoopActionKeys;
 

@@ -29,5 +29,53 @@ export const TIER1_LOOP_ACTIONS: Record<string, LoopActionDef> = {
     loopPointsRequired: 800,
     loopCategory: 'gathering',
     showWhenLocked: false,
+  },
+
+  clayDiggingLoop: {
+    name: 'Clay Digging Loop',
+    icon: '🏺',
+    description: 'Automated clay extraction from the ground.',
+    cost: { food: 4, water: 2 },
+    gains: { clay: 12 },
+    unlockConditions: [{ type: 'technology', key: 'waterManagement', value: 1 }],
+    loopPointsRequired: 1200,
+    loopCategory: 'gathering',
+    showWhenLocked: false,
+  },
+
+  fiberHarvestingLoop: {
+    name: 'Fiber Harvesting Loop',
+    icon: '🌿',
+    description: 'Automated fiber collection from plants.',
+    cost: { food: 3, water: 1 },
+    gains: { fiber: 10 },
+    unlockConditions: [{ type: 'technology', key: 'waterManagement', value: 1 }],
+    loopPointsRequired: 1000,
+    loopCategory: 'gathering',
+    showWhenLocked: false,
+  },
+
+  toolCraftingLoop: {
+    name: 'Tool Crafting Loop',
+    icon: '🔨',
+    description: 'Automated tool crafting for efficiency.',
+    cost: { wood: 8, stone: 5, food: 2 },
+    gains: { tools: 6 },
+    unlockConditions: [{ type: 'technology', key: 'toolMaking', value: 1 }],
+    loopPointsRequired: 1500,
+    loopCategory: 'crafting',
+    showWhenLocked: false,
+  },
+
+  knowledgeStudyLoop: {
+    name: 'Knowledge Study Loop',
+    icon: '📚',
+    description: 'Automated study and knowledge gathering.',
+    cost: { food: 2, water: 1 },
+    gains: { knowledge: 8 },
+    unlockConditions: [{ type: 'building', key: 'studyCorner', value: 1 }],
+    loopPointsRequired: 2000,
+    loopCategory: 'research',
+    showWhenLocked: false,
   }
 };

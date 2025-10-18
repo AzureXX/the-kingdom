@@ -18,6 +18,7 @@ export const TIER1_TECHNOLOGIES: Record<TechnologyKey, TechnologyDef> = {
     baseCost: { knowledge: 300 },
     costScale: 1.0,
     researchTime: 4,
+    requiresTech: 'basicAgriculture',
     unlocksBuildings: [],
   },
   
@@ -37,6 +38,7 @@ export const TIER1_TECHNOLOGIES: Record<TechnologyKey, TechnologyDef> = {
     baseCost: { knowledge: 180, water: 15 },
     costScale: 1.0,
     researchTime: 3,
+    requiresTech: 'basicAgriculture',
   },
   
   clayProcessing: {
@@ -46,6 +48,7 @@ export const TIER1_TECHNOLOGIES: Record<TechnologyKey, TechnologyDef> = {
     baseCost: { knowledge: 250, clay: 20 },
     costScale: 1.0,
     researchTime: 4,
+    requiresTech: 'waterManagement',
   },
   
   fiberWeaving: {
@@ -55,6 +58,7 @@ export const TIER1_TECHNOLOGIES: Record<TechnologyKey, TechnologyDef> = {
     baseCost: { knowledge: 220, fiber: 25 },
     costScale: 1.0,
     researchTime: 3,
+    requiresTech: 'waterManagement',
   },
   
   primitiveMedicine: {
@@ -64,6 +68,7 @@ export const TIER1_TECHNOLOGIES: Record<TechnologyKey, TechnologyDef> = {
     baseCost: { knowledge: 400, food: 30, water: 20 },
     costScale: 1.0,
     researchTime: 5,
+    requiresTech: ['waterManagement', 'fiberWeaving'],
   },
   
   basicStorage: {
@@ -73,5 +78,6 @@ export const TIER1_TECHNOLOGIES: Record<TechnologyKey, TechnologyDef> = {
     baseCost: { knowledge: 350, wood: 40, stone: 20 },
     costScale: 1.0,
     researchTime: 4,
+    requiresTech: 'basicConstruction',
   }
 };
