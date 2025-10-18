@@ -139,7 +139,7 @@ function checkRequirement(
       
       case 'prestige':
         if (target === 'count') {
-          currentValue = state.upgrades.royalDecrees || 0; // Use upgrade level as prestige count proxy
+          currentValue = state.upgrades.primitiveMastery || 0; // Use upgrade level as prestige count proxy
         }
         break;
       

@@ -29,6 +29,7 @@ export type {
 // Prestige types
 export type {
   PrestigeUpgradeKey,
+  TierOnePrestigeUpgradeKeys,
   PrestigeUpgradeDef,
   PrestigeRewardType,
   PrestigeReward,

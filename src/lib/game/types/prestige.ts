@@ -2,27 +2,20 @@
 
 import type { ResourceKey } from '@/lib/game/types';
 
-export type PrestigeUpgradeKey =
-  | 'royalDecrees'
-  | 'masterCraftsmen'
-  | 'fertileLands'
-  | 'militaryMight'
-  | 'goldenTouch'
-  | 'forestMastery'
-  | 'stoneQuarry'
+export type TierOnePrestigeUpgradeKeys =
+  | 'primitiveMastery'
+  | 'gatheringExpert'
+  | 'buildersWisdom'
   | 'researchAcceleration'
-  | 'efficientBuilders'
-  | 'merchantGuilds'
-  | 'royalTreasury'
-  | 'militaryEngineers'
-  | 'scholarlyPursuits'
-  | 'agriculturalRevolution'
-  | 'miningInnovation'
-  | 'diplomaticRelations'
-  | 'technologicalAdvancement'
-  | 'economicStimulation'
-  | 'culturalHeritage'
-  | 'strategicPlanning';
+  | 'automationPioneer'
+  | 'toolMastery'
+  | 'knowledgeBoost'
+  | 'resourceStorage'
+  | 'clickEfficiency'
+  | 'fastResearch'
+  | 'basicAutomation';
+
+export type PrestigeUpgradeKey = TierOnePrestigeUpgradeKeys; // Will be combined with other tiers later
 
 /**
  * Types of prestige rewards (similar to achievement rewards but separate)
