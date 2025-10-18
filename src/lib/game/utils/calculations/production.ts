@@ -73,7 +73,7 @@ export function getPerSec(state: GameState): Record<ResourceKey, number> {
     // Step 2: Calculate total gains and apply multipliers per resource
     const out: Record<ResourceKey, number> = getEmptyResourceObject();
     
-    for (const resourceKey of ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'] as ResourceKey[]) {
+    for (const resourceKey of ['wood', 'stone', 'food', 'water', 'clay', 'fiber', 'tools', 'knowledge', 'prestige'] as ResourceKey[]) {
       const rk = resourceKey;
       
       // Calculate total gains: buildingProduction + achievementGain + prestigeGain

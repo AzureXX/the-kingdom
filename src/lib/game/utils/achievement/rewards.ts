@@ -151,7 +151,7 @@ function applyResourceGainMultiplierReward(state: GameState, reward: Achievement
     
     if (reward.target === 'all') {
       // Apply to all resources
-      const allResources: ResourceKey[] = ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'];
+      const allResources: ResourceKey[] = ['wood', 'stone', 'food', 'water', 'clay', 'fiber', 'tools', 'knowledge', 'prestige'];
       const newResourceGainMultiplier = { ...currentBonuses.resourceGainMultiplier };
       for (const resourceKey of allResources) {
         newResourceGainMultiplier[resourceKey] = (newResourceGainMultiplier[resourceKey] || 1) * reward.value;
@@ -227,7 +227,7 @@ function applyClickMultiplierReward(state: GameState, reward: AchievementReward)
     
     if (reward.target === 'all') {
       // Apply to all resources
-          const allResources: ResourceKey[] = ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'];
+          const allResources: ResourceKey[] = ['wood', 'stone', 'food', 'water', 'clay', 'fiber', 'tools', 'knowledge', 'prestige'];
       const newClickMultiplier = { ...currentBonuses.clickMultiplier };
           for (const resourceKey of allResources) {
         newClickMultiplier[resourceKey] = (newClickMultiplier[resourceKey] || 1) * reward.value;
@@ -303,7 +303,7 @@ function applyLoopMultiplierReward(state: GameState, reward: AchievementReward):
     
     if (reward.target === 'all') {
       // Apply to all resources
-          const allResources: ResourceKey[] = ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'];
+          const allResources: ResourceKey[] = ['wood', 'stone', 'food', 'water', 'clay', 'fiber', 'tools', 'knowledge', 'prestige'];
       const newLoopMultiplier = { ...currentBonuses.loopMultiplier };
           for (const resourceKey of allResources) {
         newLoopMultiplier[resourceKey] = (newLoopMultiplier[resourceKey] || 1) * reward.value;

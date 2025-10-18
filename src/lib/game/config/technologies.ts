@@ -1,60 +1,77 @@
 import type { TechnologyKey, TechnologyDef } from '@/lib/game/types';
 
 export const TECHNOLOGIES: Record<TechnologyKey, TechnologyDef> = {
-  writing: {
-    name: 'Writing',
-    icon: 'ic-writing',
-    desc: 'The foundation of knowledge and communication.',
-    baseCost: { gold: 50, wood: 20 },
-    costScale: 1.0, // Technologies don't scale in cost
+  basicAgriculture: {
+    name: 'Basic Agriculture',
+    icon: 'ic-agriculture',
+    desc: 'Learn to cultivate plants for food.',
+    baseCost: { knowledge: 150 },
+    costScale: 1.0,
     researchTime: 3,
-    unlocksBuildings: ['library'],
+    unlocksBuildings: [],
   },
-  mathematics: {
-    name: 'Mathematics',
-    icon: 'ic-mathematics',
-    desc: 'Advanced calculations and logical thinking.',
-    baseCost: { gold: 100, wood: 30, stone: 20 },
+  
+  basicConstruction: {
+    name: 'Basic Construction',
+    icon: 'ic-construction',
+    desc: 'Learn to build more advanced structures.',
+    baseCost: { knowledge: 300 },
     costScale: 1.0,
-    researchTime: 6,
-    unlocksBuildings: ['university'],
-    requiresTech: ['writing'],
+    researchTime: 4,
+    unlocksBuildings: [],
   },
-  engineering: {
-    name: 'Engineering',
-    icon: 'ic-engineering',
-    desc: 'Advanced construction and mechanical knowledge.',
-    baseCost: { gold: 150, wood: 50, stone: 40 },
+  
+  toolMaking: {
+    name: 'Tool Making',
+    icon: 'ic-tools',
+    desc: 'Learn to create better tools for efficiency.',
+    baseCost: { knowledge: 200, tools: 10 },
     costScale: 1.0,
-    researchTime: 9,
-    requiresTech: ['writing', 'mathematics'],
+    researchTime: 2,
   },
-  chemistry: {
-    name: 'Chemistry',
-    icon: 'ic-chemistry',
-    desc: 'Understanding of materials and reactions.',
-    baseCost: { gold: 200, wood: 60, stone: 50, food: 20 },
+  
+  waterManagement: {
+    name: 'Water Management',
+    icon: 'ic-water',
+    desc: 'Learn to manage water resources effectively.',
+    baseCost: { knowledge: 180, water: 15 },
     costScale: 1.0,
-    researchTime: 12,
-    unlocksBuildings: ['laboratory'],
-    requiresTech: ['mathematics', 'engineering'],
+    researchTime: 3,
   },
-  physics: {
-    name: 'Physics',
-    icon: 'ic-physics',
-    desc: 'Laws of nature and energy.',
-    baseCost: { gold: 300, wood: 80, stone: 70, food: 30 },
+  
+  clayProcessing: {
+    name: 'Clay Processing',
+    icon: 'ic-clay',
+    desc: 'Learn to work with clay for pottery.',
+    baseCost: { knowledge: 250, clay: 20 },
     costScale: 1.0,
-    researchTime: 18,
-    requiresTech: ['mathematics', 'chemistry'],
+    researchTime: 4,
   },
-  biology: {
-    name: 'Biology',
-    icon: 'ic-biology',
-    desc: 'Study of life and living organisms.',
-    baseCost: { gold: 400, wood: 100, stone: 90, food: 50 },
+  
+  fiberWeaving: {
+    name: 'Fiber Weaving',
+    icon: 'ic-fiber',
+    desc: 'Learn to weave fibers into useful materials.',
+    baseCost: { knowledge: 220, fiber: 25 },
     costScale: 1.0,
-    researchTime: 24,
-    requiresTech: ['chemistry', 'physics'],
+    researchTime: 3,
   },
+  
+  primitiveMedicine: {
+    name: 'Primitive Medicine',
+    icon: 'ic-medicine',
+    desc: 'Learn basic healing and health practices.',
+    baseCost: { knowledge: 400, food: 30, water: 20 },
+    costScale: 1.0,
+    researchTime: 5,
+  },
+  
+  basicStorage: {
+    name: 'Basic Storage',
+    icon: 'ic-storage',
+    desc: 'Learn to store resources efficiently.',
+    baseCost: { knowledge: 350, wood: 40, stone: 20 },
+    costScale: 1.0,
+    researchTime: 4,
+  }
 };

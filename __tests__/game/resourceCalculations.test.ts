@@ -16,44 +16,47 @@ describe('resourceCalculations', () => {
 
     it('should calculate production rates', () => {
       const state = createGameStateWithBuildings({
-        woodcutter: 2, // 2 * 1.2 = 2.4 wood/s
-        quarry: 1,     // 1 * 0.8 = 0.8 stone/s
-        farm: 1,       // 1 * 1.5 = 1.5 food/s
+        primitiveHut: 2, // 2 * 0.5 = 1.0 food/s
+        toolWorkshop: 1, // 1 * 0.3 = 0.3 tools/s
+        waterWell: 1,    // 1 * 1.0 = 1.0 water/s
       })
       
       const calculations = calculateAllGameCalculations(state)
       
-      expect(calculations.perSec.wood).toBeCloseTo(2.4, 2)
-      expect(calculations.perSec.stone).toBeCloseTo(0.8, 2)
-      expect(calculations.perSec.food).toBeCloseTo(1.5, 2)
+      expect(calculations.perSec.food).toBeCloseTo(1.0, 2)
+      expect(calculations.perSec.tools).toBeCloseTo(0.3, 2)
+      expect(calculations.perSec.water).toBeCloseTo(1.0, 2)
     })
 
     it('should calculate consumption rates', () => {
       const state = createGameStateWithBuildings({
-        blacksmith: 1, // Consumes 0.3 wood/s and 0.2 stone/s
-        castle: 1,     // Consumes 0.5 food/s
+        toolWorkshop: 1, // Consumes 0.2 wood/s and 0.1 stone/s
+        studyCorner: 1,  // Consumes 0.1 food/s
       })
       
       const calculations = calculateAllGameCalculations(state)
       
-      expect(calculations.perSec.wood).toBeCloseTo(-0.3, 2)
-      expect(calculations.perSec.stone).toBeCloseTo(-0.2, 2)
-      expect(calculations.perSec.food).toBeCloseTo(-0.5, 2)
+      expect(calculations.perSec.wood).toBeCloseTo(-0.2, 2)
+      expect(calculations.perSec.stone).toBeCloseTo(-0.1, 2)
+      expect(calculations.perSec.food).toBeCloseTo(-0.1, 2)
     })
 
     it('should calculate net production (production - consumption)', () => {
       const state = createGameStateWithBuildings({
-        woodcutter: 2, // +2.4 wood/s
-        blacksmith: 1, // -0.3 wood/s, -0.2 stone/s
-        farm: 1,       // +1.5 food/s
-        castle: 1,     // -0.5 food/s
+        primitiveHut: 2, // +1.0 food/s
+        toolWorkshop: 1, // +0.3 tools/s, -0.2 wood/s, -0.1 stone/s
+        waterWell: 1,    // +1.0 water/s
+        studyCorner: 1,  // +0.2 knowledge/s, -0.1 food/s
       })
       
       const calculations = calculateAllGameCalculations(state)
       
-      expect(calculations.perSec.wood).toBeCloseTo(2.1, 2) // 2.4 - 0.3
-      expect(calculations.perSec.stone).toBeCloseTo(-0.2, 2) // 0 - 0.2
-      expect(calculations.perSec.food).toBeCloseTo(1.0, 2) // 1.5 - 0.5
+      expect(calculations.perSec.food).toBeCloseTo(0.9, 2) // 1.0 - 0.1
+      expect(calculations.perSec.wood).toBeCloseTo(-0.2, 2) // 0 - 0.2
+      expect(calculations.perSec.stone).toBeCloseTo(-0.1, 2) // 0 - 0.1
+      expect(calculations.perSec.tools).toBeCloseTo(0.3, 2) // 0.3
+      expect(calculations.perSec.water).toBeCloseTo(1.0, 2) // 1.0
+      expect(calculations.perSec.knowledge).toBeCloseTo(0.2, 2) // 0.2
     })
   })
 
@@ -69,9 +72,9 @@ describe('resourceCalculations', () => {
       const state = createTestGameState()
       const costFor = createMemoizedCostFor(state)
       
-      const cost = costFor('woodcutter')
-      expect(cost).toHaveProperty('gold')
-      expect(cost.gold).toBeGreaterThan(0)
+      const cost = costFor('primitiveHut')
+      expect(cost).toHaveProperty('wood')
+      expect(cost.wood).toBeGreaterThan(0)
     })
   })
 
@@ -85,15 +88,16 @@ describe('resourceCalculations', () => {
 
     it('should check if player can afford costs', () => {
       const state = createGameStateWithResources({
-        gold: 100,
         wood: 50,
+        stone: 25,
+        food: 30,
       })
       const canAfford = createMemoizedCanAfford(state)
       
-      const affordable = canAfford({ gold: 50, wood: 25 })
+      const affordable = canAfford({ wood: 25, stone: 15, food: 10 })
       expect(affordable).toBe(true)
       
-      const notAffordable = canAfford({ gold: 200, wood: 100 })
+      const notAffordable = canAfford({ wood: 100, stone: 50, food: 100 })
       expect(notAffordable).toBe(false)
     })
   })

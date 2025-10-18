@@ -18,7 +18,7 @@ describe('Achievement Rewards', () => {
         points: 10,
         requirements: [],
         rewards: [
-          { type: 'resource', target: 'gold', value: 100, permanent: false }
+          { type: 'resource', target: 'wood', value: 100, permanent: false }
         ],
         hidden: false,
         repeatable: false
@@ -26,7 +26,7 @@ describe('Achievement Rewards', () => {
 
       const result = applyAchievementRewards(state, achievement);
 
-      expect(result.resources.gold).toBe((state.resources.gold || 0) + 100);
+      expect(result.resources.wood).toBe((state.resources.wood || 0) + 100);
     });
 
     it('should apply multiplier rewards correctly', () => {
@@ -54,12 +54,12 @@ describe('Achievement Rewards', () => {
       expect(result.achievementBonuses.resourceGainMultiplier).toBeDefined();
       
       // Should apply multiplier to all resources
-      expect(result.achievementBonuses.resourceGainMultiplier.gold).toBe(1.5);
+      expect(result.achievementBonuses.resourceGainMultiplier.wood).toBe(1.5);
       expect(result.achievementBonuses.resourceGainMultiplier.wood).toBe(1.5);
       expect(result.achievementBonuses.resourceGainMultiplier.stone).toBe(1.5);
       expect(result.achievementBonuses.resourceGainMultiplier.food).toBe(1.5);
       expect(result.achievementBonuses.resourceGainMultiplier.prestige).toBe(1.5);
-      expect(result.achievementBonuses.resourceGainMultiplier.researchPoints).toBe(1.5);
+      expect(result.achievementBonuses.resourceGainMultiplier.knowledge).toBe(1.5);
     });
 
     it('should apply click gain multiplier correctly', () => {
@@ -83,12 +83,12 @@ describe('Achievement Rewards', () => {
       const result = applyAchievementRewards(state, achievement);
 
       expect(result.achievementBonuses).toBeDefined();
-      expect(result.achievementBonuses.clickMultiplier.gold).toBe(2.0);
       expect(result.achievementBonuses.clickMultiplier.wood).toBe(2.0);
       expect(result.achievementBonuses.clickMultiplier.stone).toBe(2.0);
       expect(result.achievementBonuses.clickMultiplier.food).toBe(2.0);
+      expect(result.achievementBonuses.clickMultiplier.water).toBe(2.0);
       expect(result.achievementBonuses.clickMultiplier.prestige).toBe(2.0);
-      expect(result.achievementBonuses.clickMultiplier.researchPoints).toBe(2.0);
+      expect(result.achievementBonuses.clickMultiplier.knowledge).toBe(2.0);
     });
 
     it('should apply cost multiplier correctly', () => {
@@ -103,7 +103,7 @@ describe('Achievement Rewards', () => {
         points: 10,
         requirements: [],
         rewards: [
-          { type: 'resourceGain', target: 'gold', value: 5, permanent: true }
+          { type: 'resourceGain', target: 'wood', value: 5, permanent: true }
         ],
         hidden: false,
         repeatable: false
@@ -112,7 +112,7 @@ describe('Achievement Rewards', () => {
       const result = applyAchievementRewards(state, achievement);
 
       expect(result.achievementBonuses).toBeDefined();
-      expect(result.achievementBonuses.resourceGain.gold).toBe(5);
+      expect(result.achievementBonuses.resourceGain.wood).toBe(5);
     });
 
     it('should handle multiple rewards', () => {
@@ -127,7 +127,7 @@ describe('Achievement Rewards', () => {
         points: 10,
         requirements: [],
         rewards: [
-          { type: 'resource', target: 'gold', value: 50, permanent: false },
+          { type: 'resource', target: 'wood', value: 50, permanent: false },
           { type: 'resourceGainMultiplier', target: 'all', value: 1.2, permanent: true }
         ],
         hidden: false,
@@ -137,8 +137,8 @@ describe('Achievement Rewards', () => {
       const result = applyAchievementRewards(state, achievement);
 
       // Should apply both rewards
-      expect(result.resources.gold).toBe((state.resources.gold || 0) + 50);
-      expect(result.achievementBonuses.resourceGainMultiplier.gold).toBe(1.2);
+      expect(result.resources.wood).toBe((state.resources.wood || 0) + 50);
+      expect(result.achievementBonuses.resourceGainMultiplier.wood).toBe(1.2);
     });
 
     it('should handle invalid reward types gracefully', () => {
@@ -177,7 +177,7 @@ describe('Achievement Rewards', () => {
         points: 10,
         requirements: [],
         rewards: [
-          { type: 'resource', target: 'gold', value: 100, permanent: false }
+          { type: 'resource', target: 'wood', value: 100, permanent: false }
         ],
         hidden: false,
         repeatable: false
@@ -186,7 +186,7 @@ describe('Achievement Rewards', () => {
       const result = applyAchievementRewards(state, achievement);
 
       expect(result.resources).toBeDefined();
-      expect(result.resources.gold).toBe(100);
+      expect(result.resources.wood).toBe(100);
     });
   });
 });

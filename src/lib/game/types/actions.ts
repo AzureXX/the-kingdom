@@ -5,19 +5,18 @@ import type { ResourceKey, BuildingKey, TechnologyKey, PrestigeUpgradeKey, Resou
 /**
  * Unique identifier for each action
  */
-export type ActionKey = 
+export type TierOneActionKeys = 
   | 'gatherWood'
   | 'gatherStone' 
   | 'huntFood'
-  | 'sellWood'
-  | 'sellStone'
-  | 'sellFood'
-  | 'craftTools'
-  | 'forgeWeapons'
-  | 'farmWork'
-  | 'advancedMining'
-  | 'scientificResearch'
-  | 'royalDiplomacy';
+  | 'rest'
+  | 'craftBasicTools'
+  | 'thinkAndLearn'
+  | 'collectWater'
+  | 'digClay'
+  | 'gatherFiber';
+
+export type ActionKey = TierOneActionKeys;
 
 /**
  * Technology unlock condition for an action

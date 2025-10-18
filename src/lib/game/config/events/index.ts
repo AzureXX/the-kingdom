@@ -1,27 +1,20 @@
-// Event system configuration - grouped by category
+// Event system configuration - organized by tier
 
 import type { EventKey, EventDef } from '@/lib/game/types';
 
-// Import all event categories
-import { TRADING_EVENTS } from '@/lib/game/config/events/tradingEvents';
-import { CONFLICT_EVENTS } from '@/lib/game/config/events/conflictEvents';
-import { NATURAL_EVENTS } from '@/lib/game/config/events/naturalEvents';
-import { SOCIAL_EVENTS } from '@/lib/game/config/events/socialEvents';
+// Import tier-based event definitions
+import { TIER1_EVENTS } from '@/lib/game/config/events/tier1Events';
 
 /**
- * Combined event definitions organized by category
+ * Combined event definitions organized by tier
  */
 export const EVENTS: Record<EventKey, EventDef> = {
-  // Trading events
-  ...TRADING_EVENTS,
+  // Tier 1 Events - Primitive Beginnings
+  ...TIER1_EVENTS,
   
-  // Conflict events
-  ...CONFLICT_EVENTS,
-  
-  // Natural events
-  ...NATURAL_EVENTS,
-  
-  // Social events
-  ...SOCIAL_EVENTS
+  // Future tiers will be added here
+  // ...TIER2_EVENTS,
+  // ...TIER3_EVENTS,
+  // etc.
 } as Record<EventKey, EventDef>;
 

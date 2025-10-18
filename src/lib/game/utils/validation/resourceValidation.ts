@@ -69,7 +69,7 @@ export interface ValidationWarning {
  * 
  */
 export function isValidResourceKey(key: string): key is ResourceKey {
-  return ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'].includes(key as ResourceKey);
+  return ['wood', 'stone', 'food', 'water', 'clay', 'fiber', 'tools', 'knowledge', 'prestige'].includes(key as ResourceKey);
 }
 
 /**

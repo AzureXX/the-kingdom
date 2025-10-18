@@ -21,12 +21,12 @@ describe('Achievement Bonus Calculator', () => {
         ...state,
         achievementBonuses: {
           ...getEmptyAchievementBonusesObject(),
-          resourceGain: { gold: 10, wood: 5 },
-          resourceGainMultiplier: { gold: 1.2, wood: 1.1 },
-          clickGain: { gold: 2, wood: 1 },
-          clickMultiplier: { gold: 1.5, wood: 1.2 },
-          loopGain: { gold: 3, wood: 2 },
-          loopMultiplier: { gold: 1.3, wood: 1.1 },
+          resourceGain: { wood: 10, stone: 5 },
+          resourceGainMultiplier: { wood: 1.2, stone: 1.1 },
+          clickGain: { wood: 2, stone: 1 },
+          clickMultiplier: { wood: 1.5, stone: 1.2 },
+          loopGain: { wood: 3, stone: 2 },
+          loopMultiplier: { wood: 1.3, stone: 1.1 },
         }
       };
 
@@ -45,18 +45,18 @@ describe('Achievement Bonus Calculator', () => {
         ...state,
         achievementBonuses: {
           ...getEmptyAchievementBonusesObject(),
-          resourceGain: { gold: 10 },
-          resourceGainMultiplier: { gold: 1.2 },
-          clickGain: { gold: 2 },
-          clickMultiplier: { gold: 1.5 },
-          loopGain: { gold: 3 },
-          loopMultiplier: { gold: 1.3 },
+          resourceGain: { wood: 10 },
+          resourceGainMultiplier: { wood: 1.2 },
+          clickGain: { wood: 2 },
+          clickMultiplier: { wood: 1.5 },
+          loopGain: { wood: 3 },
+          loopMultiplier: { wood: 1.3 },
         }
       };
 
       const summary = getBonusSummary(newState);
       
-      expect(summary.resourceBreakdown.gold).toEqual({
+      expect(summary.resourceBreakdown.wood).toEqual({
         resourceGain: 10,
         resourceMultiplier: 1.2,
         clickGain: 2,
@@ -84,12 +84,15 @@ describe('Achievement Bonus Calculator', () => {
 
   describe('getResourceDisplayName', () => {
     it('should return correct display names', () => {
-      expect(getResourceDisplayName('gold')).toBe('Gold');
       expect(getResourceDisplayName('wood')).toBe('Wood');
       expect(getResourceDisplayName('stone')).toBe('Stone');
       expect(getResourceDisplayName('food')).toBe('Food');
+      expect(getResourceDisplayName('water')).toBe('Water');
+      expect(getResourceDisplayName('clay')).toBe('Clay');
+      expect(getResourceDisplayName('fiber')).toBe('Fiber');
+      expect(getResourceDisplayName('tools')).toBe('Tools');
+      expect(getResourceDisplayName('knowledge')).toBe('Knowledge');
       expect(getResourceDisplayName('prestige')).toBe('Prestige');
-      expect(getResourceDisplayName('researchPoints')).toBe('Research');
     });
   });
 
@@ -106,8 +109,8 @@ describe('Achievement Bonus Calculator', () => {
         points: 10,
         requirements: [],
         rewards: [
-          { type: 'resourceGain' as AchievementRewardType, target: 'gold' as ResourceKey, value: 5, permanent: true },
-          { type: 'resourceGainMultiplier' as AchievementRewardType, target: 'gold' as ResourceKey, value: 1.2, permanent: true },
+          { type: 'resourceGain' as AchievementRewardType, target: 'wood' as ResourceKey, value: 5, permanent: true },
+          { type: 'resourceGainMultiplier' as AchievementRewardType, target: 'wood' as ResourceKey, value: 1.2, permanent: true },
           { type: 'clickGain' as AchievementRewardType, target: 'wood' as ResourceKey, value: 2, permanent: true },
           { type: 'clickMultiplier' as AchievementRewardType, target: 'wood' as ResourceKey, value: 1.5, permanent: true },
           { type: 'loopGain' as AchievementRewardType, target: 'stone' as ResourceKey, value: 3, permanent: true },

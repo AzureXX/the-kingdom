@@ -68,7 +68,7 @@ export function getBonusSummary(state: GameState): {
   }>>;
 } {
   const bonuses = calculateTotalBonuses(state);
-  const allResources: ResourceKey[] = ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'];
+  const allResources: ResourceKey[] = ['wood', 'stone', 'food', 'water', 'clay', 'fiber', 'tools', 'knowledge', 'prestige'];
   
   let totalResourceGain = 0;
   let totalResourceMultipliers = 0;
@@ -173,7 +173,7 @@ export function getAllMultipliers(state: GameState): {
   }
 
   const bonuses = state.achievementBonuses;
-  const allResources: ResourceKey[] = ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'];
+  const allResources: ResourceKey[] = ['wood', 'stone', 'food', 'water', 'clay', 'fiber', 'tools', 'knowledge', 'prestige'];
 
   const result = {
     resourceGain: [] as Array<{ resource: ResourceKey; name: string; value: number }>,
@@ -321,12 +321,15 @@ export function getAllMultipliers(state: GameState): {
  */
 export function getResourceDisplayName(resource: ResourceKey): string {
   switch (resource) {
-    case 'gold': return 'Gold';
+    case 'water': return 'Water';
     case 'wood': return 'Wood';
     case 'stone': return 'Stone';
     case 'food': return 'Food';
     case 'prestige': return 'Prestige';
-    case 'researchPoints': return 'Research';
+    case 'clay': return 'Clay';
+    case 'fiber': return 'Fiber';
+    case 'tools': return 'Tools';
+    case 'knowledge': return 'Knowledge';
     default: return resource;
   }
 }

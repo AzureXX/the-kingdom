@@ -1,28 +1,21 @@
-// Action system configuration - grouped by category
+// Action system configuration - organized by tier
 
 import type { ActionKey, ActionDef } from '@/lib/game/types/actions';
 
-// Import all action categories
-import { BASIC_ACTIONS } from '@/lib/game/config/actions/basicActions';
-import { TRADING_ACTIONS } from '@/lib/game/config/actions/tradingActions';
-import { BUILDING_ACTIONS } from '@/lib/game/config/actions/buildingActions';
-import { TECHNOLOGY_ACTIONS } from '@/lib/game/config/actions/technologyActions';
+// Import tier-based action definitions
+import { TIER1_ACTIONS } from '@/lib/game/config/actions/tier1Actions';
 
 /**
- * Combined action definitions organized by category
+ * Combined action definitions organized by tier
  */
 export const ACTIONS: Record<ActionKey, ActionDef> = {
-  // Basic actions
-  ...BASIC_ACTIONS,
+  // Tier 1 Actions - Primitive Beginnings
+  ...TIER1_ACTIONS,
   
-  // Trading actions
-  ...TRADING_ACTIONS,
-  
-  // Building-dependent actions
-  ...BUILDING_ACTIONS,
-  
-  // Technology-dependent actions
-  ...TECHNOLOGY_ACTIONS
+  // Future tiers will be added here
+  // ...TIER2_ACTIONS,
+  // ...TIER3_ACTIONS,
+  // etc.
 } as Record<ActionKey, ActionDef>;
 
 /**

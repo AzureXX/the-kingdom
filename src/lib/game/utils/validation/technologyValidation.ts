@@ -31,7 +31,7 @@ import { validateResourceOperation } from '@/lib/game/utils/validation/resourceV
  * 
  */
 export function isValidTechnologyKey(key: string): key is TechnologyKey {
-  return ['writing', 'mathematics', 'engineering', 'chemistry', 'physics', 'biology'].includes(key as TechnologyKey);
+  return ['basicAgriculture', 'basicConstruction', 'toolMaking', 'waterManagement', 'clayProcessing', 'fiberWeaving', 'primitiveMedicine', 'basicStorage'].includes(key as TechnologyKey);
 }
 
 /**

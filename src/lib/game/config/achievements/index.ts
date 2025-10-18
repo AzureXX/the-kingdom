@@ -1,49 +1,21 @@
-// Achievement configuration and definitions - grouped by category
+// Achievement configuration and definitions - organized by tier
 
 import type { AchievementDef, AchievementKey } from '@/lib/game/types/achievements';
 
-// Import all achievement categories
-import { RESOURCE_ACHIEVEMENTS } from '@/lib/game/config/achievements/resourceAchievements';
-import { BUILDING_ACHIEVEMENTS } from '@/lib/game/config/achievements/buildingAchievements';
-import { TECHNOLOGY_ACHIEVEMENTS } from '@/lib/game/config/achievements/technologyAchievements';
-import { ACTION_ACHIEVEMENTS } from '@/lib/game/config/achievements/actionAchievements';
-import { PRESTIGE_ACHIEVEMENTS } from '@/lib/game/config/achievements/prestigeAchievements';
-import { EVENT_ACHIEVEMENTS } from '@/lib/game/config/achievements/eventAchievements';
-import { TIME_ACHIEVEMENTS } from '@/lib/game/config/achievements/timeAchievements';
-import { COMBO_ACHIEVEMENTS } from '@/lib/game/config/achievements/comboAchievements';
-import { HIDDEN_ACHIEVEMENTS } from '@/lib/game/config/achievements/hiddenAchievements';
+// Import tier-based achievement definitions
+import { TIER1_ACHIEVEMENTS } from '@/lib/game/config/achievements/tier1Achievements';
 
 /**
- * Combined achievement definitions organized by category
+ * Combined achievement definitions organized by tier
  */
 export const ACHIEVEMENTS: Record<AchievementKey, AchievementDef> = {
-  // Resource achievements
-  ...RESOURCE_ACHIEVEMENTS,
+  // Tier 1 Achievements - Primitive Beginnings
+  ...TIER1_ACHIEVEMENTS,
   
-  // Building achievements
-  ...BUILDING_ACHIEVEMENTS,
-  
-  // Technology achievements
-  ...TECHNOLOGY_ACHIEVEMENTS,
-  
-  // Action achievements
-  ...ACTION_ACHIEVEMENTS,
-  
-  // Prestige achievements
-  ...PRESTIGE_ACHIEVEMENTS,
-  
-  // Event achievements
-  ...EVENT_ACHIEVEMENTS,
-  
-  // Time achievements
-  ...TIME_ACHIEVEMENTS,
-  
-  // Combo achievements
-  ...COMBO_ACHIEVEMENTS,
-  
-  // Hidden achievements
-  ...HIDDEN_ACHIEVEMENTS,
-  
+  // Future tiers will be added here
+  // ...TIER2_ACHIEVEMENTS,
+  // ...TIER3_ACHIEVEMENTS,
+  // etc.
 } as Record<AchievementKey, AchievementDef>;
 
 

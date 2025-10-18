@@ -21,35 +21,37 @@ export const mockBasicGameState: GameState = {
   
   // Resources
   resources: {
-    gold: 100,
     wood: 50,
     stone: 25,
     food: 75,
+    water: 30,
+    clay: 15,
+    fiber: 10,
+    tools: 5,
+    knowledge: 20,
     prestige: 0,
-    researchPoints: 0,
   },
   
   // Buildings
   buildings: {
-    woodcutter: 1,
-    quarry: 0,
-    farm: 0,
-    blacksmith: 0,
-    castle: 0,
-    library: 0,
-    university: 0,
-    laboratory: 0,
-    taxOffice: 0,
+    primitiveHut: 1,
+    toolWorkshop: 0,
+    studyCorner: 0,
+    waterWell: 0,
+    clayPit: 0,
+    fiberGarden: 0,
   },
   
   // Technologies
   technologies: {
-    writing: 0,
-    mathematics: 0,
-    engineering: 0,
-    chemistry: 0,
-    physics: 0,
-    biology: 0,
+    basicAgriculture: 0,
+    basicConstruction: 0,
+    toolMaking: 0,
+    waterManagement: 0,
+    clayProcessing: 0,
+    fiberWeaving: 0,
+    primitiveMedicine: 0,
+    basicStorage: 0,
   },
   
   // Events
@@ -64,15 +66,12 @@ export const mockBasicGameState: GameState = {
       gatherWood: { unlocked: true, unlockedAt: 0, lastUsed: 0 },
       gatherStone: { unlocked: true, unlockedAt: 0, lastUsed: 0 },
       huntFood: { unlocked: true, unlockedAt: 0, lastUsed: 0 },
-      sellWood: { unlocked: false, unlockedAt: 0, lastUsed: 0 },
-      sellStone: { unlocked: false, unlockedAt: 0, lastUsed: 0 },
-      sellFood: { unlocked: false, unlockedAt: 0, lastUsed: 0 },
-      craftTools: { unlocked: false, unlockedAt: 0, lastUsed: 0 },
-      forgeWeapons: { unlocked: false, unlockedAt: 0, lastUsed: 0 },
-      farmWork: { unlocked: false, unlockedAt: 0, lastUsed: 0 },
-      advancedMining: { unlocked: false, unlockedAt: 0, lastUsed: 0 },
-      scientificResearch: { unlocked: false, unlockedAt: 0, lastUsed: 0 },
-      royalDiplomacy: { unlocked: false, unlockedAt: 0, lastUsed: 0 },
+      rest: { unlocked: false, unlockedAt: 0, lastUsed: 0 },
+      craftBasicTools: { unlocked: true, unlockedAt: 0, lastUsed: 0 },
+      thinkAndLearn: { unlocked: true, unlockedAt: 0, lastUsed: 0 },
+      collectWater: { unlocked: true, unlockedAt: 0, lastUsed: 0 },
+      digClay: { unlocked: true, unlockedAt: 0, lastUsed: 0 },
+      gatherFiber: { unlocked: true, unlockedAt: 0, lastUsed: 0 },
     },
     cooldowns: {},
   },
@@ -116,12 +115,15 @@ export const mockBasicGameState: GameState = {
   
   // Lifetime resources
   lifetime: {
-    gold: 100,
     wood: 50,
     stone: 25,
     food: 75,
+    water: 30,
+    clay: 15,
+    fiber: 10,
+    tools: 5,
+    knowledge: 20,
     prestige: 0,
-    researchPoints: 0,
   },
   
   // Prestige bonuses
@@ -134,33 +136,35 @@ export const mockBasicGameState: GameState = {
 export const mockAdvancedGameState: GameState = {
   ...mockBasicGameState,
   resources: {
-    gold: 10000,
     wood: 5000,
     stone: 2500,
     food: 7500,
+    water: 3000,
+    clay: 1500,
+    fiber: 1000,
+    tools: 500,
+    knowledge: 2000,
     prestige: 100,
-    researchPoints: 500,
   },
   
   buildings: {
-    woodcutter: 10,
-    quarry: 5,
-    farm: 8,
-    blacksmith: 3,
-    castle: 1,
-    library: 2,
-    university: 1,
-    laboratory: 0,
-    taxOffice: 0,
+    primitiveHut: 5,
+    toolWorkshop: 3,
+    studyCorner: 2,
+    waterWell: 4,
+    clayPit: 2,
+    fiberGarden: 1,
   },
   
   technologies: {
-    writing: 1,
-    mathematics: 1,
-    engineering: 0,
-    chemistry: 0,
-    physics: 0,
-    biology: 0,
+    basicAgriculture: 1,
+    basicConstruction: 1,
+    toolMaking: 1,
+    waterManagement: 1,
+    clayProcessing: 0,
+    fiberWeaving: 0,
+    primitiveMedicine: 0,
+    basicStorage: 0,
   },
   
   upgrades: {
@@ -193,33 +197,35 @@ export const mockAdvancedGameState: GameState = {
 export const mockMaxedGameState: GameState = {
   ...mockAdvancedGameState,
   resources: {
-    gold: 1000000,
     wood: 500000,
     stone: 250000,
     food: 750000,
+    water: 300000,
+    clay: 150000,
+    fiber: 100000,
+    tools: 50000,
+    knowledge: 200000,
     prestige: 10000,
-    researchPoints: 50000,
   },
   
   buildings: {
-    woodcutter: 100,
-    quarry: 50,
-    farm: 80,
-    blacksmith: 30,
-    castle: 10,
-    library: 20,
-    university: 10,
-    laboratory: 5,
-    taxOffice: 0,
+    primitiveHut: 50,
+    toolWorkshop: 30,
+    studyCorner: 20,
+    waterWell: 40,
+    clayPit: 25,
+    fiberGarden: 15,
   },
   
   technologies: {
-    writing: 1,
-    mathematics: 1,
-    engineering: 1,
-    chemistry: 1,
-    physics: 1,
-    biology: 1,
+    basicAgriculture: 1,
+    basicConstruction: 1,
+    toolMaking: 1,
+    waterManagement: 1,
+    clayProcessing: 1,
+    fiberWeaving: 1,
+    primitiveMedicine: 1,
+    basicStorage: 1,
   },
   
   upgrades: {
@@ -250,37 +256,54 @@ export const mockMaxedGameState: GameState = {
  * Sample resource cost for testing
  */
 export const mockResourceCost = {
-  gold: 100,
   wood: 50,
   stone: 25,
+  food: 30,
+  water: 20,
+  clay: 15,
+  fiber: 10,
+  tools: 5,
+  knowledge: 25,
 }
 
 /**
  * Sample resource gains for testing
  */
 export const mockResourceGains = {
-  gold: 10,
   wood: 5,
   stone: 2,
+  food: 3,
+  water: 4,
+  clay: 1,
+  fiber: 1,
+  tools: 1,
+  knowledge: 2,
 }
 
 /**
  * Sample building costs for testing
  */
 export const mockBuildingCosts = {
-  woodcutter: { gold: 15 },
-  quarry: { gold: 30, wood: 5 },
-  farm: { gold: 25, wood: 8 },
-  blacksmith: { gold: 50, wood: 15, stone: 10 },
+  primitiveHut: { wood: 25, stone: 15, food: 5 },
+  toolWorkshop: { wood: 60, stone: 40, tools: 8 },
+  studyCorner: { wood: 40, stone: 25, knowledge: 15 },
+  waterWell: { wood: 30, stone: 20, water: 10 },
+  clayPit: { wood: 20, stone: 15, clay: 5 },
+  fiberGarden: { wood: 25, stone: 10, fiber: 8 },
 }
 
 /**
  * Sample technology costs for testing
  */
 export const mockTechnologyCosts = {
-  writing: { gold: 50, wood: 20 },
-  mathematics: { gold: 100, wood: 30, stone: 20 },
-  engineering: { gold: 150, wood: 50, stone: 40 },
+  basicAgriculture: { knowledge: 150 },
+  basicConstruction: { knowledge: 300 },
+  toolMaking: { knowledge: 200, tools: 10 },
+  waterManagement: { knowledge: 180, water: 15 },
+  clayProcessing: { knowledge: 250, clay: 20 },
+  fiberWeaving: { knowledge: 220, fiber: 25 },
+  primitiveMedicine: { knowledge: 400, food: 30, water: 20 },
+  basicStorage: { knowledge: 350, wood: 40, stone: 20 },
 }
 
 /**

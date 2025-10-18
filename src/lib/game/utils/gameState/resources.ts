@@ -15,12 +15,15 @@ const stateErrorHandler = createStateErrorHandler('gameState');
  */
 export function getEmptyResourceObject(): Record<ResourceKey, number> {
   return {
-    gold: 0,
     wood: 0,
     stone: 0,
     food: 0,
-    prestige: 0,
-    researchPoints: 0
+    water: 0,
+    clay: 0,
+    fiber: 0,
+    tools: 0,
+    knowledge: 0,
+    prestige: 0
   };
 }
 

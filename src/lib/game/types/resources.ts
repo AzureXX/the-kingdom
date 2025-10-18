@@ -1,6 +1,8 @@
 // Resource-related type definitions
 
-export type ResourceKey = 'gold' | 'wood' | 'stone' | 'food' | 'prestige' | 'researchPoints';
+export type TierOneResourceKeys = 'wood' | 'stone' | 'food' | 'water' | 'clay' | 'fiber' | 'tools' | 'knowledge' | 'prestige';
+
+export type ResourceKey = TierOneResourceKeys;
 
 export interface ResourceDef {
   name: string;

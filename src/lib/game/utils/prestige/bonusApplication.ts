@@ -160,7 +160,7 @@ function applyPrestigeReward(bonuses: PrestigeBonuses, reward: PrestigeReward): 
 function applyResourceGainReward(bonuses: PrestigeBonuses, reward: PrestigeReward): void {
   if (reward.target === 'all') {
     // Apply to all resources
-    const allResources: ResourceKey[] = ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'];
+    const allResources: ResourceKey[] = ['wood', 'stone', 'food', 'water', 'clay', 'fiber', 'tools', 'knowledge', 'prestige'];
     for (const resource of allResources) {
       bonuses.resourceGain[resource] = (bonuses.resourceGain[resource] || 0) + reward.value;
     }
@@ -177,7 +177,7 @@ function applyResourceGainReward(bonuses: PrestigeBonuses, reward: PrestigeRewar
 function applyResourceGainMultiplierReward(bonuses: PrestigeBonuses, reward: PrestigeReward): void {
   if (reward.target === 'all') {
     // Apply to all resources
-    const allResources: ResourceKey[] = ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'];
+    const allResources: ResourceKey[] = ['wood', 'stone', 'food', 'water', 'clay', 'fiber', 'tools', 'knowledge', 'prestige'];
     for (const resource of allResources) {
       bonuses.resourceGainMultiplier[resource] = (bonuses.resourceGainMultiplier[resource] || 1) * reward.value;
     }
@@ -194,7 +194,7 @@ function applyResourceGainMultiplierReward(bonuses: PrestigeBonuses, reward: Pre
 function applyClickGainReward(bonuses: PrestigeBonuses, reward: PrestigeReward): void {
   if (reward.target === 'all') {
     // Apply to all resources
-    const allResources: ResourceKey[] = ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'];
+    const allResources: ResourceKey[] = ['wood', 'stone', 'food', 'water', 'clay', 'fiber', 'tools', 'knowledge', 'prestige'];
     for (const resource of allResources) {
       bonuses.clickGain[resource] = (bonuses.clickGain[resource] || 0) + reward.value;
     }
@@ -211,7 +211,7 @@ function applyClickGainReward(bonuses: PrestigeBonuses, reward: PrestigeReward):
 function applyClickMultiplierReward(bonuses: PrestigeBonuses, reward: PrestigeReward): void {
   if (reward.target === 'all') {
     // Apply to all resources
-    const allResources: ResourceKey[] = ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'];
+    const allResources: ResourceKey[] = ['wood', 'stone', 'food', 'water', 'clay', 'fiber', 'tools', 'knowledge', 'prestige'];
     for (const resource of allResources) {
       bonuses.clickMultiplier[resource] = (bonuses.clickMultiplier[resource] || 1) * reward.value;
     }
@@ -248,7 +248,7 @@ function applyBuildingGainReward(bonuses: PrestigeBonuses, reward: PrestigeRewar
   }
   const resourceKey = reward.resource || 'all';
   if (resourceKey === 'all') {
-    const allResources: ResourceKey[] = ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'];
+    const allResources: ResourceKey[] = ['wood', 'stone', 'food', 'water', 'clay', 'fiber', 'tools', 'knowledge', 'prestige'];
     for (const resource of allResources) {
       bonuses.buildingGain[reward.target]![resource] = (bonuses.buildingGain[reward.target]![resource] || 0) + reward.value;
     }
@@ -266,7 +266,7 @@ function applyBuildingGainMultiplierReward(bonuses: PrestigeBonuses, reward: Pre
   }
   const resourceKey = reward.resource || 'all';
   if (resourceKey === 'all') {
-    const allResources: ResourceKey[] = ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'];
+    const allResources: ResourceKey[] = ['wood', 'stone', 'food', 'water', 'clay', 'fiber', 'tools', 'knowledge', 'prestige'];
     for (const resource of allResources) {
       bonuses.buildingGainMultiplier[reward.target]![resource] = (bonuses.buildingGainMultiplier[reward.target]![resource] || 1) * reward.value;
     }
@@ -284,7 +284,7 @@ function applyActionClickGainReward(bonuses: PrestigeBonuses, reward: PrestigeRe
   }
   const resourceKey = reward.resource || 'all';
   if (resourceKey === 'all') {
-    const allResources: ResourceKey[] = ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'];
+    const allResources: ResourceKey[] = ['wood', 'stone', 'food', 'water', 'clay', 'fiber', 'tools', 'knowledge', 'prestige'];
     for (const resource of allResources) {
       bonuses.actionClickGain[reward.target]![resource] = (bonuses.actionClickGain[reward.target]![resource] || 0) + reward.value;
     }
@@ -302,7 +302,7 @@ function applyActionClickMultiplierReward(bonuses: PrestigeBonuses, reward: Pres
   }
   const resourceKey = reward.resource || 'all';
   if (resourceKey === 'all') {
-    const allResources: ResourceKey[] = ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'];
+    const allResources: ResourceKey[] = ['wood', 'stone', 'food', 'water', 'clay', 'fiber', 'tools', 'knowledge', 'prestige'];
     for (const resource of allResources) {
       bonuses.actionClickMultiplier[reward.target]![resource] = (bonuses.actionClickMultiplier[reward.target]![resource] || 1) * reward.value;
     }
@@ -316,7 +316,7 @@ function applyActionClickMultiplierReward(bonuses: PrestigeBonuses, reward: Pres
  */
 function applyLoopGainReward(bonuses: PrestigeBonuses, reward: PrestigeReward): void {
   if (reward.target === 'all') {
-    const allResources: ResourceKey[] = ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'];
+    const allResources: ResourceKey[] = ['wood', 'stone', 'food', 'water', 'clay', 'fiber', 'tools', 'knowledge', 'prestige'];
     for (const resource of allResources) {
       bonuses.loopGain[resource] = (bonuses.loopGain[resource] || 0) + reward.value;
     }
@@ -331,7 +331,7 @@ function applyLoopGainReward(bonuses: PrestigeBonuses, reward: PrestigeReward): 
  */
 function applyLoopMultiplierReward(bonuses: PrestigeBonuses, reward: PrestigeReward): void {
   if (reward.target === 'all') {
-    const allResources: ResourceKey[] = ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'];
+    const allResources: ResourceKey[] = ['wood', 'stone', 'food', 'water', 'clay', 'fiber', 'tools', 'knowledge', 'prestige'];
     for (const resource of allResources) {
       bonuses.loopMultiplier[resource] = (bonuses.loopMultiplier[resource] || 1) * reward.value;
     }
@@ -350,7 +350,7 @@ function applyActionLoopGainReward(bonuses: PrestigeBonuses, reward: PrestigeRew
   }
   const resourceKey = reward.resource || 'all';
   if (resourceKey === 'all') {
-    const allResources: ResourceKey[] = ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'];
+    const allResources: ResourceKey[] = ['wood', 'stone', 'food', 'water', 'clay', 'fiber', 'tools', 'knowledge', 'prestige'];
     for (const resource of allResources) {
       bonuses.actionLoopGain[reward.target]![resource] = (bonuses.actionLoopGain[reward.target]![resource] || 0) + reward.value;
     }
@@ -368,7 +368,7 @@ function applyActionLoopMultiplierReward(bonuses: PrestigeBonuses, reward: Prest
   }
   const resourceKey = reward.resource || 'all';
   if (resourceKey === 'all') {
-    const allResources: ResourceKey[] = ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'];
+    const allResources: ResourceKey[] = ['wood', 'stone', 'food', 'water', 'clay', 'fiber', 'tools', 'knowledge', 'prestige'];
     for (const resource of allResources) {
       bonuses.actionLoopMultiplier[reward.target]![resource] = (bonuses.actionLoopMultiplier[reward.target]![resource] || 1) * reward.value;
     }

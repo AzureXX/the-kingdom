@@ -2,15 +2,17 @@
 
 import type { ResourceProduction, ResourceConsumption, ResourceCost } from '@/lib/game/types/resources';
 
-export type EventKey = 
-  | 'merchantVisit'
-  | 'banditRaid'
+export type TierOneEventKeys = 
   | 'bountifulHarvest'
-  | 'drought'
-  | 'royalTax'
-  | 'mysteriousStranger'
-  | 'plague'
-  | 'festival';
+  | 'stormyWeather'
+  | 'ancientCave'
+  | 'clayDeposit'
+  | 'wanderingTrader'
+  | 'wildAnimal'
+  | 'fiberDiscovery'
+  | 'primitiveInvention';
+
+export type EventKey = TierOneEventKeys;
 
 export interface EventChoice {
   text: string;

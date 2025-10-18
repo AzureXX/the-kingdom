@@ -3,6 +3,7 @@
 // Resource types
 export type {
   ResourceKey,
+  TierOneResourceKeys,
   ResourceDef,
   ResourceCost,
   ResourceProduction,
@@ -14,12 +15,14 @@ export type {
 // Building types
 export type {
   BuildingKey,
+  TierOneBuildingKeys,
   BuildingDef,
 } from '@/lib/game/types/buildings';
 
 // Technology types
 export type {
   TechnologyKey,
+  TierOneTechnologyKeys,
   TechnologyDef,
 } from '@/lib/game/types/technologies';
 
@@ -35,6 +38,7 @@ export type {
 // Event types
 export type {
   EventKey,
+  TierOneEventKeys,
   EventChoice,
   EventDef,
 } from '@/lib/game/types/events';
@@ -42,6 +46,7 @@ export type {
 // Action types
 export type {
   ActionKey,
+  TierOneActionKeys,
   ActionDef,
   ActionStatus,
   ActionUnlocks,
@@ -52,6 +57,7 @@ export type {
 // Loop Action types
 export type {
   LoopActionKey,
+  TierOneLoopActionKeys,
   LoopActionDef,
   LoopActionState,
   LoopActionProgress,

@@ -113,6 +113,47 @@ Basic Agriculture → Water Management → Primitive Medicine
                 → Tool Making → Basic Construction
 ```
 
+## 🎲 Events
+
+### Natural Events
+- **Bountiful Harvest** 🌾 - Wild plants and berries are unusually abundant
+  - *Choice 1*: Gather Everything → +15 food, +5 wood
+  - *Choice 2*: Share with Others → +8 food, +2 knowledge
+- **Stormy Weather** ⛈️ - A fierce storm approaches requiring shelter
+  - *Choice 1*: Wait it Out → (no cost/gain)
+  - *Choice 2*: Build Emergency Shelter → +10 water, -8 wood, -5 stone
+
+### Discovery Events
+- **Ancient Cave** 🕳️ - Discover a mysterious cave with primitive drawings
+  - *Choice 1*: Mark the Location → +2 knowledge
+  - *Choice 2*: Explore the Cave → +5 knowledge, +8 stone, -2 food
+- **Rich Clay Deposit** 🏺 - Find a particularly rich clay deposit
+  - *Choice 1*: Mark the Location → (no cost/gain)
+  - *Choice 2*: Study the Formation → +6 clay, +3 knowledge, -1 food
+  - *Choice 3*: Mine the Clay → +12 clay, +5 water, -3 food
+
+### Social Events
+- **Wandering Trader** 🧳 - A friendly trader passes through with primitive goods
+  - *Choice 1*: Exchange Pleasantries → (no cost/gain)
+  - *Choice 2*: Share Knowledge → +4 knowledge, +2 food, -2 knowledge
+  - *Choice 3*: Trade for Tools → +3 tools, -8 food, -5 wood
+
+### Challenge Events
+- **Wild Animal Encounter** 🐺 - A wild animal approaches your camp
+  - *Choice 1*: Stay Still and Quiet → (no cost/gain)
+  - *Choice 2*: Scare it Away → +3 food, -2 wood
+  - *Choice 3*: Hunt the Animal → +12 food, +3 fiber, -1 tools
+- **Fiber Discovery** 🌿 - Discover a new type of plant with strong fibers
+  - *Choice 1*: Observe from Afar → (no cost/gain)
+  - *Choice 2*: Study the Plant → +5 fiber, +4 knowledge, -1 food
+  - *Choice 3*: Harvest the Fibers → +10 fiber, +2 knowledge, -2 food
+
+### Learning Events
+- **Primitive Invention** 💡 - Have a breakthrough idea while working with tools
+  - *Choice 1*: Think About It → (no cost/gain)
+  - *Choice 2*: Document the Idea → +5 knowledge, -1 food
+  - *Choice 3*: Build the Invention → +2 tools, +3 knowledge, -6 wood, -4 stone, -2 food
+
 ## 🏆 Achievements
 
 ### Basic Milestones

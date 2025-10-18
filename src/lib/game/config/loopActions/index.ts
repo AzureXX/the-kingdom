@@ -1,28 +1,21 @@
-// Loop action system configuration - grouped by category
+// Loop action system configuration - organized by tier
 
 import type { LoopActionKey, LoopActionDef } from '@/lib/game/types/loopActions';
 
-// Import all loop action categories
-import { GATHERING_LOOP_ACTIONS } from '@/lib/game/config/loopActions/gatheringLoopActions';
-import { CRAFTING_LOOP_ACTIONS } from '@/lib/game/config/loopActions/craftingLoopActions';
-import { RESEARCH_LOOP_ACTIONS } from '@/lib/game/config/loopActions/researchLoopActions';
-import { MILITARY_LOOP_ACTIONS } from '@/lib/game/config/loopActions/militaryLoopActions';
+// Import tier-based loop action definitions
+import { TIER1_LOOP_ACTIONS } from '@/lib/game/config/loopActions/tier1LoopActions';
 
 /**
- * Combined loop action definitions organized by category
+ * Combined loop action definitions organized by tier
  */
 export const LOOP_ACTIONS: Record<LoopActionKey, LoopActionDef> = {
-  // Gathering loop actions
-  ...GATHERING_LOOP_ACTIONS,
+  // Tier 1 Loop Actions - Primitive Beginnings
+  ...TIER1_LOOP_ACTIONS,
   
-  // Crafting loop actions
-  ...CRAFTING_LOOP_ACTIONS,
-  
-  // Research loop actions
-  ...RESEARCH_LOOP_ACTIONS,
-  
-  // Military loop actions
-  ...MILITARY_LOOP_ACTIONS
+  // Future tiers will be added here
+  // ...TIER2_LOOP_ACTIONS,
+  // ...TIER3_LOOP_ACTIONS,
+  // etc.
 } as Record<LoopActionKey, LoopActionDef>;
 
 export const DEFAULT_LOOP_SETTINGS = {

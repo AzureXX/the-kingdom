@@ -29,7 +29,7 @@ export function getClickGainMultiplier(state: GameState): number {
     // Calculate click gain multiplier (average of all resource click multipliers)
     let totalClickMultiplier = 0;
     let clickMultiplierCount = 0;
-    const resourceKeys: ResourceKey[] = ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'];
+    const resourceKeys: ResourceKey[] = ['wood', 'stone', 'food', 'water', 'clay', 'fiber', 'tools', 'knowledge', 'prestige'];
     
     for (const resourceKey of resourceKeys) {
       const achievementMultiplier = achievementBonuses.clickMultiplier[resourceKey] || 1;
@@ -66,8 +66,8 @@ export function getBuildingCostMultipliers(state: GameState): Partial<Record<Bui
     const prestigeBonuses = state.prestigeBonuses || getEmptyPrestigeBonusesObject();
 
     const cost: Partial<Record<BuildingKey, number>> = {};
-    const buildingKeys: BuildingKey[] = ['woodcutter', 'quarry', 'farm', 'blacksmith', 'castle', 'library', 'university', 'laboratory', 'taxOffice'];
-    const resourceKeys: ResourceKey[] = ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'];
+    const buildingKeys: BuildingKey[] = ['primitiveHut', 'toolWorkshop', 'studyCorner', 'waterWell', 'clayPit', 'fiberGarden'];
+    const resourceKeys: ResourceKey[] = ['wood', 'stone', 'food', 'water', 'clay', 'fiber', 'tools', 'knowledge', 'prestige'];
     
     // Initialize all building cost multipliers with default value of 1
     for (const key of buildingKeys) {
@@ -101,7 +101,7 @@ export function getBuildingCostMultipliers(state: GameState): Partial<Record<Bui
     return cost;
   } catch (error) {
     calculationHandler('Failed to calculate building cost multipliers', { error: error instanceof Error ? error.message : String(error) });
-    return { woodcutter: 1, quarry: 1, farm: 1, blacksmith: 1, castle: 1, library: 1, university: 1, laboratory: 1, taxOffice: 1 };
+    return { primitiveHut: 1, toolWorkshop: 1, studyCorner: 1, waterWell: 1, clayPit: 1, fiberGarden: 1 };
   }
 }
 
@@ -117,7 +117,7 @@ export function getResourceConsumptionMultipliers(state: GameState): Partial<Rec
     }
 
     const useMul: Partial<Record<ResourceKey, number>> = {};
-    const resourceKeys: ResourceKey[] = ['gold', 'wood', 'stone', 'food', 'prestige', 'researchPoints'];
+    const resourceKeys: ResourceKey[] = ['wood', 'stone', 'food', 'water', 'clay', 'fiber', 'tools', 'knowledge', 'prestige'];
     
     // Initialize all resource consumption multipliers with default value of 1
     for (const key of resourceKeys) {
@@ -127,7 +127,7 @@ export function getResourceConsumptionMultipliers(state: GameState): Partial<Rec
     return useMul;
   } catch (error) {
     calculationHandler('Failed to calculate resource consumption multipliers', { error: error instanceof Error ? error.message : String(error) });
-    return { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 };
+    return { wood: 1, stone: 1, food: 1, water: 1, clay: 1, fiber: 1, tools: 1, knowledge: 1, prestige: 1 };
   }
 }
 
@@ -152,8 +152,8 @@ export function getMultipliers(state: GameState): Multipliers {
     // Return default multipliers on error for safety
     return {
       clickGain: GAME_CONSTANTS.GAME.DEFAULT_MULTIPLIER,
-      cost: { woodcutter: 1, quarry: 1, farm: 1, blacksmith: 1, castle: 1, library: 1, university: 1, laboratory: 1, taxOffice: 1 },
-      useMul: { gold: 1, wood: 1, stone: 1, food: 1, prestige: 1, researchPoints: 1 },
+      cost: { primitiveHut: 1, toolWorkshop: 1, studyCorner: 1, waterWell: 1, clayPit: 1, fiberGarden: 1 },
+      useMul: { wood: 1, stone: 1, food: 1, water: 1, clay: 1, fiber: 1, tools: 1, knowledge: 1, prestige: 1 },
     };
   }
 }

@@ -37,7 +37,7 @@ import { validateResourceOperation } from '@/lib/game/utils/validation/resourceV
  * 
  */
 export function isValidBuildingKey(key: string): key is BuildingKey {
-  return ['woodcutter', 'quarry', 'farm', 'blacksmith', 'castle', 'library', 'university', 'laboratory', 'taxOffice'].includes(key as BuildingKey);
+  return ['primitiveHut', 'toolWorkshop', 'studyCorner', 'waterWell', 'clayPit', 'fiberGarden'].includes(key as BuildingKey);
 }
 
 /**

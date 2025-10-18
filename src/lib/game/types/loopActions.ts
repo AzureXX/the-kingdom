@@ -3,17 +3,11 @@ import { ActionUnlockCondition } from '@/lib/game/types/actions';
 
 export type LoopActionCategory = 'gathering' | 'crafting' | 'research' | 'military';
 
-export type LoopActionKey = 
-  | 'basicGathering'
-  | 'continuousMining'
-  | 'continuousLogging'
-  | 'continuousFarming'
-  | 'massToolProduction'
-  | 'weaponForging'
-  | 'ongoingResearch'
-  | 'advancedStudies'
-  | 'trainingSoldiers'
-  | 'fortification';
+export type TierOneLoopActionKeys = 
+  | 'basicGatheringLoop'
+  | 'waterCollectionLoop';
+
+export type LoopActionKey = TierOneLoopActionKeys;
 
 export interface LoopActionDef {
   name: string;

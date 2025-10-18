@@ -3,7 +3,9 @@
 import type { ResourceCost } from '@/lib/game/types/resources';
 import type { BuildingKey } from '@/lib/game/types/buildings';
 
-export type TechnologyKey = 'writing' | 'mathematics' | 'engineering' | 'chemistry' | 'physics' | 'biology';
+export type TierOneTechnologyKeys = 'basicAgriculture' | 'basicConstruction' | 'toolMaking' | 'waterManagement' | 'clayProcessing' | 'fiberWeaving' | 'primitiveMedicine' | 'basicStorage';
+
+export type TechnologyKey = TierOneTechnologyKeys;
 
 /**
  * Definition of a technology that can be researched by the player.

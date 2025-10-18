@@ -6,50 +6,52 @@ describe('resourceUpdates', () => {
   describe('addResources', () => {
     it('should add resources to state', () => {
       const state = createGameStateWithResourcesNoAchievements({
-        gold: 100,
         wood: 50,
+        stone: 25,
+        food: 30,
       })
       
-      const newState = addResourcesNoAchievements(state, { gold: 25, wood: 15 })
+      const newState = addResourcesNoAchievements(state, { wood: 15, stone: 10, food: 20 })
       
-      expect(newState.resources.gold).toBe(125) // 100 + 25
       expect(newState.resources.wood).toBe(65)  // 50 + 15
+      expect(newState.resources.stone).toBe(35) // 25 + 10
+      expect(newState.resources.food).toBe(50)  // 30 + 20
     })
 
     it('should handle adding zero resources', () => {
       const state = createGameStateWithResources({
-        gold: 100,
         wood: 50,
+        stone: 25,
       })
       
-      const newState = addResources(state, { gold: 0, wood: 0 })
+      const newState = addResources(state, { wood: 0, stone: 0 })
       
-      expect(newState.resources.gold).toBe(100) // Unchanged
       expect(newState.resources.wood).toBe(50)  // Unchanged
+      expect(newState.resources.stone).toBe(25) // Unchanged
     })
 
     it('should handle adding to zero resources', () => {
       const state = createGameStateWithResources({
-        gold: 0,
         wood: 0,
+        stone: 0,
       })
       
-      const newState = addResources(state, { gold: 25, wood: 15 })
+      const newState = addResources(state, { wood: 15, stone: 10 })
       
-      expect(newState.resources.gold).toBe(25)
       expect(newState.resources.wood).toBe(15)
+      expect(newState.resources.stone).toBe(10)
     })
 
     it('should preserve other state properties', () => {
       const state = createGameStateWithResourcesNoAchievements({
-        gold: 100,
         wood: 50,
+        stone: 25,
       })
       
-      const newState = addResourcesNoAchievements(state, { gold: 25 })
+      const newState = addResourcesNoAchievements(state, { wood: 15 })
       
-      expect(newState.resources.gold).toBe(125) // Changed
-      expect(newState.resources.wood).toBe(50)  // Unchanged
+      expect(newState.resources.wood).toBe(65) // Changed
+      expect(newState.resources.stone).toBe(25) // Unchanged
       expect(newState.buildings).toEqual(state.buildings) // Unchanged
       expect(newState.technologies).toEqual(state.technologies) // Unchanged
     })
@@ -58,38 +60,38 @@ describe('resourceUpdates', () => {
   describe('updateMultipleResources', () => {
     it('should update multiple resources', () => {
       const state = createGameStateWithResources({
-        gold: 100,
         wood: 50,
+        stone: 25,
       })
       
-      const newState = updateMultipleResources(state, { gold: 25, wood: 15 })
+      const newState = updateMultipleResources(state, { wood: 25, stone: 15 })
       
-      expect(newState.resources.gold).toBe(25) // Set to 25
-      expect(newState.resources.wood).toBe(15) // Set to 15
+      expect(newState.resources.wood).toBe(25) // Set to 25
+      expect(newState.resources.stone).toBe(15) // Set to 15
     })
 
     it('should not allow negative resource values', () => {
       const state = createGameStateWithResources({
-        gold: 10,
-        wood: 5,
+        wood: 10,
+        stone: 5,
       })
       
-      const newState = updateMultipleResources(state, { gold: -25, wood: -15 })
+      const newState = updateMultipleResources(state, { wood: -25, stone: -15 })
       
-      expect(newState.resources.gold).toBe(0)
       expect(newState.resources.wood).toBe(0)
+      expect(newState.resources.stone).toBe(0)
     })
 
     it('should preserve other state properties', () => {
       const state = createGameStateWithResources({
-        gold: 100,
         wood: 50,
+        stone: 25,
       })
       
-      const newState = updateMultipleResources(state, { gold: 25 })
+      const newState = updateMultipleResources(state, { wood: 25 })
       
-      expect(newState.resources.gold).toBe(25)  // Changed
-      expect(newState.resources.wood).toBe(50)  // Unchanged
+      expect(newState.resources.wood).toBe(25)  // Changed
+      expect(newState.resources.stone).toBe(25) // Unchanged
       expect(newState.buildings).toEqual(state.buildings) // Unchanged
       expect(newState.technologies).toEqual(state.technologies) // Unchanged
     })
@@ -98,22 +100,22 @@ describe('resourceUpdates', () => {
   describe('getResource', () => {
     it('should get resource values', () => {
       const state = createGameStateWithResources({
-        gold: 100,
         wood: 50,
         stone: 25,
+        food: 30,
       })
       
-      expect(getResource(state, 'gold')).toBe(100)
       expect(getResource(state, 'wood')).toBe(50)
       expect(getResource(state, 'stone')).toBe(25)
+      expect(getResource(state, 'food')).toBe(30)
     })
 
     it('should return zero for missing resources', () => {
       const state = createTestGameState()
       
-      expect(getResource(state, 'gold')).toBe(10) // Default starting amount
-      expect(getResource(state, 'wood')).toBe(0)
+      expect(getResource(state, 'wood')).toBe(0) // Default starting amount
       expect(getResource(state, 'stone')).toBe(0)
+      expect(getResource(state, 'food')).toBe(0)
     })
 
     it('should handle invalid resource keys', () => {
@@ -127,26 +129,26 @@ describe('resourceUpdates', () => {
     it('should set resource values', () => {
       const state = createTestGameState()
       
-      const newState = setResource(state, 'gold', 200)
+      const newState = setResource(state, 'wood', 200)
       
-      expect(newState.resources.gold).toBe(200)
+      expect(newState.resources.wood).toBe(200)
     })
 
     it('should not allow negative resource values', () => {
       const state = createTestGameState()
       
-      const newState = setResource(state, 'gold', -10)
+      const newState = setResource(state, 'wood', -10)
       
-      expect(newState.resources.gold).toBe(0)
+      expect(newState.resources.wood).toBe(0)
     })
 
     it('should preserve other state properties', () => {
       const state = createTestGameState()
       
-      const newState = setResource(state, 'gold', 200)
+      const newState = setResource(state, 'wood', 200)
       
-      expect(newState.resources.gold).toBe(200) // Changed
-      expect(newState.resources.wood).toBe(state.resources.wood) // Unchanged
+      expect(newState.resources.wood).toBe(200) // Changed
+      expect(newState.resources.stone).toBe(state.resources.stone) // Unchanged
       expect(newState.buildings).toEqual(state.buildings) // Unchanged
       expect(newState.technologies).toEqual(state.technologies) // Unchanged
     })

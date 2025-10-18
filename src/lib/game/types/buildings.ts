@@ -3,7 +3,9 @@
 import type { ResourceCost, ResourceProduction, ResourceConsumption } from '@/lib/game/types/resources';
 import type { ActionUnlockCondition } from '@/lib/game/types/actions';
 
-export type BuildingKey = 'woodcutter' | 'quarry' | 'farm' | 'blacksmith' | 'castle' | 'library' | 'university' | 'laboratory' | 'taxOffice';
+export type TierOneBuildingKeys = 'primitiveHut' | 'toolWorkshop' | 'studyCorner' | 'waterWell' | 'clayPit' | 'fiberGarden';
+
+export type BuildingKey = TierOneBuildingKeys;
 
 export interface BuildingDef {
   name: string;
