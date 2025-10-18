@@ -10,6 +10,7 @@ export const TIER1_BUILDINGS: Record<BuildingKey, BuildingDef> = {
     baseProd: { food: 0.5 },
     baseUse: {},
     maxLimit: 5,
+    unlockConditions: [],
   },
   
   toolWorkshop: {
