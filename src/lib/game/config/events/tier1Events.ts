@@ -55,6 +55,9 @@ export const TIER1_EVENTS: Record<string, EventDef> = {
     minInterval: EVENT_CONSTANTS.STANDARD_MIN_INTERVAL_SECONDS,
     maxInterval: EVENT_CONSTANTS.STANDARD_MAX_INTERVAL_SECONDS,
     weight: 0.12,
+    unlockConditions: [
+      { type: 'resource', key: 'wood', value: 5 }
+    ],
   },
 
   // Discovery Events
@@ -80,6 +83,9 @@ export const TIER1_EVENTS: Record<string, EventDef> = {
     minInterval: EVENT_CONSTANTS.STANDARD_MIN_INTERVAL_SECONDS,
     maxInterval: EVENT_CONSTANTS.STANDARD_MAX_INTERVAL_SECONDS,
     weight: 0.08,
+    unlockConditions: [
+      { type: 'resource', key: 'stone', value: 5 }
+    ],
   },
 
   clayDeposit: {
@@ -110,6 +116,9 @@ export const TIER1_EVENTS: Record<string, EventDef> = {
     minInterval: EVENT_CONSTANTS.STANDARD_MIN_INTERVAL_SECONDS,
     maxInterval: EVENT_CONSTANTS.STANDARD_MAX_INTERVAL_SECONDS,
     weight: 0.10,
+    unlockConditions: [
+      { type: 'resource', key: 'water', value: 5 }
+    ],
   },
 
   // Social Events
@@ -141,6 +150,9 @@ export const TIER1_EVENTS: Record<string, EventDef> = {
     minInterval: EVENT_CONSTANTS.STANDARD_MIN_INTERVAL_SECONDS,
     maxInterval: EVENT_CONSTANTS.STANDARD_MAX_INTERVAL_SECONDS,
     weight: 0.12,
+    unlockConditions: [
+      { type: 'resource', key: 'knowledge', value: 3 }
+    ],
   },
 
   // Challenge Events
@@ -172,6 +184,9 @@ export const TIER1_EVENTS: Record<string, EventDef> = {
     minInterval: EVENT_CONSTANTS.STANDARD_MIN_INTERVAL_SECONDS,
     maxInterval: EVENT_CONSTANTS.STANDARD_MAX_INTERVAL_SECONDS,
     weight: 0.10,
+    unlockConditions: [
+      { type: 'resource', key: 'food', value: 15 }
+    ],
   },
 
   // Resource Events
@@ -203,6 +218,9 @@ export const TIER1_EVENTS: Record<string, EventDef> = {
     minInterval: EVENT_CONSTANTS.STANDARD_MIN_INTERVAL_SECONDS,
     maxInterval: EVENT_CONSTANTS.STANDARD_MAX_INTERVAL_SECONDS,
     weight: 0.08,
+    unlockConditions: [
+      { type: 'resource', key: 'fiber', value: 3 }
+    ],
   },
 
   // Learning Events
@@ -234,5 +252,8 @@ export const TIER1_EVENTS: Record<string, EventDef> = {
     minInterval: EVENT_CONSTANTS.STANDARD_MIN_INTERVAL_SECONDS,
     maxInterval: EVENT_CONSTANTS.STANDARD_MAX_INTERVAL_SECONDS,
     weight: 0.06,
+    unlockConditions: [
+      { type: 'resource', key: 'tools', value: 2 }
+    ],
   }
 };

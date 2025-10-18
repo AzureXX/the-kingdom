@@ -25,7 +25,7 @@ export function checkAndTriggerEvents(state: GameState): GameState {
   
   // Check if it's time for a new event
   if (!newState.events.activeEvent && now >= newState.events.nextEventTime) {
-    const eventKey = triggerRandomEvent();
+    const eventKey = triggerRandomEvent(newState);
     if (eventKey) {
       return {
         ...newState,

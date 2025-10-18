@@ -1,6 +1,7 @@
 // Event-related type definitions
 
 import type { ResourceProduction, ResourceConsumption, ResourceCost } from '@/lib/game/types/resources';
+import type { ActionUnlockCondition } from '@/lib/game/types/actions';
 
 export type TierOneEventKeys = 
   | 'bountifulHarvest'
@@ -30,5 +31,6 @@ export interface EventDef {
   minInterval: number; // seconds
   maxInterval: number; // seconds
   weight: number; // relative chance of this event occurring
+  unlockConditions?: ActionUnlockCondition[]; // conditions that must be met for this event to appear
 }
 

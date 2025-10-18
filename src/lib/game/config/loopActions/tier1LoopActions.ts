@@ -28,6 +28,6 @@ export const TIER1_LOOP_ACTIONS: Record<string, LoopActionDef> = {
     unlockConditions: [{ type: 'technology', key: 'waterManagement', value: 1 }],
     loopPointsRequired: 800,
     loopCategory: 'gathering',
-    showWhenLocked: true,
+    showWhenLocked: false,
   }
 };
