@@ -189,29 +189,23 @@ Electronics Engineering → Digital Systems → Quantum Computing
 - **AI Master** - Develop 100 AI systems
 - **Tech Perfectionist** - Complete all Tier 4 achievements
 
-## 👑 Prestige Options
+## 👑 Prestige Upgrades
 
-### Tier 4 Prestige Upgrades (Cost: 500-2500 prestige)
-- **Digital Age** (+150% Tier 4 resource production)
-- **Electronics Mastery** (+300% electronics production)
-- **Chemical Expertise** (+200% chemical processing)
-- **Advanced Automation** (+100% all loop actions)
-- **Computer Systems** (+250% computer production)
-- **Medicine Production** (+200% medicine synthesis)
-- **Alloy Mastery** (+175% alloy production)
-- **Research Acceleration** (+150% research speed)
-- **Digital Networks** (+200% digital system efficiency)
-- **Tech Innovation** (+125% all technology production)
+### Available Immediately (0 prestige required)
+- **Digital Age** - +150% Tier 4 resource production per level
+- **Electronics Mastery** - +300% electronics production per level
+- **Chemical Expertise** - +200% chemical processing per level
 
-### Prestige Bonuses
-- **Technology Mastery** - Unlock Tier 4 prestige upgrades
-- **Digital Empire** - All electronics production 4x more efficient
-- **Chemical Revolution** - All chemical processing 3x more efficient
-- **Computer Network** - All computer systems 3x more efficient
-- **Research Pioneer** - All research 150% faster
-- **Automation Master** - All loop actions 150% more efficient
-- **Tech Innovation** - All technology buildings 2x more efficient
-- **Digital Storage** - All resource storage 3x larger
+### Requires 100 Prestige
+- **Advanced Automation** - +100% all loop actions per level
+- **Computer Systems** - +250% computer production per level
+- **Medicine Production** - +200% medicine synthesis per level
+
+### Requires 500 Prestige
+- **Alloy Mastery** - +175% alloy production per level
+- **Research Acceleration** - +150% research speed per level
+- **Digital Networks** - +200% digital system efficiency per level
+- **Tech Innovation** - +125% all technology production per level
 
 ## 🎯 Progression Milestones
 

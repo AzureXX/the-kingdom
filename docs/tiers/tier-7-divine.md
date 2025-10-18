@@ -191,29 +191,23 @@ Sacred Transcendence → Ultimate Divinity
 - **Sacred Master** - Study 100000000 sacred knowledge
 - **Divine Perfectionist** - Complete all Tier 7 achievements
 
-## 👑 Prestige Options
+## 👑 Prestige Upgrades
 
-### Tier 7 Prestige Upgrades (Cost: 62500-312500 prestige)
-- **Divine Ascension** (+300% Tier 7 resource production)
-- **Divine Favor** (+600% divine favor generation)
-- **Celestial Mastery** (+500% celestial essence production)
-- **Sacred Wisdom** (+250% divine research)
-- **Angelic Mastery** (+400% angelic material production)
-- **Holy Light Mastery** (+450% holy light generation)
-- **Sacred Artifact Mastery** (+350% sacred artifact discovery)
-- **Divine Intervention** (+500% divine intervention efficiency)
-- **Celestial Alignment** (+600% celestial alignment power)
-- **Angelic Summoning** (+400% angelic summoning efficiency)
+### Available Immediately (0 prestige required)
+- **Divine Ascension** - +300% Tier 7 resource production per level
+- **Divine Favor** - +600% divine favor generation per level
+- **Celestial Mastery** - +500% celestial essence production per level
 
-### Prestige Bonuses
-- **Divine Mastery** - Unlock Tier 7 prestige upgrades
-- **Divine Empire** - All divine favor generation 7x more efficient
-- **Celestial Mastery** - All celestial essence production 6x more efficient
-- **Sacred Mastery** - All sacred knowledge study 5x more efficient
-- **Angelic Mastery** - All angelic material production 5x more efficient
-- **Holy Light Mastery** - All holy light generation 6x more efficient
-- **Sacred Artifact Mastery** - All sacred artifact discovery 5x more efficient
-- **Divine Intervention Mastery** - All divine interventions 6x more powerful
+### Requires 1000 Prestige
+- **Sacred Wisdom** - +250% divine research per level
+- **Angelic Mastery** - +400% angelic material production per level
+- **Holy Light Mastery** - +450% holy light generation per level
+
+### Requires 5000 Prestige
+- **Sacred Artifact Mastery** - +350% sacred artifact discovery per level
+- **Divine Intervention** - +500% divine intervention efficiency per level
+- **Celestial Alignment** - +600% celestial alignment power per level
+- **Angelic Summoning** - +400% angelic summoning efficiency per level
 
 ## 🎯 Progression Milestones
 

@@ -188,29 +188,23 @@ Mystical Arts → Dimensional Physics → Transcendent Magic
 - **Portal God** - Open 1000 portals
 - **Magical Perfectionist** - Complete all Tier 5 achievements
 
-## 👑 Prestige Options
+## 👑 Prestige Upgrades
 
-### Tier 5 Prestige Upgrades (Cost: 2500-12500 prestige)
-- **Magical Awakening** (+200% Tier 5 resource production)
-- **Mana Mastery** (+400% mana generation)
-- **Crystal Resonance** (+300% crystal production)
-- **Arcane Knowledge** (+150% magical research)
-- **Essence Mastery** (+250% essence extraction)
-- **Rune Expertise** (+200% rune carving)
-- **Artifact Hunter** (+300% artifact discovery)
-- **Enchantment Master** (+275% enchantment efficiency)
-- **Spell Mastery** (+350% spell casting)
-- **Portal Mastery** (+400% portal creation)
+### Available Immediately (0 prestige required)
+- **Magical Awakening** - +200% Tier 5 resource production per level
+- **Mana Mastery** - +400% mana generation per level
+- **Crystal Resonance** - +300% crystal production per level
 
-### Prestige Bonuses
-- **Magical Mastery** - Unlock Tier 5 prestige upgrades
-- **Arcane Empire** - All mana generation 5x more efficient
-- **Crystal Network** - All crystal production 4x more efficient
-- **Essence Mastery** - All essence extraction 3x more efficient
-- **Rune Mastery** - All rune carving 3x more efficient
-- **Artifact Mastery** - All artifact discovery 4x more efficient
-- **Enchantment Mastery** - All enchantment 4x more efficient
-- **Spell Mastery** - All spell casting 4x more efficient
+### Requires 250 Prestige
+- **Arcane Knowledge** - +150% magical research per level
+- **Essence Mastery** - +250% essence extraction per level
+- **Rune Expertise** - +200% rune carving per level
+
+### Requires 1000 Prestige
+- **Artifact Hunter** - +300% artifact discovery per level
+- **Enchantment Master** - +275% enchantment efficiency per level
+- **Spell Mastery** - +350% spell casting per level
+- **Portal Mastery** - +400% portal creation per level
 
 ## 🎯 Progression Milestones
 

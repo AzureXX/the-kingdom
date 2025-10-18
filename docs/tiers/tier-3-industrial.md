@@ -203,29 +203,23 @@ Transportation → Industrial Automation
 - **Industrial Perfectionist** - Complete all Tier 3 achievements
   - *Reward*: `{ type: 'resourceGainMultiplier', target: 'steel', value: 1.35, permanent: true }`, `{ type: 'resourceGainMultiplier', target: 'power', value: 1.35, permanent: true }`
 
-## 👑 Prestige Options
+## 👑 Prestige Upgrades
 
-### Tier 3 Prestige Upgrades (Cost: 100-500 prestige)
-- **Industrial Revolution** (+100% Tier 3 resource production)
-- **Steel Mastery** (+200% steel production)
-- **Factory Efficiency** (+150% industrial building output)
-- **Technology Boost** (+75% research speed)
-- **Mining Expertise** (+125% mining efficiency)
-- **Power Generation** (+150% power production)
-- **Construction Speed** (+100% building construction speed)
-- **Machine Efficiency** (+175% machine production)
-- **Industrial Automation** (+125% all loop actions)
-- **Resource Processing** (+100% resource processing speed)
+### Available Immediately (0 prestige required)
+- **Industrial Revolution** - +100% Tier 3 resource production per level
+- **Steel Mastery** - +200% steel production per level
+- **Factory Efficiency** - +150% industrial building output per level
 
-### Prestige Bonuses
-- **Industrial Mastery** - Unlock Tier 3 prestige upgrades
-- **Steel Empire** - All steel production 3x more efficient
-- **Power Grid** - All power generation 2x more efficient
-- **Factory Network** - All industrial buildings 2x more efficient
-- **Research Acceleration** - All research 100% faster
-- **Automation Expert** - All loop actions 125% more efficient
-- **Construction Master** - All buildings cost 50% less
-- **Resource Processing** - All resource processing 2x faster
+### Requires 50 Prestige
+- **Technology Boost** - +75% research speed per level
+- **Mining Expertise** - +125% mining efficiency per level
+- **Power Generation** - +150% power production per level
+
+### Requires 200 Prestige
+- **Construction Speed** - +100% building construction speed per level
+- **Machine Efficiency** - +175% machine production per level
+- **Industrial Automation** - +125% all loop actions per level
+- **Resource Processing** - +100% resource processing speed per level
 
 ## 🎯 Progression Milestones
 

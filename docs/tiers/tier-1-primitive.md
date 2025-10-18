@@ -192,24 +192,22 @@ Basic Agriculture → Water Management → Primitive Medicine
 - **Loop Pioneer** - Have 2 loop actions running simultaneously
   - *Reward*: `{ type: 'loopMultiplier', target: 'water', value: 1.2, permanent: true }`, `{ type: 'loopMultiplier', target: 'clay', value: 1.2, permanent: true }`
 
-## 👑 Prestige Options
+## 👑 Prestige Upgrades
 
-### Tier 1 Prestige Upgrades (Cost: 1-25 prestige)
-- **Efficient Gathering** (+50% Tier 1 resource gathering speed)
-- **Quick Building** (-15% Tier 1 building construction time)
-- **Fast Research** (+30% Tier 1 research speed)
-- **Basic Automation** (+25% Tier 1 loop action efficiency)
-- **Tool Mastery** (+100% tool crafting efficiency)
-- **Knowledge Boost** (+50% knowledge generation)
-- **Resource Storage** (+25% resource storage capacity)
-- **Click Efficiency** (+25% click action effectiveness)
+### Available Immediately (0 prestige required)
+- **Primitive Mastery** - +25% click gains per level
+- **Gathering Expert** - +50% wood and stone gathering efficiency per level
+- **Builder's Wisdom** - -25% building costs per level
+- **Tool Mastery** - +100% tool crafting efficiency per level
+- **Knowledge Boost** - +50% knowledge generation per level
+- **Click Efficiency** - +25% click action effectiveness per level
 
-### Prestige Bonuses
-- **Primitive Mastery** - Unlock Tier 1 prestige upgrades
-- **Gathering Expert** - All gathering actions 2x more efficient
-- **Builder's Wisdom** - All buildings cost 25% less
-- **Research Acceleration** - All research 50% faster
-- **Automation Pioneer** - All loop actions 50% more efficient
+### Requires 100 Prestige
+- **Research Acceleration** - +50% knowledge generation per level
+- **Automation Pioneer** - +50% loop action efficiency per level
+- **Resource Storage** - +25% all resource production per level
+- **Fast Research** - +30% knowledge generation per level
+- **Basic Automation** - +25% Tier 1 loop action efficiency per level
 
 ## 🎯 Progression Milestones
 

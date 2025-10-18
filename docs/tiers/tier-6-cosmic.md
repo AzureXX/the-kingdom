@@ -189,29 +189,23 @@ Dimensional Physics → Reality Fabrication → Universal Transcendence
 - **Quantum Master** - Study 1000000 quantum matter
 - **Cosmic Perfectionist** - Complete all Tier 6 achievements
 
-## 👑 Prestige Options
+## 👑 Prestige Upgrades
 
-### Tier 6 Prestige Upgrades (Cost: 12500-62500 prestige)
-- **Cosmic Awareness** (+250% Tier 6 resource production)
-- **Stellar Mastery** (+500% stardust collection)
-- **Quantum Understanding** (+400% quantum matter production)
-- **Universal Knowledge** (+200% cosmic research)
-- **Dark Matter Mastery** (+350% dark matter collection)
-- **Light Essence Mastery** (+300% light essence harvesting)
-- **Void Mastery** (+450% void crystal mining)
-- **Space Exploration** (+400% exploration efficiency)
-- **Dimensional Mastery** (+500% wormhole creation)
-- **Cosmic Engineering** (+300% stellar engineering)
+### Available Immediately (0 prestige required)
+- **Cosmic Awareness** - +250% Tier 6 resource production per level
+- **Stellar Mastery** - +500% stardust collection per level
+- **Quantum Understanding** - +400% quantum matter production per level
 
-### Prestige Bonuses
-- **Cosmic Mastery** - Unlock Tier 6 prestige upgrades
-- **Stellar Empire** - All stardust collection 6x more efficient
-- **Cosmic Energy Mastery** - All cosmic energy generation 5x more efficient
-- **Quantum Mastery** - All quantum matter production 4x more efficient
-- **Dark Matter Mastery** - All dark matter collection 5x more efficient
-- **Light Essence Mastery** - All light essence harvesting 4x more efficient
-- **Void Mastery** - All void crystal mining 5x more efficient
-- **Space Exploration Mastery** - All space exploration 5x more efficient
+### Requires 500 Prestige
+- **Universal Knowledge** - +200% cosmic research per level
+- **Dark Matter Mastery** - +350% dark matter collection per level
+- **Light Essence Mastery** - +300% light essence harvesting per level
+
+### Requires 2500 Prestige
+- **Void Mastery** - +450% void crystal mining per level
+- **Space Exploration** - +400% exploration efficiency per level
+- **Dimensional Mastery** - +500% wormhole creation per level
+- **Cosmic Engineering** - +300% stellar engineering per level
 
 ## 🎯 Progression Milestones
 

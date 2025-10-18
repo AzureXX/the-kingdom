@@ -184,27 +184,23 @@ Rope Making → Advanced Construction
 - **Speed Builder** - Complete Tier 2 in under 60 minutes
   - *Reward*: `{ type: 'clickMultiplier', target: 'wood', value: 1.25, permanent: true }`, `{ type: 'clickMultiplier', target: 'stone', value: 1.25, permanent: true }`, `{ type: 'clickMultiplier', target: 'food', value: 1.25, permanent: true }`
 
-## 👑 Prestige Options
+## 👑 Prestige Upgrades
 
-### Tier 2 Prestige Upgrades (Cost: 25-100 prestige)
-- **Crafting Mastery** (+75% Tier 2 resource production)
-- **Building Discount** (-30% Tier 2 building costs)
-- **Action Efficiency** (+100% Tier 2 action effectiveness)
-- **Trade Bonus** (+50% trade value)
-- **Weapon Expertise** (+150% weapon crafting efficiency)
-- **Textile Mastery** (+125% cloth production)
-- **Pottery Artistry** (+100% pottery creation)
-- **Leather Crafting** (+125% leather processing)
-- **Construction Speed** (+50% building construction speed)
-- **Research Acceleration** (+75% research speed)
+### Available Immediately (0 prestige required)
+- **Crafting Mastery** - +75% Tier 2 resource production per level
+- **Building Discount** - -30% Tier 2 building costs per level
+- **Action Efficiency** - +100% Tier 2 action effectiveness per level
+- **Trade Bonus** - +50% trade value per level
 
-### Prestige Bonuses
-- **Civilization Mastery** - Unlock Tier 2 prestige upgrades
-- **Crafting Expert** - All crafted resources 2x more efficient
-- **Trade Network** - All trades provide 50% more value
-- **Building Efficiency** - All buildings cost 30% less
-- **Research Pioneer** - All research 75% faster
-- **Automation Expert** - All loop actions 75% more efficient
+### Requires 25 Prestige
+- **Weapon Expertise** - +150% weapon crafting efficiency per level
+- **Textile Mastery** - +125% cloth production per level
+- **Pottery Artistry** - +100% pottery creation per level
+- **Leather Crafting** - +125% leather processing per level
+
+### Requires 100 Prestige
+- **Construction Speed** - +50% building construction speed per level
+- **Research Acceleration** - +75% research speed per level
 
 ## 🎯 Progression Milestones
 

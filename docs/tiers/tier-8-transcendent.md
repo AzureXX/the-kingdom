@@ -193,29 +193,23 @@ Infinite Transcendence → Ultimate Transcendence
 - **Transcendent Perfectionist** - Complete all Tier 8 achievements
 - **Ultimate Being** - Achieve complete transcendence
 
-## 👑 Prestige Options
+## 👑 Prestige Upgrades
 
-### Tier 8 Prestige Upgrades (Cost: 312500+ prestige)
-- **Transcendent Being** (+500% Tier 8 resource production)
-- **Reality Mastery** (+1000% reality shard manipulation)
-- **Universal Consciousness** (+800% cosmic consciousness)
-- **Ultimate Transcendence** (+500% all production)
-- **Infinite Mastery** (+600% infinite wisdom study)
-- **Void Mastery** (+700% void essence control)
-- **Universal Energy Mastery** (+900% universal energy generation)
-- **Transcendent Power Mastery** (+800% transcendent power attainment)
-- **Reality Shaping Mastery** (+1000% reality shaping efficiency)
-- **Universal Understanding Mastery** (+750% universal understanding)
+### Available Immediately (0 prestige required)
+- **Transcendent Being** - +500% Tier 8 resource production per level
+- **Reality Mastery** - +1000% reality shard manipulation per level
+- **Universal Consciousness** - +800% cosmic consciousness per level
 
-### Ultimate Prestige Bonuses
-- **Transcendent Mastery** - Unlock Tier 8 prestige upgrades
-- **Universal Empire** - All universal energy generation 10x more efficient
-- **Infinite Mastery** - All infinite wisdom study 8x more efficient
-- **Reality Mastery** - All reality shard manipulation 10x more efficient
-- **Void Mastery** - All void essence control 8x more efficient
-- **Cosmic Consciousness Mastery** - All cosmic consciousness 9x more efficient
-- **Transcendent Power Mastery** - All transcendent power 8x more efficient
-- **Ultimate Mastery** - All production 10x more efficient
+### Requires 2500 Prestige
+- **Ultimate Transcendence** - +500% all production per level
+- **Infinite Mastery** - +600% infinite wisdom study per level
+- **Void Mastery** - +700% void essence control per level
+
+### Requires 10000 Prestige
+- **Universal Energy Mastery** - +900% universal energy generation per level
+- **Transcendent Power Mastery** - +800% transcendent power attainment per level
+- **Reality Shaping Mastery** - +1000% reality shaping efficiency per level
+- **Universal Understanding Mastery** - +750% universal understanding per level
 
 ## 🎯 Progression Milestones
 
