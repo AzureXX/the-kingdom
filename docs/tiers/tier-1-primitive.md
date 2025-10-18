@@ -21,23 +21,23 @@
 ## 🖱️ Click Actions
 
 ### Starting Actions
-- 🌲 **Gather Wood** (+3 wood)
-- 🪨 **Gather Stone** (+2 stone)
-- 🍖 **Hunt Food** (+2 food)
+- **Gather Wood** (+3 wood)
+- **Gather Stone** (+2 stone)
+- **Hunt Food** (+2 food)
 
 ### Unlocked Actions
-- 🛏️ **Rest** (Cost: 2 wood, 1 stone → +8 food)
-- 🔨 **Craft Basic Tools** (Cost: 8 wood, 5 stone → +1 tools)
-- 🧠 **Think and Learn** (Cost: 3 food → +1 knowledge)
-- 💧 **Collect Water** (Cost: 1 food → +2 water)
-- 🏺 **Dig Clay** (Cost: 2 food → +1 clay)
-- 🌿 **Gather Fiber** (Cost: 1 food → +1 fiber)
+- **Rest** (Cost: 2 wood, 1 stone → +8 food)
+- **Craft Basic Tools** (Cost: 8 wood, 5 stone → +1 tools)
+- **Think and Learn** (Cost: 3 food → +1 knowledge)
+- **Collect Water** (Cost: 1 food → +2 water)
+- **Dig Clay** (Cost: 2 food → +1 clay)
+- **Gather Fiber** (Cost: 1 food → +1 fiber)
 
 ## 🔄 Loop Actions
 
 ### Basic Automation
-- 🌾 **Basic Gathering Loop** (Cost: 5 food → +10 wood, +8 stone, +12 food)
-- 💧 **Water Collection Loop** (Cost: 3 food → +15 water)
+- **Basic Gathering Loop** (Cost: 5 food → +10 wood, +8 stone, +12 food)
+- **Water Collection Loop** (Cost: 3 food → +15 water)
 
 ## 🏗️ Buildings
 

@@ -25,6 +25,37 @@ export function SvgSprites(): React.JSX.Element {
       <symbol id="ic-food" viewBox="0 0 24 24">
         <path fill="#FFD700" d="M7 2h2v9a3 3 0 1 1-2 0V2zm10 0h2v7h-2zM15 2h2v7h-2z"/>
       </symbol>
+      <symbol id="ic-water" viewBox="0 0 24 24">
+        <path fill="#87CEEB" d="M12 2c-3 0-6 2-6 6 0 4 6 10 6 10s6-6 6-10c0-4-3-6-6-6z"/>
+        <path fill="#4682B4" d="M12 4c-2 0-4 1-4 4 0 3 4 8 4 8s4-5 4-8c0-3-2-4-4-4z"/>
+      </symbol>
+      <symbol id="ic-clay" viewBox="0 0 24 24">
+        <path fill="#CD853F" d="M6 4h12v16H6z"/>
+        <path fill="#D2691E" d="M8 6h8v2H8z"/>
+        <path fill="#A0522D" d="M8 8h8v2H8z"/>
+        <path fill="#8B4513" d="M8 10h8v2H8z"/>
+      </symbol>
+      <symbol id="ic-fiber" viewBox="0 0 24 24">
+        <path fill="#228B22" d="M12 2c-2 0-4 1-4 3v14c0 1 1 2 2 2h4c1 0 2-1 2-2V5c0-2-2-3-4-3z"/>
+        <path fill="#32CD32" d="M10 4h4v2h-4z"/>
+        <path fill="#32CD32" d="M10 6h4v2h-4z"/>
+        <path fill="#32CD32" d="M10 8h4v2h-4z"/>
+      </symbol>
+      <symbol id="ic-tools" viewBox="0 0 24 24">
+        <path fill="#696969" d="M8 2h8v4H8z"/>
+        <path fill="#FFD700" d="M9 3h6v2H9z"/>
+        <path fill="#696969" d="M10 6h4v12h-4z"/>
+        <path fill="#C0C0C0" d="M11 7h2v2h-2z"/>
+        <path fill="#C0C0C0" d="M11 10h2v2h-2z"/>
+        <path fill="#C0C0C0" d="M11 13h2v2h-2z"/>
+      </symbol>
+      <symbol id="ic-knowledge" viewBox="0 0 24 24">
+        <path fill="#4B0082" d="M12 2c-3 0-6 2-6 6 0 4 6 10 6 10s6-6 6-10c0-4-3-6-6-6z"/>
+        <path fill="#8A2BE2" d="M12 4c-2 0-4 1-4 4 0 3 4 8 4 8s4-5 4-8c0-3-2-4-4-4z"/>
+        <circle cx="12" cy="8" r="2" fill="#FFD700"/>
+        <path fill="#FFD700" d="M10 12h4v2h-4z"/>
+        <path fill="#FFD700" d="M10 14h4v2h-4z"/>
+      </symbol>
       <symbol id="ic-prestige" viewBox="0 0 24 24">
         <path fill="#C0C0C0" d="M12 2l3 9h-6l3-9z"/>
         <rect x="8" y="12" width="8" height="8" fill="#C0C0C0"/>
